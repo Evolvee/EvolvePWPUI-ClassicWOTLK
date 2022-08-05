@@ -1,0 +1,92 @@
+
+OmniCCDB = {
+	["profileKeys"] = {
+		["Evolvexd - Classic Arena - EU"] = "Default",
+		["Evolve - Badge of Justice"] = "Default",
+		["Evolve - Classic Arena - EU"] = "Default",
+		["Magetest - Classic Arena - EU"] = "Default",
+		["Qwdqwdw - Badge of Justice"] = "Default",
+		["Evolvepwp - Earthshaker"] = "Default",
+		["Evolvepwe - Classic Arena - EU"] = "Default",
+		["Evolve - Launch Test"] = "Default",
+		["Evolve - Classic PTR Realm 1"] = "Default",
+		["Evolvelulw - Earthshaker"] = "Default",
+		["Evolvepwp - Firemaw"] = "Default",
+		["Evolvebank - Gehennas"] = "Default",
+		["Dbldogcheck - Firemaw"] = "Default",
+		["Evolvebanned - Gehennas"] = "Default",
+	},
+	["global"] = {
+		["dbVersion"] = 6,
+		["addonVersion"] = "9.0.8",
+	},
+	["profiles"] = {
+		["Default"] = {
+			["themes"] = {
+				["Default"] = {
+					["textStyles"] = {
+						["seconds"] = {
+							["b"] = 1,
+							["g"] = 0.984313725490196,
+							["r"] = 0.9803921568627451,
+						},
+						["minutes"] = {
+						},
+						["soon"] = {
+							["scale"] = 1,
+							["g"] = 0.8784313725490196,
+							["b"] = 0,
+						},
+					},
+					["fontSize"] = 15,
+					["fontOutline"] = "THICKOUTLINE",
+					["minSize"] = 1.1,
+					["minDuration"] = 3,
+					["timerOffset"] = 1400,
+					["effect"] = "none",
+				},
+				["Plater Nameplates Theme"] = {
+					["textStyles"] = {
+						["seconds"] = {
+						},
+						["minutes"] = {
+						},
+						["soon"] = {
+						},
+					},
+				},
+			},
+			["rules"] = {
+				{
+					["enabled"] = false,
+					["patterns"] = {
+						"Aura", -- [1]
+						"Buff", -- [2]
+						"Debuff", -- [3]
+					},
+					["name"] = "Auras",
+					["id"] = "auras",
+				}, -- [1]
+				{
+					["enabled"] = false,
+					["patterns"] = {
+						"Plate", -- [1]
+					},
+					["name"] = "Unit Nameplates",
+					["id"] = "plates",
+				}, -- [2]
+				{
+					["id"] = "Plater Nameplates Rule",
+					["patterns"] = {
+						"PlaterMainAuraIcon", -- [1]
+						"PlaterSecondaryAuraIcon", -- [2]
+						"ExtraIconRowIcon", -- [3]
+					},
+					["theme"] = "Plater Nameplates Theme",
+					["priority"] = 3,
+				}, -- [3]
+			},
+		},
+	},
+}
+OmniCC4Config = nil
