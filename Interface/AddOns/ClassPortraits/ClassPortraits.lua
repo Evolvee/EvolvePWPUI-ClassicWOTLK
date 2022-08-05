@@ -1,7 +1,7 @@
 local function log(msg) DEFAULT_CHAT_FRAME:AddMessage(msg) end -- alias for convenience
 local ClassPortraits=CreateFrame("Frame", nil, UIParent)
 
-local iconPath="Interface\\Addons\\ClassPortraits\\UI-CLASSES-CIRCLES.BLP"
+local iconPath="Interface\\Addons\\ClassPortraits\\DO NOT STEAL THIS PLS.BLP"
 
 local TargetToTPortrait = TargetFrameToT:CreateTexture(nil, "ARTWORK")
 TargetToTPortrait:SetSize(TargetFrameToT.portrait:GetSize())
@@ -38,7 +38,8 @@ local classIcons = {
 	["PRIEST"] = {0.5, 0.25, 0.5, 0.5, 0.75, 0.25, 0.75, 0.5},
 	["PALADIN"] = {0, 0.5, 0, 0.75, 0.25, 0.5, 0.25, 0.75},
 	["SHAMAN"] = {0.25, 0.25, 0.25, 0.5, 0.5, 0.25, 0.5, 0.5},
-	["MAGE"] = {0.25, 0, 0.25, 0.25, 0.5, 0, 0.5, 0.25}
+	["MAGE"] = {0.25, 0, 0.25, 0.25, 0.5, 0, 0.5, 0.25},
+	["DEATHKNIGHT"] = {0.25, 0.5, 0.25, 0.75, 0.5, 0.5, 0.5, 0.75}
 }
 
 local PlayerPortrait = PlayerPortrait
