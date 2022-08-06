@@ -33,8 +33,8 @@ BigDebuffsDB = {
 				["debuffs_offensive"] = false,
 				["immunities"] = false,
 				["roots"] = false,
-				["buffs_offensive"] = false,
 				["friendly"] = false,
+				["buffs_offensive"] = false,
 			},
 			["priority"] = {
 				["interrupts"] = 40,
@@ -136,7 +136,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[7812] = {
+				[20216] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -144,18 +144,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[17] = {
-					["nameplates"] = 0,
-					["unitFrames"] = 0,
-				},
-				[17116] = {
-					["nameplates"] = 0,
-					["unitFrames"] = 0,
-				},
-				[6346] = {
-					["unitFrames"] = 0,
-				},
-				[23506] = {
+				[30300] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -163,7 +152,19 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
+				[33961] = {
+					["nameplates"] = 0,
+					["unitFrames"] = 0,
+				},
 				[8178] = {
+					["nameplates"] = 0,
+					["unitFrames"] = 0,
+				},
+				[871] = {
+					["nameplates"] = 0,
+					["unitFrames"] = 0,
+				},
+				[23506] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -175,15 +176,14 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[871] = {
+				[6346] = {
+					["unitFrames"] = 0,
+				},
+				[17116] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[33961] = {
-					["nameplates"] = 0,
-					["unitFrames"] = 0,
-				},
-				[30300] = {
+				[17] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -191,7 +191,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[20216] = {
+				[7812] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},

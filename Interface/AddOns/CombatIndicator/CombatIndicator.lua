@@ -7,7 +7,7 @@ local Focus=CreateFrame("Frame");
 
 --target part´
 Target:SetParent(TargetFrame);
-Target:SetPoint("RIGHT", TargetFrame, 0, 10);
+Target:SetPoint("RIGHT", TargetFrame, -3, 10);
 Target:SetHeight(targetSize);
 Target:SetWidth(targetSize);
 Target.texture=Target:CreateTexture(nil,BORDER);
@@ -41,7 +41,7 @@ end
 local function CreateFocus()
 	if(UnitGUID("focus")~=nil) then
 		Focus:SetParent(FocusFrame);
-		Focus:SetPoint("RIGHT", FocusFrame, 0, 10);
+		Focus:SetPoint("RIGHT", FocusFrame, -3, 10);
 		Focus:SetHeight(focusSize);
 		Focus:SetWidth(focusSize);
 		Focus.texture=Focus:CreateTexture(nil,BORDER);

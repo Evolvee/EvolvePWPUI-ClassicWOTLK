@@ -1,7 +1,7 @@
 
 BugGrabberDB = {
+	["session"] = 3108,
 	["lastSanitation"] = 3,
-	["session"] = 3037,
 	["errors"] = {
 		{
 			["message"] = "...s\\Questie\\Modules\\Tracker\\QuestieTrackerPrivates.lua:105: Frame Questie_BaseFrame is not resizable",
@@ -108,50 +108,50 @@ BugGrabberDB = {
 		}, -- [13]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Alliance-4.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [14]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Alliance-5.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [15]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Horde-2.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [16]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Horde-3.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [17]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Horde-4.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [18]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Horde-5.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [19]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Alliance-2.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 76,
 		}, -- [20]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Alliance-3.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 76,
 		}, -- [21]
 		{
@@ -371,8 +371,8 @@ BugGrabberDB = {
 		}, -- [48]
 		{
 			["message"] = "(null)",
-			["session"] = 3029,
 			["time"] = "2022/08/05 16:50:51",
+			["session"] = 3029,
 			["counter"] = 33,
 		}, -- [49]
 		{
@@ -383,5 +383,29 @@ BugGrabberDB = {
 			["session"] = 3037,
 			["counter"] = 104,
 		}, -- [50]
+		{
+			["message"] = "Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:50: bad argument #1 to 'unpack' (table expected, got nil)",
+			["time"] = "2022/08/05 20:46:43",
+			["locals"] = "(*temporary) = nil\n(*temporary) = \"table expected, got nil\"\n",
+			["stack"] = "[string \"=[C]\"]: in function `unpack'\n[string \"@Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua\"]:50: in function <Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:46>",
+			["session"] = 3055,
+			["counter"] = 660,
+		}, -- [51]
+		{
+			["message"] = "...e\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua:286: Action[FrameMeasurement] failed because[Can't measure restricted regions]: attempted from: <unnamed>:GetPoint().",
+			["time"] = "2022/08/06 11:02:04",
+			["locals"] = "(*temporary) = <unnamed> {\n 0 = <userdata>\n RaidTargetIcon = <unnamed> {\n }\n}\n(*temporary) = 1\n",
+			["stack"] = "[string \"=[C]\"]: in function `GetPoint'\n[string \"@Interface\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua\"]:286: in function `HighlightFrame'\n[string \"@Interface\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua\"]:309: in function <...e\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools.lua:300>",
+			["session"] = 3075,
+			["counter"] = 1,
+		}, -- [52]
+		{
+			["message"] = "[string \"PVPMicroButtonPortrait:Hide()\"]:1: attempt to index global 'PVPMicroButtonPortrait' (a nil value)",
+			["time"] = "2022/08/06 11:27:13",
+			["locals"] = "(*temporary) = nil\n(*temporary) = nil\n(*temporary) = \"attempt to index global 'PVPMicroButtonPortrait' (a nil value)\"\n",
+			["stack"] = "[string \"PVPMicroButtonPortrait:Hide()\"]:1: in main chunk\n[string \"=[C]\"]: in function `RunScript'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:2196: in function `?'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:4933: in function `ChatEdit_ParseText'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:4596: in function `ChatEdit_SendText'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:4632: in function `ChatEdit_OnEnterPressed'\n[string \"*:OnEnterPressed\"]:1: in function <[string \"*:OnEnterPressed\"]:1>",
+			["session"] = 3087,
+			["counter"] = 1,
+		}, -- [53]
 	},
 }

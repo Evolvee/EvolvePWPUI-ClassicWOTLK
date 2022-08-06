@@ -609,8 +609,8 @@ CharacterMicroButton:SetPushedTexture("Interface/BUTTONS/Custom Evo C panel");
 
 
 
-LFGMicroButton:SetNormalTexture("Interface/BUTTONS/WorldMapMicroButton");
-LFGMicroButton:SetPushedTexture("Interface/BUTTONS/WorldMapMicroButton");
+LFGMicroButton:SetNormalTexture("Interface/BUTTONS/UI-MicroButton-Help-Up");
+LFGMicroButton:SetPushedTexture("Interface/BUTTONS/UI-MicroButton-Help-Up");
 
 
 
@@ -1123,33 +1123,29 @@ end
 -- Highlight Tremor Totem (disable nameplates of everything else) + disable Snake Trap Cancer + prevent displaying already dead Tremor Totem (retarded Classic-like behavior)
 
 local HideNameplateNames = {
-	["Disease Cleansing Totem"] = true,
 	["Earth Elemental Totem"] = true,
 	["Earthbind Totem"] = true,
 	["Fire Elemental Totem"] = true,
-	["Fire Nova Totem"] = true,
-	["Fire Nova Totem II"] = true,
-	["Fire Nova Totem III"] = true,
-	["Fire Nova Totem IV"] = true,
-	["Fire Nova Totem V"] = true,
-	["Fire Nova Totem VI"] = true,
-	["Fire Nova Totem VII"] = true,
 	["Fire Resistance Totem"] = true,
 	["Fire Resistance Totem II"] = true,
 	["Fire Resistance Totem III"] = true,
 	["Fire Resistance Totem IV"] = true,
+	["Fire Resistance Totem V"] = true,
+	["Fire Resistance Totem VI"] = true,
 	["Flametongue Totem"] = true,
 	["Flametongue Totem II"] = true,
 	["Flametongue Totem III"] = true,
 	["Flametongue Totem IV"] = true,
 	["Flametongue Totem V"] = true,
+	["Flametongue Totem VI"] = true,
+	["Flametongue Totem VII"] = true,
+	["Flametongue Totem VIII"] = true,
 	["Frost Resistance Totem"] = true,
 	["Frost Resistance Totem II"] = true,
 	["Frost Resistance Totem III"] = true,
 	["Frost Resistance Totem IV"] = true,
-	["Grace of Air Totem"] = true,
-	["Grace of Air Totem II"] = true,
-	["Grace of Air Totem III"] = true,
+	["Frost Resistance Totem V"] = true,
+	["Frost Resistance Totem VI"] = true,
 	["Grounding Totem"] = true,
 	["Healing Stream Totem"] = true,
 	["Healing Stream Totem II"] = true,
@@ -1157,25 +1153,32 @@ local HideNameplateNames = {
 	["Healing Stream Totem IV"] = true,
 	["Healing Stream Totem V"] = true,
 	["Healing Stream Totem VI"] = true,
+	["Healing Stream Totem VII"] = true,
+	["Healing Stream Totem VIII"] = true,
+	["Healing Stream Totem IX"] = true,
+	["Healing Stream Totem X"] = true,
 	["Magma Totem"] = true,
 	["Magma Totem II"] = true,
 	["Magma Totem III"] = true,
 	["Magma Totem IV"] = true,
 	["Magma Totem V"] = true,
+	["Magma Totem VI"] = true,
+	["Magma Totem VII"] = true,
 	["Mana Spring Totem"] = true,
 	["Mana Spring Totem II"] = true,
 	["Mana Spring Totem III"] = true,
 	["Mana Spring Totem IV"] = true,
 	["Mana Spring Totem V"] = true,
+	["Mana Spring Totem VI"] = true,
+	["Mana Spring Totem VII"] = true,
+	["Mana Spring Totem VIII"] = true,
 	["Mana Tide Totem"] = true,
-	["Mana Tide Totem II"] = true,
-	["Mana Tide Totem III"] = true,
-	["Mana Tide Totem IV"] = true,
 	["Nature Resistance Totem"] = true,
 	["Nature Resistance Totem II"] = true,
 	["Nature Resistance Totem III"] = true,
 	["Nature Resistance Totem IV"] = true,
-	["Poison Cleansing Totem"] = true,
+	["Nature Resistance Totem V"] = true,
+	["Nature Resistance Totem VI"] = true,
 	["Searing Totem"] = true,
 	["Searing Totem II"] = true,
 	["Searing Totem III"] = true,
@@ -1183,6 +1186,9 @@ local HideNameplateNames = {
 	["Searing Totem V"] = true,
 	["Searing Totem VI"] = true,
 	["Searing Totem VII"] = true,
+	["Searing Totem VIII"] = true,
+	["Searing Totem IX"] = true,
+	["Searing Totem X"] = true,
 	["Sentry Totem"] = true,
 	["Stoneclaw Totem"] = true,
 	["Stoneclaw Totem II"] = true,
@@ -1191,27 +1197,10 @@ local HideNameplateNames = {
 	["Stoneclaw Totem V"] = true,
 	["Stoneclaw Totem VI"] = true,
 	["Stoneclaw Totem VII"] = true,
+	["Stoneclaw Totem VIII"] = true,
+	["Stoneclaw Totem IX"] = true,
+	["Stoneclaw Totem X"] = true,
 	["Stoneskin Totem"] = true,
-	["Strength of Earth Totem"] = true,
-	["Strength of Earth Totem II"] = true,
-	["Strength of Earth Totem III"] = true,
-	["Strength of Earth Totem IV"] = true,
-	["Strength of Earth Totem V"] = true,
-	["Strength of Earth Totem VI"] = true,
-	["Totem of Wrath"] = true,
-	["Totem of Wrath II"] = true,
-	["Totem of Wrath III"] = true,
-	["Tranquil Air Totem"] = true,
-	["Windfury Totem"] = true,
-	["Windfury Totem II"] = true,
-	["Windfury Totem III"] = true,
-	["Windfury Totem IV"] = true,
-	["Windfury Totem V"] = true,
-	["Windwall Totem"] = true,
-	["Windwall Totem II"] = true,
-	["Windwall Totem III"] = true,
-	["Windwall Totem IV"] = true,
-	["Wrath of Air Totem"] = true,
 	["Stoneskin Totem II"] = true,
 	["Stoneskin Totem III"] = true,
 	["Stoneskin Totem IV"] = true,
@@ -1219,9 +1208,29 @@ local HideNameplateNames = {
 	["Stoneskin Totem VI"] = true,
 	["Stoneskin Totem VII"] = true,
 	["Stoneskin Totem VIII"] = true,
+	["Stoneskin Totem IX"] = true,
+	["Stoneskin Totem X"] = true,
+	["Strength of Earth Totem"] = true,
+	["Strength of Earth Totem II"] = true,
+	["Strength of Earth Totem III"] = true,
+	["Strength of Earth Totem IV"] = true,
+	["Strength of Earth Totem V"] = true,
+	["Strength of Earth Totem VI"] = true,
+	["Strength of Earth Totem VII"] = true,
+	["Strength of Earth Totem VIII"] = true,
+	["Totem of Wrath"] = true,
+	["Totem of Wrath II"] = true,
+	["Totem of Wrath III"] = true,
+	["Totem of Wrath IV"] = true,
+	["Windfury Totem"] = true,
+	["Wrath of Air Totem"] = true,
+	["Cleansing Totem"] = true,
+
 
 	["Viper"] = true,
 	["Venomous Snake"] = true,
+	["Underbelly Croc"] = true,
+	["Vern"] = true,
 }
 
 local tremorTotems = {} -- {[totem GUID] = {[shaman]=GUID, nameplate=<nameplate frame>}, ...}
@@ -1519,9 +1528,9 @@ teamRatingFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 --Login message informing all scripts of this file were properly executed
 
-ChatFrame1:AddMessage("EvolvePWPUI-ClassicTBC v0.6 Loaded successfully!",255,255,0)
-ChatFrame1:AddMessage("Check for updates at:",255,255,0)
-ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicTBC",255,255,0)
+ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.1 Loaded successfully!",0,205,255)
+ChatFrame1:AddMessage("Check for updates at:",0,205,255)
+ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK",0,205,255)
 
 
 
