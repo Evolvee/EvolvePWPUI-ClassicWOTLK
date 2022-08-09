@@ -1047,6 +1047,13 @@ texture:SetAlpha(0)
 texture = SocialsMicroButton:GetHighlightTexture()
 texture:SetAlpha(0)
 
+texture = AchievementMicroButton:GetHighlightTexture()
+texture:SetAlpha(0)
+
+texture = PVPMicroButton:GetHighlightTexture()
+texture:SetAlpha(0)
+
+
 -- |Patch 2.5.2 no longer valid| texture = WorldMapMicroButton:GetHighlightTexture()
 -- |Patch 2.5.2 no longer vlaid| texture:SetAlpha(0)
 
