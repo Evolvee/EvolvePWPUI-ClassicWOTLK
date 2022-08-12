@@ -1068,7 +1068,7 @@ texture:SetAlpha(0)
 
 
 
--- Remove Fizzle sounds (this was previously done by replacing the actual sound in Data/Sounds)
+-- Remove Fizzle sounds (this was previously done by replacing the actual sound in Data/Sounds) 
 
 local sounds = {
 	569772, -- sound/spells/fizzle/fizzleholya.ogg
@@ -1082,6 +1082,7 @@ local sounds = {
 for _, fdid in pairs(sounds) do
 	MuteSoundFile(fdid)
 end
+
 
 
 -- highlight dispelable shit from enemies target/focus
@@ -1520,6 +1521,9 @@ teamRatingFrame:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
 teamRatingFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 
+
+
+
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
 
 
@@ -1547,4 +1551,9 @@ ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK",0,20
 --https://eu.forums.blizzard.com/en/wow/t/lf-a-blizzard-response-all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/320188
 -- https://us.forums.blizzard.com/en/wow/t/all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/1114096/5
 
-COMBAT_TEXT_RESIST = "FUCK BLIZZARD"
+-- COMBAT_TEXT_RESIST = "FUCK BLIZZARD"
+
+-- WE DID IT REDDIT - https://github.com/JamminL/wotlk-classic-bugs/issues/143#issuecomment-1209998266 - after a year of TBC being absolutely fucking unplayable, especially for a shadow priest, they "finally" fixed it... So adding more appropriate message instead for WOTLK (hi sacred cleansing)...
+
+COMBAT_TEXT_RESIST = "SHIT EXPANSION"
+COMBAT_TEXT_MISS = "SHIT EXPANSION"

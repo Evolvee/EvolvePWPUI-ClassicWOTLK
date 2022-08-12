@@ -19,33 +19,33 @@ ButtonForgeSave = {
 			["KeyBindText"] = true,
 			["HSpec3"] = false,
 			["GridAlwaysOn"] = true,
-			["Buttons"] = {
-				{
-					["MacroName"] = "DMG",
-					["MacroBody"] = "/equip Brutal Gladiator's Gavel\n/equip Brutal Gladiator's Endgame\n/equip Brutal Gladiator's Touch of Defeat\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "MOUSEWHEELDOWN",
-					["MacroIndex"] = 14,
-				}, -- [1]
-				{
-					["MacroName"] = "Heal",
-					["MacroBody"] = "/equip Archon's Gavel\n/equip Brutal Gladiator's Reprieve\n/equip Naaru-Blessed Life Rod\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "MOUSEWHEELUP",
-					["MacroIndex"] = 26,
-				}, -- [2]
-			},
+			["TooltipsOn"] = false,
 			["BonusBar"] = false,
 			["Alpha"] = 1,
 			["HSpec4"] = false,
-			["TooltipsOn"] = false,
+			["HSpec2"] = false,
 			["GUI"] = true,
 			["Enabled"] = true,
 			["MacroText"] = true,
-			["Top"] = 116.6561126708984,
 			["Order"] = 2,
+			["Top"] = 116.6561126708984,
 			["ButtonGap"] = 6,
-			["HSpec2"] = false,
+			["Buttons"] = {
+				{
+					["MacroName"] = "DMG",
+					["MacroIndex"] = 14,
+					["Mode"] = "macro",
+					["KeyBinding"] = "MOUSEWHEELDOWN",
+					["MacroBody"] = "/equip Brutal Gladiator's Gavel\n/equip Brutal Gladiator's Endgame\n/equip Brutal Gladiator's Touch of Defeat\n",
+				}, -- [1]
+				{
+					["MacroName"] = "Heal",
+					["MacroIndex"] = 26,
+					["Mode"] = "macro",
+					["KeyBinding"] = "MOUSEWHEELUP",
+					["MacroBody"] = "/equip Archon's Gavel\n/equip Brutal Gladiator's Reprieve\n/equip Naaru-Blessed Life Rod\n",
+				}, -- [2]
+			},
 		}, -- [1]
 		{
 			["ButtonsLocked"] = true,
@@ -61,7 +61,22 @@ ButtonForgeSave = {
 			["KeyBindText"] = true,
 			["HSpec3"] = false,
 			["GridAlwaysOn"] = true,
-			["TooltipsOn"] = false,
+			["Buttons"] = {
+				{
+					["MacroName"] = "r1",
+					["MacroIndex"] = 44,
+					["Mode"] = "macro",
+					["KeyBinding"] = "SHIFT-3",
+					["MacroBody"] = "/cqs\n/cast [nochanneling] Mind Flay(Rank 1)\n",
+				}, -- [1]
+				{
+					["MacroName"] = "party2",
+					["MacroIndex"] = 39,
+					["Mode"] = "macro",
+					["KeyBinding"] = "CTRL-C",
+					["MacroBody"] = "/cqs\n/cast [target=party2] Dispel Magic(Rank 2)\n/TargetLastTarget();\n",
+				}, -- [2]
+			},
 			["BonusBar"] = false,
 			["Alpha"] = 1,
 			["HSpec4"] = false,
@@ -69,25 +84,10 @@ ButtonForgeSave = {
 			["GUI"] = true,
 			["Enabled"] = true,
 			["MacroText"] = true,
-			["Order"] = 3,
 			["Top"] = 50.42549896240234,
+			["Order"] = 3,
 			["ButtonGap"] = 6,
-			["Buttons"] = {
-				{
-					["MacroName"] = "r1",
-					["MacroBody"] = "/cqs\n/cast [nochanneling] Mind Flay(Rank 1)\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "SHIFT-3",
-					["MacroIndex"] = 44,
-				}, -- [1]
-				{
-					["MacroName"] = "party2",
-					["MacroBody"] = "/cqs\n/cast [target=party2] Dispel Magic(Rank 2)\n/TargetLastTarget();\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "CTRL-C",
-					["MacroIndex"] = 39,
-				}, -- [2]
-			},
+			["TooltipsOn"] = false,
 		}, -- [2]
 		{
 			["ButtonsLocked"] = true,
@@ -103,7 +103,22 @@ ButtonForgeSave = {
 			["KeyBindText"] = true,
 			["HSpec3"] = false,
 			["GridAlwaysOn"] = true,
-			["HSpec2"] = false,
+			["Buttons"] = {
+				{
+					["MacroName"] = "SP",
+					["MacroIndex"] = 50,
+					["Mode"] = "macro",
+					["KeyBinding"] = "SHIFT-MOUSEWHEELDOWN",
+					["MacroBody"] = "/equip Brutal Gladiator's Gavel\n/equip Brutal Gladiator's Grimoire\n/equip Brutal Gladiator's Touch of Defeat\n",
+				}, -- [1]
+				{
+					["MacroName"] = "mp5",
+					["MacroIndex"] = 36,
+					["Mode"] = "macro",
+					["KeyBinding"] = "ALT-MOUSEWHEELUP",
+					["MacroBody"] = "/equip Staff of Dark Mending\n/equip Naaru-Blessed Life Rod\n",
+				}, -- [2]
+			},
 			["BonusBar"] = false,
 			["Alpha"] = 1,
 			["HSpec4"] = false,
@@ -111,25 +126,10 @@ ButtonForgeSave = {
 			["GUI"] = true,
 			["Enabled"] = true,
 			["MacroText"] = true,
-			["Order"] = 0,
 			["Top"] = 82.80315399169922,
+			["Order"] = 0,
 			["ButtonGap"] = 6,
-			["Buttons"] = {
-				{
-					["MacroName"] = "SP",
-					["MacroBody"] = "/equip Brutal Gladiator's Gavel\n/equip Brutal Gladiator's Grimoire\n/equip Brutal Gladiator's Touch of Defeat\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "SHIFT-MOUSEWHEELDOWN",
-					["MacroIndex"] = 50,
-				}, -- [1]
-				{
-					["MacroName"] = "mp5",
-					["MacroBody"] = "/equip Staff of Dark Mending\n/equip Naaru-Blessed Life Rod\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "ALT-MOUSEWHEELUP",
-					["MacroIndex"] = 36,
-				}, -- [2]
-			},
+			["HSpec2"] = false,
 		}, -- [3]
 		{
 			["ButtonsLocked"] = true,
@@ -145,7 +145,15 @@ ButtonForgeSave = {
 			["KeyBindText"] = true,
 			["HSpec3"] = false,
 			["GridAlwaysOn"] = true,
-			["HSpec2"] = false,
+			["Buttons"] = {
+				{
+					["MacroName"] = "spirit",
+					["MacroIndex"] = 51,
+					["Mode"] = "macro",
+					["KeyBinding"] = "SHIFT-MOUSEWHEELUP",
+					["MacroBody"] = "/equip Rod of the Blazing Light\n/equip Naaru-Blessed Life Rod\n",
+				}, -- [1]
+			},
 			["BonusBar"] = false,
 			["Alpha"] = 1,
 			["HSpec4"] = false,
@@ -153,18 +161,10 @@ ButtonForgeSave = {
 			["GUI"] = true,
 			["Enabled"] = true,
 			["MacroText"] = true,
-			["Order"] = 1,
 			["Top"] = 49.39985275268555,
+			["Order"] = 1,
 			["ButtonGap"] = 6,
-			["Buttons"] = {
-				{
-					["MacroName"] = "spirit",
-					["MacroBody"] = "/equip Rod of the Blazing Light\n/equip Naaru-Blessed Life Rod\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "SHIFT-MOUSEWHEELUP",
-					["MacroIndex"] = 51,
-				}, -- [1]
-			},
+			["HSpec2"] = false,
 		}, -- [4]
 		{
 			["ButtonsLocked"] = true,
@@ -180,7 +180,15 @@ ButtonForgeSave = {
 			["KeyBindText"] = true,
 			["HSpec3"] = false,
 			["GridAlwaysOn"] = true,
-			["TooltipsOn"] = false,
+			["Buttons"] = {
+				{
+					["MacroName"] = "DP",
+					["MacroIndex"] = 15,
+					["Mode"] = "macro",
+					["KeyBinding"] = "ALT-MOUSEWHEELDOWN",
+					["MacroBody"] = "/equip Brutal Gladiator's Gavel\n/equip Brutal Gladiator's Grimoire\n/equip Brutal Gladiator's Piercing Touch\n",
+				}, -- [1]
+			},
 			["BonusBar"] = false,
 			["Alpha"] = 1,
 			["HSpec4"] = false,
@@ -188,18 +196,10 @@ ButtonForgeSave = {
 			["GUI"] = true,
 			["Enabled"] = true,
 			["MacroText"] = true,
-			["Order"] = 4,
 			["Top"] = 82.62202453613281,
+			["Order"] = 4,
 			["ButtonGap"] = 6,
-			["Buttons"] = {
-				{
-					["MacroName"] = "DP",
-					["MacroBody"] = "/equip Brutal Gladiator's Gavel\n/equip Brutal Gladiator's Grimoire\n/equip Brutal Gladiator's Piercing Touch\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "ALT-MOUSEWHEELDOWN",
-					["MacroIndex"] = 15,
-				}, -- [1]
-			},
+			["TooltipsOn"] = false,
 		}, -- [5]
 		{
 			["ButtonsLocked"] = true,
@@ -215,47 +215,47 @@ ButtonForgeSave = {
 			["KeyBindText"] = true,
 			["HSpec3"] = false,
 			["GridAlwaysOn"] = true,
-			["Buttons"] = {
-				{
-					["MacroName"] = "mc focus",
-					["MacroBody"] = "/cqs\n/use [target=focus] Mind Control(Rank 3)\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "CTRL-BUTTON4",
-					["MacroIndex"] = 33,
-				}, -- [1]
-				{
-					["MacroName"] = "focus VE",
-					["MacroBody"] = "/cqs\n/use [target=focus] Vampiric Embrace\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "SHIFT-5",
-					["MacroIndex"] = 22,
-				}, -- [2]
-				{
-					["MacroName"] = "pet dispel",
-					["MacroBody"] = "/cqs\n/cast [target=pet] Dispel Magic(Rank 2)\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "SHIFT-R",
-					["MacroIndex"] = 41,
-				}, -- [3]
-				{
-					["MacroName"] = "pet fw",
-					["MacroBody"] = "/cqs\n/cast [target=pet] Fear Ward\n",
-					["Mode"] = "macro",
-					["KeyBinding"] = "CTRL-R",
-					["MacroIndex"] = 42,
-				}, -- [4]
-			},
+			["TooltipsOn"] = false,
 			["BonusBar"] = false,
 			["Alpha"] = 1,
 			["HSpec4"] = false,
-			["TooltipsOn"] = false,
+			["HSpec2"] = false,
 			["GUI"] = true,
 			["Enabled"] = true,
 			["MacroText"] = true,
-			["Top"] = 81.5809326171875,
 			["Order"] = 5,
+			["Top"] = 81.5809326171875,
 			["ButtonGap"] = 6,
-			["HSpec2"] = false,
+			["Buttons"] = {
+				{
+					["MacroName"] = "mc focus",
+					["MacroIndex"] = 33,
+					["Mode"] = "macro",
+					["KeyBinding"] = "CTRL-BUTTON4",
+					["MacroBody"] = "/cqs\n/use [target=focus] Mind Control(Rank 3)\n",
+				}, -- [1]
+				{
+					["MacroName"] = "focus VE",
+					["MacroIndex"] = 22,
+					["Mode"] = "macro",
+					["KeyBinding"] = "SHIFT-5",
+					["MacroBody"] = "/cqs\n/use [target=focus] Vampiric Embrace\n",
+				}, -- [2]
+				{
+					["MacroName"] = "pet dispel",
+					["MacroIndex"] = 41,
+					["Mode"] = "macro",
+					["KeyBinding"] = "SHIFT-R",
+					["MacroBody"] = "/cqs\n/cast [target=pet] Dispel Magic(Rank 2)\n",
+				}, -- [3]
+				{
+					["MacroName"] = "pet fw",
+					["MacroIndex"] = 42,
+					["Mode"] = "macro",
+					["KeyBinding"] = "CTRL-R",
+					["MacroBody"] = "/cqs\n/cast [target=pet] Fear Ward\n",
+				}, -- [4]
+			},
 		}, -- [6]
 	},
 	["Version"] = 1,

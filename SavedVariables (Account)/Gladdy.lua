@@ -8,44 +8,40 @@ GladdyXZ = {
 		["Evolvepwp - Earthshaker"] = "Evolvepwp - Earthshaker",
 		["Evolvepwe - Classic Arena - EU"] = "Evolvepwe - Classic Arena - EU",
 		["Evolve - Classic PTR Realm 1"] = "Default",
-		["Evolve - Badge of Justice"] = "Evolve - Badge of Justice",
+		["Evolvelulw - Earthshaker"] = "Evolvelulw - Earthshaker",
 		["Evolvepwp - Firemaw"] = "Evolvepwp - Firemaw",
 		["Evolvebank - Gehennas"] = "Evolvebank - Gehennas",
-		["Evolvelulw - Earthshaker"] = "Evolvelulw - Earthshaker",
 		["Dbldogcheck - Firemaw"] = "Dbldogcheck - Firemaw",
+		["Evolve - Badge of Justice"] = "Evolve - Badge of Justice",
 	},
 	["profiles"] = {
 		["Evolvexd - Classic Arena - EU"] = {
 			["cooldownFont"] = "Friz Quadrata TT",
 			["shadowsightTimerRelPoint1"] = "BOTTOMLEFT",
-			["petHealthBarFont"] = "Friz Quadrata TT",
+			["highlightInset"] = true,
 			["ciEnabled"] = false,
 			["castBarXOffset"] = -263,
 			["shadowsightTimerX"] = 25.16666793823242,
-			["healthBarNameFontSize"] = 20,
+			["healthPercentage"] = false,
 			["classIconPos"] = "RIGHT",
 			["locked"] = true,
-			["highlightInset"] = true,
-			["buffsShowAuraDebuffs"] = true,
-			["powerMax"] = false,
+			["padding"] = 0,
+			["healthBarNameFontSize"] = 20,
+			["shadowsightTimerRelPoint2"] = "BOTTOMLEFT",
 			["powerActual"] = false,
 			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["castBarEnabled"] = false,
+			["ciSize"] = 5,
 			["auraFont"] = "Friz Quadrata TT",
 			["racialEnabled"] = false,
 			["shadowsightTimerY"] = 9.988764762878418,
-			["healthPercentage"] = false,
-			["petEnabled"] = false,
+			["targetBorder"] = false,
+			["petHealthBarTexture"] = "Blizzard",
 			["announcements"] = {
 				["trinketUsed"] = false,
 				["spec"] = false,
 				["drinks"] = false,
 			},
-			["shadowsightTimerRelPoint2"] = "BOTTOMLEFT",
-			["powerShowRace"] = false,
-			["racialFont"] = "Friz Quadrata TT",
-			["healthBarHeight"] = 81,
-			["frameScale"] = 0.7000000000000001,
+			["powerMax"] = false,
 			["drCategories"] = {
 				["sleep"] = {
 					["enabled"] = false,
@@ -80,25 +76,29 @@ GladdyXZ = {
 				["rndroot"] = {
 					["enabled"] = false,
 				},
-				["cyclone"] = {
+				["repentance"] = {
 					["enabled"] = false,
 				},
 				["dragonsbreath"] = {
 					["enabled"] = false,
 				},
-				["impconc"] = {
+				["ua"] = {
 					["enabled"] = false,
 				},
 				["freezetrap"] = {
 					["enabled"] = false,
 				},
-				["ua"] = {
+				["impconc"] = {
 					["enabled"] = false,
 				},
-				["repentance"] = {
+				["cyclone"] = {
 					["enabled"] = false,
 				},
 			},
+			["racialFont"] = "Friz Quadrata TT",
+			["healthBarHeight"] = 81,
+			["frameScale"] = 0.7000000000000001,
+			["bottomMargin"] = 0,
 			["trinketFont"] = "Friz Quadrata TT",
 			["drBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
 			["powerBarTexture"] = "Blizzard",
@@ -106,32 +106,32 @@ GladdyXZ = {
 			["cooldownBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
 			["highlight"] = false,
 			["focusBorder"] = false,
+			["healthMax"] = false,
+			["trinketPos"] = "LEFT",
+			["powerBarEnabled"] = false,
 			["ciBorderColor"] = {
 				["a"] = 0,
 			},
-			["trinketPos"] = "LEFT",
-			["powerBarEnabled"] = false,
-			["healthMax"] = false,
 			["drFont"] = "Friz Quadrata TT",
 			["castBarTexture"] = "Blizzard",
 			["npTremorFont"] = "Friz Quadrata TT",
-			["castBarYOffset"] = -288.9,
-			["rangeCheckEnabled"] = false,
-			["y"] = 383.1889400075343,
-			["powerBarFont"] = "Friz Quadrata TT",
-			["buffsFont"] = "Friz Quadrata TT",
-			["buffsEnabled"] = false,
-			["healthBarTexture"] = "Blizzard",
 			["npTotemsShowEnemy"] = false,
+			["rangeCheckEnabled"] = false,
+			["healthBarTexture"] = "Blizzard",
+			["powerBarFont"] = "Friz Quadrata TT",
+			["buffsEnabled"] = false,
+			["buffsFont"] = "Friz Quadrata TT",
+			["y"] = 383.1889400075343,
+			["castBarYOffset"] = -288.9,
 			["healthBarFont"] = "Friz Quadrata TT",
 			["npTotemsShowFriendly"] = false,
 			["castBarFont"] = "Friz Quadrata TT",
-			["bottomMargin"] = 0,
-			["petHealthBarTexture"] = "Blizzard",
-			["ciSize"] = 5,
+			["powerShowRace"] = false,
+			["petEnabled"] = false,
+			["castBarEnabled"] = false,
 			["npTotems"] = false,
-			["targetBorder"] = false,
-			["padding"] = 0,
+			["buffsShowAuraDebuffs"] = true,
+			["petHealthBarFont"] = "Friz Quadrata TT",
 			["cooldown"] = false,
 			["barWidth"] = 325,
 		},
@@ -201,71 +201,11 @@ GladdyXZ = {
 			["focusBorder"] = false,
 			["drBorderColorsEnabled"] = false,
 			["shadowsightTimerLocked"] = true,
-			["petHealthBarFont"] = "Friz Quadrata TT",
-			["drHalfColor"] = {
-				["g"] = 0,
-				["b"] = 0.06666666666666667,
-			},
-			["buffsShowAuraDebuffs"] = true,
+			["highlightInset"] = true,
+			["healthBarTexture"] = "Blizzard",
+			["powerMax"] = false,
 			["npTotemPlatesAlphaAlways"] = true,
-			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["npTotemsShowEnemy"] = false,
-			["rangeCheckEnabled"] = false,
-			["shadowsightAnnounce"] = false,
-			["powerBarFont"] = "Friz Quadrata TT",
-			["drCategories"] = {
-				["sleep"] = {
-					["enabled"] = false,
-				},
-				["ctrlstun"] = {
-					["enabled"] = false,
-				},
-				["rndstun"] = {
-					["enabled"] = false,
-				},
-				["charm"] = {
-					["enabled"] = false,
-				},
-				["root"] = {
-					["enabled"] = false,
-				},
-				["ks"] = {
-					["enabled"] = false,
-				},
-				["cyclone"] = {
-					["enabled"] = false,
-				},
-				["scatters"] = {
-					["enabled"] = false,
-				},
-				["disorient"] = {
-					["enabled"] = false,
-				},
-				["ua"] = {
-					["enabled"] = false,
-				},
-				["dragonsbreath"] = {
-					["enabled"] = false,
-				},
-				["rndroot"] = {
-					["enabled"] = false,
-				},
-				["dc"] = {
-					["enabled"] = false,
-				},
-				["impconc"] = {
-					["enabled"] = false,
-				},
-				["fear"] = {
-					["icon"] = 136184,
-				},
-			},
-			["cooldownFont"] = "Friz Quadrata TT",
-			["targetBorder"] = false,
-			["buffsEnabled"] = false,
-			["drIconSize"] = 54,
-			["npTotemsShowFriendly"] = false,
-			["classIconPos"] = "RIGHT",
+			["petHealthBarTexture"] = "Blizzard",
 			["npTotemColors"] = {
 				["totem3738"] = {
 					["alpha"] = 0,
@@ -308,7 +248,7 @@ GladdyXZ = {
 					["alpha"] = 1,
 					["enabled"] = false,
 				},
-				["totem8184"] = {
+				["totem10595"] = {
 					["alpha"] = 0,
 				},
 				["totem5675"] = {
@@ -323,12 +263,6 @@ GladdyXZ = {
 				["totem8071"] = {
 					["alpha"] = 0,
 				},
-				["totem5730"] = {
-					["alpha"] = 0,
-				},
-				["totem8512"] = {
-					["alpha"] = 0,
-				},
 				["totem8181"] = {
 					["alpha"] = 0,
 				},
@@ -336,6 +270,12 @@ GladdyXZ = {
 					["alpha"] = 0,
 				},
 				["totem3599"] = {
+					["alpha"] = 0,
+				},
+				["totem8512"] = {
+					["alpha"] = 0,
+				},
+				["totem5730"] = {
 					["alpha"] = 0,
 				},
 				["totem32982"] = {
@@ -347,76 +287,108 @@ GladdyXZ = {
 				["totem8075"] = {
 					["alpha"] = 0,
 				},
-				["totem10595"] = {
+				["totem8184"] = {
 					["alpha"] = 0,
 				},
 				["totem1535"] = {
 					["alpha"] = 0,
 				},
 			},
-			["petHealthBarTexture"] = "Blizzard",
+			["rangeCheckEnabled"] = false,
+			["shadowsightAnnounce"] = false,
+			["powerBarFont"] = "Friz Quadrata TT",
+			["classIconPos"] = "RIGHT",
+			["cooldownFont"] = "Friz Quadrata TT",
+			["targetBorder"] = false,
+			["buffsEnabled"] = false,
+			["drIconSize"] = 54,
+			["npTotemsShowFriendly"] = false,
+			["drCategories"] = {
+				["sleep"] = {
+					["enabled"] = false,
+				},
+				["ctrlstun"] = {
+					["enabled"] = false,
+				},
+				["rndstun"] = {
+					["enabled"] = false,
+				},
+				["charm"] = {
+					["enabled"] = false,
+				},
+				["root"] = {
+					["enabled"] = false,
+				},
+				["ks"] = {
+					["enabled"] = false,
+				},
+				["fear"] = {
+					["icon"] = 136184,
+				},
+				["scatters"] = {
+					["enabled"] = false,
+				},
+				["disorient"] = {
+					["enabled"] = false,
+				},
+				["impconc"] = {
+					["enabled"] = false,
+				},
+				["dragonsbreath"] = {
+					["enabled"] = false,
+				},
+				["rndroot"] = {
+					["enabled"] = false,
+				},
+				["dc"] = {
+					["enabled"] = false,
+				},
+				["ua"] = {
+					["enabled"] = false,
+				},
+				["cyclone"] = {
+					["enabled"] = false,
+				},
+			},
+			["npTotemsShowEnemy"] = false,
+			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
 			["castBarEnabled"] = false,
-			["powerMax"] = false,
-			["healthBarTexture"] = "Blizzard",
-			["highlightInset"] = true,
+			["buffsShowAuraDebuffs"] = true,
+			["drHalfColor"] = {
+				["g"] = 0,
+				["b"] = 0.06666666666666667,
+			},
+			["petHealthBarFont"] = "Friz Quadrata TT",
 			["cooldown"] = false,
 			["barWidth"] = 325,
 		},
 		["Evolve - Classic Arena - EU"] = {
 			["cooldownFont"] = "Friz Quadrata TT",
 			["shadowsightTimerRelPoint1"] = "BOTTOMLEFT",
-			["petHealthBarFont"] = "Friz Quadrata TT",
+			["highlightInset"] = true,
 			["ciEnabled"] = false,
 			["castBarXOffset"] = -263,
 			["shadowsightTimerX"] = 25.16666793823242,
-			["healthBarNameFontSize"] = 20,
+			["targetBorder"] = false,
 			["classIconPos"] = "RIGHT",
 			["locked"] = true,
-			["highlightInset"] = true,
-			["shadowsightTimerRelPoint2"] = "BOTTOMLEFT",
-			["frameScale"] = 0.7000000000000001,
+			["padding"] = 0,
+			["buffsShowAuraDebuffs"] = true,
+			["powerShowRace"] = false,
 			["powerActual"] = false,
 			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["ciSize"] = 5,
+			["castBarEnabled"] = false,
 			["auraFont"] = "Friz Quadrata TT",
 			["racialEnabled"] = false,
 			["shadowsightTimerY"] = 9.988764762878418,
-			["targetBorder"] = false,
-			["petEnabled"] = false,
-			["buffsShowAuraDebuffs"] = true,
-			["powerMax"] = false,
-			["healthBarTexture"] = "Blizzard",
-			["racialFont"] = "Friz Quadrata TT",
-			["healthBarHeight"] = 81,
-			["powerShowRace"] = false,
-			["bottomMargin"] = 0,
-			["trinketFont"] = "Friz Quadrata TT",
-			["drBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["powerBarTexture"] = "Blizzard",
-			["powerShowSpec"] = false,
-			["cooldownBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["npTotemsShowEnemy"] = false,
-			["focusBorder"] = false,
-			["highlight"] = false,
-			["trinketPos"] = "LEFT",
-			["powerBarEnabled"] = false,
-			["healthMax"] = false,
-			["drFont"] = "Friz Quadrata TT",
-			["castBarTexture"] = "Blizzard",
-			["npTremorFont"] = "Friz Quadrata TT",
-			["healthPercentage"] = false,
-			["rangeCheckEnabled"] = false,
-			["ciBorderColor"] = {
-				["a"] = 0,
+			["healthBarNameFontSize"] = 20,
+			["petHealthBarTexture"] = "Blizzard",
+			["announcements"] = {
+				["trinketUsed"] = false,
+				["spec"] = false,
+				["drinks"] = false,
 			},
-			["powerBarFont"] = "Friz Quadrata TT",
-			["buffsEnabled"] = false,
-			["buffsFont"] = "Friz Quadrata TT",
-			["y"] = 383.1889400075343,
-			["castBarYOffset"] = -288.9,
-			["healthBarFont"] = "Friz Quadrata TT",
-			["npTotemsShowFriendly"] = false,
-			["castBarFont"] = "Friz Quadrata TT",
+			["powerMax"] = false,
 			["drCategories"] = {
 				["sleep"] = {
 					["enabled"] = false,
@@ -451,34 +423,62 @@ GladdyXZ = {
 				["rndroot"] = {
 					["enabled"] = false,
 				},
-				["cyclone"] = {
+				["repentance"] = {
 					["enabled"] = false,
 				},
 				["dragonsbreath"] = {
 					["enabled"] = false,
 				},
-				["impconc"] = {
+				["ua"] = {
 					["enabled"] = false,
 				},
 				["freezetrap"] = {
 					["enabled"] = false,
 				},
-				["ua"] = {
+				["impconc"] = {
 					["enabled"] = false,
 				},
-				["repentance"] = {
+				["cyclone"] = {
 					["enabled"] = false,
 				},
 			},
-			["petHealthBarTexture"] = "Blizzard",
-			["castBarEnabled"] = false,
+			["racialFont"] = "Friz Quadrata TT",
+			["healthBarHeight"] = 81,
+			["frameScale"] = 0.7000000000000001,
+			["healthBarTexture"] = "Blizzard",
+			["trinketFont"] = "Friz Quadrata TT",
+			["drBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
+			["powerBarTexture"] = "Blizzard",
+			["powerShowSpec"] = false,
+			["cooldownBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
+			["npTotemsShowEnemy"] = false,
+			["focusBorder"] = false,
+			["highlight"] = false,
+			["trinketPos"] = "LEFT",
+			["powerBarEnabled"] = false,
+			["healthMax"] = false,
+			["drFont"] = "Friz Quadrata TT",
+			["castBarTexture"] = "Blizzard",
+			["npTremorFont"] = "Friz Quadrata TT",
+			["rangeCheckEnabled"] = false,
+			["castBarYOffset"] = -288.9,
+			["y"] = 383.1889400075343,
+			["powerBarFont"] = "Friz Quadrata TT",
+			["buffsFont"] = "Friz Quadrata TT",
+			["buffsEnabled"] = false,
+			["ciBorderColor"] = {
+				["a"] = 0,
+			},
+			["healthPercentage"] = false,
+			["healthBarFont"] = "Friz Quadrata TT",
+			["npTotemsShowFriendly"] = false,
+			["castBarFont"] = "Friz Quadrata TT",
+			["bottomMargin"] = 0,
+			["petEnabled"] = false,
+			["ciSize"] = 5,
 			["npTotems"] = false,
-			["announcements"] = {
-				["trinketUsed"] = false,
-				["spec"] = false,
-				["drinks"] = false,
-			},
-			["padding"] = 0,
+			["shadowsightTimerRelPoint2"] = "BOTTOMLEFT",
+			["petHealthBarFont"] = "Friz Quadrata TT",
 			["cooldown"] = false,
 			["barWidth"] = 325,
 		},
@@ -487,34 +487,34 @@ GladdyXZ = {
 		["Evolvepwp - Earthshaker"] = {
 			["cooldownFont"] = "Friz Quadrata TT",
 			["shadowsightTimerRelPoint1"] = "BOTTOMLEFT",
-			["buffsEnabled"] = false,
+			["shadowsightTimerX"] = 25.16666793823242,
 			["ciEnabled"] = false,
 			["castBarXOffset"] = -263,
-			["shadowsightTimerX"] = 25.16666793823242,
-			["highlightInset"] = true,
+			["buffsEnabled"] = false,
+			["padding"] = 0,
 			["classIconPos"] = "RIGHT",
 			["locked"] = true,
-			["padding"] = 0,
-			["targetBorder"] = false,
-			["buffsShowAuraDebuffs"] = true,
-			["powerActual"] = false,
-			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["castBarEnabled"] = false,
-			["auraFont"] = "Friz Quadrata TT",
-			["racialEnabled"] = false,
-			["shadowsightTimerY"] = 9.988764762878418,
-			["npTotemsShowEnemy"] = false,
-			["petHealthBarTexture"] = "Blizzard",
+			["petHealthBarFont"] = "Friz Quadrata TT",
+			["healthPercentage"] = false,
 			["announcements"] = {
 				["trinketUsed"] = false,
 				["spec"] = false,
 				["drinks"] = false,
 			},
+			["powerActual"] = false,
+			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
+			["ciSize"] = 5,
+			["auraFont"] = "Friz Quadrata TT",
+			["racialEnabled"] = false,
+			["shadowsightTimerY"] = 9.988764762878418,
+			["targetBorder"] = false,
+			["petEnabled"] = false,
+			["buffsShowAuraDebuffs"] = true,
 			["powerMax"] = false,
-			["healthBarTexture"] = "Blizzard",
+			["frameScale"] = 0.7000000000000001,
 			["racialFont"] = "Friz Quadrata TT",
 			["healthBarHeight"] = 81,
-			["frameScale"] = 0.7000000000000001,
+			["powerShowRace"] = false,
 			["drCategories"] = {
 				["sleep"] = {
 					["enabled"] = false,
@@ -549,22 +549,22 @@ GladdyXZ = {
 				["rndroot"] = {
 					["enabled"] = false,
 				},
-				["cyclone"] = {
+				["repentance"] = {
 					["enabled"] = false,
 				},
 				["dragonsbreath"] = {
 					["enabled"] = false,
 				},
-				["impconc"] = {
+				["ua"] = {
 					["enabled"] = false,
 				},
 				["freezetrap"] = {
 					["enabled"] = false,
 				},
-				["ua"] = {
+				["impconc"] = {
 					["enabled"] = false,
 				},
-				["repentance"] = {
+				["cyclone"] = {
 					["enabled"] = false,
 				},
 			},
@@ -582,56 +582,52 @@ GladdyXZ = {
 			["drFont"] = "Friz Quadrata TT",
 			["bottomMargin"] = 0,
 			["npTremorFont"] = "Friz Quadrata TT",
-			["shadowsightTimerRelPoint2"] = "BOTTOMLEFT",
 			["castBarYOffset"] = -288.9,
-			["y"] = 383.1889400075343,
+			["rangeCheckEnabled"] = false,
+			["buffsFont"] = "Friz Quadrata TT",
 			["powerBarFont"] = "Friz Quadrata TT",
+			["healthBarNameFontSize"] = 20,
 			["ciBorderColor"] = {
 				["a"] = 0,
 			},
-			["healthBarNameFontSize"] = 20,
-			["buffsFont"] = "Friz Quadrata TT",
-			["rangeCheckEnabled"] = false,
+			["y"] = 383.1889400075343,
+			["shadowsightTimerRelPoint2"] = "BOTTOMLEFT",
 			["healthBarFont"] = "Friz Quadrata TT",
 			["npTotemsShowFriendly"] = false,
 			["castBarFont"] = "Friz Quadrata TT",
-			["powerShowRace"] = false,
-			["petEnabled"] = false,
-			["ciSize"] = 5,
+			["healthBarTexture"] = "Blizzard",
+			["petHealthBarTexture"] = "Blizzard",
+			["castBarEnabled"] = false,
 			["npTotems"] = false,
-			["healthPercentage"] = false,
-			["petHealthBarFont"] = "Friz Quadrata TT",
+			["npTotemsShowEnemy"] = false,
+			["highlightInset"] = true,
 			["cooldown"] = false,
 			["barWidth"] = 325,
 		},
 		["Evolvepwe - Classic Arena - EU"] = {
 			["cooldownFont"] = "Friz Quadrata TT",
 			["shadowsightTimerRelPoint1"] = "BOTTOMLEFT",
-			["buffsFont"] = "Friz Quadrata TT",
+			["classIconPos"] = "RIGHT",
 			["ciEnabled"] = false,
 			["castBarXOffset"] = -263,
 			["shadowsightTimerX"] = 25.16666793823242,
-			["npTotemsShowEnemy"] = false,
-			["classIconPos"] = "RIGHT",
+			["healthBarNameFontSize"] = 20,
+			["buffsFont"] = "Friz Quadrata TT",
 			["locked"] = true,
-			["petHealthBarFont"] = "Friz Quadrata TT",
-			["y"] = 383.1889400075343,
-			["shadowsightTimerRelPoint2"] = "BOTTOMLEFT",
+			["highlightInset"] = true,
+			["buffsShowAuraDebuffs"] = true,
+			["powerMax"] = false,
 			["powerActual"] = false,
 			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["ciSize"] = 5,
+			["castBarEnabled"] = false,
 			["auraFont"] = "Friz Quadrata TT",
 			["racialEnabled"] = false,
 			["shadowsightTimerY"] = 9.988764762878418,
-			["healthBarNameFontSize"] = 20,
-			["petHealthBarTexture"] = "Blizzard",
-			["announcements"] = {
-				["trinketUsed"] = false,
-				["spec"] = false,
-				["drinks"] = false,
-			},
-			["powerMax"] = false,
-			["healthPercentage"] = false,
+			["npTotemsShowEnemy"] = false,
+			["petEnabled"] = false,
+			["y"] = 383.1889400075343,
+			["shadowsightTimerRelPoint2"] = "BOTTOMLEFT",
+			["padding"] = 0,
 			["racialFont"] = "Friz Quadrata TT",
 			["healthBarHeight"] = 81,
 			["frameScale"] = 0.7000000000000001,
@@ -669,22 +665,22 @@ GladdyXZ = {
 				["rndroot"] = {
 					["enabled"] = false,
 				},
-				["repentance"] = {
+				["cyclone"] = {
 					["enabled"] = false,
 				},
 				["dragonsbreath"] = {
 					["enabled"] = false,
 				},
-				["ua"] = {
+				["impconc"] = {
 					["enabled"] = false,
 				},
 				["freezetrap"] = {
 					["enabled"] = false,
 				},
-				["impconc"] = {
+				["ua"] = {
 					["enabled"] = false,
 				},
-				["cyclone"] = {
+				["repentance"] = {
 					["enabled"] = false,
 				},
 			},
@@ -704,117 +700,27 @@ GladdyXZ = {
 			["drFont"] = "Friz Quadrata TT",
 			["bottomMargin"] = 0,
 			["npTremorFont"] = "Friz Quadrata TT",
-			["powerShowRace"] = false,
 			["castBarYOffset"] = -288.9,
-			["healthBarTexture"] = "Blizzard",
-			["powerBarFont"] = "Friz Quadrata TT",
-			["healthMax"] = false,
-			["buffsEnabled"] = false,
-			["targetBorder"] = false,
 			["rangeCheckEnabled"] = false,
+			["targetBorder"] = false,
+			["powerBarFont"] = "Friz Quadrata TT",
+			["buffsEnabled"] = false,
+			["healthMax"] = false,
+			["healthBarTexture"] = "Blizzard",
+			["powerShowRace"] = false,
 			["healthBarFont"] = "Friz Quadrata TT",
 			["npTotemsShowFriendly"] = false,
 			["castBarFont"] = "Friz Quadrata TT",
-			["padding"] = 0,
-			["petEnabled"] = false,
-			["castBarEnabled"] = false,
+			["healthPercentage"] = false,
+			["petHealthBarTexture"] = "Blizzard",
+			["ciSize"] = 5,
 			["npTotems"] = false,
-			["buffsShowAuraDebuffs"] = true,
-			["highlightInset"] = true,
-			["cooldown"] = false,
-			["barWidth"] = 325,
-		},
-		["Evolve - Badge of Justice"] = {
-			["ciEnabled"] = false,
-			["castBarXOffset"] = -263,
-			["buffsEnabled"] = false,
-			["classIconPos"] = "RIGHT",
-			["locked"] = true,
-			["powerActual"] = false,
-			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["auraFont"] = "Friz Quadrata TT",
-			["racialEnabled"] = false,
-			["npTotemsShowEnemy"] = false,
 			["announcements"] = {
 				["trinketUsed"] = false,
 				["spec"] = false,
 				["drinks"] = false,
 			},
-			["powerMax"] = false,
-			["frameScale"] = 0.7000000000000001,
-			["drCategories"] = {
-				["ctrlstun"] = {
-					["enabled"] = false,
-				},
-				["rndstun"] = {
-					["enabled"] = false,
-				},
-				["charm"] = {
-					["enabled"] = false,
-				},
-				["root"] = {
-					["enabled"] = false,
-				},
-				["fear"] = {
-					["icon"] = 136184,
-				},
-				["ks"] = {
-					["enabled"] = false,
-				},
-				["rndroot"] = {
-					["enabled"] = false,
-				},
-				["freezetrap"] = {
-					["enabled"] = false,
-				},
-				["disorient"] = {
-					["enabled"] = false,
-				},
-				["scatters"] = {
-					["enabled"] = false,
-				},
-				["dragonsbreath"] = {
-					["enabled"] = false,
-				},
-				["cyclone"] = {
-					["enabled"] = false,
-				},
-				["dc"] = {
-					["enabled"] = false,
-				},
-				["impconc"] = {
-					["enabled"] = false,
-				},
-				["repentance"] = {
-					["enabled"] = false,
-				},
-			},
-			["trinketFont"] = "Friz Quadrata TT",
-			["drBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["powerBarTexture"] = "Blizzard",
-			["highlight"] = false,
-			["cooldownBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["focusBorder"] = false,
-			["trinketPos"] = "LEFT",
-			["ciBorderColor"] = {
-				["a"] = 0,
-			},
-			["drFont"] = "Friz Quadrata TT",
-			["castBarYOffset"] = -288.9,
-			["healthBarTexture"] = "Blizzard",
-			["powerShowSpec"] = false,
-			["padding"] = 0,
-			["powerShowRace"] = false,
-			["castBarTexture"] = "Blizzard",
-			["bottomMargin"] = -2,
-			["npTotemsShowFriendly"] = false,
-			["petHealthBarTexture"] = "Blizzard",
-			["y"] = 383.1889400075343,
-			["petEnabled"] = false,
-			["ciSize"] = 5,
-			["npTotems"] = false,
-			["targetBorder"] = false,
-			["highlightInset"] = true,
+			["petHealthBarFont"] = "Friz Quadrata TT",
 			["cooldown"] = false,
 			["barWidth"] = 325,
 		},
@@ -838,23 +744,294 @@ GladdyXZ = {
 			["ciAnchor"] = "healthBar",
 			["ciYOffset"] = -10.99993896484375,
 			["cooldownXPos"] = "LEFT",
-			["cooldownYOffset"] = 31,
-			["petXOffset"] = 181,
-			["buffsYOffset"] = 62.00006103515625,
-			["newLayout"] = true,
-			["racialAnchor"] = "trinket",
-			["classIconXOffset"] = -74.90008544921875,
-			["buffsXOffset"] = 29,
-			["castBarYOffset"] = -30.5,
-			["growUp"] = false,
-			["drYOffset"] = -22.5,
-			["buffsBuffsXOffset"] = 29,
-			["petYOffset"] = -81.99993896484375,
-			["padding"] = 1,
-			["trinketPos"] = "RIGHT",
 			["racialXOffset"] = 255.9000244140625,
+			["trinketPos"] = "RIGHT",
+			["buffsYOffset"] = 62.00006103515625,
+			["petYOffset"] = -81.99993896484375,
+			["buffsBuffsXOffset"] = 29,
+			["drYOffset"] = -22.5,
+			["growUp"] = false,
+			["castBarYOffset"] = -30.5,
+			["buffsXOffset"] = 29,
+			["classIconXOffset"] = -74.90008544921875,
+			["racialAnchor"] = "trinket",
+			["newLayout"] = true,
+			["padding"] = 1,
+			["petXOffset"] = 181,
+			["cooldownYOffset"] = 31,
 		},
-		["Evolvelulw - Earthshaker"] = {
+		["Default"] = {
+			["drBorderColor"] = {
+				["g"] = 0,
+				["b"] = 0.0392156862745098,
+			},
+			["shadowsightTimerRelPoint1"] = "BOTTOMLEFT",
+			["castBarXOffset"] = -495.9000244140625,
+			["healthTextRight"] = "[spec]",
+			["npTotemPlatesAlphaAlwaysTargeted"] = true,
+			["drBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
+			["shadowsightTimerShowTwoTimer"] = true,
+			["npTremorFont"] = "Friz Quadrata TT",
+			["castBarFont"] = "Friz Quadrata TT",
+			["petHealthBarTexture"] = "Blizzard",
+			["ciSize"] = 5,
+			["buffsBuffsXOffset"] = 29.00000190734863,
+			["healthTextLeftOutline"] = true,
+			["healthPercentage"] = false,
+			["npTotemsShowFriendly"] = false,
+			["locked"] = true,
+			["auraFont"] = "Friz Quadrata TT",
+			["y"] = 381.7666805102708,
+			["x"] = 50.4888716682558,
+			["bottomMargin"] = 0,
+			["trinketFont"] = "Friz Quadrata TT",
+			["ciXOffset"] = 160,
+			["totemPulseTextSize"] = 20,
+			["drHalfColor"] = {
+				["g"] = 0,
+				["b"] = 0.06666666666666667,
+			},
+			["classIconGroup"] = true,
+			["drFontColor"] = {
+				["g"] = 0.9411764705882353,
+				["b"] = 0.9803921568627451,
+			},
+			["healthBarHeight"] = 81,
+			["powerShowSpec"] = false,
+			["rangeCheckEnabled"] = false,
+			["shadowsightAnnounce"] = false,
+			["totemPulseBarHeight"] = 30,
+			["highlightInset"] = true,
+			["powerMax"] = false,
+			["shadowsightTimerX"] = 19.47777938842773,
+			["trinketXOffset"] = -72.89999999999998,
+			["powerActual"] = false,
+			["drBorderColorsEnabled"] = false,
+			["buffsXOffset"] = 29.00000190734863,
+			["racialEnabled"] = false,
+			["petHealthBarFont"] = "Friz Quadrata TT",
+			["cooldown"] = false,
+			["totemPulseCooldownWidth"] = 50.00000000000001,
+			["drCategories"] = {
+				["incapacitate"] = {
+					["enabled"] = false,
+				},
+				["random_stun"] = {
+					["enabled"] = false,
+				},
+				["opener_stun"] = {
+					["enabled"] = false,
+				},
+				["root"] = {
+					["enabled"] = false,
+				},
+				["fear"] = {
+					["icon"] = 136184,
+				},
+				["random_root"] = {
+					["enabled"] = false,
+				},
+				["scatter"] = {
+					["enabled"] = false,
+				},
+				["stun"] = {
+					["enabled"] = false,
+				},
+				["counterattack"] = {
+					["enabled"] = false,
+				},
+				["disarm"] = {
+					["enabled"] = false,
+				},
+				["charge"] = {
+					["enabled"] = false,
+				},
+				["silence"] = {
+					["enabled"] = false,
+				},
+				["mind_control"] = {
+					["enabled"] = false,
+				},
+				["horror"] = {
+					["enabled"] = false,
+				},
+				["cyclone"] = {
+					["enabled"] = false,
+				},
+			},
+			["highlight"] = false,
+			["healthBarHealthFontSize"] = 20,
+			["powerBarEnabled"] = false,
+			["healthMax"] = false,
+			["castBarYOffset"] = -319.4000091552734,
+			["npTotems"] = false,
+			["petYOffset"] = -92.5,
+			["npTotemColors"] = {
+				["totem3738"] = {
+					["alpha"] = 0,
+				},
+				["totem8177"] = {
+					["alpha"] = 0,
+				},
+				["totem30706"] = {
+					["alpha"] = 0,
+				},
+				["totem8190"] = {
+					["alpha"] = 0,
+				},
+				["totem5730"] = {
+					["alpha"] = 0,
+				},
+				["totem6495"] = {
+					["alpha"] = 0,
+				},
+				["totem2484"] = {
+					["alpha"] = 0,
+				},
+				["totem5394"] = {
+					["alpha"] = 0,
+				},
+				["totem8227"] = {
+					["alpha"] = 0,
+				},
+				["totem8143"] = {
+					["color"] = {
+						["g"] = 0.03137254901960784,
+						["b"] = 0,
+					},
+					["alpha"] = 1,
+					["enabled"] = false,
+				},
+				["totem5675"] = {
+					["alpha"] = 0,
+				},
+				["totem10595"] = {
+					["alpha"] = 0,
+				},
+				["totem33663"] = {
+					["alpha"] = 0,
+				},
+				["totem8181"] = {
+					["alpha"] = 0,
+				},
+				["totem8170"] = {
+					["alpha"] = 0,
+				},
+				["totem3599"] = {
+					["alpha"] = 0,
+				},
+				["totem8512"] = {
+					["alpha"] = 0,
+				},
+				["totem8071"] = {
+					["alpha"] = 0,
+				},
+				["totem32982"] = {
+					["alpha"] = 0,
+				},
+				["totem16190"] = {
+					["alpha"] = 0,
+				},
+				["totem8075"] = {
+					["alpha"] = 0,
+				},
+				["totem8184"] = {
+					["alpha"] = 0,
+				},
+				["totem1535"] = {
+					["alpha"] = 0,
+				},
+			},
+			["drXOffset"] = 397.8999938964844,
+			["ciEnabled"] = false,
+			["buffsShowAuraDebuffs"] = true,
+			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
+			["npTotemsShowEnemy"] = false,
+			["announcements"] = {
+				["spellInterrupt"] = false,
+				["spec"] = false,
+				["trinketUsed"] = false,
+				["drinks"] = false,
+			},
+			["racialFont"] = "Friz Quadrata TT",
+			["frameScale"] = 0.7000000000000001,
+			["buffsYOffset"] = 31,
+			["focusBorder"] = false,
+			["shadowsightTimerLocked"] = true,
+			["totemPulseCooldownHeight"] = 30,
+			["totemPulseBarWidth"] = 50.00000000000001,
+			["castBarEnabled"] = false,
+			["healthTextLeftHOffset"] = 7,
+			["barWidth"] = 325,
+			["drQuarterColor"] = {
+				["g"] = 0,
+				["b"] = 0.0784313725490196,
+			},
+			["buffsEnabled"] = false,
+			["buffsFont"] = "Friz Quadrata TT",
+			["drNullColor"] = {
+				["b"] = 0.05882352941176471,
+			},
+			["targetBorder"] = false,
+			["buffsBuffsYOffset"] = -82,
+			["healthCustomTagsEnabled"] = true,
+			["cooldownBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
+			["castBarTexture"] = "Blizzard",
+			["petXOffset"] = 326,
+			["drFont"] = "Friz Quadrata TT",
+			["healthBarFont"] = "Friz Quadrata TT",
+			["petEnabled"] = false,
+			["npTotemPlatesAlphaAlways"] = true,
+			["totemPulseTotems"] = {
+				["totem8170"] = {
+					["enabled"] = false,
+					["attachToGladdyTotemFrame"] = false,
+				},
+				["totem5675"] = {
+					["enabled"] = false,
+					["attachToGladdyTotemFrame"] = false,
+				},
+				["totem2484"] = {
+					["enabled"] = false,
+					["attachToGladdyTotemFrame"] = false,
+				},
+				["totem5394"] = {
+					["enabled"] = false,
+					["attachToGladdyTotemFrame"] = false,
+				},
+				["totem1535"] = {
+					["enabled"] = false,
+					["attachToGladdyTotemFrame"] = false,
+				},
+				["totem8190"] = {
+					["enabled"] = false,
+					["attachToGladdyTotemFrame"] = false,
+				},
+				["totem5730"] = {
+					["enabled"] = false,
+					["attachToGladdyTotemFrame"] = false,
+				},
+			},
+			["healthBarNameFontSize"] = 20,
+			["shadowsightTimerY"] = 2.166609764099121,
+			["powerShowRace"] = false,
+			["healthBarTexture"] = "Blizzard",
+			["drYOffset"] = -13.5,
+			["classIconXOffset"] = 325,
+			["powerBarTexture"] = "Blizzard",
+			["drDuration"] = 20,
+			["ciYOffset"] = -26,
+			["shadowsightTimerRelPoint2"] = "BOTTOMLEFT",
+			["newLayout"] = true,
+			["powerBarFont"] = "Friz Quadrata TT",
+			["cooldownFont"] = "Friz Quadrata TT",
+			["drIconSize"] = 54,
+			["ciBorderColor"] = {
+				["a"] = 0,
+			},
+			["healthTextRightOutline"] = true,
+		},
+		["Dbldogcheck - Firemaw"] = {
 		},
 		["Evolvepwp - Firemaw"] = {
 			["drQuarterColor"] = {
@@ -958,7 +1135,7 @@ GladdyXZ = {
 					["alpha"] = 1,
 					["enabled"] = false,
 				},
-				["totem8184"] = {
+				["totem10595"] = {
 					["alpha"] = 0,
 				},
 				["totem5675"] = {
@@ -973,12 +1150,6 @@ GladdyXZ = {
 				["totem8071"] = {
 					["alpha"] = 0,
 				},
-				["totem5730"] = {
-					["alpha"] = 0,
-				},
-				["totem8512"] = {
-					["alpha"] = 0,
-				},
 				["totem3599"] = {
 					["alpha"] = 0,
 				},
@@ -986,6 +1157,12 @@ GladdyXZ = {
 					["alpha"] = 0,
 				},
 				["totem8181"] = {
+					["alpha"] = 0,
+				},
+				["totem8512"] = {
+					["alpha"] = 0,
+				},
+				["totem5730"] = {
 					["alpha"] = 0,
 				},
 				["totem32982"] = {
@@ -997,7 +1174,7 @@ GladdyXZ = {
 				["totem8075"] = {
 					["alpha"] = 0,
 				},
-				["totem10595"] = {
+				["totem8184"] = {
 					["alpha"] = 0,
 				},
 				["totem1535"] = {
@@ -1007,23 +1184,18 @@ GladdyXZ = {
 			["focusBorder"] = false,
 			["drBorderColorsEnabled"] = false,
 			["shadowsightTimerLocked"] = true,
-			["highlightInset"] = true,
-			["healthBarTexture"] = "Blizzard",
-			["powerMax"] = false,
-			["ciSize"] = 5,
-			["petHealthBarTexture"] = "Blizzard",
-			["ciBorderColor"] = {
-				["a"] = 0,
+			["petHealthBarFont"] = "Friz Quadrata TT",
+			["drHalfColor"] = {
+				["g"] = 0,
+				["b"] = 0.06666666666666667,
 			},
+			["buffsShowAuraDebuffs"] = true,
+			["ciSize"] = 5,
+			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
+			["npTotemsShowEnemy"] = false,
 			["rangeCheckEnabled"] = false,
 			["shadowsightAnnounce"] = false,
 			["powerBarFont"] = "Friz Quadrata TT",
-			["classIconPos"] = "RIGHT",
-			["cooldownFont"] = "Friz Quadrata TT",
-			["targetBorder"] = false,
-			["buffsEnabled"] = false,
-			["drIconSize"] = 54,
-			["npTotemsShowFriendly"] = false,
 			["drCategories"] = {
 				["sleep"] = {
 					["enabled"] = false,
@@ -1043,8 +1215,8 @@ GladdyXZ = {
 				["ks"] = {
 					["enabled"] = false,
 				},
-				["cyclone"] = {
-					["enabled"] = false,
+				["fear"] = {
+					["icon"] = 136184,
 				},
 				["scatters"] = {
 					["enabled"] = false,
@@ -1052,13 +1224,99 @@ GladdyXZ = {
 				["disorient"] = {
 					["enabled"] = false,
 				},
-				["ua"] = {
+				["impconc"] = {
 					["enabled"] = false,
 				},
 				["dragonsbreath"] = {
 					["enabled"] = false,
 				},
 				["rndroot"] = {
+					["enabled"] = false,
+				},
+				["dc"] = {
+					["enabled"] = false,
+				},
+				["ua"] = {
+					["enabled"] = false,
+				},
+				["cyclone"] = {
+					["enabled"] = false,
+				},
+			},
+			["cooldownFont"] = "Friz Quadrata TT",
+			["targetBorder"] = false,
+			["buffsEnabled"] = false,
+			["drIconSize"] = 54,
+			["npTotemsShowFriendly"] = false,
+			["classIconPos"] = "RIGHT",
+			["ciBorderColor"] = {
+				["a"] = 0,
+			},
+			["petHealthBarTexture"] = "Blizzard",
+			["castBarEnabled"] = false,
+			["powerMax"] = false,
+			["healthBarTexture"] = "Blizzard",
+			["highlightInset"] = true,
+			["cooldown"] = false,
+			["barWidth"] = 325,
+		},
+		["Evolvebank - Gehennas"] = {
+		},
+		["Evolvelulw - Earthshaker"] = {
+		},
+		["Evolve - Badge of Justice"] = {
+			["ciEnabled"] = false,
+			["castBarXOffset"] = -263,
+			["buffsEnabled"] = false,
+			["classIconPos"] = "RIGHT",
+			["locked"] = true,
+			["powerActual"] = false,
+			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
+			["auraFont"] = "Friz Quadrata TT",
+			["racialEnabled"] = false,
+			["npTotemsShowEnemy"] = false,
+			["announcements"] = {
+				["trinketUsed"] = false,
+				["spec"] = false,
+				["drinks"] = false,
+			},
+			["powerMax"] = false,
+			["frameScale"] = 0.7000000000000001,
+			["drCategories"] = {
+				["ctrlstun"] = {
+					["enabled"] = false,
+				},
+				["rndstun"] = {
+					["enabled"] = false,
+				},
+				["charm"] = {
+					["enabled"] = false,
+				},
+				["root"] = {
+					["enabled"] = false,
+				},
+				["repentance"] = {
+					["enabled"] = false,
+				},
+				["ks"] = {
+					["enabled"] = false,
+				},
+				["rndroot"] = {
+					["enabled"] = false,
+				},
+				["freezetrap"] = {
+					["enabled"] = false,
+				},
+				["disorient"] = {
+					["enabled"] = false,
+				},
+				["scatters"] = {
+					["enabled"] = false,
+				},
+				["dragonsbreath"] = {
+					["enabled"] = false,
+				},
+				["cyclone"] = {
 					["enabled"] = false,
 				},
 				["dc"] = {
@@ -1071,286 +1329,34 @@ GladdyXZ = {
 					["icon"] = 136184,
 				},
 			},
-			["npTotemsShowEnemy"] = false,
-			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["castBarEnabled"] = false,
-			["buffsShowAuraDebuffs"] = true,
-			["drHalfColor"] = {
-				["g"] = 0,
-				["b"] = 0.06666666666666667,
-			},
-			["petHealthBarFont"] = "Friz Quadrata TT",
-			["cooldown"] = false,
-			["barWidth"] = 325,
-		},
-		["Evolvebank - Gehennas"] = {
-		},
-		["Dbldogcheck - Firemaw"] = {
-		},
-		["Default"] = {
-			["drBorderColor"] = {
-				["g"] = 0,
-				["b"] = 0.0392156862745098,
-			},
-			["shadowsightTimerRelPoint1"] = "BOTTOMLEFT",
-			["castBarXOffset"] = -495.9000244140625,
-			["npTotemPlatesAlphaAlwaysTargeted"] = true,
-			["drBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["shadowsightTimerShowTwoTimer"] = true,
-			["npTremorFont"] = "Friz Quadrata TT",
-			["ciYOffset"] = -26,
-			["petHealthBarTexture"] = "Blizzard",
-			["npTotemPlatesAlphaAlways"] = true,
-			["buffsBuffsXOffset"] = 29.00000190734863,
-			["healthPercentage"] = false,
-			["npTotemsShowFriendly"] = false,
-			["locked"] = true,
-			["auraFont"] = "Friz Quadrata TT",
-			["y"] = 381.7666805102708,
-			["x"] = 50.4888716682558,
-			["bottomMargin"] = 0,
 			["trinketFont"] = "Friz Quadrata TT",
-			["ciXOffset"] = 160,
-			["totemPulseTextSize"] = 20,
-			["drHalfColor"] = {
-				["g"] = 0,
-				["b"] = 0.06666666666666667,
-			},
-			["classIconGroup"] = true,
-			["drFontColor"] = {
-				["g"] = 0.9411764705882353,
-				["b"] = 0.9803921568627451,
-			},
-			["healthBarHeight"] = 81,
-			["powerShowSpec"] = false,
-			["rangeCheckEnabled"] = false,
-			["shadowsightAnnounce"] = false,
-			["totemPulseBarHeight"] = 30,
-			["highlightInset"] = true,
-			["shadowsightTimerX"] = 19.47777938842773,
-			["buffsXOffset"] = 29.00000190734863,
-			["powerActual"] = false,
-			["trinketXOffset"] = -72.89999999999998,
-			["npTotemColors"] = {
-				["totem3738"] = {
-					["alpha"] = 0,
-				},
-				["totem8177"] = {
-					["alpha"] = 0,
-				},
-				["totem30706"] = {
-					["alpha"] = 0,
-				},
-				["totem8190"] = {
-					["alpha"] = 0,
-				},
-				["totem5730"] = {
-					["alpha"] = 0,
-				},
-				["totem6495"] = {
-					["alpha"] = 0,
-				},
-				["totem2484"] = {
-					["alpha"] = 0,
-				},
-				["totem5394"] = {
-					["alpha"] = 0,
-				},
-				["totem8227"] = {
-					["alpha"] = 0,
-				},
-				["totem8143"] = {
-					["color"] = {
-						["g"] = 0.03137254901960784,
-						["b"] = 0,
-					},
-					["alpha"] = 1,
-					["enabled"] = false,
-				},
-				["totem5675"] = {
-					["alpha"] = 0,
-				},
-				["totem10595"] = {
-					["alpha"] = 0,
-				},
-				["totem8184"] = {
-					["alpha"] = 0,
-				},
-				["totem3599"] = {
-					["alpha"] = 0,
-				},
-				["totem8512"] = {
-					["alpha"] = 0,
-				},
-				["totem8181"] = {
-					["alpha"] = 0,
-				},
-				["totem8170"] = {
-					["alpha"] = 0,
-				},
-				["totem8071"] = {
-					["alpha"] = 0,
-				},
-				["totem32982"] = {
-					["alpha"] = 0,
-				},
-				["totem16190"] = {
-					["alpha"] = 0,
-				},
-				["totem8075"] = {
-					["alpha"] = 0,
-				},
-				["totem33663"] = {
-					["alpha"] = 0,
-				},
-				["totem1535"] = {
-					["alpha"] = 0,
-				},
-			},
-			["racialEnabled"] = false,
-			["shadowsightTimerRelPoint2"] = "BOTTOMLEFT",
-			["cooldown"] = false,
-			["totemPulseCooldownWidth"] = 50.00000000000001,
-			["healthBarTexture"] = "Blizzard",
+			["drBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
+			["powerBarTexture"] = "Blizzard",
 			["highlight"] = false,
-			["powerBarEnabled"] = false,
+			["cooldownBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
+			["focusBorder"] = false,
+			["trinketPos"] = "LEFT",
 			["ciBorderColor"] = {
 				["a"] = 0,
 			},
-			["castBarYOffset"] = -319.4000091552734,
-			["ciSize"] = 5,
-			["healthMax"] = false,
-			["drDuration"] = 20,
-			["powerMax"] = false,
-			["ciEnabled"] = false,
-			["buffsBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["npTotemsShowEnemy"] = false,
-			["announcements"] = {
-				["spellInterrupt"] = false,
-				["spec"] = false,
-				["trinketUsed"] = false,
-				["drinks"] = false,
-			},
-			["racialFont"] = "Friz Quadrata TT",
-			["frameScale"] = 0.7000000000000001,
-			["buffsYOffset"] = 31,
-			["focusBorder"] = false,
-			["shadowsightTimerLocked"] = true,
-			["totemPulseCooldownHeight"] = 30,
-			["totemPulseBarWidth"] = 50.00000000000001,
-			["castBarEnabled"] = false,
-			["barWidth"] = 325,
-			["drQuarterColor"] = {
-				["g"] = 0,
-				["b"] = 0.0784313725490196,
-			},
-			["classIconXOffset"] = 325,
-			["buffsEnabled"] = false,
-			["buffsFont"] = "Friz Quadrata TT",
-			["drNullColor"] = {
-				["b"] = 0.05882352941176471,
-			},
-			["targetBorder"] = false,
-			["buffsBuffsYOffset"] = -82,
-			["cooldownBorderStyle"] = "Interface\\AddOns\\Gladdy\\Images\\Border_rounded_blp",
-			["castBarTexture"] = "Blizzard",
-			["petXOffset"] = 326,
 			["drFont"] = "Friz Quadrata TT",
-			["healthBarFont"] = "Friz Quadrata TT",
+			["castBarYOffset"] = -288.9,
+			["healthBarTexture"] = "Blizzard",
+			["powerShowSpec"] = false,
+			["highlightInset"] = true,
+			["targetBorder"] = false,
+			["castBarTexture"] = "Blizzard",
+			["bottomMargin"] = -2,
+			["npTotemsShowFriendly"] = false,
 			["petEnabled"] = false,
-			["totemPulseTotems"] = {
-				["totem8170"] = {
-					["enabled"] = false,
-					["attachToGladdyTotemFrame"] = false,
-				},
-				["totem5675"] = {
-					["enabled"] = false,
-					["attachToGladdyTotemFrame"] = false,
-				},
-				["totem2484"] = {
-					["enabled"] = false,
-					["attachToGladdyTotemFrame"] = false,
-				},
-				["totem5394"] = {
-					["enabled"] = false,
-					["attachToGladdyTotemFrame"] = false,
-				},
-				["totem5730"] = {
-					["enabled"] = false,
-					["attachToGladdyTotemFrame"] = false,
-				},
-				["totem8190"] = {
-					["enabled"] = false,
-					["attachToGladdyTotemFrame"] = false,
-				},
-				["totem1535"] = {
-					["enabled"] = false,
-					["attachToGladdyTotemFrame"] = false,
-				},
-			},
-			["healthBarNameFontSize"] = 20,
-			["buffsShowAuraDebuffs"] = true,
-			["powerShowRace"] = false,
-			["shadowsightTimerY"] = 2.166609764099121,
-			["drCategories"] = {
-				["incapacitate"] = {
-					["enabled"] = false,
-				},
-				["random_stun"] = {
-					["enabled"] = false,
-				},
-				["opener_stun"] = {
-					["enabled"] = false,
-				},
-				["root"] = {
-					["enabled"] = false,
-				},
-				["cyclone"] = {
-					["enabled"] = false,
-				},
-				["horror"] = {
-					["enabled"] = false,
-				},
-				["mind_control"] = {
-					["enabled"] = false,
-				},
-				["silence"] = {
-					["enabled"] = false,
-				},
-				["charge"] = {
-					["enabled"] = false,
-				},
-				["disarm"] = {
-					["enabled"] = false,
-				},
-				["counterattack"] = {
-					["enabled"] = false,
-				},
-				["random_root"] = {
-					["enabled"] = false,
-				},
-				["scatter"] = {
-					["enabled"] = false,
-				},
-				["stun"] = {
-					["enabled"] = false,
-				},
-				["fear"] = {
-					["icon"] = 136184,
-				},
-			},
-			["drYOffset"] = -13.5,
-			["castBarFont"] = "Friz Quadrata TT",
-			["drBorderColorsEnabled"] = false,
+			["y"] = 383.1889400075343,
+			["petHealthBarTexture"] = "Blizzard",
+			["ciSize"] = 5,
 			["npTotems"] = false,
-			["drXOffset"] = 397.8999938964844,
-			["newLayout"] = true,
-			["petYOffset"] = -92.5,
-			["powerBarFont"] = "Friz Quadrata TT",
-			["cooldownFont"] = "Friz Quadrata TT",
-			["drIconSize"] = 54,
-			["petHealthBarFont"] = "Friz Quadrata TT",
-			["powerBarTexture"] = "Blizzard",
+			["powerShowRace"] = false,
+			["padding"] = 0,
+			["cooldown"] = false,
+			["barWidth"] = 325,
 		},
 	},
 }

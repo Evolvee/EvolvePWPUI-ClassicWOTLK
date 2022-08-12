@@ -1,8 +1,8 @@
 
 betterVendorPriceSaved = {
 	["holdShiftForMore"] = true,
-	["addonVersion"] = "v1.15.00",
-	["addonHash"] = "3ee9c6b",
+	["addonVersion"] = "v1.17.01",
+	["addonHash"] = "4005654",
 	["showAhdbMinBid"] = false,
 	["showAhdb"] = false,
 	["showFullStack"] = false,

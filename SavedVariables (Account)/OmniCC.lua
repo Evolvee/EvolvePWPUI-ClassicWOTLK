@@ -55,11 +55,6 @@ OmniCCDB = {
 			["themes"] = {
 				["Default"] = {
 					["textStyles"] = {
-						["seconds"] = {
-							["b"] = 1,
-							["g"] = 0.984313725490196,
-							["r"] = 0.9803921568627451,
-						},
 						["minutes"] = {
 						},
 						["soon"] = {
@@ -67,21 +62,27 @@ OmniCCDB = {
 							["scale"] = 1,
 							["g"] = 0.8784313725490196,
 						},
+						["seconds"] = {
+							["r"] = 0.9803921568627451,
+							["g"] = 0.984313725490196,
+							["b"] = 1,
+						},
 					},
 					["timerOffset"] = 1400,
+					["minDuration"] = 3,
+					["tenthsDuration"] = 1,
 					["fontOutline"] = "THICKOUTLINE",
 					["minSize"] = 1.1,
 					["effect"] = "none",
 					["fontSize"] = 15,
-					["minDuration"] = 3,
 				},
 				["Plater Nameplates Theme"] = {
 					["textStyles"] = {
-						["seconds"] = {
-						},
 						["minutes"] = {
 						},
 						["soon"] = {
+						},
+						["seconds"] = {
 						},
 					},
 				},

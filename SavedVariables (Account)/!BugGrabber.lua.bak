@@ -1,7 +1,7 @@
 
 BugGrabberDB = {
+	["session"] = 3134,
 	["lastSanitation"] = 3,
-	["session"] = 3107,
 	["errors"] = {
 		{
 			["message"] = "...s\\Questie\\Modules\\Tracker\\QuestieTrackerPrivates.lua:105: Frame Questie_BaseFrame is not resizable",
@@ -108,50 +108,50 @@ BugGrabberDB = {
 		}, -- [13]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Alliance-4.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [14]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Alliance-5.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [15]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Horde-2.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [16]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Horde-3.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [17]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Horde-4.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [18]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Horde-5.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 38,
 		}, -- [19]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Alliance-2.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 76,
 		}, -- [20]
 		{
 			["message"] = " Error loading Interface\\AddOns\\RXPGuides\\Guides/Alliance-3.lua",
-			["session"] = 2520,
 			["time"] = "2022/05/09 18:31:48",
+			["session"] = 2520,
 			["counter"] = 76,
 		}, -- [21]
 		{
@@ -362,27 +362,13 @@ BugGrabberDB = {
 			["counter"] = 1,
 		}, -- [47]
 		{
-			["message"] = "Interface\\AddOns\\ButtonForge\\EventManager.lua:87: Attempt to register unknown event \"CURSOR_UPDATE\"",
-			["time"] = "2022/08/05 16:50:45",
-			["locals"] = "(*temporary) = <unnamed> {\n 0 = <userdata>\n PromoteSpells = false\n TalentSwap = false\n RefreshSpells = false\n SetCVarCalled = <function> defined @Interface\\AddOns\\ButtonForge\\EventManager.lua:67\n}\n(*temporary) = \"CURSOR_UPDATE\"\n",
-			["stack"] = "[string \"=[C]\"]: in function `RegisterEvent'\n[string \"@Interface\\AddOns\\ButtonForge\\EventManager.lua\"]:87: in main chunk",
-			["session"] = 3029,
-			["counter"] = 6,
-		}, -- [48]
-		{
-			["message"] = "(null)",
-			["session"] = 3029,
-			["time"] = "2022/08/05 16:50:51",
-			["counter"] = 33,
-		}, -- [49]
-		{
 			["message"] = "Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:49: bad argument #1 to 'unpack' (table expected, got nil)",
 			["time"] = "2022/08/05 17:36:25",
 			["locals"] = "(*temporary) = nil\n(*temporary) = \"table expected, got nil\"\n",
 			["stack"] = "[string \"=[C]\"]: in function `unpack'\n[string \"@Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua\"]:49: in function <Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:45>",
 			["session"] = 3037,
 			["counter"] = 104,
-		}, -- [50]
+		}, -- [48]
 		{
 			["message"] = "Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:50: bad argument #1 to 'unpack' (table expected, got nil)",
 			["time"] = "2022/08/05 20:46:43",
@@ -390,15 +376,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `unpack'\n[string \"@Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua\"]:50: in function <Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:46>",
 			["session"] = 3055,
 			["counter"] = 660,
-		}, -- [51]
-		{
-			["message"] = "...e\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua:286: Action[FrameMeasurement] failed because[Can't measure restricted regions]: attempted from: <unnamed>:GetPoint().",
-			["time"] = "2022/08/06 11:02:04",
-			["locals"] = "(*temporary) = <unnamed> {\n 0 = <userdata>\n RaidTargetIcon = <unnamed> {\n }\n}\n(*temporary) = 1\n",
-			["stack"] = "[string \"=[C]\"]: in function `GetPoint'\n[string \"@Interface\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua\"]:286: in function `HighlightFrame'\n[string \"@Interface\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua\"]:309: in function <...e\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools.lua:300>",
-			["session"] = 3075,
-			["counter"] = 1,
-		}, -- [52]
+		}, -- [49]
 		{
 			["message"] = "[string \"PVPMicroButtonPortrait:Hide()\"]:1: attempt to index global 'PVPMicroButtonPortrait' (a nil value)",
 			["time"] = "2022/08/06 11:27:13",
@@ -406,6 +384,59 @@ BugGrabberDB = {
 			["stack"] = "[string \"PVPMicroButtonPortrait:Hide()\"]:1: in main chunk\n[string \"=[C]\"]: in function `RunScript'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:2196: in function `?'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:4933: in function `ChatEdit_ParseText'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:4596: in function `ChatEdit_SendText'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:4632: in function `ChatEdit_OnEnterPressed'\n[string \"*:OnEnterPressed\"]:1: in function <[string \"*:OnEnterPressed\"]:1>",
 			["session"] = 3087,
 			["counter"] = 1,
+		}, -- [50]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'ButtonForge' tried to call the protected function 'OverrideActionBarButton3:Show()'.",
+			["time"] = "2022/08/09 21:23:16",
+			["locals"] = "InCombatSkipped",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:357: in function `ActionButton_Update'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:694: in function `ActionButton_OnEvent'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:207: in function <Interface\\FrameXML\\ActionButton.lua:204>",
+			["session"] = 3121,
+			["counter"] = 2,
+		}, -- [51]
+		{
+			["message"] = "Interface\\AddOns\\ButtonForge\\EventManager.lua:87: Attempt to register unknown event \"CURSOR_UPDATE\"",
+			["time"] = "2022/08/05 16:50:45",
+			["locals"] = "(*temporary) = <unnamed> {\n 0 = <userdata>\n PromoteSpells = false\n TalentSwap = false\n RefreshSpells = false\n SetCVarCalled = <function> defined @Interface\\AddOns\\ButtonForge\\EventManager.lua:67\n}\n(*temporary) = \"CURSOR_UPDATE\"\n",
+			["stack"] = "[string \"=[C]\"]: in function `RegisterEvent'\n[string \"@Interface\\AddOns\\ButtonForge\\EventManager.lua\"]:87: in main chunk",
+			["session"] = 3122,
+			["counter"] = 9,
+		}, -- [52]
+		{
+			["message"] = "(null)",
+			["time"] = "2022/08/05 16:50:51",
+			["session"] = 3122,
+			["counter"] = 42,
 		}, -- [53]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'ButtonForge' tried to call the protected function 'MainMenuBarArtFrame:SetAttribute()'.",
+			["time"] = "2022/08/09 21:26:15",
+			["locals"] = "InCombatSkipped",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `SetAttribute'\n[string \"@Interface\\FrameXML\\ActionBarController.lua\"]:131: in function `ActionBarController_ResetToDefault'\n[string \"@Interface\\FrameXML\\ActionBarController.lua\"]:122: in function `ActionBarController_UpdateAll'\n[string \"@Interface\\FrameXML\\ActionBarController.lua\"]:54: in function <Interface\\FrameXML\\ActionBarController.lua:43>",
+			["session"] = 3122,
+			["counter"] = 1,
+		}, -- [54]
+		{
+			["message"] = "...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0-82.lua:1508: Usage: AceConfigDialogTooltip:SetText(\"text\" [, color, wrap])",
+			["time"] = "2022/08/10 16:20:59",
+			["stack"] = "[string \"=[C]\"]: in function `SetText'\n[string \"@Interface\\AddOns\\BigDebuffs\\Libs\\AceConfig-3.0-3\\AceConfigDialog-3.0\\AceConfigDialog-3.0-82.lua\"]:1508: in function <...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua:1476>\n[string \"=[C]\"]: ?\n[string \"@Interface\\AddOns\\BigDebuffs\\Libs\\AceGUI-3.0\\AceGUI-3.0-41.lua\"]:72: in function <...ace\\AddOns\\BigDebuffs\\Libs\\AceGUI-3.0\\AceGUI-3.0.lua:70>\n[string \"@Interface\\AddOns\\BigDebuffs\\Libs\\AceGUI-3.0\\AceGUI-3.0-41.lua\"]:306: in function `Fire'\n[string \"@Interface\\AddOns\\BigDebuffs\\Libs\\AceGUI-3.0-41\\widgets\\AceGUIContainer-TreeGroup.lua\"]:206: in function <...ibs\\AceGUI-3.0\\widgets\\AceGUIContainer-TreeGroup.lua:204>",
+			["session"] = 3124,
+			["counter"] = 25,
+		}, -- [55]
+		{
+			["message"] = "...e\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua:286: Action[FrameMeasurement] failed because[Can't measure restricted regions]: attempted from: <unnamed>:GetPoint().",
+			["time"] = "2022/08/06 11:02:04",
+			["locals"] = "(*temporary) = <unnamed> {\n 0 = <userdata>\n RaidTargetIcon = <unnamed> {\n }\n}\n(*temporary) = 1\n",
+			["stack"] = "[string \"=[C]\"]: in function `GetPoint'\n[string \"@Interface\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua\"]:286: in function `HighlightFrame'\n[string \"@Interface\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua\"]:309: in function <...e\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools.lua:300>",
+			["session"] = 3127,
+			["counter"] = 2,
+		}, -- [56]
+		{
+			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:1528: unexpected symbol near '“'",
+			["time"] = "2022/08/12 19:57:57",
+			["locals"] = "",
+			["stack"] = "",
+			["session"] = 3132,
+			["counter"] = 20,
+		}, -- [57]
 	},
 }

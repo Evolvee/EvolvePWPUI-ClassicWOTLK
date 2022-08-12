@@ -11,6 +11,6 @@ DCP_Saved = {
 	["y"] = 384,
 	["x"] = 512,
 	["iconSize"] = 75,
-	["maxAlpha"] = 0.7,
 	["fadeInTime"] = 0.3,
+	["maxAlpha"] = 0.7,
 }
