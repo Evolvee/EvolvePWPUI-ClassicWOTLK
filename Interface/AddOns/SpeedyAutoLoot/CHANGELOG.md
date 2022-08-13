@@ -1,2 +1,2 @@
-### 2.1.9
-- toc update
+### 2.1.12
+- fix the 'tsm destroy' fix not working for some users

@@ -1,3 +1,27 @@
+v2.5.0:
+- [BCC] Remove deprecated invalid categories shown in options panel.
+- [All] Fixes for party frame anchoring. Anchor caching is now removed for party which should hopefully fix annoying race conditions.
+- [All] Update DRList-1.0 lib.
+
+
+v2.4.22:
+- [All] Add anchor support for Gladius (#25, thanks SweepyBoop)
+- [All] Fix bug in raid/party frame anchoring sometimes causing party DR icons to be invisible until /reload.
+  The Blizzard option "Use Compact Party Frames" and Diminish option "Anchor to UIParent" can further
+  be tweaked to support third party raid frame addons if needed.
+
+
+v2.4.21:
+- [All] Update DRList-1.0 library to correct tag, fixes Consecutive Concussion stun DR.
+
+
+v2.4.20:
+- [Retail] Bump toc version.
+- [Retail] Add Consecutive Concussion stun.
+- [BCC] Fix random stuns not being tracked in PvE mode.
+- [All] Add option for cooldown swipe edge effect. (Default off, recommended on when not using countdown text).
+
+
 v2.4.19:
 - [All] Bump toc versions.
 - Update DRList-1.0 library.

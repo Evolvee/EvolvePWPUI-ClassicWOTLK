@@ -231,8 +231,10 @@ function AutoLoot:OnAddonLoaded(name)
             internal.ElvUI = (ElvUI and ElvUI[1].private.general.loot);
             self:ShowLootFrame(false);
         end)
-    elseif name == "TradeSkillMaster" then
-        internal.TSM = true;
+
+        if IsAddOnLoaded("TradeSkillMaster") then
+            internal.TSM = true;
+        end
     end
 end
 

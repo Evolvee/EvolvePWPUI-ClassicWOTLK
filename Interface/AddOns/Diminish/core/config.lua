@@ -30,6 +30,13 @@ do
     local isClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
     local isTBC = WOW_PROJECT_ID == (WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5)
     local isRetail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
+    --[[local isWotlk = false
+
+    local tocVersion = select(4, GetBuildInfo())
+    if tocVersion >= 30400 and tocVersion < 40000 then
+        isWotlk = true -- temporary check for wotlk build until new constant is added
+    end]]
+
     NS.IS_CLASSIC = isClassic
     NS.IS_CLASSIC_OR_TBC = isClassic or isTBC
 
@@ -55,13 +62,6 @@ do
         defaultsDisabledCategories[NS.CATEGORIES.frost_shock] = true
     end
 
-    if not NS.IS_CLASSIC and NS.IS_CLASSIC_OR_TBC then -- is tbc
-        defaultsDisabledCategories[NS.CATEGORIES.random_root] = true
-        defaultsDisabledCategories[NS.CATEGORIES.death_coil] = true
-        defaultsDisabledCategories[NS.CATEGORIES.freezing_trap] = true
-        defaultsDisabledCategories[NS.CATEGORIES.scatter_shot] = true
-    end
-
     --[====[@retail@
     defaultsDisabledCategories[NS.CATEGORIES.taunt] = true
     --@end-retail@]====]
@@ -84,10 +84,11 @@ do
     }
 
     NS.DEFAULT_SETTINGS = {
-        version = "1.9",
+        version = "1.10",
         timerTextOutline = "NONE",
         timerText = true,
         timerSwipe = true,
+        timerEdge = false,
         timerColors = false,
         timerStartAuraEnd = false,
         showCategoryText = false,

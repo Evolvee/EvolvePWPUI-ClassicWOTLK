@@ -1,5 +1,31 @@
 # OmniCC Changelog
 
+## 9.2.0
+
+* Updated TOCs for 9.2.0, 2.5.3, and 1.14.2
+
+## 9.1.6
+
+* Whoops, I forgot that 9.1.5 introduced a new Maximum Cooldown Duration setting (thanks Lyrex)
+* Setting the maximum duration slider to 0 will enable cooldowns of any duration
+* Adjusted default for max duration to be 0 instead of 600
+
+## 9.1.5
+
+* TOC updates for 1.14.1 and 9.1.5
+
+## 9.1.0
+
+* TOC updates for WoW 9.1.0
+
+## 9.0.10
+
+* Update TOCs for Burning Crusade Classic
+
+## 9.0.9
+
+* Update TOCs for 1.13.7
+
 ## 9.0.8
 
 * The cooldown opacity setting is now only applied when set at an opacity value under 100%

@@ -431,14 +431,30 @@ PartyMemberFrame4Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -8.4375415751
 
 
 
---TargetFrame castbar slight up-scaling
+-- TargetFrame castbar slight up-scaling
 
 TargetFrameSpellBar:SetScale(1.1)
 
 
---FocusFrame castbar slight up-scaling
+-- FocusFrame castbar slight up-scaling
 
 FocusFrameSpellBar:SetScale(1.1)
+
+
+-- Rework Main Cast-Bar texture (castbar is now going to be round) - this is kinda "idk kev"... not sure of I rly like it, yet
+
+CastingBarFrame:SetScale(1)
+CastingBarFrame.Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
+CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
+CastingBarFrame.Spark:SetHeight(50)
+CastingBarFrame.Text:ClearAllPoints()
+CastingBarFrame.Text:SetPoint("CENTER", 0, 1)
+CastingBarFrame.Border:SetWidth(CastingBarFrame.Border:GetWidth() + 4)
+CastingBarFrame.Flash:SetWidth(CastingBarFrame.Flash:GetWidth() + 4)CastingBarFrame.BorderShield:SetWidth(CastingBarFrame.BorderShield:GetWidth() + 4)
+CastingBarFrame.Border:SetPoint("TOP", 0, 26)
+CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
+CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
+		
 
 
 --Action bar buttons are now bigger, better looking and also fixes spellbook/wep switch bugging of dark theme
@@ -869,11 +885,16 @@ MinimapCluster:SetPoint("BOTTOMLEFT", 1186.333618164063, 595.0001831054688);
 
 
 
--- Increased nameplate DISTANCE and SIZE
+-- Increased nameplate DISTANCE and SIZE +
+-- Hackfixed Floating Combat Text randomly turning off +
+-- Hackfixed showing numbers for action bar cooldowns (there is aparently a conflict with OmniCC so this has to be forced at every login)
+
 
 local function OnEvent(self, event)
 	SetCVar("nameplateMaxDistance", "41")
 	SetCVar("nameplateGlobalScale", "1.2")
+	SetCVar("enableFloatingCombatText", 1)
+	SetCVar("countdownForCooldowns", 1)
 end
 
 local f = CreateFrame("Frame")
