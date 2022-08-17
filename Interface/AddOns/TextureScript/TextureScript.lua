@@ -1543,7 +1543,10 @@ teamRatingFrame:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
 teamRatingFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 
-
+-- Hide healthbar under unit tooltips
+GameTooltip:HookScript("OnTooltipSetUnit", function(self, tooltip)
+    GameTooltipStatusBar:Hide()
+end)
 
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
