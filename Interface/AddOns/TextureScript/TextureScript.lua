@@ -1073,7 +1073,6 @@ texture:SetAlpha(0)
 
 texture = PVPMicroButton:GetHighlightTexture()
 texture:SetAlpha(0)
-PVPMicroButtonTexture:Hide()
 
 PVPMicroButtonTexture:Hide()
 
@@ -1455,7 +1454,7 @@ manager.containerResizeFrame:SetIgnoreParentAlpha(true)
 
 
 
--- Prevent displaying the server name in player´s nameplate
+-- Prevent displaying the server name in player nameplates
 
 hooksecurefunc("CompactUnitFrame_UpdateName",function(frame)
     if frame.unit:find("^nameplate") and UnitIsPlayer(frame.unit) then
