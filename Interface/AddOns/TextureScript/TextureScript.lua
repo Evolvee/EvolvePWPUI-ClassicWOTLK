@@ -1074,6 +1074,7 @@ texture:SetAlpha(0)
 texture = PVPMicroButton:GetHighlightTexture()
 texture:SetAlpha(0)
 
+PVPMicroButtonTexture:Hide()
 
 -- |Patch 2.5.2 no longer valid| texture = WorldMapMicroButton:GetHighlightTexture()
 -- |Patch 2.5.2 no longer vlaid| texture:SetAlpha(0)
@@ -1542,7 +1543,10 @@ teamRatingFrame:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
 teamRatingFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 
-
+-- Hide healthbar under unit tooltips
+GameTooltip:HookScript("OnTooltipSetUnit", function(self, tooltip)
+    GameTooltipStatusBar:Hide()
+end)
 
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
@@ -1551,7 +1555,7 @@ teamRatingFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 -- ^^ current value for testing:100, 400 was too cancerous - sometimes prevented the cast with /cqs+cast macro altogether
 
 -- Ingame commmand for classcoloured names in chat: /console SET chatClassColorOverride "0"
--- trying to remove the cancer wheather that is not part of the video settings as it used to be in 2.4.3: /console set weatherdensity 0 // /console WeatherDensity 0
+-- trying to remove the cancer weather that is not part of the video settings as it used to be in 2.4.3: /console set weatherdensity 0 // /console WeatherDensity 0
 
 -- Disable the ability to scroll chat with mouse wheel (fucks binds with the mouse-wheel-up/down): /console chatMouseScroll 0
 
