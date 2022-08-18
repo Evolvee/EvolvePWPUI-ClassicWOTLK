@@ -1277,7 +1277,8 @@ local function HandleNewNameplate(nameplate, unit)
         plateEventFrame:Show()
         return
     end
-    if name and HideNameplateNames[name] then
+    if (name and HideNameplateNames[name])
+    or (UnitCreatureFamily(unit) == "Ghoul" and (UnitIsOtherPlayersPet(unit) or UnitIsUnit(unit, "player-pet"))) then
         if nameplate.UnitFrame then
             nameplate.wasHidden = true
             nameplate.UnitFrame:Hide()
