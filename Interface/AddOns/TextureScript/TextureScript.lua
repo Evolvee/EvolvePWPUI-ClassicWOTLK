@@ -911,6 +911,11 @@ f:SetScript("OnEvent", OnEvent)
 --^^ BOTH HANDLED IN ADDON MoveAnyThing FOR NOW
 
 
+-- Removing Stance Bar (Shadowform icon literally the most useless and space-taking thing Lizzard invented in WOTLK)
+
+RegisterStateDriver(StanceBarFrame, "visibility", "hide")
+
+
 --disable mouseover flashing on buttons
 
 texture = MultiBarBottomLeftButton1:GetHighlightTexture()
@@ -1583,3 +1588,5 @@ ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK",0,20
 
 COMBAT_TEXT_RESIST = "SHIT EXPANSION"
 COMBAT_TEXT_MISS = "SHIT EXPANSION"
+
+
