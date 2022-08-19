@@ -84,7 +84,7 @@ Misc:RegisterEvent("UPDATE_MACROS");				--resync macros
 --Misc:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");	--refresh spells (and prevent spell promotion)
 Misc:RegisterEvent("PLAYER_REGEN_DISABLED");		--enter combat
 Misc:RegisterEvent("PLAYER_REGEN_ENABLED");			--out of combat 
-Misc:RegisterEvent("CURSOR_UPDATE");				--possibly show button grids
+-- Misc:RegisterEvent("CURSOR_UPDATE");				--possibly show button grids
 Misc:RegisterEvent("ACTIONBAR_SHOWGRID");			--...
 Misc:RegisterEvent("ACTIONBAR_HIDEGRID");			--...
 Misc:RegisterEvent("BAG_UPDATE");					--Refresh the bag item index cache

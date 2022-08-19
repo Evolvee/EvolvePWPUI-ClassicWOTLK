@@ -1270,6 +1270,8 @@ local HideNameplateNames = {
 	["Underbelly Croc"] = true,
 	["Vern"] = true,
 	["Army of the Dead Ghoul"] = true,
+	["Spirit Wolf"] = true,
+	["Treant"] = true,
 }
 
 local tremorTotems = {} -- {[totem GUID] = {[shaman]=GUID, nameplate=<nameplate frame>}, ...}
