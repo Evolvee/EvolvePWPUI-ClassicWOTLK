@@ -1,0 +1,4 @@
+
+MAITABPC = {
+	["CP"] = "DEFAULT",
+}

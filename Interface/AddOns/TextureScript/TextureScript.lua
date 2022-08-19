@@ -905,10 +905,13 @@ f:SetScript("OnEvent", OnEvent)
 
 
 --position of buff frame (for some reason Classic TBC has it more to the left than 2.4.3)
---positition of the 2 side action button bars, for some reason Classic TBC doesnt maximize the UI properly so its not possible to click on buttons by placing mouse to the border of the screen
+
+-- handled by addon D4KiR MoveAndImprove for now (until moveanything fixes their laggy shit I guess)
 
 
---^^ BOTH HANDLED IN ADDON MoveAnyThing FOR NOW
+
+--positition of the 2 side action button bars, for some reason Classic TBC doesnt maximize the UI properly so its not possible to click on buttons by placing mouse to the border of the screen, also original TBC multibars are placed way above the default classic ones...
+
 
 
 -- Removing Stance Bar (Shadowform icon literally the most useless and space-taking thing Lizzard invented in WOTLK)
@@ -1266,6 +1269,7 @@ local HideNameplateNames = {
 	["Venomous Snake"] = true,
 	["Underbelly Croc"] = true,
 	["Vern"] = true,
+	["Army of the Dead Ghoul"] = true,
 }
 
 local tremorTotems = {} -- {[totem GUID] = {[shaman]=GUID, nameplate=<nameplate frame>}, ...}

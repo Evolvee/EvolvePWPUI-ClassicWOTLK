@@ -7,6 +7,7 @@ BigDebuffsDB = {
 		["Magetest - Classic Arena - EU"] = "Default",
 		["Evolvepwp - Earthshaker"] = "Default",
 		["Evolvepwe - Classic Arena - EU"] = "Default",
+		["Evolve - Classic Beta PvP"] = "Default",
 		["Evolve - Classic PTR Realm 1"] = "Default",
 		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvebank - Gehennas"] = "Default",
@@ -33,8 +34,8 @@ BigDebuffsDB = {
 				["debuffs_offensive"] = false,
 				["immunities"] = false,
 				["roots"] = false,
-				["buffs_offensive"] = false,
 				["friendly"] = false,
+				["buffs_offensive"] = false,
 			},
 			["priority"] = {
 				["interrupts"] = 40,
@@ -54,7 +55,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[53271] = {
+				[29506] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -66,14 +67,15 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[46924] = {
+				[30456] = {
+					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
 				[47788] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[29506] = {
+				[53271] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -81,7 +83,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[53480] = {
+				[6940] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -93,7 +95,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[30456] = {
+				[31842] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -101,7 +103,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[23506] = {
+				[8178] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -113,7 +115,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[6940] = {
+				[53480] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -143,7 +145,7 @@ BigDebuffsDB = {
 				},
 				[31224] = {
 				},
-				[5384] = {
+				[26064] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -163,11 +165,11 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[26064] = {
+				[5384] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[12975] = {
+				[47585] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -183,11 +185,11 @@ BigDebuffsDB = {
 				},
 				[1022] = {
 				},
-				[12976] = {
+				[7812] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[23493] = {
+				[47484] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -199,7 +201,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[7812] = {
+				[12976] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -211,7 +213,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[47484] = {
+				[5277] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -223,22 +225,22 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[20216] = {
-					["nameplates"] = 0,
+				[6346] = {
 					["unitFrames"] = 0,
 				},
 				[64901] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[6346] = {
+				[20216] = {
+					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
 				[3411] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[5277] = {
+				[23493] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -246,7 +248,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[47585] = {
+				[12975] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -258,7 +260,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[8178] = {
+				[23506] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -274,8 +276,7 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[31842] = {
-					["nameplates"] = 0,
+				[46924] = {
 					["unitFrames"] = 0,
 				},
 				[64843] = {
@@ -299,6 +300,9 @@ BigDebuffsDB = {
 				["arena4"] = {
 				},
 				["enabled"] = false,
+				["player"] = {
+					["enabled"] = false,
+				},
 				["arena1"] = {
 				},
 				["arena3"] = {

@@ -94,24 +94,6 @@ MADB = {
 						2.9998779296875, -- [5]
 					},
 				},
-				["StanceButtonsMover"] = {
-					["orgPos"] = {
-						"BOTTOMLEFT", -- [1]
-						"MainMenuBar", -- [2]
-						"TOPLEFT", -- [3]
-						45, -- [4]
-						30, -- [5]
-					},
-					["name"] = "StanceButtonsMover",
-					["hidden"] = true,
-					["pos"] = {
-						"BOTTOMLEFT", -- [1]
-						"MainMenuBar", -- [2]
-						"TOPLEFT", -- [3]
-						45, -- [4]
-						30.00002288818359, -- [5]
-					},
-				},
 			},
 		},
 	},

@@ -1,6 +1,6 @@
 
 WeakAurasOptionsSaved = {
-	["magnetAlign"] = true,
+	["magnetAlign"] = false,
 	["spellCache"] = {
 		["Spotted"] = {
 			["spells"] = "2425=136173",
@@ -37716,7 +37716,7 @@ WeakAurasOptionsSaved = {
 			["spells"] = "42275=133151",
 		},
 		["Desecration"] = {
-			["spells"] = "36473=136192,55666=136199,55667=136199,55741=136199,67778=136199,67781=136199,67804=136199,68766=136199",
+			["spells"] = "36473=136192,55666=136199,55667=136199,55741=136199,63587=136199,67778=136199,67781=136199,67804=136199,68766=136199",
 		},
 		["Victory!"] = {
 			["spells"] = "42265=136101",
@@ -51495,9 +51495,10 @@ WeakAurasOptionsSaved = {
 	["locale"] = "enUS",
 	["needsRebuild"] = false,
 	["version"] = "4.0.2",
+	["lockPositions"] = true,
 	["savedSnippets"] = {
 	},
 	["spellCacheAchivements"] = true,
 	["spellCacheStrings"] = true,
-	["build"] = "44930",
+	["build"] = "45043",
 }

@@ -1,24 +1,25 @@
 
 OmniCCDB = {
-	["global"] = {
-		["dbVersion"] = 6,
-		["addonVersion"] = "9.0.8",
-	},
 	["profileKeys"] = {
 		["Evolvexd - Classic Arena - EU"] = "Default",
 		["Evolve - Badge of Justice"] = "Default",
 		["Evolve - Classic Arena - EU"] = "Default",
+		["Evolve - Launch Test"] = "Default",
 		["Magetest - Classic Arena - EU"] = "Default",
 		["Qwdqwdw - Badge of Justice"] = "Default",
 		["Evolvepwp - Earthshaker"] = "Default",
 		["Evolvepwe - Classic Arena - EU"] = "Default",
-		["Evolvebanned - Gehennas"] = "Default",
+		["Evolve - Classic Beta PvP"] = "Default",
 		["Evolve - Classic PTR Realm 1"] = "Default",
-		["Dbldogcheck - Firemaw"] = "Default",
+		["Evolvelulw - Earthshaker"] = "Default",
 		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvebank - Gehennas"] = "Default",
-		["Evolvelulw - Earthshaker"] = "Default",
-		["Evolve - Launch Test"] = "Default",
+		["Dbldogcheck - Firemaw"] = "Default",
+		["Evolvebanned - Gehennas"] = "Default",
+	},
+	["global"] = {
+		["dbVersion"] = 6,
+		["addonVersion"] = "9.2.0",
 	},
 	["profiles"] = {
 		["Default"] = {
@@ -60,12 +61,12 @@ OmniCCDB = {
 							["scale"] = 1,
 							["g"] = 0.8784313725490196,
 						},
-						["minutes"] = {
-						},
 						["seconds"] = {
-							["r"] = 0.9803921568627451,
-							["g"] = 0.984313725490196,
 							["b"] = 1,
+							["g"] = 0.984313725490196,
+							["r"] = 0.9803921568627451,
+						},
+						["minutes"] = {
 						},
 					},
 					["timerOffset"] = 1400,
@@ -80,9 +81,9 @@ OmniCCDB = {
 					["textStyles"] = {
 						["soon"] = {
 						},
-						["minutes"] = {
-						},
 						["seconds"] = {
+						},
+						["minutes"] = {
 						},
 					},
 				},
