@@ -7,7 +7,6 @@ local window = nil
 
 -- What state is the sack in?
 local state = "BugSackTabAll"
-local bulk = false
 local searchResults = {}
 local searchThrough = nil
 
@@ -20,15 +19,13 @@ local currentErrorObject = nil
 local tabs = nil
 
 local countLabel, sessionLabel, textArea = nil, nil, nil
-local nextButton, prevButton, sendButton, bulkButton = nil, nil, nil, nil
+local nextButton, prevButton, sendButton = nil, nil, nil
 local searchLabel, searchBox = nil, nil
 
 local sessionFormat = "%s - |cffff4411%s|r - |cff44ff44%d|r" -- <date> - <sent by> - <session id>
 local countFormat = "%d/%d" -- 1/10
 local sourceFormat = L["Sent by %s (%s)"]
 local localFormat = L["Local (%s)"]
-
-local bulkItemsPerPage = 20
 
 -- Updates the total bug count and so forth.
 local lastState = nil
@@ -76,66 +73,44 @@ local function updateSackDisplay(forceRefresh)
 			end
 		end
 	end
+	if not eo then eo = currentSackContents[currentErrorIndex] end
+	if not eo then eo = currentSackContents[size] end
+	if currentSackSession == -1 and eo then currentSackSession = eo.session end
 
-	if bulk then
-		local currentMinErrorIndex = currentErrorIndex - bulkItemsPerPage
-		if currentMinErrorIndex < 1 then
-			currentMinErrorIndex = 1
+	if size > 0 then
+		local source = nil
+		if eo.source then source = sourceFormat:format(eo.source, "error")
+		else source = localFormat:format("error") end
+		if eo.session == BugGrabber:GetSessionId() then
+			sessionLabel:SetText(sessionFormat:format(L["Today"], source, eo.session))
+		else
+			sessionLabel:SetText(sessionFormat:format(eo.time, source, eo.session))
 		end
-		sessionLabel:SetText("")
-		countLabel:SetText(("%d-%d / %d"):format(currentMinErrorIndex, currentErrorIndex, size))
-		textArea:SetText(addon:FormatAllErrors(currentSackContents, currentErrorIndex, bulkItemsPerPage))
+		countLabel:SetText(countFormat:format(currentErrorIndex, size))
+		textArea:SetText(addon:FormatError(eo))
 
 		if currentErrorIndex >= size then
 			nextButton:Disable()
 		else
 			nextButton:Enable()
 		end
-		if currentErrorIndex - bulkItemsPerPage <= 1 then
+		if currentErrorIndex <= 1 then
 			prevButton:Disable()
 		else
 			prevButton:Enable()
 		end
+		if sendButton then sendButton:Enable() end
 	else
-		if not eo then eo = currentSackContents[currentErrorIndex] end
-		if not eo then eo = currentSackContents[size] end
-		if currentSackSession == -1 and eo then currentSackSession = eo.session end
-
-		if size > 0 then
-			local source = nil
-			if eo.source then source = sourceFormat:format(eo.source, "error")
-			else source = localFormat:format("error") end
-			if eo.session == BugGrabber:GetSessionId() then
-				sessionLabel:SetText(sessionFormat:format(L["Today"], source, eo.session))
-			else
-				sessionLabel:SetText(sessionFormat:format(eo.time, source, eo.session))
-			end
-			countLabel:SetText(countFormat:format(currentErrorIndex, size))
-			textArea:SetText(addon:FormatError(eo))
-
-			if currentErrorIndex >= size then
-				nextButton:Disable()
-			else
-				nextButton:Enable()
-			end
-			if currentErrorIndex <= 1 then
-				prevButton:Disable()
-			else
-				prevButton:Enable()
-			end
-			if sendButton then sendButton:Enable() end
+		countLabel:SetText()
+		if currentSackSession == BugGrabber:GetSessionId() then
+			sessionLabel:SetText(("%s (%d)"):format(L["Today"], BugGrabber:GetSessionId()))
 		else
-			countLabel:SetText()
-			if currentSackSession == BugGrabber:GetSessionId() then
-				sessionLabel:SetText(("%s (%d)"):format(L["Today"], BugGrabber:GetSessionId()))
-			else
-				sessionLabel:SetText(("%d"):format(currentSackSession))
-			end
-			textArea:SetText(L["You have no bugs, yay!"])
-			nextButton:Disable()
-			prevButton:Disable()
-			if sendButton then sendButton:Disable() end
+			sessionLabel:SetText(("%d"):format(currentSackSession))
 		end
+		textArea:SetText(L["You have no bugs, yay!"])
+		nextButton:Disable()
+		prevButton:Disable()
+		if sendButton then sendButton:Disable() end
 	end
 
 	for i, t in next, tabs do
@@ -207,6 +182,7 @@ local function createBugSack()
 	window:SetMovable(true)
 	window:EnableMouse(true)
 	window:RegisterForDrag("LeftButton")
+	window:SetClampedToScreen(true)
 	window:SetScript("OnDragStart", window.StartMoving)
 	window:SetScript("OnDragStop", window.StopMovingOrSizing)
 	window:SetScript("OnShow", function()
@@ -300,25 +276,33 @@ local function createBugSack()
 	sessionLabel:SetHighlightFontObject("GameFontHighlightLeft")
 	sessionLabel:SetPoint("TOPLEFT", titlebg, 6, -1)
 	sessionLabel:SetPoint("BOTTOMRIGHT", titlebg, "BOTTOMRIGHT", -26, 1)
+	sessionLabel:RegisterForClicks("LeftButtonUp", "LeftButtonDown", "RightButtonUp", "RightButtonDown")
 	sessionLabel:SetScript("OnHide", function()
 		window:StopMovingOrSizing()
 	end)
-	--[[sessionLabel:SetScript("OnMouseUp", function()
+	sessionLabel:SetScript("OnMouseUp", function()
 		window:StopMovingOrSizing()
 	end)
 	sessionLabel:SetScript("OnMouseDown", function()
 		window:StartMoving()
-	end)]]
+	end)
 	sessionLabel:SetScript("OnDoubleClick", function()
 		sessionLabel:Hide()
 		searchLabel:Show()
 		searchBox:Show()
 		searchThrough = currentSackContents
 	end)
-	local quickTips = "|cff44ff44Double-click|r to filter bug reports. After you are done with the search results, return to the full sack by selecting a tab at the bottom. |cff44ff44Left-click|r and drag to move the window. |cff44ff44Right-click|r to close the sack and open the interface options for BugSack."
+	sessionLabel:SetScript("OnClick", function(self, button)
+		if button ~= "RightButton" then
+			return
+		end
+		window:Hide()
+		InterfaceOptionsFrame_OpenToCategory(addonName)
+	end)
+	local quickTips = L["quickTipsDesc"]
 	sessionLabel:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT", -8, 8)
-		GameTooltip:AddLine("Quick tips")
+		GameTooltip:AddLine(L["Quick tips"])
 		GameTooltip:AddLine(quickTips, 1, 1, 1, 1)
 		GameTooltip:Show()
 	end)
@@ -329,25 +313,16 @@ local function createBugSack()
 	end)
 
 	searchLabel = window:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-	searchLabel:SetText("Filter:")
+	searchLabel:SetText(L["Filter"]..":")
 	searchLabel:SetJustifyH("LEFT")
 	searchLabel:SetPoint("TOPLEFT", titlebg, 6, -3)
 	searchLabel:SetTextColor(1, 1, 1, 1)
 	searchLabel:Hide()
 
-	searchBox = CreateFrame("EditBox", nil, window, BackdropTemplateMixin and "BackdropTemplate")
+	searchBox = CreateFrame("EditBox", nil, window)
 	searchBox:SetTextInsets(4, 4, 0, 0)
 	searchBox:SetMaxLetters(50)
 	searchBox:SetFontObject("ChatFontNormal")
-	searchBox:SetBackdrop({
-		edgeFile = nil,
-		bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
-		insets = { left = 0, right = 0, top = 0, bottom = 0 },
-		tile = true,
-		tileSize = 16,
-		edgeSize = 0,
-	})
-	searchBox:SetBackdropColor(0, 0, 0, 0.5)
 	searchBox:SetScript("OnShow", function(self)
 		self:SetFocus()
 	end)
@@ -362,6 +337,10 @@ local function createBugSack()
 	searchBox:SetPoint("BOTTOMRIGHT", titlebg, "BOTTOMRIGHT", -26, 1)
 	searchBox:Hide()
 
+	local searchBackdrop = searchBox:CreateTexture(nil, "BACKGROUND")
+	searchBackdrop:SetAllPoints()
+	searchBackdrop:SetColorTexture(0, 0, 0, 0.5)
+
 	nextButton = CreateFrame("Button", "BugSackNextButton", window, "UIPanelButtonTemplate")
 	nextButton:SetPoint("BOTTOMRIGHT", window, -11, 16)
 	nextButton:SetFrameStrata("FULLSCREEN")
@@ -371,15 +350,7 @@ local function createBugSack()
 		if IsShiftKeyDown() then
 			currentErrorIndex = #currentSackContents
 		else
-			if bulk then
-				local size = #currentSackContents
-				currentErrorIndex = currentErrorIndex + bulkItemsPerPage
-				if currentErrorIndex > size then
-					currentErrorIndex = size
-				end
-			else
-				currentErrorIndex = currentErrorIndex + 1
-			end
+			currentErrorIndex = currentErrorIndex + 1
 		end
 		updateSackDisplay()
 	end)
@@ -390,50 +361,27 @@ local function createBugSack()
 	prevButton:SetWidth(130)
 	prevButton:SetText(L["< Previous"])
 	prevButton:SetScript("OnClick", function()
-		local size = #currentSackContents
 		if IsShiftKeyDown() then
-			if bulk then
-				currentErrorIndex = bulkItemsPerPage >= size and size or bulkItemsPerPage
-			else
-				currentErrorIndex = 1
-			end
+			currentErrorIndex = 1
 		else
-			if bulk then
-				currentErrorIndex = currentErrorIndex - bulkItemsPerPage
-				if currentErrorIndex < bulkItemsPerPage then
-					currentErrorIndex = bulkItemsPerPage
-				end
-				if currentErrorIndex > size then
-					currentErrorIndex = size
-				end
-			else
-				currentErrorIndex = currentErrorIndex - 1
-			end
+			currentErrorIndex = currentErrorIndex - 1
 		end
 		updateSackDisplay()
 	end)
 
-	sendButton = CreateFrame("Button", "BugSackSendButton", window, "UIPanelButtonTemplate")
-	sendButton:SetPoint("LEFT", prevButton, "RIGHT")
-	sendButton:SetWidth(110)
-	sendButton:SetFrameStrata("FULLSCREEN")
-	sendButton:SetText(L["Send"])
-	sendButton:SetScript("OnClick", function()
-		local eo = currentSackContents[currentErrorIndex]
-		StaticPopup_Show("BugSackSendBugs", eo.session, nil, eo.session)
-		window:Hide()
-	end)
-
-	bulkButton = CreateFrame("Button", "BugSackBulkButton", window, "UIPanelButtonTemplate")
-	bulkButton:SetPoint("LEFT", sendButton, "RIGHT")
-	bulkButton:SetPoint("RIGHT", nextButton, "LEFT")
-	bulkButton:SetFrameStrata("FULLSCREEN")
-	bulkButton:SetText((L["%d per %d"]):format(bulk and bulkItemsPerPage or 1, bulk and bulkItemsPerPage or 1))
-	bulkButton:SetScript("OnClick", function()
-		bulk = not bulk
-		bulkButton:SetText((L["%d per %d"]):format(bulk and bulkItemsPerPage or 1, bulk and bulkItemsPerPage or 1))
-		updateSackDisplay()
-	end)
+	if addon.Serialize then
+		sendButton = CreateFrame("Button", "BugSackSendButton", window, "UIPanelButtonTemplate")
+		sendButton:SetPoint("LEFT", prevButton, "RIGHT")
+		sendButton:SetPoint("RIGHT", nextButton, "LEFT")
+		sendButton:SetFrameStrata("FULLSCREEN")
+		sendButton:SetText(L["Send bugs"])
+		sendButton:SetScript("OnClick", function()
+			local eo = currentSackContents[currentErrorIndex]
+			local popup = StaticPopup_Show("BugSackSendBugs", eo.session)
+			popup.data = eo.session
+			window:Hide()
+		end)
+	end
 
 	local scroll = CreateFrame("ScrollFrame", "BugSackScroll", window, "UIPanelScrollFrameTemplate")
 	scroll:SetPoint("TOPLEFT", window, "TOPLEFT", 16, -36)

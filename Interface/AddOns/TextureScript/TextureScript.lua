@@ -1561,6 +1561,17 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self, tooltip)
 end)
 
 
+-- Remove the new WOTLK threat warning bullshit making frames highlighted with red/yellow textures
+
+SetCVar("threatWarning", 0)
+
+
+-- Remove the "highlight" dark texture when mouse-overing chat frame
+
+DEFAULT_CHATFRAME_ALPHA = 0
+
+
+
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
 
 

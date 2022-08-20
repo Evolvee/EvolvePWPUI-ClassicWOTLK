@@ -47,7 +47,11 @@ do
 		if not lastError or GetTime() > (lastError + 2) then
 			if not addon.db.mute then
 				local sound = media:Fetch("sound", addon.db.soundMedia)
-				PlaySoundFile(sound)
+				if addon.db.useMaster then
+					PlaySoundFile(sound, "Master")
+				else
+					PlaySoundFile(sound)
+				end
 			end
 			if addon.db.chatframe then
 				print(L["There's a bug in your soup!"])
@@ -118,6 +122,8 @@ do
 		if type(sv.chatframe) ~= "boolean" then sv.chatframe = false end
 		if type(sv.soundMedia) ~= "string" then sv.soundMedia = "BugSack: Fatality" end
 		if type(sv.fontSize) ~= "string" then sv.fontSize = "GameFontHighlight" end
+		if type(sv.altwipe) ~= "boolean" then sv.altwipe = false end
+		if type(sv.useMaster) ~= "boolean" then sv.useMaster = false end
 		addon.db = sv
 
 		-- Make sure we grab any errors fired before bugsack loaded.
@@ -226,24 +232,6 @@ function addon:Reset()
 	BugGrabber:Reset()
 	self:UpdateDisplay()
 	print(L["All stored bugs have been exterminated painfully."])
-end
-
-function addon:FormatAllErrors(data, index, itemsPerPage)
-	local output = ""
-	local formatStr = [[%s*** %s - %d/%d
-
-%s
-
-]]
-	local size = #data
-	local i = index
-	while i > 0 and i >= index - itemsPerPage do
-		local eo = data[i]
-		output = formatStr:format(output, eo.time, i, size, addon:FormatError(eo))
-		i = i - 1
-	end
-
-	return output
 end
 
 -- Sends the current session errors to another player using AceComm-3.0

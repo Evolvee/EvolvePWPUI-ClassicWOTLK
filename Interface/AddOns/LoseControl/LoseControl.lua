@@ -376,7 +376,6 @@ local spellIds = {
 	[32699]  = "Snare",				-- Avenger's Shield (rank 2) (talent)
 	[32700]  = "Snare",				-- Avenger's Shield (rank 3) (talent)
 	[31884]  = "Other",				-- Avenging Wrath
-	[31842]  = "Other",				-- Divine Illumination (talent)
 	--[31854]  = "Other",				-- Ardent Defender (damage taken reduced by 30%)
 
 	----------------
