@@ -1,5 +1,6 @@
 --EVOLVE PWP UI
 
+local string_split = string.split
 
 --dark theme
 local frame2=CreateFrame("Frame")
@@ -1160,118 +1161,125 @@ end
 
 -- Highlight Tremor Totem (disable nameplates of everything else) + disable Snake Trap Cancer + prevent displaying already dead Tremor Totem (retarded Classic-like behavior)
 
-local HideNameplateNames = {
-	["Earth Elemental Totem"] = true,
-	["Earthbind Totem"] = true,
-	["Fire Elemental Totem"] = true,
-	["Fire Resistance Totem"] = true,
-	["Fire Resistance Totem II"] = true,
-	["Fire Resistance Totem III"] = true,
-	["Fire Resistance Totem IV"] = true,
-	["Fire Resistance Totem V"] = true,
-	["Fire Resistance Totem VI"] = true,
-	["Flametongue Totem"] = true,
-	["Flametongue Totem II"] = true,
-	["Flametongue Totem III"] = true,
-	["Flametongue Totem IV"] = true,
-	["Flametongue Totem V"] = true,
-	["Flametongue Totem VI"] = true,
-	["Flametongue Totem VII"] = true,
-	["Flametongue Totem VIII"] = true,
-	["Frost Resistance Totem"] = true,
-	["Frost Resistance Totem II"] = true,
-	["Frost Resistance Totem III"] = true,
-	["Frost Resistance Totem IV"] = true,
-	["Frost Resistance Totem V"] = true,
-	["Frost Resistance Totem VI"] = true,
-	["Grounding Totem"] = true,
-	["Healing Stream Totem"] = true,
-	["Healing Stream Totem II"] = true,
-	["Healing Stream Totem III"] = true,
-	["Healing Stream Totem IV"] = true,
-	["Healing Stream Totem V"] = true,
-	["Healing Stream Totem VI"] = true,
-	["Healing Stream Totem VII"] = true,
-	["Healing Stream Totem VIII"] = true,
-	["Healing Stream Totem IX"] = true,
-	["Healing Stream Totem X"] = true,
-	["Magma Totem"] = true,
-	["Magma Totem II"] = true,
-	["Magma Totem III"] = true,
-	["Magma Totem IV"] = true,
-	["Magma Totem V"] = true,
-	["Magma Totem VI"] = true,
-	["Magma Totem VII"] = true,
-	["Mana Spring Totem"] = true,
-	["Mana Spring Totem II"] = true,
-	["Mana Spring Totem III"] = true,
-	["Mana Spring Totem IV"] = true,
-	["Mana Spring Totem V"] = true,
-	["Mana Spring Totem VI"] = true,
-	["Mana Spring Totem VII"] = true,
-	["Mana Spring Totem VIII"] = true,
-	["Mana Tide Totem"] = true,
-	["Nature Resistance Totem"] = true,
-	["Nature Resistance Totem II"] = true,
-	["Nature Resistance Totem III"] = true,
-	["Nature Resistance Totem IV"] = true,
-	["Nature Resistance Totem V"] = true,
-	["Nature Resistance Totem VI"] = true,
-	["Searing Totem"] = true,
-	["Searing Totem II"] = true,
-	["Searing Totem III"] = true,
-	["Searing Totem IV"] = true,
-	["Searing Totem V"] = true,
-	["Searing Totem VI"] = true,
-	["Searing Totem VII"] = true,
-	["Searing Totem VIII"] = true,
-	["Searing Totem IX"] = true,
-	["Searing Totem X"] = true,
-	["Sentry Totem"] = true,
-	["Stoneclaw Totem"] = true,
-	["Stoneclaw Totem II"] = true,
-	["Stoneclaw Totem III"] = true,
-	["Stoneclaw Totem IV"] = true,
-	["Stoneclaw Totem V"] = true,
-	["Stoneclaw Totem VI"] = true,
-	["Stoneclaw Totem VII"] = true,
-	["Stoneclaw Totem VIII"] = true,
-	["Stoneclaw Totem IX"] = true,
-	["Stoneclaw Totem X"] = true,
-	["Stoneskin Totem"] = true,
-	["Stoneskin Totem II"] = true,
-	["Stoneskin Totem III"] = true,
-	["Stoneskin Totem IV"] = true,
-	["Stoneskin Totem V"] = true,
-	["Stoneskin Totem VI"] = true,
-	["Stoneskin Totem VII"] = true,
-	["Stoneskin Totem VIII"] = true,
-	["Stoneskin Totem IX"] = true,
-	["Stoneskin Totem X"] = true,
-	["Strength of Earth Totem"] = true,
-	["Strength of Earth Totem II"] = true,
-	["Strength of Earth Totem III"] = true,
-	["Strength of Earth Totem IV"] = true,
-	["Strength of Earth Totem V"] = true,
-	["Strength of Earth Totem VI"] = true,
-	["Strength of Earth Totem VII"] = true,
-	["Strength of Earth Totem VIII"] = true,
-	["Totem of Wrath"] = true,
-	["Totem of Wrath II"] = true,
-	["Totem of Wrath III"] = true,
-	["Totem of Wrath IV"] = true,
-	["Windfury Totem"] = true,
-	["Wrath of Air Totem"] = true,
-	["Cleansing Totem"] = true,
+local HideNameplateUnits = {
+    ["Earth Elemental Totem"] = true,
+    ["Earthbind Totem"] = true,
+    ["Fire Elemental Totem"] = true,
+    ["Fire Resistance Totem"] = true,
+    ["Fire Resistance Totem II"] = true,
+    ["Fire Resistance Totem III"] = true,
+    ["Fire Resistance Totem IV"] = true,
+    ["Fire Resistance Totem V"] = true,
+    ["Fire Resistance Totem VI"] = true,
+    ["Flametongue Totem"] = true,
+    ["Flametongue Totem II"] = true,
+    ["Flametongue Totem III"] = true,
+    ["Flametongue Totem IV"] = true,
+    ["Flametongue Totem V"] = true,
+    ["Flametongue Totem VI"] = true,
+    ["Flametongue Totem VII"] = true,
+    ["Flametongue Totem VIII"] = true,
+    ["Frost Resistance Totem"] = true,
+    ["Frost Resistance Totem II"] = true,
+    ["Frost Resistance Totem III"] = true,
+    ["Frost Resistance Totem IV"] = true,
+    ["Frost Resistance Totem V"] = true,
+    ["Frost Resistance Totem VI"] = true,
+    ["Grounding Totem"] = true,
+    ["Healing Stream Totem"] = true,
+    ["Healing Stream Totem II"] = true,
+    ["Healing Stream Totem III"] = true,
+    ["Healing Stream Totem IV"] = true,
+    ["Healing Stream Totem V"] = true,
+    ["Healing Stream Totem VI"] = true,
+    ["Healing Stream Totem VII"] = true,
+    ["Healing Stream Totem VIII"] = true,
+    ["Healing Stream Totem IX"] = true,
+    ["Healing Stream Totem X"] = true,
+    ["Magma Totem"] = true,
+    ["Magma Totem II"] = true,
+    ["Magma Totem III"] = true,
+    ["Magma Totem IV"] = true,
+    ["Magma Totem V"] = true,
+    ["Magma Totem VI"] = true,
+    ["Magma Totem VII"] = true,
+    ["Mana Spring Totem"] = true,
+    ["Mana Spring Totem II"] = true,
+    ["Mana Spring Totem III"] = true,
+    ["Mana Spring Totem IV"] = true,
+    ["Mana Spring Totem V"] = true,
+    ["Mana Spring Totem VI"] = true,
+    ["Mana Spring Totem VII"] = true,
+    ["Mana Spring Totem VIII"] = true,
+    ["Mana Tide Totem"] = true,
+    ["Nature Resistance Totem"] = true,
+    ["Nature Resistance Totem II"] = true,
+    ["Nature Resistance Totem III"] = true,
+    ["Nature Resistance Totem IV"] = true,
+    ["Nature Resistance Totem V"] = true,
+    ["Nature Resistance Totem VI"] = true,
+    ["Searing Totem"] = true,
+    ["Searing Totem II"] = true,
+    ["Searing Totem III"] = true,
+    ["Searing Totem IV"] = true,
+    ["Searing Totem V"] = true,
+    ["Searing Totem VI"] = true,
+    ["Searing Totem VII"] = true,
+    ["Searing Totem VIII"] = true,
+    ["Searing Totem IX"] = true,
+    ["Searing Totem X"] = true,
+    ["Sentry Totem"] = true,
+    ["Stoneclaw Totem"] = true,
+    ["Stoneclaw Totem II"] = true,
+    ["Stoneclaw Totem III"] = true,
+    ["Stoneclaw Totem IV"] = true,
+    ["Stoneclaw Totem V"] = true,
+    ["Stoneclaw Totem VI"] = true,
+    ["Stoneclaw Totem VII"] = true,
+    ["Stoneclaw Totem VIII"] = true,
+    ["Stoneclaw Totem IX"] = true,
+    ["Stoneclaw Totem X"] = true,
+    ["Stoneskin Totem"] = true,
+    ["Stoneskin Totem II"] = true,
+    ["Stoneskin Totem III"] = true,
+    ["Stoneskin Totem IV"] = true,
+    ["Stoneskin Totem V"] = true,
+    ["Stoneskin Totem VI"] = true,
+    ["Stoneskin Totem VII"] = true,
+    ["Stoneskin Totem VIII"] = true,
+    ["Stoneskin Totem IX"] = true,
+    ["Stoneskin Totem X"] = true,
+    ["Strength of Earth Totem"] = true,
+    ["Strength of Earth Totem II"] = true,
+    ["Strength of Earth Totem III"] = true,
+    ["Strength of Earth Totem IV"] = true,
+    ["Strength of Earth Totem V"] = true,
+    ["Strength of Earth Totem VI"] = true,
+    ["Strength of Earth Totem VII"] = true,
+    ["Strength of Earth Totem VIII"] = true,
+    ["Totem of Wrath"] = true,
+    ["Totem of Wrath II"] = true,
+    ["Totem of Wrath III"] = true,
+    ["Totem of Wrath IV"] = true,
+    ["Windfury Totem"] = true,
+    ["Wrath of Air Totem"] = true,
+    ["Cleansing Totem"] = true,
 
+    ["Viper"] = true,
+    ["Venomous Snake"] = true,
+    ["Underbelly Croc"] = true,
+    ["Vern"] = true,
+    ["Army of the Dead Ghoul"] = true,
+    ["Spirit Wolf"] = true,
+    ["Treant"] = true,
 
-	["Viper"] = true,
-	["Venomous Snake"] = true,
-	["Underbelly Croc"] = true,
-	["Vern"] = true,
-	["Army of the Dead Ghoul"] = true,
-	["Spirit Wolf"] = true,
-	["Treant"] = true,
+    ["31216"] = true, -- Mirror Image
+}
+
+local ShowNameplatePetIds = {
+    ["417"] = true, -- Felhunter
+    ["1863"] = true, -- Succubus
+    ["185317"] = true, -- Incubus
 }
 
 local tremorTotems = {} -- {[totem GUID] = {[shaman]=GUID, nameplate=<nameplate frame>}, ...}
@@ -1295,35 +1303,23 @@ local function HandleNewNameplate(nameplate, unit)
         plateEventFrame:Show()
         return
     end
-    if name and HideNameplateNames[name] then
+
+    local creatureType, _, _, _, _, npcId = string_split("-", UnitGUID(unit))
+    if (HideNameplateUnits[name] or HideNameplateUnits[npcId])
+    or (creatureType == "Pet" and not ShowNameplatePetIds[npcId]) then
         HideNameplate(nameplate)
-    elseif (UnitIsOtherPlayersPet(unit) or UnitIsUnit(unit, "player-pet")) then
-        local family = UnitCreatureFamily(unit)
-        if family ~= "Felhunter" and family ~= "Incubus" and family ~= "Succubus" then
-            HideNameplate(nameplate)
-        end
-    elseif (IsBattlefieldArena()) and not UnitIsPlayer(unit) and UnitCreatureType(unit) == "Humanoid" and (select(2, UnitClass(unit))) == "MAGE" then
-        local name = UnitName(unit)
-        for i=1,5 do
-            if name == GetUnitName("arena"..i) then
-                HideNameplate(nameplate)
-                break
+    elseif name == "Tremor Totem" then
+        local texture = (nameplate.UnitFrame.healthBar.border:GetRegions())
+        local guid = UnitGUID(unit)
+        if guid then
+            local totem = tremorTotems[guid]
+            if totem then
+                totem.nameplate = nameplate
+            else
+                tremorTotems[guid] = {["shaman"] = "Unknown", ["nameplate"] = nameplate}
             end
-        end
-    else
-        if name == "Tremor Totem" then
-            local texture = (nameplate.UnitFrame.healthBar.border:GetRegions())
-            local guid = UnitGUID(unit)
-            if guid then
-                local totem = tremorTotems[guid]
-                if totem then
-                    totem.nameplate = nameplate
-                else
-                    tremorTotems[guid] = {["shaman"] = "Unknown", ["nameplate"] = nameplate}
-                end
-                nameplate.tremorTotemGuid = guid
-                texture:SetTexture("Interface/Addons/TextureScript/Nameplate-Border-TREMOR.blp")
-            end
+            nameplate.tremorTotemGuid = guid
+            texture:SetTexture("Interface/Addons/TextureScript/Nameplate-Border-TREMOR.blp")
         end
     end
 end
