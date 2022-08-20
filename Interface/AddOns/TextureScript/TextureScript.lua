@@ -1280,6 +1280,13 @@ local nameplatesToRecheck = {}
 local plateEventFrame = CreateFrame("frame")
 plateEventFrame:Hide()
 
+local function HideNameplate(nameplate)
+    if nameplate.UnitFrame then
+        nameplate.wasHidden = true
+        nameplate.UnitFrame:Hide()
+    end
+end
+
 local function HandleNewNameplate(nameplate, unit)
     local name = UnitName(unit)
     if name == "Unknown" then
@@ -1288,11 +1295,20 @@ local function HandleNewNameplate(nameplate, unit)
         plateEventFrame:Show()
         return
     end
-    if (name and HideNameplateNames[name])
-    or (UnitCreatureFamily(unit) == "Ghoul" and (UnitIsOtherPlayersPet(unit) or UnitIsUnit(unit, "player-pet"))) then
-        if nameplate.UnitFrame then
-            nameplate.wasHidden = true
-            nameplate.UnitFrame:Hide()
+    if name and HideNameplateNames[name] then
+        HideNameplate(nameplate)
+    elseif (UnitIsOtherPlayersPet(unit) or UnitIsUnit(unit, "player-pet")) then
+        local family = UnitCreatureFamily(unit)
+        if family ~= "Felhunter" and family ~= "Incubus" and family ~= "Succubus" then
+            HideNameplate(nameplate)
+        end
+    elseif (IsBattlefieldArena()) and not UnitIsPlayer(unit) and UnitCreatureType(unit) == "Humanoid" and (select(2, UnitClass(unit))) == "MAGE" then
+        local name = UnitName(unit)
+        for i=1,5 do
+            if name == GetUnitName("arena"..i) then
+                HideNameplate(nameplate)
+                break
+            end
         end
     else
         if name == "Tremor Totem" then
