@@ -1108,6 +1108,11 @@ local sounds = {
 	569775, -- sound/spells/fizzle/fizzlefrosta.ogg
 	569776, -- sound/spells/fizzle/fizzleshadowa.ogg
 	567407, -- sound/interface/uchatscrollbutton.ogg annoying clicking sound when you press a spell on action bar
+	598127, -- DalaranArena_WaterIncoming
+	565772, -- DalaranSewer_ArenaWaterFall_Closed
+	569506, -- DalaranSewer_ArenaWaterFall_Close
+	598178, -- Orgrimmar_Arena_PillarWarning
+
 }
 
 for _, fdid in pairs(sounds) do
