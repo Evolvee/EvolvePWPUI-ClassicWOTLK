@@ -1277,6 +1277,7 @@ local HideNameplateUnits = {
     ["Army of the Dead Ghoul"] = true,
     ["Spirit Wolf"] = true,
     ["Treant"] = true,
+    ["Risen Ghoul"] = true,
 
     ["31216"] = true, -- Mirror Image
 }
@@ -1310,7 +1311,7 @@ local function HandleNewNameplate(nameplate, unit)
     end
 
     local creatureType, _, _, _, _, npcId = string_split("-", UnitGUID(unit))
-    if (HideNameplateUnits[name] or HideNameplateUnits[npcId])
+        if (HideNameplateUnits[name] or HideNameplateUnits[npcId])
     or (creatureType == "Pet" and not ShowNameplatePetIds[npcId]) then
         HideNameplate(nameplate)
     elseif name == "Tremor Totem" then
@@ -1326,6 +1327,9 @@ local function HandleNewNameplate(nameplate, unit)
             nameplate.tremorTotemGuid = guid
             texture:SetTexture("Interface/Addons/TextureScript/Nameplate-Border-TREMOR.blp")
         end
+    elseif name == "Ebon Gargoyle" then
+        local texture = (nameplate.UnitFrame.healthBar.border:GetRegions())
+        texture:SetTexture("Interface/Addons/TextureScript/Nameplate-Border-GARGOYLE.blp")
     end
 end
 
