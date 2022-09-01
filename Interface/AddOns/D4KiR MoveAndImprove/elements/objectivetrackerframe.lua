@@ -1,4 +1,0 @@
-
-function MAISetupObjectiveTrackerFrame()
-    
-end

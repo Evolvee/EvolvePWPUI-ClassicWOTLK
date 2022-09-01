@@ -1604,6 +1604,25 @@ hooksecurefunc("AuraButton_Update", function(buttonName, index, filter)
 	if spellId == 30708 then buff:Hide() end
 end)
 
+-- Change position of player buffs/debuffs - from MoveAny
+local btnsize = 36
+local MABuffBar = CreateFrame( "FRAME", "MABuffBar", UIParent )
+MABuffBar:SetPoint( "TOPRIGHT", UIParent, "TOPRIGHT", -180, -13 )
+MABuffBar:SetSize( btnsize * 8, btnsize * 6 )
+
+hooksecurefunc( BuffFrame, "SetPoint", function( self, ... )
+    if self.masetpoint_buff then return end
+    self.masetpoint_buff = true
+
+    self:SetMovable( true )
+    self:ClearAllPoints()
+    self:SetPoint( "TOPRIGHT", MABuffBar, "TOPRIGHT", 0, 0 )
+
+    self.masetpoint_buff = false
+end )
+BuffFrame:ClearAllPoints()
+BuffFrame:SetPoint( "TOPRIGHT", MABuffBar, "TOPRIGHT", 0, 0 )
+
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
 
