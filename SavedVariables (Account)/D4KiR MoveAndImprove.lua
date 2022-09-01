@@ -377,11 +377,11 @@ MAITAB = {
 			["MAIMicroButtonshide"] = false,
 			["GVhide"] = false,
 			["UIErrorsFramepoint"] = "TOP",
-			["ObjectiveTrackerFramescale"] = 1,
-			["GroupLootFrame1relativePoint"] = "CENTER",
-			["ZoneAbilityFramemove"] = true,
-			["PlayerChoiceToggleButtonsizew"] = 60,
 			["SpellBookFrameEnabled"] = true,
+			["GroupLootFrame1relativePoint"] = "CENTER",
+			["MAIMoneyBarofsx"] = 0,
+			["PlayerChoiceToggleButtonsizew"] = 60,
+			["ObjectiveTrackerFramescale"] = 1,
 			["FocusFramehideartwork"] = true,
 			["ActionBar8hidena"] = false,
 			["FocusFrameofsx"] = 410,
@@ -419,9 +419,9 @@ MAITAB = {
 			["MAIBossListhide"] = false,
 			["MirrorTimer1relativePoint"] = "TOP",
 			["GameMenuFrameEnabled"] = true,
-			["MAIMicroButtonsrow"] = 0,
 			["PlayerPowerBarAltpoint"] = "TOP",
-			["GVhideartwork"] = true,
+			["MAIMicroButtonsrow"] = 0,
+			["ActionBar6hidena"] = false,
 			["BagBarofsx"] = 0,
 			["MAISkillsalpha2"] = 1,
 			["MAISkillsalpha"] = 1,
@@ -461,7 +461,7 @@ MAITAB = {
 			["TargetFrameimprovements"] = true,
 			["MAIMENUMOVINGofsy"] = 64,
 			["HelpFrameEnabled"] = true,
-			["MAISkillsofsy"] = 0,
+			["BankFrameScale"] = true,
 			["GroupLootFrame1hide"] = false,
 			["CharacterFrameScale"] = true,
 			["ContainerFrame5Enabled"] = false,
@@ -481,35 +481,32 @@ MAITAB = {
 			["ActionBar6relativePoint"] = "BOTTOM",
 			["PingFramealpha2"] = 1,
 			["KeyBindingFrameEnabled"] = true,
+			["MAIProfilesofsy"] = 178,
+			["ActionBar4alpha"] = 1,
+			["MainMenuBarVehicleLeaveButtonofsy"] = 120,
 			["MerchantFrameparent"] = {
 				["variablesLoaded"] = true,
 				["firstTimeLoaded"] = 1,
 			},
-			["ActionBar4alpha"] = 1,
-			["MainMenuBarVehicleLeaveButtonofsy"] = 120,
-			["MAIProfilesofsy"] = 178,
-			["WeeklyRewardsFrameEnabled"] = true,
+			["BagBarofsy"] = 36,
 			["ActionBar7alpha"] = 1,
 			["ArenaEnemyFramesEnabled"] = false,
 			["PingFramerelativePoint"] = "TOPLEFT",
 			["VehicleSeatIndicatoralpha"] = 1,
-			["BagBarofsy"] = 36,
+			["WeeklyRewardsFrameEnabled"] = true,
 			["ActionBar2hidena"] = false,
-			["InterfaceOptionsFrameparent"] = {
-				["variablesLoaded"] = true,
-				["firstTimeLoaded"] = 1,
-			},
+			["MirrorTimer1Enabled"] = true,
 			["MAIStatusBarautoselectfaction"] = true,
 			["ActionBar8Enabled"] = true,
 			["ObjectiveTrackerFramerelativePoint"] = "RIGHT",
 			["Minimaphide"] = false,
 			["StanceBarsizeh"] = 60,
-			["PetBarsizew"] = 60,
+			["ActionBar10count"] = 12,
 			["MAIBuffFramemove"] = true,
 			["UIWidgetTopCenterContainerFramescale"] = 1,
 			["ActionBar5spacing"] = 8,
 			["MAIDebuffFrameEnabled"] = false,
-			["ActionBar10count"] = 12,
+			["PetBarsizew"] = 60,
 			["TradeSkillFrameScale"] = true,
 			["DurabilityFramesizew"] = 60,
 			["minimapbuttonshideartwork"] = true,
@@ -554,13 +551,16 @@ MAITAB = {
 			["FocusFramesizeh"] = 60,
 			["UIErrorsFrameimprovements"] = true,
 			["PlayerPowerBarAltscale"] = 1,
-			["PlayerPowerBarAltsizeh"] = 40,
-			["ContainerFrame4Enabled"] = false,
+			["SpellBookFrameparent"] = {
+				["variablesLoaded"] = true,
+				["firstTimeLoaded"] = 1,
+			},
+			["FocusFramehide"] = false,
 			["PlayerPowerBarAltrelativePoint"] = "TOP",
 			["ActionBar3hide"] = false,
 			["ExtraActionButton1alpha2"] = 1,
+			["ContainerFrame4Enabled"] = false,
 			["ActionBar5scale"] = 1,
-			["FocusFramehide"] = false,
 			["ExtraActionButton1Enabled"] = true,
 			["TalkingHeadFramemove"] = true,
 			["UIWidgetTopCenterContainerFrameofsx"] = 0,
@@ -598,19 +598,16 @@ MAITAB = {
 			["PetBarmove"] = true,
 			["toggler"] = false,
 			["StanceBarsizew"] = 60,
-			["GVscale"] = 1,
-			["ActionBar5ofsx"] = 430,
 			["ActionBar6ofsy"] = 40,
-			["ActionBar7move"] = true,
+			["ActionBar5ofsx"] = 430,
+			["PVEFrameEnabled"] = true,
+			["MAIBossListalpha"] = 1,
 			["ActionBar4count"] = 12,
-			["QuestFrameEnabled"] = true,
+			["ActionBar7move"] = true,
 			["ActionBar9spacing"] = 8,
 			["ActionBar2spacing"] = 8,
 			["PingFramemove"] = true,
-			["AddonListparent"] = {
-				["variablesLoaded"] = true,
-				["firstTimeLoaded"] = 1,
-			},
+			["ChatFrame1sizew"] = 60,
 			["StanceBaralpha2"] = 1,
 			["ActionBar1row"] = 0,
 			["Minimaphideartwork"] = true,
@@ -628,9 +625,9 @@ MAITAB = {
 			["minimapbuttonsEnabled"] = true,
 			["TalkingHeadFramealpha2"] = 1,
 			["UIWidgetBelowMinimapContainerFramealpha"] = 1,
-			["ContainerFrame2Enabled"] = false,
-			["ActionBar1relativePoint"] = "BOTTOM",
 			["ActionBar3spacing"] = 8,
+			["ActionBar1relativePoint"] = "BOTTOM",
+			["ActionBar1move"] = true,
 			["StanceBaralpha"] = 1,
 			["ChatFrame1point"] = "BOTTOMLEFT",
 			["DressUpFrameScale"] = true,
@@ -639,14 +636,14 @@ MAITAB = {
 			["ChatFrame1improvements"] = true,
 			["TargetFrameofsx"] = 120,
 			["MAIMoneyBarrelativePoint"] = "BOTTOMRIGHT",
-			["BagBarpoint"] = "BOTTOMRIGHT",
 			["ActionBar3ofsy"] = 0,
-			["MAIStatusBarpoint"] = "TOP",
+			["BagBarpoint"] = "BOTTOMRIGHT",
+			["MirrorTimer1alpha2"] = 1,
 			["GroupLootFrame1move"] = true,
-			["CastingBarFrameEnabled"] = true,
-			["StanceBarpoint"] = "BOTTOM",
-			["ActionBar3hidehk"] = false,
 			["MinimapEnabled"] = true,
+			["StanceBarpoint"] = "BOTTOM",
+			["MAIMicroButtonscount"] = 9,
+			["CastingBarFrameEnabled"] = true,
 			["ChatFrame1alpha2"] = 1,
 			["MAIStatusBarwidth"] = 1000,
 			["MAIStatusBarimprovements"] = true,
@@ -661,12 +658,12 @@ MAITAB = {
 			["TalkingHeadFramescale"] = 1,
 			["StanceBarofsy"] = 120,
 			["ChallengesKeystoneFrameEnabled"] = true,
-			["PingFramesizeh"] = 60,
+			["ActionBar3Enabled"] = true,
 			["GroupLootFrame1alpha2"] = 1,
 			["PlayerChoiceToggleButtonimprovements"] = true,
-			["ActionBar3Enabled"] = true,
+			["PingFramesizeh"] = 60,
 			["CovenantMissionFrameEnabled"] = true,
-			["UIErrorsFrameofsy"] = -170,
+			["PaperDollFrameshowilvl"] = true,
 			["ActionBar1sizeh"] = 60,
 			["MainMenuBarVehicleLeaveButtonhideartwork"] = true,
 			["LootFrameparent"] = {
@@ -675,20 +672,20 @@ MAITAB = {
 			},
 			["InterfaceEnabled"] = true,
 			["VehicleSeatIndicatorimprovements"] = true,
-			["ActionBar4Enabled"] = true,
-			["MAIBossListrelativePoint"] = "RIGHT",
 			["ChatFrame1ofsy"] = 0,
-			["ActionBar3relativePoint"] = "RIGHT",
 			["ActionBar4relativePoint"] = "RIGHT",
+			["ActionBar4Enabled"] = true,
+			["ActionBar3relativePoint"] = "RIGHT",
+			["VideoOptionsFrameScale"] = true,
 			["MAIBossListhideartwork"] = true,
 			["minimapbuttonshide"] = false,
 			["GameTooltipmove"] = true,
-			["MAIMoneyBaralpha2"] = 1,
+			["TargetFramealpha"] = 1,
 			["PetBarrow"] = 0,
 			["MAIMicroButtonsalpha2"] = 1,
-			["TargetFramealpha"] = 1,
+			["MAIMoneyBaralpha2"] = 1,
 			["PingFramehideartwork"] = true,
-			["ContainerFrame5Scale"] = false,
+			["PlayerChoiceToggleButtonscale"] = 1,
 			["CastingBarFramesizew"] = 60,
 			["LootFrameScale"] = true,
 			["ActionBar3count"] = 12,
@@ -696,35 +693,35 @@ MAITAB = {
 			["PVPMatchScoreboardEnabled"] = true,
 			["PetBarsizeh"] = 60,
 			["QuickKeybindFrameEnabled"] = true,
-			["MAIMicroButtonsrows"] = 1,
+			["UIWidgetTopCenterContainerFramealpha2"] = 1,
 			["ObjectiveTrackerFramehideartwork"] = true,
-			["MirrorTimer1point"] = "TOP",
+			["GossipFrameScale"] = true,
 			["PingFrameofsx"] = 0,
 			["BagBarhideartwork"] = true,
 			["ActionBar8alpha2"] = 1,
 			["GameTooltiprelativePoint"] = "BOTTOMRIGHT",
-			["PlayerTalentFrameScale"] = true,
-			["UIWidgetTopCenterContainerFramealpha2"] = 1,
-			["UIWidgetBelowMinimapContainerFramehideartwork"] = true,
-			["ActionBar6improvements"] = true,
+			["ActionBar8sizeh"] = 60,
+			["MAIBuffFramehideartwork"] = true,
+			["FPSFrameofsy"] = 0,
+			["MAIMENUMOVINGrelativePoint"] = "CENTER",
 			["PetBarhidena"] = false,
 			["ActionBar6Enabled"] = true,
 			["PlayerFrameimprovements"] = true,
-			["GossipFrameScale"] = true,
-			["ActionBar8sizeh"] = 60,
+			["MirrorTimer1point"] = "TOP",
+			["PlayerTalentFrameScale"] = true,
 			["MAIBossListsizew"] = 60,
 			["MAIProfilesofsx"] = -58,
-			["ActionBar7rows"] = 1,
-			["MAIBuffFramehideartwork"] = true,
+			["Minimapalpha"] = 1,
+			["ExtraActionButton1ofsy"] = -80,
 			["WeeklyRewardsFrameScale"] = true,
 			["TalkingHeadFrameEnabled"] = true,
 			["GameMenuFrameparent"] = {
 				["variablesLoaded"] = true,
 				["firstTimeLoaded"] = 1,
 			},
-			["MailFrameEnabled"] = true,
+			["MirrorTimer1move"] = true,
 			["CastingBarFrameofsy"] = -190,
-			["DurabilityFramegold"] = true,
+			["ActionBar7rows"] = 1,
 			["TalkingHeadFramesizew"] = 570,
 			["VehicleSeatIndicatormove"] = true,
 			["AlertFramehide"] = false,
@@ -737,17 +734,17 @@ MAITAB = {
 			["TargetFramealpha2"] = 1,
 			["UIWidgetTopCenterContainerFramesizeh"] = 60,
 			["MAIMENUMOVING.rMAIUIColorR"] = 0.15,
-			["ActionBar8ofsy"] = 0,
 			["BagBarmove"] = true,
+			["ActionBar8ofsy"] = 0,
 			["ChatFrame1hide"] = false,
 			["AlertFramesizew"] = 60,
 			["MAIStatusBarmove"] = true,
-			["ZoneAbilityFrameofsy"] = 30,
-			["PlayerPowerBarAlthide"] = false,
-			["ActionBar5sizew"] = 60,
-			["hidehidden"] = true,
-			["TalkingHeadFramesizeh"] = 155,
-			["ExtraActionButton1relativePoint"] = "CENTER",
+			["VehicleSeatIndicatorpoint"] = "BOTTOM",
+			["MirrorTimer1improvements"] = true,
+			["PetFrameEnabled"] = false,
+			["PVPMatchScoreboardScale"] = true,
+			["AlertFramealpha"] = 1,
+			["GroupLootFrame1point"] = "CENTER",
 			["PlayerTalentFrameEnabled"] = true,
 			["PlayerChoiceToggleButtonrelativePoint"] = "CENTER",
 			["PetBarhide"] = false,
@@ -755,30 +752,30 @@ MAITAB = {
 				["variablesLoaded"] = true,
 				["firstTimeLoaded"] = 1,
 			},
-			["VehicleSeatIndicatorpoint"] = "BOTTOM",
+			["ZoneAbilityFrameofsy"] = 30,
 			["MAIMENUpoint"] = "TOP",
-			["MirrorTimer1improvements"] = true,
+			["PlayerPowerBarAlthide"] = false,
 			["ActionBar3alpha"] = 1,
-			["FPSFramehide"] = false,
-			["ActionBar10hidena"] = false,
-			["Version"] = 1,
+			["AlertFrameofsx"] = -440,
+			["DressUpFrameEnabled"] = true,
+			["MAIMicroButtonspoint"] = "BOTTOMRIGHT",
 			["VehicleSeatIndicatorEnabled"] = true,
 			["UIErrorsFrameofsx"] = 0,
 			["ActionBar1scale"] = 1,
-			["PVPMatchScoreboardScale"] = true,
+			["hidehidden"] = true,
 			["ChatFrame1scale"] = 1,
 			["AchievementFrameEnabled"] = true,
 			["MAIUIColorB"] = 0.15,
 			["ObjectiveTrackerFrameEnabled"] = true,
 			["ActionBar2hidehk"] = false,
-			["AlertFramealpha"] = 1,
+			["TalkingHeadFramesizeh"] = 155,
 			["VideoOptionsFrameparent"] = {
 				["variablesLoaded"] = true,
 				["firstTimeLoaded"] = 1,
 			},
 			["ZoneAbilityFrameimprovements"] = true,
 			["ObjectiveTrackerFrameofsx"] = -120,
-			["MAIMicroButtonspoint"] = "BOTTOMRIGHT",
+			["Version"] = 1,
 			["ActionBar5Enabled"] = true,
 			["TargetFrameToTEnabled"] = false,
 			["ExtraActionButton1ofsx"] = 540,
@@ -786,55 +783,55 @@ MAITAB = {
 			["minimapbuttonsalpha2"] = 1,
 			["MAIBossListofsx"] = -410,
 			["Minimapsizew"] = 60,
-			["ActionBar8rows"] = 2,
+			["minimapbuttonsimprovements"] = true,
 			["PlayerChoiceToggleButtonEnabled"] = true,
 			["UIErrorsFramealpha"] = 1,
 			["MainMenuBarVehicleLeaveButtonofsx"] = -240,
 			["ActionBar4hidena"] = false,
 			["PingFramepoint"] = "TOPLEFT",
 			["ActionBar6hidehk"] = false,
-			["minimapbuttonsimprovements"] = true,
+			["ActionBar8rows"] = 2,
 			["StanceBarhidehk"] = false,
 			["UIWidgetTopCenterContainerFramemove"] = true,
 			["TalkingHeadFramepoint"] = "LEFT",
 			["PlayerFramealpha"] = 1,
 			["PlayerPowerBarAltalpha"] = 1,
-			["ObjectiveTrackerFramesizew"] = 235,
-			["minimapbuttonssizeh"] = 60,
-			["DressUpFrameEnabled"] = true,
-			["AlertFrameofsx"] = -440,
 			["ActionBar5hideartwork"] = true,
-			["GroupLootFrame1point"] = "CENTER",
-			["PetFrameEnabled"] = false,
+			["minimapbuttonssizeh"] = 60,
+			["ActionBar10hidena"] = false,
+			["FPSFramehide"] = false,
+			["ObjectiveTrackerFramesizew"] = 235,
+			["ExtraActionButton1relativePoint"] = "CENTER",
+			["ActionBar5sizew"] = 60,
 			["StanceBarallclasses"] = true,
 			["MirrorTimer1alpha"] = 1,
 			["minimapbuttonsofsx"] = 180,
 			["MAIBossListimprovements"] = true,
 			["StanceBarhidena"] = false,
 			["PetBarofsx"] = 0,
-			["Minimapalpha"] = 1,
+			["DurabilityFramegold"] = true,
 			["ActionBar3sizeh"] = 60,
 			["FocusFramerelativePoint"] = "CENTER",
-			["MirrorTimer1move"] = true,
-			["ExtraActionButton1ofsy"] = -80,
+			["MailFrameEnabled"] = true,
+			["MAIMicroButtonsrows"] = 1,
 			["ActionBar6row"] = 0,
 			["Minimapscale"] = 2,
-			["MAIMENUMOVINGrelativePoint"] = "CENTER",
-			["FPSFrameofsy"] = 0,
+			["ActionBar6improvements"] = true,
+			["UIWidgetBelowMinimapContainerFramehideartwork"] = true,
 			["PlayerFramesizew"] = 60,
 			["ZoneAbilityFrameEnabled"] = true,
 			["DurabilityFramemove"] = true,
 			["PingFrameimprovements"] = true,
 			["MainMenuBarVehicleLeaveButtonrelativePoint"] = "BOTTOM",
 			["UIWidgetBelowMinimapContainerFrameEnabled"] = true,
-			["PlayerChoiceToggleButtonscale"] = 1,
+			["ContainerFrame5Scale"] = false,
 			["CovenantSanctumFrameScale"] = true,
 			["ActionBarsEnabled"] = true,
-			["VideoOptionsFrameScale"] = true,
+			["MAIBossListrelativePoint"] = "RIGHT",
 			["CastingBarFrameofsx"] = 0,
 			["ActionBar3move"] = true,
 			["PetBaralpha"] = 1,
-			["PaperDollFrameshowilvl"] = true,
+			["UIErrorsFrameofsy"] = -170,
 			["GValpha"] = 1,
 			["PlayerFramehide"] = false,
 			["VehicleSeatIndicatorscale"] = 1,
@@ -843,15 +840,15 @@ MAITAB = {
 			["minimapbuttonsalpha"] = 1,
 			["AlertFramesizeh"] = 60,
 			["ActionBar3ofsx"] = -8,
-			["MAIMicroButtonscount"] = 9,
+			["ActionBar3hidehk"] = false,
 			["PetBarrows"] = 1,
-			["MirrorTimer1alpha2"] = 1,
+			["MAIStatusBarpoint"] = "TOP",
 			["UIWidgetBelowMinimapContainerFramehide"] = false,
 			["MAIStatusBarEnabled"] = true,
 			["ChatFrame1Enabled"] = true,
 			["MAIBuffFrameofsy"] = -4,
 			["ExtraActionButton1alpha"] = 1,
-			["ActionBar1move"] = true,
+			["ContainerFrame2Enabled"] = false,
 			["GameTooltipsizew"] = 60,
 			["MAISkillssizeh"] = 60,
 			["mmicon"] = {
@@ -863,11 +860,14 @@ MAITAB = {
 			["MAIBuffFrameofsx"] = -4,
 			["ActionBar7ofsy"] = 80,
 			["UIWidgetBelowMinimapContainerFrameimprovements"] = true,
-			["ChatFrame1sizew"] = 60,
+			["AddonListparent"] = {
+				["variablesLoaded"] = true,
+				["firstTimeLoaded"] = 1,
+			},
 			["MirrorTimer1scale"] = 1,
-			["MAIBossListalpha"] = 1,
+			["QuestFrameEnabled"] = true,
 			["ChallengesKeystoneFrameScale"] = true,
-			["PVEFrameEnabled"] = true,
+			["GVscale"] = 1,
 			["PingFramehide"] = false,
 			["GroupLootFrame1hideartwork"] = true,
 			["MAIMENUMOVING.bMAIUIColorB"] = 0.15,
@@ -889,13 +889,10 @@ MAITAB = {
 			["InterfaceAdvancedEnabled"] = true,
 			["StanceBarscale"] = 1,
 			["ZoneAbilityFramehide"] = false,
-			["SpellBookFrameparent"] = {
-				["variablesLoaded"] = true,
-				["firstTimeLoaded"] = 1,
-			},
+			["PlayerPowerBarAltsizeh"] = 40,
 			["ZoneAbilityFramesizew"] = 256,
-			["ActionBar9count"] = 12,
 			["ActionBar4rows"] = 12,
+			["ActionBar9count"] = 12,
 			["MAISkillsimprovements"] = true,
 			["ActionBar5improvements"] = true,
 			["GameTooltippoint"] = "BOTTOMRIGHT",
@@ -910,9 +907,12 @@ MAITAB = {
 			["GameTooltiponcursor"] = true,
 			["PlayerChoiceToggleButtonhide"] = false,
 			["PingFrameofsy"] = -20,
-			["ActionBar7Enabled"] = true,
-			["MirrorTimer1Enabled"] = true,
 			["ChatFrame1sizeh"] = 60,
+			["InterfaceOptionsFrameparent"] = {
+				["variablesLoaded"] = true,
+				["firstTimeLoaded"] = 1,
+			},
+			["ActionBar7Enabled"] = true,
 			["UIWidgetTopCenterContainerFramealpha"] = 1,
 			["MAIMENUMOVINGpoint"] = "CENTER",
 			["GroupLootFrame1improvements"] = true,
@@ -926,7 +926,7 @@ MAITAB = {
 			["LootFrameEnabled"] = true,
 			["MAIMoneyBarmove"] = true,
 			["PlayerFramealpha2"] = 1,
-			["BankFrameScale"] = true,
+			["MAISkillsofsy"] = 0,
 			["CastingBarFramehide"] = false,
 			["MAIMoneyBarofsy"] = 90,
 			["PlayerPowerBarAltofsy"] = -250,
@@ -944,7 +944,7 @@ MAITAB = {
 			["GameTooltipofsx"] = -330,
 			["GVrelativePoint"] = "LEFT",
 			["DurabilityFrameofsy"] = 140,
-			["ActionBar6hidena"] = false,
+			["GVhideartwork"] = true,
 			["ActionBar5relativePoint"] = "BOTTOM",
 			["MAISkillshideartwork"] = true,
 			["UIErrorsFramescale"] = 1,
@@ -958,7 +958,7 @@ MAITAB = {
 			["MAIMENUofsy"] = -182,
 			["DurabilityFramealpha2"] = 1,
 			["MacroFrameEnabled"] = true,
-			["MAIMoneyBarofsx"] = 0,
+			["ZoneAbilityFramemove"] = true,
 			["BagBarsizew"] = 60,
 			["PlayerChoiceToggleButtonmove"] = true,
 			["MacroFrameScale"] = true,
@@ -1335,29 +1335,29 @@ MAITAB = {
 				},
 				["Nèvy-Firemaw"] = {
 				},
-				["Deyet-ClassicBetaPvE"] = {
+				["Rokhsan-Gehennas"] = {
 				},
 				["Dextêr-Gehennas"] = {
 				},
 				["Chaltbrr-Firemaw"] = {
 				},
-				["Rokhsan-Gehennas"] = {
+				["Personal-Gehennas"] = {
 				},
 				["드레스-Classic Beta PvP"] = {
 				},
-				["Personal-Gehennas"] = {
+				["Deyet-ClassicBetaPvE"] = {
 				},
 				["Fsdxgdsf-Classic Beta PvP"] = {
 				},
 				["Warlorekt-Classic Beta PvP"] = {
 				},
-				["Ucastishear-ClassicBetaPvE"] = {
-				},
 				["Fráerøg-Gehennas"] = {
+				},
+				["Eames-Auberdine"] = {
 				},
 				["Exyth-Classic Beta PvP"] = {
 				},
-				["Eames-Auberdine"] = {
+				["Ucastishear-ClassicBetaPvE"] = {
 				},
 				["Nomit-Venoxis"] = {
 				},
@@ -1375,19 +1375,19 @@ MAITAB = {
 				},
 				["Ardeat-Firemaw"] = {
 				},
-				["Moodysine-Firemaw"] = {
-				},
-				["Ekinpx-Sulfuron"] = {
-				},
 				["Stormtoe-MirageRaceway"] = {
-				},
-				["Edenn-ClassicBetaPvE"] = {
 				},
 				["Evenflow-Classic Beta PvP"] = {
 				},
+				["Apemongol-Classic Beta PvP"] = {
+				},
+				["Edenn-ClassicBetaPvE"] = {
+				},
+				["Sândywich-Everlook"] = {
+				},
 				["Pryuk-Gehennas"] = {
 				},
-				["Apemongol-Classic Beta PvP"] = {
+				["Kriantha-ClassicBetaPvE"] = {
 				},
 				["Dpshero-ClassicBetaPvE"] = {
 				},
@@ -1397,7 +1397,7 @@ MAITAB = {
 				},
 				["Aashly-Classic Beta PvP"] = {
 				},
-				["Sândywich-Everlook"] = {
+				["Hashberry-Venoxis"] = {
 				},
 				["Phil-Classic Beta PvP"] = {
 				},
@@ -1409,11 +1409,11 @@ MAITAB = {
 				},
 				["Putamorada-Classic Beta PvP"] = {
 				},
-				["Kriantha-ClassicBetaPvE"] = {
+				["Moodysine-Firemaw"] = {
 				},
 				["Wonderbolts-ClassicBetaPvE"] = {
 				},
-				["Hashberry-Venoxis"] = {
+				["Ekinpx-Sulfuron"] = {
 				},
 				["Bescared-ClassicBetaPvE"] = {
 				},
@@ -1423,47 +1423,44 @@ MAITAB = {
 				},
 				["Kellx-Gehennas"] = {
 				},
-				["Déadlycoward-Gehennas"] = {
+				["Tankrat-ClassicBetaPvE"] = {
 				},
 				["Squirrelbra-Classic Beta PvP"] = {
 				},
 				["Unknown-Classic Beta PvP"] = {
 				},
-				["Daylie-Gehennas"] = {
-					["useapi"] = true,
-					["XP"] = "0",
-					["XPMAX"] = "1523800",
+				["Deuasofc-Gehennas"] = {
 				},
-				["Willywanka-Classic Beta PvP"] = {
+				["Randømize-ClassicBetaPvE"] = {
 				},
 				["Drbombayx-Gehennas"] = {
-				},
-				["Shamanmeat-MirageRaceway"] = {
 				},
 				["Oggieboogie-Earthshaker"] = {
 					["useapi"] = true,
 					["XP"] = "0",
 					["XPMAX"] = "1523800",
 				},
-				["Azuusa-Classic Beta PvP"] = {
+				["Mw-ClassicBetaPvE"] = {
+				},
+				["Seethin-ClassicBetaPvE"] = {
 				},
 				["Kamora-Classic Beta PvP"] = {
 				},
-				["Preto-Classic Beta PvP"] = {
+				["Pesomiguel-ClassicBetaPvE"] = {
 				},
-				["Mw-ClassicBetaPvE"] = {
+				["Klemet-ClassicBetaPvE"] = {
 				},
 				["Imgimped-ClassicBetaPvE"] = {
 				},
 				["Jackstab-PyrewoodVillage"] = {
 				},
-				["Seethin-ClassicBetaPvE"] = {
+				["Yorha-ClassicBetaPvE"] = {
 				},
-				["Pesomiguel-ClassicBetaPvE"] = {
+				["Stoja-ClassicBetaPvE"] = {
 				},
-				["Анкордбест-Пламегор"] = {
+				["Ellsa-Classic Beta PvP"] = {
 				},
-				["Klemet-ClassicBetaPvE"] = {
+				["Shamanmeat-MirageRaceway"] = {
 				},
 				["Bængr-ClassicBetaPvE"] = {
 				},
@@ -1473,7 +1470,7 @@ MAITAB = {
 				},
 				["Крипптик-Пламегор"] = {
 				},
-				["Ñkx-Classic Beta PvP"] = {
+				["Xdark-Gehennas"] = {
 				},
 				["Otsùtsùki-Auberdine"] = {
 				},
@@ -1483,15 +1480,15 @@ MAITAB = {
 				},
 				["Prosleeper-Classic Beta PvP"] = {
 				},
-				["Unknown-Firemaw"] = {
+				["Atiy-Classic Beta PvP"] = {
 				},
-				["Syntetik-ClassicBetaPvE"] = {
+				["Imatation-Golemagg"] = {
 				},
 				["Septhakiin-Gehennas"] = {
 				},
 				["Bigbeef-Gehennas"] = {
 				},
-				["Stoja-ClassicBetaPvE"] = {
+				["Анкордбест-Пламегор"] = {
 				},
 				["Bigbigtrain-Classic Beta PvP"] = {
 				},
@@ -1507,7 +1504,7 @@ MAITAB = {
 				},
 				["Gelonade-Classic Beta PvP"] = {
 				},
-				["Atiy-Classic Beta PvP"] = {
+				["Felz-Golemagg"] = {
 				},
 				["Holypunksy-Gehennas"] = {
 				},
@@ -1515,11 +1512,11 @@ MAITAB = {
 				},
 				["Larick-ClassicBetaPvE"] = {
 				},
-				["Gizelina-Classic Beta PvP"] = {
+				["Unknown-Firemaw"] = {
 				},
-				["Yorha-ClassicBetaPvE"] = {
+				["Azuusa-Classic Beta PvP"] = {
 				},
-				["Ellsa-Classic Beta PvP"] = {
+				["Preto-Classic Beta PvP"] = {
 				},
 				["Evolvepwp-Firemaw"] = {
 					["useapi"] = true,
@@ -1544,11 +1541,11 @@ MAITAB = {
 				},
 				["Xtal-Firemaw"] = {
 				},
+				["Thorathanqt-ClassicBetaPvE"] = {
+				},
 				["Malcommerlyn-Gehennas"] = {
 				},
 				["Stugots-Classic Beta PvP"] = {
-				},
-				["Thorathanqt-ClassicBetaPvE"] = {
 				},
 				["Nuclrexplosn-Venoxis"] = {
 				},
@@ -1568,7 +1565,7 @@ MAITAB = {
 				},
 				["Crispzr-Classic Beta PvP"] = {
 				},
-				["Hodelmai-ClassicBetaPvE"] = {
+				["Ytaaï-ClassicBetaPvE"] = {
 				},
 				["Nuggies-ClassicBetaPvE"] = {
 				},
@@ -1588,7 +1585,7 @@ MAITAB = {
 				},
 				["Karlovylazne-Classic Beta PvP"] = {
 				},
-				["Ytaaï-ClassicBetaPvE"] = {
+				["Hodelmai-ClassicBetaPvE"] = {
 				},
 				["Layre-Gehennas"] = {
 				},
@@ -1626,17 +1623,17 @@ MAITAB = {
 				},
 				["Nivek-ClassicBetaPvE"] = {
 				},
-				["Felz-Golemagg"] = {
+				["Syntetik-ClassicBetaPvE"] = {
 				},
 				["Shazam-ClassicBetaPvE"] = {
 				},
-				["Imatation-Golemagg"] = {
+				["Ñkx-Classic Beta PvP"] = {
+				},
+				["Gizelina-Classic Beta PvP"] = {
 				},
 				["Iaske-Classic Beta PvP"] = {
 				},
 				["Nashaka-Gehennas"] = {
-				},
-				["Xdark-Gehennas"] = {
 				},
 				["Galth-ClassicBetaPvE"] = {
 				},
@@ -1648,19 +1645,22 @@ MAITAB = {
 				},
 				["Levïatan-Golemagg"] = {
 				},
-				["Randømize-ClassicBetaPvE"] = {
+				["Déadlycoward-Gehennas"] = {
 				},
 				["Lavabath-Gehennas"] = {
 				},
 				["Unknown-Gehennas"] = {
 				},
-				["Maninplates-ClassicBetaPvE"] = {
+				["Willywanka-Classic Beta PvP"] = {
 				},
 				["Bodytypexx-ClassicBetaPvE"] = {
 				},
-				["Deuasofc-Gehennas"] = {
+				["Daylie-Gehennas"] = {
+					["useapi"] = true,
+					["XP"] = "0",
+					["XPMAX"] = "1523800",
 				},
-				["Tankrat-ClassicBetaPvE"] = {
+				["Maninplates-ClassicBetaPvE"] = {
 				},
 				["Goatfart-Golemagg"] = {
 				},
@@ -1854,7 +1854,7 @@ MAITAB = {
 			["TargetFrameToThide"] = false,
 			["toggler"] = false,
 			["PVPMatchScoreboardEnabled"] = false,
-			["ActionBar3count"] = 12,
+			["ZoneAbilityFrameEnabled"] = false,
 			["DurabilityFramemove"] = true,
 			["ActionBar5row"] = 0,
 			["OrderHallMissionFrameScale"] = false,
@@ -1886,12 +1886,10 @@ MAITAB = {
 			["ActionBar4hideartwork"] = false,
 			["ActionBar4alpha2"] = 1,
 			["FocusFrameSpellBarsizeh"] = 60,
-			["mmicon"] = {
-				["hide"] = true,
-			},
-			["TargetFrameSpellBarpoint"] = "BOTTOMLEFT",
-			["GameMenuFrameScale"] = false,
+			["minimapbuttonsEnabled"] = false,
 			["GVmove"] = true,
+			["GameMenuFrameScale"] = false,
+			["TargetFrameSpellBarpoint"] = "BOTTOMLEFT",
 			["MAIBuffFrameofsx"] = -180,
 			["ChatFrame1chatraceicons"] = false,
 			["PartyMemberFrame4move"] = true,
@@ -1916,14 +1914,14 @@ MAITAB = {
 			["MAIBuffFramemove"] = true,
 			["StanceBarrows"] = 1,
 			["AnimaDiversionFrameScale"] = false,
-			["ArenaEnemyFrame1CastingBarEnabled"] = false,
 			["ArenaEnemyFrame2CastingBarEnabled"] = false,
-			["InterfaceAdvancedEnabled"] = false,
 			["ArenaEnemyFrame3CastingBarEnabled"] = false,
+			["InterfaceAdvancedEnabled"] = false,
+			["ArenaEnemyFrame4CastingBarEnabled"] = false,
 			["PetFramesizeh"] = 60,
 			["GryphonRightmove"] = true,
 			["TargetFrameToTalpha"] = 1,
-			["AnimaDiversionFrameEnabled"] = false,
+			["ActionBar9count"] = 12,
 			["MAIBuffFramespacing"] = 5,
 			["FocusFrameSpellBaralpha2"] = 1,
 			["TargetFrameSpellBarsizeh"] = 60,
@@ -1954,10 +1952,10 @@ MAITAB = {
 			["MerchantFrameScale"] = false,
 			["PlayerChoiceFrameEnabled"] = false,
 			["PartyMemberFrame3point"] = "BOTTOMLEFT",
+			["AnimaDiversionFrameEnabled"] = false,
 			["ActionBar4rows"] = 12,
-			["ActionBar9count"] = 12,
+			["ArenaEnemyFrame1CastingBarEnabled"] = false,
 			["ArenaEnemyFrame5CastingBarEnabled"] = false,
-			["ArenaEnemyFrame4CastingBarEnabled"] = false,
 			["PartyMemberFrame1sizew"] = 60,
 			["KeyBindingFrameEnabled"] = false,
 			["FPSFramealpha"] = 1,
@@ -1977,7 +1975,9 @@ MAITAB = {
 			["ContainerFrame4Enabled"] = false,
 			["PartyMemberFrame1alpha2"] = 1,
 			["ActionBar4sizew"] = 60,
-			["minimapbuttonsEnabled"] = false,
+			["mmicon"] = {
+				["hide"] = true,
+			},
 			["ActionBar3alpha2"] = 1,
 			["PartyMemberFrame2scale"] = 1,
 			["QuestLogFrameScale"] = false,
@@ -1997,7 +1997,7 @@ MAITAB = {
 			["ActionBar5count"] = 12,
 			["ActionBar8Enabled"] = false,
 			["TargetFrameEnabled"] = false,
-			["ZoneAbilityFrameEnabled"] = false,
+			["ActionBar3count"] = 12,
 			["ActionBar6rows"] = 1,
 			["QuickKeybindFrameScale"] = false,
 			["PartyMemberFrame4alpha"] = 1,

@@ -21,7 +21,7 @@ WeakAurasArchive = {
 	},
 	["Repository"] = {
 		["history"] = {
-			["timestamp"] = 1661350020,
+			["timestamp"] = 1662062971,
 			["version"] = 1,
 			["data"] = "LTCZkrmmqaa4hgHGl0bAMmjntUjUq1lkIiIxcKFMPUGf)PfbF7f2J6dWxEB)9VKTKbhYhMVFz)7hF5YNVkzC5XpFB9MFUJLBFnzO81pn)GAJlh15KXpKp1tUajLqZdJDNccswOWnc0OWUo18bTM3pTkB7L1psxydEEY5dJ8zEV1eLQDWArccARcoUncONOjfJihl)NttiEMRkZSweWruaSc2GU0TaBNWsT2iF19xEeJuahm2HFp",
 		},

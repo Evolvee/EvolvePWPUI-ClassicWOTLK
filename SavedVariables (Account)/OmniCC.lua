@@ -1,15 +1,11 @@
 
 OmniCCDB = {
-	["global"] = {
-		["dbVersion"] = 6,
-		["addonVersion"] = "9.2.1",
-	},
 	["profileKeys"] = {
 		["Evolvexd - Classic Arena - EU"] = "Default",
 		["Evolve - Badge of Justice"] = "Default",
 		["Evolve - Classic Arena - EU"] = "Default",
-		["Evolvebanned - Gehennas"] = "Default",
-		["Dbldogcheck - Firemaw"] = "Default",
+		["Evolve - Launch Test"] = "Default",
+		["Evolvelulw - Earthshaker"] = "Default",
 		["Magetest - Classic Arena - EU"] = "Default",
 		["Qwdqwdw - Badge of Justice"] = "Default",
 		["Evolvepwp - Earthshaker"] = "Default",
@@ -19,8 +15,12 @@ OmniCCDB = {
 		["Evolvepwe - Classic Arena - EU"] = "Default",
 		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvebank - Gehennas"] = "Default",
-		["Evolvelulw - Earthshaker"] = "Default",
-		["Evolve - Launch Test"] = "Default",
+		["Dbldogcheck - Firemaw"] = "Default",
+		["Evolvebanned - Gehennas"] = "Default",
+	},
+	["global"] = {
+		["dbVersion"] = 6,
+		["addonVersion"] = "9.2.1",
 	},
 	["profiles"] = {
 		["Default"] = {
@@ -57,12 +57,12 @@ OmniCCDB = {
 			["themes"] = {
 				["Default"] = {
 					["textStyles"] = {
-						["minutes"] = {
-						},
 						["seconds"] = {
 							["r"] = 0.9803921568627451,
 							["g"] = 0.984313725490196,
 							["b"] = 1,
+						},
+						["minutes"] = {
 						},
 						["soon"] = {
 							["b"] = 0,
@@ -71,18 +71,17 @@ OmniCCDB = {
 						},
 					},
 					["timerOffset"] = 1400,
-					["minDuration"] = 3,
-					["tenthsDuration"] = 1,
 					["fontOutline"] = "THICKOUTLINE",
-					["minSize"] = 1.1,
+					["minSize"] = 0.99,
 					["effect"] = "none",
 					["fontSize"] = 15,
+					["minDuration"] = 3,
 				},
 				["Plater Nameplates Theme"] = {
 					["textStyles"] = {
-						["minutes"] = {
-						},
 						["seconds"] = {
+						},
+						["minutes"] = {
 						},
 						["soon"] = {
 						},

@@ -1,7 +1,7 @@
 
 BugGrabberDB = {
+	["session"] = 3544,
 	["lastSanitation"] = 3,
-	["session"] = 3517,
 	["errors"] = {
 		{
 			["message"] = "Interface\\AddOns\\MoveAnything\\MoveAnything-11.b2.lua:814: attempt to call global 'TEXT' (a nil value)",
@@ -85,56 +85,56 @@ BugGrabberDB = {
 		}, -- [10]
 		{
 			["message"] = "Frame MAOptionsClose: Unknown function MovAny_TooltipShow in element OnEnter",
-			["time"] = "2022/08/19 16:26:11",
 			["session"] = 3211,
+			["time"] = "2022/08/19 16:26:11",
 			["counter"] = 1,
 		}, -- [11]
 		{
 			["message"] = "Frame MAOptionsClose: Unknown function MovAny_TooltipHide in element OnLeave",
-			["time"] = "2022/08/19 16:26:11",
 			["session"] = 3211,
+			["time"] = "2022/08/19 16:26:11",
 			["counter"] = 1,
 		}, -- [12]
 		{
 			["message"] = "Frame MAOptionsOpenBlizzardOptions: Unknown function MovAny_TooltipShow in element OnEnter",
-			["time"] = "2022/08/19 16:26:11",
 			["session"] = 3211,
+			["time"] = "2022/08/19 16:26:11",
 			["counter"] = 1,
 		}, -- [13]
 		{
 			["message"] = "Frame MAOptionsOpenBlizzardOptions: Unknown function MovAny_TooltipHide in element OnLeave",
-			["time"] = "2022/08/19 16:26:11",
 			["session"] = 3211,
+			["time"] = "2022/08/19 16:26:11",
 			["counter"] = 1,
 		}, -- [14]
 		{
 			["message"] = "Frame MAOptionsSync: Unknown function MovAny_TooltipShow in element OnEnter",
-			["time"] = "2022/08/19 16:26:11",
 			["session"] = 3211,
+			["time"] = "2022/08/19 16:26:11",
 			["counter"] = 1,
 		}, -- [15]
 		{
 			["message"] = "Frame MAOptionsSync: Unknown function MovAny_TooltipHide in element OnLeave",
-			["time"] = "2022/08/19 16:26:11",
 			["session"] = 3211,
+			["time"] = "2022/08/19 16:26:11",
 			["counter"] = 1,
 		}, -- [16]
 		{
 			["message"] = "Frame MAOptionsToggleFrameStack: Unknown function MovAny_TooltipShow in element OnEnter",
-			["time"] = "2022/08/19 16:26:11",
 			["session"] = 3211,
+			["time"] = "2022/08/19 16:26:11",
 			["counter"] = 1,
 		}, -- [17]
 		{
 			["message"] = "Frame MAOptionsToggleFrameStack: Unknown function MovAny_TooltipHide in element OnLeave",
-			["time"] = "2022/08/19 16:26:11",
 			["session"] = 3211,
+			["time"] = "2022/08/19 16:26:11",
 			["counter"] = 1,
 		}, -- [18]
 		{
 			["message"] = "Frame MAOptionsToggleFrameEditors: Unknown function MovAny_TooltipShow in element OnEnter",
-			["time"] = "2022/08/19 16:26:11",
 			["session"] = 3211,
+			["time"] = "2022/08/19 16:26:11",
 			["counter"] = 1,
 		}, -- [19]
 		{
@@ -365,76 +365,69 @@ BugGrabberDB = {
 			["counter"] = 3,
 		}, -- [48]
 		{
-			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'ButtonForge' tried to call the protected function 'ActionButton12:Show()'.",
-			["time"] = "2022/08/21 17:12:30",
-			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:357: in function `ActionButton_Update'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:694: in function `ActionButton_OnEvent'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:207: in function <Interface\\FrameXML\\ActionButton.lua:204>",
-			["session"] = 3347,
-			["counter"] = 2,
-		}, -- [49]
-		{
 			["message"] = "Interface\\AddOns\\Gladdy\\Gladdy-11.lua:239: bad argument #1 to 'pairs' (table expected, got nil)",
 			["time"] = "2022/08/21 20:36:28",
 			["locals"] = "(*temporary) = nil\n(*temporary) = \"table expected, got nil\"\n = <function> defined =[C]:-1\n",
 			["stack"] = "[string \"=[C]\"]: ?\n[string \"@Interface\\AddOns\\Gladdy\\Gladdy-11.lua\"]:239: in function `DeleteUnknownOptions'\n[string \"@Interface\\AddOns\\Gladdy\\Gladdy-11.lua\"]:115: in function <Interface\\AddOns\\Gladdy\\Gladdy.lua:106>",
 			["session"] = 3351,
 			["counter"] = 3,
-		}, -- [50]
+		}, -- [49]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'ButtonForge' tried to call the protected function 'MultiBarBottomLeftButton1:Show()'.",
 			["time"] = "2022/08/22 18:13:55",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:357: in function `ActionButton_Update'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:694: in function `ActionButton_OnEvent'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:207: in function <Interface\\FrameXML\\ActionButton.lua:204>",
 			["session"] = 3356,
 			["counter"] = 1,
-		}, -- [51]
+		}, -- [50]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'ButtonForge' tried to call the protected function 'MainMenuBarArtFrame:SetAttribute()'.",
 			["time"] = "2022/08/20 11:21:20",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `SetAttribute'\n[string \"@Interface\\FrameXML\\ActionBarController.lua\"]:131: in function `ActionBarController_ResetToDefault'\n[string \"@Interface\\FrameXML\\ActionBarController.lua\"]:122: in function `ActionBarController_UpdateAll'\n[string \"@Interface\\FrameXML\\ActionBarController.lua\"]:54: in function <Interface\\FrameXML\\ActionBarController.lua:43>",
 			["session"] = 3357,
 			["counter"] = 2,
-		}, -- [52]
+		}, -- [51]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'ButtonForge' tried to call the protected function 'MultiBarBottomRightButton3:Show()'.",
 			["time"] = "2022/08/20 19:53:21",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:357: in function `ActionButton_Update'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:694: in function `ActionButton_OnEvent'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:207: in function <Interface\\FrameXML\\ActionButton.lua:204>",
 			["session"] = 3358,
 			["counter"] = 2,
-		}, -- [53]
+		}, -- [52]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'ButtonForge' tried to call the protected function 'ActionButton8:Show()'.",
 			["time"] = "2022/08/21 13:31:56",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:357: in function `ActionButton_Update'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:694: in function `ActionButton_OnEvent'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:207: in function <Interface\\FrameXML\\ActionButton.lua:204>",
 			["session"] = 3360,
 			["counter"] = 4,
-		}, -- [54]
+		}, -- [53]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'ActionbarPlus' tried to call the protected function 'ActionbarPlusF1:SetWidth()'.",
 			["time"] = "2022/08/24 12:04:28",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `SetWidth'\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\AddonLib\\Widget\\Buttons\\ButtonFrameFactory.lua\"]:286: in function `SetFrameDimensions'\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\AddonLib\\Widget\\Buttons\\ButtonFrameFactory.lua\"]:262: in function `RefreshActionbarFrame'\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\AddonLib\\Widget\\Buttons\\ButtonFactory.lua\"]:152: in function `RefreshActionbar'\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\AddonLib\\Common\\Config.lua\"]:93: in function <...AddOns\\ActionbarPlus\\Core\\AddonLib\\Common\\Config.lua:90>\n[string \"=[C]\"]: ?\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceConfig-3.0-3\\AceConfigDialog-3.0\\AceConfigDialog-3.0-82.lua\"]:51: in function <...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua:49>\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceConfig-3.0-3\\AceConfigDialog-3.0\\AceConfigDialog-3.0-82.lua\"]:847: in function <...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua:668>\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceConfig-3.0-3\\AceConfigDialog-3.0\\AceConfigDialog-3.0-82.lua\"]:899: in function <...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua:887>\n[string \"=[C]\"]: ?\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceGUI-3.0\\AceGUI-3.0-41.lua\"]:72: in function <...onbarPlus\\Core\\ExtLib\\Ace3\\AceGUI-3.0\\AceGUI-3.0.lua:70>\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceGUI-3.0\\AceGUI-3.0-41.lua\"]:306: in function `Fire'\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceGUI-3.0-41\\widgets\\AceGUIWidget-Slider.lua\"]:69: in function <...tLib\\Ace3\\AceGUI-3.0\\widgets\\AceGUIWidget-Slider.lua:60>",
 			["session"] = 3363,
 			["counter"] = 1,
-		}, -- [55]
+		}, -- [54]
 		{
 			["message"] = "[ADDON_ACTION_FORBIDDEN] AddOn 'LoseControl' tried to call the protected function 'GuildControlSetRank()'.",
 			["time"] = "2022/08/18 20:05:56",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `GuildControlSetRank'\n[string \"@Interface_Wrath\\FrameXML\\FriendsFrame_Wrath.lua\"]:487: in function `GuildControlPopupFrameDropDownButton_ClickedRank'\n[string \"@Interface_Wrath\\FrameXML\\FriendsFrame_Wrath.lua\"]:239: in function `GuildControlPopupFrame_Initialize'\n[string \"@Interface_Wrath\\FrameXML\\FriendsFrame_Wrath.lua\"]:156: in function `FriendsFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function <[string \"*:OnEvent\"]:1>",
 			["session"] = 3378,
 			["counter"] = 3,
-		}, -- [56]
+		}, -- [55]
 		{
 			["message"] = "...\\Core\\AddonLib\\Widget\\Buttons\\ButtonFrameFactory.lua:271: attempt to index field '?' (a nil value)",
 			["time"] = "2022/08/24 19:27:13",
 			["stack"] = "[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\AddonLib\\Widget\\Buttons\\ButtonFrameFactory.lua\"]:271: in function `RefreshActionbarFrame'\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\AddonLib\\Widget\\Buttons\\ButtonFactory.lua\"]:152: in function `RefreshActionbar'\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\AddonLib\\Common\\Config.lua\"]:93: in function <...AddOns\\ActionbarPlus\\Core\\AddonLib\\Common\\Config.lua:90>\n[string \"=[C]\"]: ?\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceConfig-3.0-3\\AceConfigDialog-3.0\\AceConfigDialog-3.0-82.lua\"]:51: in function <...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua:49>\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceConfig-3.0-3\\AceConfigDialog-3.0\\AceConfigDialog-3.0-82.lua\"]:847: in function <...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua:668>\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceConfig-3.0-3\\AceConfigDialog-3.0\\AceConfigDialog-3.0-82.lua\"]:899: in function <...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua:887>\n[string \"=[C]\"]: ?\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceGUI-3.0\\AceGUI-3.0-41.lua\"]:72: in function <...onbarPlus\\Core\\ExtLib\\Ace3\\AceGUI-3.0\\AceGUI-3.0.lua:70>\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceGUI-3.0\\AceGUI-3.0-41.lua\"]:306: in function `Fire'\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\AceGUI-3.0-41\\widgets\\AceGUIWidget-Slider.lua\"]:69: in function <...tLib\\Ace3\\AceGUI-3.0\\widgets\\AceGUIWidget-Slider.lua:60>",
 			["session"] = 3384,
 			["counter"] = 10,
-		}, -- [57]
+		}, -- [56]
 		{
 			["message"] = "[ADDON_ACTION_FORBIDDEN] AddOn 'Gladdy' tried to call the protected function 'FocusUnit()'.",
 			["time"] = "2022/08/24 19:32:22",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `FocusUnit'\n[string \"@Interface\\FrameXML\\SecureTemplates.lua\"]:492: in function `handler'\n[string \"@Interface\\FrameXML\\SecureTemplates.lua\"]:625: in function <Interface\\FrameXML\\SecureTemplates.lua:569>",
 			["session"] = 3387,
 			["counter"] = 1,
-		}, -- [58]
+		}, -- [57]
 		{
 			["message"] = "Interface\\AddOns\\Gladdy\\EventListener.lua:399: attempt to index field '?' (a nil value)",
 			["time"] = "2022/08/19 21:57:34",
@@ -442,7 +435,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\Gladdy\\EventListener.lua\"]:399: in function `?'\n[string \"@Interface\\AddOns\\Gladdy\\EventListener.lua\"]:29: in function <Interface\\AddOns\\Gladdy\\EventListener.lua:28>",
 			["session"] = 3396,
 			["counter"] = 85,
-		}, -- [59]
+		}, -- [58]
 		{
 			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:1154: Cannot find a library instance of \"Gladdy\".",
 			["time"] = "2022/08/28 11:28:36",
@@ -450,13 +443,13 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `error'\n[string \"@Interface\\AddOns\\ActionbarPlus\\Core\\ExtLib\\Ace3\\LibStub\\LibStub.lua\"]:23: in function `LibStub'\n[string \"@Interface\\AddOns\\TextureScript\\TextureScript.lua\"]:1154: in main chunk",
 			["session"] = 3402,
 			["counter"] = 1,
-		}, -- [60]
+		}, -- [59]
 		{
 			["message"] = "(null)",
-			["session"] = 3402,
 			["time"] = "2022/08/19 19:10:10",
+			["session"] = 3402,
 			["counter"] = 14,
-		}, -- [61]
+		}, -- [60]
 		{
 			["message"] = "...terface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker-v7.45 TBC Classic.lua:536: attempt to index field '?' (a nil value)",
 			["time"] = "2022/08/19 18:51:31",
@@ -464,7 +457,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker-v7.45 TBC Classic.lua\"]:536: in function `UpdateAnchor'\n[string \"@Interface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker-v7.45 TBC Classic.lua\"]:631: in function `TrinketCheck'\n[string \"@Interface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker-v7.45 TBC Classic.lua\"]:649: in function `UpdateAnchors'\n[string \"@Interface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker-v7.45 TBC Classic.lua\"]:694: in function `?'\n[string \"@Interface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker-v7.45 TBC Classic.lua\"]:987: in function <...terface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker.lua:985>",
 			["session"] = 3447,
 			["counter"] = 19,
-		}, -- [62]
+		}, -- [61]
 		{
 			["message"] = "...TBC\\AddOns\\Blizzard_AuctionUI\\Blizzard_AuctionUI.lua:751: attempt to index local 'color' (a nil value)",
 			["time"] = "2022/08/31 15:04:03",
@@ -472,7 +465,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface_TBC\\AddOns\\Blizzard_AuctionUI\\Blizzard_AuctionUI.lua\"]:751: in function `updateFunction'\n[string \"@Interface\\SharedXML\\SecureUIPanelTemplates.lua\"]:332: in function `FauxScrollFrame_OnVerticalScroll'\n[string \"*:OnVerticalScroll\"]:1: in function <[string \"*:OnVerticalScroll\"]:1>\n[string \"=[C]\"]: in function `SetVerticalScroll'\n[string \"@Interface\\SharedXML\\SecureUIPanelTemplates.lua\"]:64: in function <Interface\\SharedXML\\SecureUIPanelTemplates.lua:63>\n[string \"=[C]\"]: in function `SetValue'\n[string \"@Interface\\SharedXML\\SecureUIPanelTemplates.lua\"]:329: in function `FauxScrollFrame_OnVerticalScroll'\n[string \"*:OnVerticalScroll\"]:1: in function <[string \"*:OnVerticalScroll\"]:1>\n[string \"=[C]\"]: in function `SetVerticalScroll'\n[string \"@Interface\\SharedXML\\SecureUIPanelTemplates.lua\"]:64: in function <Interface\\SharedXML\\SecureUIPanelTemplates.lua:63>",
 			["session"] = 3472,
 			["counter"] = 2,
-		}, -- [63]
+		}, -- [62]
 		{
 			["message"] = "...ace\\AddOns\\Doom_CooldownPulse\\Doom_CooldownPulse.lua:99: bad argument #2 to 'strsplit' (string expected, got nil)",
 			["time"] = "2022/08/31 15:18:08",
@@ -480,14 +473,14 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `strsplit'\n[string \"@Interface\\AddOns\\Doom_CooldownPulse\\Doom_CooldownPulse.lua\"]:99: in function <...ace\\AddOns\\Doom_CooldownPulse\\Doom_CooldownPulse.lua:88>\n[string \"@Interface\\AddOns\\Doom_CooldownPulse\\Doom_CooldownPulse.lua\"]:244: in function `?'\n[string \"@Interface\\AddOns\\Doom_CooldownPulse\\Doom_CooldownPulse.lua\"]:24: in function <...ace\\AddOns\\Doom_CooldownPulse\\Doom_CooldownPulse.lua:24>",
 			["session"] = 3474,
 			["counter"] = 1,
-		}, -- [64]
+		}, -- [63]
 		{
 			["message"] = "...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0-82.lua:1508: Usage: AceConfigDialogTooltip:SetText(\"text\" [, color, wrap])",
 			["time"] = "2022/08/20 13:24:54",
 			["stack"] = "[string \"=[C]\"]: in function `SetText'\n[string \"@Interface\\AddOns\\BigDebuffs\\Libs\\AceConfig-3.0-3\\AceConfigDialog-3.0\\AceConfigDialog-3.0-82.lua\"]:1508: in function <...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua:1476>\n[string \"=[C]\"]: ?\n[string \"@Interface\\AddOns\\BigDebuffs\\Libs\\AceGUI-3.0\\AceGUI-3.0-41.lua\"]:72: in function <...ace\\AddOns\\BigDebuffs\\Libs\\AceGUI-3.0\\AceGUI-3.0.lua:70>\n[string \"@Interface\\AddOns\\BigDebuffs\\Libs\\AceGUI-3.0\\AceGUI-3.0-41.lua\"]:306: in function `Fire'\n[string \"@Interface\\AddOns\\BigDebuffs\\Libs\\AceGUI-3.0-41\\widgets\\AceGUIContainer-TreeGroup.lua\"]:206: in function <...ibs\\AceGUI-3.0\\widgets\\AceGUIContainer-TreeGroup.lua:204>",
 			["session"] = 3482,
 			["counter"] = 3,
-		}, -- [65]
+		}, -- [64]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame3PetFrame:Hide()'.",
 			["time"] = "2022/08/31 11:46:29",
@@ -495,35 +488,35 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:599: in function `PartyMemberFrame_UpdateOnlineStatus'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:392: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:740: in function <Interface\\FrameXML\\UnitFrame.lua:738>",
 			["session"] = 3484,
 			["counter"] = 2,
-		}, -- [66]
+		}, -- [65]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'LoseControl' tried to call the protected function 'CompactRaidFrame1:SetAttribute()'.",
 			["time"] = "2022/08/31 23:14:32",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `SetAttribute'\n[string \"@Interface_Wrath\\FrameXML\\CompactUnitFrame.lua\"]:162: in function `CompactUnitFrame_SetUnit'\n[string \"@Interface\\AddOns\\Blizzard_CompactRaidFrames\\Blizzard_CompactRaidFrameContainer.lua\"]:318: in function `CompactRaidFrameContainer_AddUnitFrame'\n[string \"@Interface\\AddOns\\Blizzard_CompactRaidFrames\\Blizzard_CompactRaidFrameContainer.lua\"]:254: in function `CompactRaidFrameContainer_AddPlayers'\n[string \"@Interface\\AddOns\\Blizzard_CompactRaidFrames\\Blizzard_CompactRaidFrameContainer.lua\"]:176: in function `CompactRaidFrameContainer_LayoutFrames'\n[string \"@Interface\\AddOns\\Blizzard_CompactRaidFrames\\Blizzard_CompactRaidFrameContainer.lua\"]:130: in function <...actRaidFrames\\Blizzard_CompactRaidFrameContainer.lua:128>\n[string \"=[C]\"]: in function `CompactRaidFrameContainer_TryUpdate'\n[string \"@Interface\\AddOns\\Blizzard_CompactRaidFrames\\Blizzard_CompactRaidFrameContainer.lua\"]:57: in function `CompactRaidFrameContainer_OnEvent'\n[string \"*:OnEvent\"]:1: in function <[string \"*:OnEvent\"]:1>",
 			["session"] = 3484,
 			["counter"] = 1,
-		}, -- [67]
+		}, -- [66]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'Search()'.",
 			["time"] = "2022/08/31 23:40:47",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:69: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
 			["session"] = 3485,
 			["counter"] = 1,
-		}, -- [68]
+		}, -- [67]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'Auctionator' tried to call the protected function 'Search()'.",
 			["time"] = "2022/09/01 00:09:59",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:69: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
 			["session"] = 3487,
 			["counter"] = 1,
-		}, -- [69]
+		}, -- [68]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame4PetFrame:Hide()'.",
 			["time"] = "2022/09/01 12:04:17",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:187: in function `PartyMemberFrame_UpdatePet'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:363: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:740: in function <Interface\\FrameXML\\UnitFrame.lua:738>",
 			["session"] = 3489,
 			["counter"] = 1,
-		}, -- [70]
+		}, -- [69]
 		{
 			["message"] = "...terface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker-v7.45 TBC Classic.lua:755: attempt to index field '?' (a nil value)",
 			["time"] = "2022/08/19 18:51:33",
@@ -531,7 +524,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker-v7.45 TBC Classic.lua\"]:755: in function `StartCooldown'\n[string \"@Interface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker-v7.45 TBC Classic.lua\"]:860: in function `?'\n[string \"@Interface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker-v7.45 TBC Classic.lua\"]:987: in function <...terface\\AddOns\\ArenaTeamTracker\\ArenaTeamTracker.lua:985>",
 			["session"] = 3489,
 			["counter"] = 1652,
-		}, -- [71]
+		}, -- [70]
 		{
 			["message"] = "Interface\\AddOns\\MoveAnything\\MoveAnything-18.0.5.lua:6079: BasicActionButtonsMover:SetPoint(): Couldn't find region named 'MainMenuBarArtFrameBackground'",
 			["time"] = "2022/08/28 15:06:59",
@@ -539,7 +532,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `SetPoint'\n[string \"@Interface\\AddOns\\MoveAnything\\MoveAnything-18.0.5.lua\"]:6079: in function `CreateVM'\n[string \"@Interface\\AddOns\\MoveAnything\\MoveAnything-18.0.5.lua\"]:1944: in function `GetDefaultFrameParent'\n[string \"@Interface\\AddOns\\MoveAnything\\MoveAnything-18.0.5.lua\"]:3791: in function `NudgerOnUpdate'\n[string \"*:OnUpdate\"]:1: in function <[string \"*:OnUpdate\"]:1>",
 			["session"] = 3509,
 			["counter"] = 6,
-		}, -- [72]
+		}, -- [71]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame1:Hide()'.",
 			["time"] = "2022/08/19 21:56:59",
@@ -547,7 +540,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:143: in function `PartyMemberFrame_UpdateMember'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:337: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:740: in function <Interface\\FrameXML\\UnitFrame.lua:738>",
 			["session"] = 3515,
 			["counter"] = 14,
-		}, -- [73]
+		}, -- [72]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame1PetFrame:Hide()'.",
 			["time"] = "2022/08/18 19:56:43",
@@ -555,7 +548,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:187: in function `PartyMemberFrame_UpdatePet'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:363: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:740: in function <Interface\\FrameXML\\UnitFrame.lua:738>",
 			["session"] = 3516,
 			["counter"] = 28,
-		}, -- [74]
+		}, -- [73]
 		{
 			["message"] = "WTF\\Account\\404249330#2\\SavedVariables\\BetterVendorPrice-v1.17.01.lua:1: unexpected symbol",
 			["time"] = "2022/09/01 17:45:39",
@@ -563,7 +556,7 @@ BugGrabberDB = {
 			["stack"] = "",
 			["session"] = 3517,
 			["counter"] = 3,
-		}, -- [75]
+		}, -- [74]
 		{
 			["message"] = "...unt\\404249330#2\\Gehennas\\Evolvebanned\\SavedVariables\\BuyEmAllClassic-1.0.2.lua:1: unexpected symbol",
 			["time"] = "2022/09/01 17:45:40",
@@ -571,13 +564,20 @@ BugGrabberDB = {
 			["stack"] = "",
 			["session"] = 3517,
 			["counter"] = 3,
-		}, -- [76]
+		}, -- [75]
 		{
 			["message"] = "...unt\\404249330#2\\Gehennas\\Evolvebanned\\SavedVariables\\Blizzard_RaidUI.lua:1: unexpected symbol",
 			["time"] = "2022/09/01 17:45:47",
 			["locals"] = "(*temporary) = \"Blizzard_RaidUI\"\n",
 			["stack"] = "[string \"=[C]\"]: in function `LoadAddOn'\n[string \"@Interface_Wrath\\FrameXML\\UIParent.lua\"]:386: in function `UIParentLoadAddOn'\n[string \"@Interface_Wrath\\FrameXML\\UIParent.lua\"]:444: in function `RaidFrame_LoadUI'\n[string \"@Interface\\FrameXML\\RaidFrame.lua\"]:59: in function <Interface\\FrameXML\\RaidFrame.lua:50>",
 			["session"] = 3517,
+			["counter"] = 3,
+		}, -- [76]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'ButtonForge' tried to call the protected function 'ActionButton12:Show()'.",
+			["time"] = "2022/08/21 17:12:30",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:357: in function `ActionButton_Update'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:694: in function `ActionButton_OnEvent'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:207: in function <Interface\\FrameXML\\ActionButton.lua:204>",
+			["session"] = 3541,
 			["counter"] = 3,
 		}, -- [77]
 	},

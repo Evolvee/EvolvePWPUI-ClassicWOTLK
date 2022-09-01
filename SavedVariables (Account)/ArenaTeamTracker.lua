@@ -174,17 +174,13 @@ ATTDB = {
 		}, -- [41]
 	},
 	["showTrinket"] = true,
-	["showTooltip"] = false,
+	["classSelected"] = "WARRIOR",
 	["iconOffsetY"] = "2",
 	["attach"] = false,
 	["outside"] = false,
 	["hidden"] = true,
 	["dungeons"] = false,
-	["showIconBorders"] = true,
-	["arena"] = true,
 	["scenarios"] = false,
-	["inraid"] = false,
-	["iconOffsetX"] = "1",
 	["horizontal"] = false,
 	["abilities"] = {
 		["GENERAL"] = {
@@ -201,9 +197,9 @@ ATTDB = {
 				{
 					["spellStatus"] = "ENABLED",
 					["ability"] = "Intercept",
-					["id"] = 25275,
-					["cooldown"] = 15,
 					["order"] = 1,
+					["cooldown"] = 15,
+					["id"] = 25275,
 				}, -- [2]
 				{
 					["ability"] = "Spell Reflection",
@@ -217,9 +213,9 @@ ATTDB = {
 				{
 					["spellStatus"] = "ENABLED",
 					["ability"] = "Nature's Swiftness",
-					["id"] = 16188,
-					["cooldown"] = 180,
 					["order"] = 1,
+					["cooldown"] = 180,
+					["id"] = 16188,
 				}, -- [1]
 				{
 					["ability"] = "Mana Tide Totem",
@@ -260,67 +256,6 @@ ATTDB = {
 				}, -- [1]
 			},
 		},
-		["HUNTER"] = {
-			["ALL"] = {
-				{
-					["ability"] = "Freezing Trap",
-					["cooldown"] = 30,
-					["id"] = 14311,
-				}, -- [1]
-				{
-					["ability"] = "Scatter Shot",
-					["cooldown"] = 30,
-					["id"] = 19503,
-				}, -- [2]
-				{
-					["ability"] = "Wyvern Sting",
-					["cooldown"] = 180,
-					["id"] = 27068,
-				}, -- [3]
-			},
-		},
-		["DRUID"] = {
-			["ALL"] = {
-				{
-					["spellStatus"] = "ENABLED",
-					["ability"] = "Nature's Swiftness",
-					["id"] = 17116,
-					["cooldown"] = 180,
-					["order"] = 1,
-				}, -- [1]
-				{
-					["ability"] = "Innervate",
-					["cooldown"] = 360,
-					["id"] = 29166,
-				}, -- [2]
-			},
-		},
-		["ROGUE"] = {
-			["ALL"] = {
-				{
-					["spellStatus"] = "ENABLED",
-					["ability"] = "Kidney Shot",
-					["id"] = 408,
-					["cooldown"] = 20,
-					["order"] = 1,
-				}, -- [1]
-				{
-					["ability"] = "Kick",
-					["cooldown"] = 10,
-					["id"] = 1766,
-				}, -- [2]
-				{
-					["ability"] = "Blind",
-					["cooldown"] = 90,
-					["id"] = 2094,
-				}, -- [3]
-				{
-					["ability"] = "Cloak of Shadows",
-					["cooldown"] = 60,
-					["id"] = 31224,
-				}, -- [4]
-			},
-		},
 		["PALADIN"] = {
 			["ALL"] = {
 				{
@@ -340,6 +275,71 @@ ATTDB = {
 				}, -- [3]
 			},
 		},
+		["DRUID"] = {
+			["ALL"] = {
+				{
+					["spellStatus"] = "ENABLED",
+					["ability"] = "Nature's Swiftness",
+					["order"] = 1,
+					["cooldown"] = 180,
+					["id"] = 17116,
+				}, -- [1]
+				{
+					["ability"] = "Innervate",
+					["cooldown"] = 360,
+					["id"] = 29166,
+				}, -- [2]
+			},
+		},
+		["ROGUE"] = {
+			["ALL"] = {
+				{
+					["spellStatus"] = "ENABLED",
+					["ability"] = "Kidney Shot",
+					["order"] = 1,
+					["cooldown"] = 20,
+					["id"] = 408,
+				}, -- [1]
+				{
+					["ability"] = "Kick",
+					["cooldown"] = 10,
+					["id"] = 1766,
+				}, -- [2]
+				{
+					["ability"] = "Blind",
+					["cooldown"] = 90,
+					["id"] = 2094,
+				}, -- [3]
+				{
+					["ability"] = "Cloak of Shadows",
+					["cooldown"] = 60,
+					["id"] = 31224,
+				}, -- [4]
+			},
+		},
+		["HUNTER"] = {
+			["ALL"] = {
+				{
+					["ability"] = "Freezing Trap",
+					["cooldown"] = 30,
+					["id"] = 14311,
+				}, -- [1]
+				{
+					["ability"] = "Scatter Shot",
+					["cooldown"] = 30,
+					["id"] = 19503,
+				}, -- [2]
+				{
+					["ability"] = "Wyvern Sting",
+					["cooldown"] = 180,
+					["id"] = 27068,
+				}, -- [3]
+			},
+		},
 	},
-	["classSelected"] = "WARRIOR",
+	["inraid"] = false,
+	["iconOffsetX"] = "1",
+	["arena"] = true,
+	["showIconBorders"] = true,
+	["showTooltip"] = false,
 }

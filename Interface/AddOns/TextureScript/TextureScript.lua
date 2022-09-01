@@ -343,7 +343,7 @@ MainMenuBarRightEndCap:Hide()
 
 
 
---Hidden Player glow combat/rested flashes + Hidden Focus Flash on Focused Target + Trying to completely hide the red glowing status on target/focus frames when they have low HP(this is not completely fixed yet)
+-- Hidden Player glow combat/rested flashes + Hidden Focus Flash on Focused Target + Trying to completely hide the red glowing status on target/focus frames when they have low HP(this is not completely fixed yet)
 
 
 hooksecurefunc("PlayerFrame_UpdateStatus", function()
@@ -359,7 +359,12 @@ hooksecurefunc("PlayerFrame_UpdateStatus", function()
 end)
 
 
+-- Hidden Party Frame Colour-Statuses (debuffs)
 
+PartyMemberFrame1Status.Show = function(self) self:Hide() end
+PartyMemberFrame2Status.Show = function(self) self:Hide() end
+PartyMemberFrame3Status.Show = function(self) self:Hide() end
+PartyMemberFrame4Status.Show = function(self) self:Hide() end
 
 --Player,Focus,Target,Pet and Party 1-4 Frames cleaned of names, group frame titles, combat indicators, glows, leader icons, master looter icons, levels, rest icons, !Improved Error Frame button hidden, Red Erros in top-center of screen hidden etc
 
@@ -891,14 +896,12 @@ MinimapCluster:SetPoint("BOTTOMLEFT", 1186.333618164063, 595.0001831054688);
 
 -- Increased nameplate DISTANCE and SIZE +
 -- Hackfixed Floating Combat Text randomly turning off +
--- Hackfixed showing numbers for action bar cooldowns (there is aparently a conflict with OmniCC so this has to be forced at every login)
 
 
 local function OnEvent(self, event)
 	SetCVar("nameplateMaxDistance", "41")
 	SetCVar("nameplateGlobalScale", "1.2")
 	SetCVar("enableFloatingCombatText", 1)
-	SetCVar("countdownForCooldowns", 1)
 end
 
 local f = CreateFrame("Frame")

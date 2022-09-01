@@ -35,8 +35,8 @@ BigDebuffsDB = {
 				["debuffs_offensive"] = false,
 				["immunities"] = false,
 				["roots"] = false,
-				["buffs_offensive"] = false,
 				["friendly"] = false,
+				["buffs_offensive"] = false,
 			},
 			["priority"] = {
 				["interrupts"] = 40,
@@ -89,8 +89,8 @@ BigDebuffsDB = {
 				},
 				[64058] = {
 					["nameplates"] = 0,
-					["raidFrames"] = 0,
 					["unitFrames"] = 0,
+					["raidFrames"] = 0,
 				},
 				[34471] = {
 					["nameplates"] = 0,
@@ -248,11 +248,11 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[53480] = {
+				[64205] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[22842] = {
+				[3411] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -289,11 +289,11 @@ BigDebuffsDB = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[3411] = {
+				[22842] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
-				[64205] = {
+				[53480] = {
 					["nameplates"] = 0,
 					["unitFrames"] = 0,
 				},
@@ -327,7 +327,7 @@ BigDebuffsDB = {
 						57.60003280639648, -- [5]
 					},
 				},
-				["cooldownCount"] = false,
+				["enabled"] = false,
 				["player"] = {
 					["position"] = {
 						"LEFT", -- [1]
@@ -337,16 +337,6 @@ BigDebuffsDB = {
 						101.3334121704102, -- [5]
 					},
 				},
-				["enabled"] = false,
-				["arena3"] = {
-					["position"] = {
-						"CENTER", -- [1]
-						nil, -- [2]
-						"CENTER", -- [3]
-						2.133349180221558, -- [4]
-						67.55557250976562, -- [5]
-					},
-				},
 				["arena1"] = {
 					["position"] = {
 						"CENTER", -- [1]
@@ -354,6 +344,16 @@ BigDebuffsDB = {
 						"CENTER", -- [3]
 						68.97777557373047, -- [4]
 						-26.31111907958984, -- [5]
+					},
+				},
+				["cooldownCount"] = false,
+				["arena3"] = {
+					["position"] = {
+						"CENTER", -- [1]
+						nil, -- [2]
+						"CENTER", -- [3]
+						2.133349180221558, -- [4]
+						67.55557250976562, -- [5]
 					},
 				},
 			},
