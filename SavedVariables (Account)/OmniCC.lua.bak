@@ -5,13 +5,14 @@ OmniCCDB = {
 		["Evolve - Badge of Justice"] = "Default",
 		["Evolve - Classic Arena - EU"] = "Default",
 		["Evolve - Launch Test"] = "Default",
+		["Evolvelulw - Earthshaker"] = "Default",
 		["Magetest - Classic Arena - EU"] = "Default",
 		["Qwdqwdw - Badge of Justice"] = "Default",
 		["Evolvepwp - Earthshaker"] = "Default",
-		["Evolvepwe - Classic Arena - EU"] = "Default",
+		["Wotlkprep - Sulfuron"] = "Default",
 		["Evolve - Classic Beta PvP"] = "Default",
 		["Evolve - Classic PTR Realm 1"] = "Default",
-		["Evolvelulw - Earthshaker"] = "Default",
+		["Evolvepwe - Classic Arena - EU"] = "Default",
 		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvebank - Gehennas"] = "Default",
 		["Dbldogcheck - Firemaw"] = "Default",
@@ -19,7 +20,7 @@ OmniCCDB = {
 	},
 	["global"] = {
 		["dbVersion"] = 6,
-		["addonVersion"] = "9.2.0",
+		["addonVersion"] = "9.2.1",
 	},
 	["profiles"] = {
 		["Default"] = {
@@ -56,17 +57,17 @@ OmniCCDB = {
 			["themes"] = {
 				["Default"] = {
 					["textStyles"] = {
+						["seconds"] = {
+							["r"] = 0.9803921568627451,
+							["g"] = 0.984313725490196,
+							["b"] = 1,
+						},
+						["minutes"] = {
+						},
 						["soon"] = {
 							["b"] = 0,
 							["scale"] = 1,
 							["g"] = 0.8784313725490196,
-						},
-						["seconds"] = {
-							["b"] = 1,
-							["g"] = 0.984313725490196,
-							["r"] = 0.9803921568627451,
-						},
-						["minutes"] = {
 						},
 					},
 					["timerOffset"] = 1400,
@@ -79,11 +80,11 @@ OmniCCDB = {
 				},
 				["Plater Nameplates Theme"] = {
 					["textStyles"] = {
-						["soon"] = {
-						},
 						["seconds"] = {
 						},
 						["minutes"] = {
+						},
+						["soon"] = {
 						},
 					},
 				},

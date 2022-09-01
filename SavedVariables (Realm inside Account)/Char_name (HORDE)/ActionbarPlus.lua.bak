@@ -1,0 +1,3 @@
+
+ABP_LOG_LEVEL = 0
+ABP_CHARACTER_DB = nil

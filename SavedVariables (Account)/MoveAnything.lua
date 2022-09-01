@@ -9,38 +9,38 @@ MADB = {
 		["default"] = {
 			["name"] = "default",
 			["frames"] = {
-				["PlayerDebuffsMover"] = {
+				["PartyMemberFrame3"] = {
 					["orgPos"] = {
-						"TOPRIGHT", -- [1]
-						"BuffFrame", -- [2]
-						"BOTTOMRIGHT", -- [3]
-						0, -- [4]
-						-60, -- [5]
-					},
-					["name"] = "PlayerDebuffsMover",
-					["pos"] = {
-						"BOTTOMLEFT", -- [1]
+						"LEFT", -- [1]
 						"UIParent", -- [2]
+						"LEFT", -- [3]
+						0.9999999403953552, -- [4]
+						7.999999523162842, -- [5]
+					},
+					["name"] = "PartyMemberFrame3",
+					["pos"] = {
+						"TOPLEFT", -- [1]
+						"PartyMemberFrame2PetFrame", -- [2]
 						"BOTTOMLEFT", -- [3]
-						1155.33349609375, -- [4]
-						621.00048828125, -- [5]
+						-22.67000472545624, -- [4]
+						-32.26593017578125, -- [5]
 					},
 				},
-				["PlayerBuffsMover"] = {
+				["PartyMemberFrame2"] = {
 					["orgPos"] = {
-						"TOPRIGHT", -- [1]
+						"LEFT", -- [1]
 						"UIParent", -- [2]
-						"TOPRIGHT", -- [3]
-						-205, -- [4]
-						-13, -- [5]
+						"LEFT", -- [3]
+						0.9999999403953552, -- [4]
+						94, -- [5]
 					},
-					["name"] = "PlayerBuffsMover",
+					["name"] = "PartyMemberFrame2",
 					["pos"] = {
-						"TOPRIGHT", -- [1]
-						"UIParent", -- [2]
-						"TOPRIGHT", -- [3]
-						-179.9998779296875, -- [4]
-						-12.99969482421875, -- [5]
+						"TOPLEFT", -- [1]
+						"PartyMemberFrame1PetFrame", -- [2]
+						"BOTTOMLEFT", -- [3]
+						-23.32999211549759, -- [4]
+						-32.39981079101563, -- [5]
 					},
 				},
 				["MultiBarRightMover"] = {
@@ -77,6 +77,23 @@ MADB = {
 						115.0001068115234, -- [5]
 					},
 				},
+				["PartyMemberFrame4"] = {
+					["orgPos"] = {
+						"LEFT", -- [1]
+						"UIParent", -- [2]
+						"LEFT", -- [3]
+						0, -- [4]
+						-77, -- [5]
+					},
+					["name"] = "PartyMemberFrame4",
+					["pos"] = {
+						"TOPLEFT", -- [1]
+						"PartyMemberFrame3PetFrame", -- [2]
+						"BOTTOMLEFT", -- [3]
+						-23.83334064483643, -- [4]
+						-32.70001220703125, -- [5]
+					},
+				},
 				["MultiBarLeftMover"] = {
 					["orgPos"] = {
 						"TOPLEFT", -- [1]
@@ -94,11 +111,32 @@ MADB = {
 						2.9998779296875, -- [5]
 					},
 				},
+				["PartyMemberFrame1"] = {
+					["disableLayerBackground"] = false,
+					["name"] = "PartyMemberFrame1",
+					["orgPos"] = {
+						"TOP", -- [1]
+						"UIParent", -- [2]
+						"TOP", -- [3]
+						0, -- [4]
+						-135, -- [5]
+					},
+					["disableLayerArtwork"] = false,
+					["disableLayerBorder"] = false,
+					["pos"] = {
+						"TOPLEFT", -- [1]
+						"CompactRaidFrameManager", -- [2]
+						"TOPRIGHT", -- [3]
+						-13.40000579357147, -- [4]
+						10.29989013671875, -- [5]
+					},
+				},
 			},
 		},
 	},
-	["frameListRows"] = 18,
-	["noBags"] = false,
-	["playSound"] = false,
+	["modifiedFramesOnly"] = true,
 	["closeGUIOnEscape"] = false,
+	["playSound"] = false,
+	["noBags"] = false,
+	["frameListRows"] = 18,
 }

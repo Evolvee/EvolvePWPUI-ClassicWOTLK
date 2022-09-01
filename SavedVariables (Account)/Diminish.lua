@@ -3,15 +3,17 @@ DiminishDB = {
 	["profileKeys"] = {
 		["Dbldogcheck-Firemaw"] = "Default",
 		["Evolve-Classic Beta PvP"] = "Default",
-		["Evolve-Classic PTR Realm 1"] = "Default",
+		["Evolvebank-Gehennas"] = "Default",
 		["Evolvepwp-Firemaw"] = "Default",
+		["Evolve-Classic PTR Realm 1"] = "Default",
+		["Wotlkprep-Sulfuron"] = "Default",
 		["Evolvebanned-Gehennas"] = "Default",
 	},
 	["profiles"] = {
 		["Default"] = {
 			["categoryTextures"] = {
 			},
-			["timerText"] = true,
+			["timerSwipe"] = true,
 			["unitFrames"] = {
 				["nameplate"] = {
 					["enabled"] = false,
@@ -252,7 +254,7 @@ DiminishDB = {
 					["isEnabledForZone"] = false,
 				},
 			},
-			["timerColors"] = false,
+			["trackNPCs"] = false,
 			["timerStartAuraEnd"] = true,
 			["border"] = {
 				["layer"] = "BORDER",
@@ -266,8 +268,8 @@ DiminishDB = {
 			["showCategoryText"] = false,
 			["timerTextOutline"] = "OUTLINE",
 			["colorBlind"] = false,
-			["timerSwipe"] = true,
-			["trackNPCs"] = false,
+			["timerText"] = false,
+			["timerColors"] = false,
 			["categoryFont"] = {
 				["size"] = 9,
 				["x"] = 0,

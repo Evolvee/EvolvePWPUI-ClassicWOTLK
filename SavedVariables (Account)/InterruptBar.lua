@@ -7,82 +7,82 @@ InterruptBarDB = {
 		},
 		["caster"] = {
 			{
-				["icon"] = 132219,
-				["duration"] = 10,
-				["name"] = "Kick",
 				["spellid"] = 1766,
+				["duration"] = 10,
+				["icon"] = 132219,
+				["name"] = "Kick",
 			}, -- [1]
 			{
-				["icon"] = 132938,
-				["duration"] = 10,
-				["name"] = "Pummel",
 				["spellid"] = 6552,
+				["duration"] = 10,
+				["icon"] = 132938,
+				["name"] = "Pummel",
 			}, -- [2]
 			{
-				["icon"] = 135856,
-				["duration"] = 24,
-				["name"] = "Counterspell",
 				["spellid"] = 2139,
+				["duration"] = 24,
+				["icon"] = 135856,
+				["name"] = "Counterspell",
 			}, -- [3]
 			{
-				["icon"] = 136184,
-				["duration"] = 27,
-				["name"] = "Psychic Scream",
 				["spellid"] = 10890,
+				["duration"] = 27,
+				["icon"] = 136184,
+				["name"] = "Psychic Scream",
 			}, -- [4]
 			{
-				["icon"] = 132298,
-				["duration"] = 20,
-				["name"] = "Kidney Shot",
 				["spellid"] = 408,
+				["duration"] = 20,
+				["icon"] = 132298,
+				["name"] = "Kidney Shot",
 			}, -- [5]
 			{
-				["icon"] = 136177,
-				["duration"] = 60,
-				["name"] = "Cloak of Shadows",
 				["spellid"] = 31224,
+				["duration"] = 60,
+				["icon"] = 136177,
+				["name"] = "Cloak of Shadows",
 			}, -- [6]
 			{
-				["icon"] = 136175,
-				["duration"] = 90,
-				["name"] = "Blind",
 				["spellid"] = 2094,
+				["duration"] = 90,
+				["icon"] = 136175,
+				["name"] = "Blind",
 			}, -- [7]
 			{
-				["icon"] = 136174,
-				["duration"] = 24,
-				["name"] = "Spell Lock",
 				["spellid"] = 19647,
+				["duration"] = 24,
+				["icon"] = 136174,
+				["name"] = "Spell Lock",
 			}, -- [8]
 			{
-				["icon"] = 132357,
-				["duration"] = 12,
-				["name"] = "Shield Bash",
 				["spellid"] = 72,
+				["duration"] = 12,
+				["icon"] = 132357,
+				["name"] = "Shield Bash",
 			}, -- [9]
 			{
-				["icon"] = 132153,
-				["duration"] = 30,
-				["name"] = "Scatter Shot",
 				["spellid"] = 19503,
+				["duration"] = 30,
+				["icon"] = 132153,
+				["name"] = "Scatter Shot",
 			}, -- [10]
 			{
-				["icon"] = 132323,
-				["duration"] = 20,
-				["name"] = "Silencing Shot",
 				["spellid"] = 34490,
+				["duration"] = 20,
+				["icon"] = 132323,
+				["name"] = "Silencing Shot",
 			}, -- [11]
 			{
-				["icon"] = 132183,
-				["duration"] = 15,
-				["name"] = "Feral Charge - Bear",
 				["spellid"] = 16979,
+				["duration"] = 15,
+				["icon"] = 132183,
+				["name"] = "Feral Charge - Bear",
 			}, -- [12]
 			{
-				["icon"] = 135834,
-				["duration"] = 30,
-				["name"] = "Freezing Trap",
 				["spellid"] = 1499,
+				["duration"] = 30,
+				["icon"] = 135834,
+				["name"] = "Freezing Trap",
 			}, -- [13]
 		},
 	},

@@ -209,6 +209,7 @@ PetFrameManaBar:SetPoint("TOPLEFT", 45, -32)
 
 --Party Member Frames 1-4
 
+PartyMemberFrame1:SetScale(1.25)
 PartyMemberFrame1Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
 PartyMemberFrame1HealthBar:SetWidth(70)
 PartyMemberFrame1HealthBar:SetHeight(18)
@@ -218,7 +219,7 @@ PartyMemberFrame1HealthBar:SetPoint("TOPLEFT", 45, -14)
 PartyMemberFrame1ManaBar:SetPoint("TOPLEFT", 45, -32)
 
 
-
+PartyMemberFrame2:SetScale(1.25)
 PartyMemberFrame2Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
 PartyMemberFrame2HealthBar:SetWidth(70)
 PartyMemberFrame2HealthBar:SetHeight(18)
@@ -227,7 +228,7 @@ PartyMemberFrame2ManaBar:SetHeight(10)
 PartyMemberFrame2HealthBar:SetPoint("TOPLEFT", 45, -14)
 PartyMemberFrame2ManaBar:SetPoint("TOPLEFT", 45, -32)
 
-
+PartyMemberFrame3:SetScale(1.25)
 PartyMemberFrame3Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
 PartyMemberFrame3HealthBar:SetWidth(70)
 PartyMemberFrame3HealthBar:SetHeight(18)
@@ -236,7 +237,7 @@ PartyMemberFrame3ManaBar:SetHeight(10)
 PartyMemberFrame3HealthBar:SetPoint("TOPLEFT", 45, -14)
 PartyMemberFrame3ManaBar:SetPoint("TOPLEFT", 45, -32)
 
-
+PartyMemberFrame4:SetScale(1.25)
 PartyMemberFrame4Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
 PartyMemberFrame4HealthBar:SetWidth(70)
 PartyMemberFrame4HealthBar:SetHeight(18)
@@ -257,6 +258,7 @@ PlayerFrameHealthBar:SetHeight(29)
 PlayerName:SetPoint("CENTER", 50, 35)
 PlayerFrameHealthBarText:SetPoint("CENTER", 50, 12)
 PlayerFrameHealthBarText:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
+PlayerFrameManaBarText:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
 
 -- retarded classic client forces you to reapply this on every reload (god bless 2.4.3)
 
@@ -286,7 +288,7 @@ TargetFrameNameBackground:Hide()
 TargetFrameTextureFrameName:SetPoint("CENTER", -50, 35)
 TargetFrameHealthBar.TextString:SetPoint("CENTER", -50, 12)
 TargetFrameHealthBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
-
+TargetFrameManaBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
 
 FocusFrameHealthBar:SetWidth(119)
 FocusFrameHealthBar:SetHeight(29)
@@ -295,6 +297,7 @@ FocusFrameNameBackground:Hide()
 FocusFrameTextureFrameName:SetPoint("CENTER", -50, 35)
 FocusFrameHealthBar.TextString:SetPoint("CENTER", -50, 12)
 FocusFrameHealthBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
+FocusFrameManaBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
 
 -- aparently "FocusFrame_CheckClassification" doesnt exist anymore in this modern abomination of a client so docking it inside Target...
 
@@ -1614,17 +1617,6 @@ end)
 
 
 
-
---Login message informing all scripts of this file were properly executed
-
-ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.1 Loaded successfully!",0,205,255)
-ChatFrame1:AddMessage("Check for updates at:",0,205,255)
-ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK",0,205,255)
-
-
-
-
-
 -- FUCK BLIZZARD, garbage company:
 --https://eu.forums.blizzard.com/en/wow/t/lf-a-blizzard-response-all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/320188
 -- https://us.forums.blizzard.com/en/wow/t/all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/1114096/5
@@ -1636,4 +1628,10 @@ ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK",0,20
 COMBAT_TEXT_RESIST = "SHIT EXPANSION"
 COMBAT_TEXT_MISS = "SHIT EXPANSION"
 
+
+--Login message informing all scripts of this file were properly executed
+
+ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.1 Loaded successfully!",0,205,255)
+ChatFrame1:AddMessage("Check for updates at:",0,205,255)
+ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK",0,205,255)
 
