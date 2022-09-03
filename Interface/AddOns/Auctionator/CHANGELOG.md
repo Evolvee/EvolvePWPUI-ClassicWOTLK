@@ -1,10 +1,9 @@
 # Auctionator
 
-## [9.2.31](https://github.com/Auctionator/Auctionator/tree/9.2.31) (2022-08-31)
-[Full Changelog](https://github.com/Auctionator/Auctionator/compare/9.2.30...9.2.31) 
+## [9.2.33](https://github.com/Auctionator/Auctionator/tree/9.2.33) (2022-09-03)
+[Full Changelog](https://github.com/Auctionator/Auctionator/compare/9.2.32...9.2.33) 
 
-- Wrath: Selling: Add Glyphs category for bag view  
-- Update issue template  
-- Update issue templates  
-- [Fixes #1185] Safety feature for undercutting  
-- Fix infinite loading in Cancelling tab when no auctions posted  
+- Remove tocs for tbc and wrath from mainline build  
+- Attempt to work around Blizzard bug making Auctionator not show up  
+- Classic: Buy: Clear loading state of search data provider  
+- ReagentSearch: Search for names of items that are transmute results  

@@ -23,6 +23,7 @@ function AuctionatorBuyFrameMixin:Reset()
   self.selectedAuctionData = nil
   self.lastCancelData = nil
   self.gotCompleteResults = true
+  self.SearchDataProvider.onSearchEnded()
   self.SearchDataProvider:Reset()
   self.HistoryDataProvider:Reset()
 
@@ -236,6 +237,8 @@ function AuctionatorBuyFrameMixinForSelling:Init()
   AuctionatorBuyFrameMixin.Init(self)
   Auctionator.EventBus:Register(self, {
     Auctionator.Selling.Events.RefreshBuying,
+    Auctionator.Selling.Events.StartFakeBuyLoading,
+    Auctionator.Selling.Events.StopFakeBuyLoading,
   })
 end
 
@@ -257,6 +260,17 @@ function AuctionatorBuyFrameMixinForSelling:ReceiveEvent(eventName, eventData, .
 
     self.RefreshButton:Enable()
     self.HistoryButton:Enable()
+  elseif eventName == Auctionator.Selling.Events.StartFakeBuyLoading then
+    -- Used so that it is clear something is loading, even if the search can't
+    -- be sent yet.
+    self.HistoryDataProvider:SetItemLink(eventData.itemLink)
+    self.SearchDataProvider:SetQuery(eventData.itemLink)
+    self.SearchDataProvider.onSearchStarted()
+  elseif eventName == Auctionator.Selling.Events.StopFakeBuyLoading then
+    self.SearchDataProvider.onSearchEnded()
+    self:Reset()
+    self.RefreshButton:Disable()
+    self.HistoryButton:Disable()
   else
     AuctionatorBuyFrameMixin.ReceiveEvent(self, eventName, eventData, ...)
   end

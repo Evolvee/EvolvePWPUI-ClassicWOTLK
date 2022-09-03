@@ -160,8 +160,7 @@ L["CONFIG_VENDOR_TOOLTIP"] = "Показать всплывающие подск
 L["CONFIRM"] = "Подтвердить"
 L["CONFIRM_POST_BELOW_VENDOR"] = "Вы можете заработать больше золота, продав это торговцу. Вы уверены, что хотите выставить по этой цене?"
 L["CONFIRM_POST_LOW_PRICE"] = "Цена на %s выглядит заниженной. Вы уверены, что хотите выставить по этой цене?"
---[[Translation missing --]]
-L["CONFIRM_POST_PRICE_DROP"] = "The unit price of %s is a large price drop. Are you sure you want to post at that price?"
+L["CONFIRM_POST_PRICE_DROP"] = "Цена за единицу %s сильно упала. Вы уверены, что хотите выставить по этой цене?"
 L["CONTRIBUTORS_HEADER"] = "Помощники"
 L["COPY_ITEM_ADDED"] = "Скопировано %s в %s"
 L["COPY_NO_LIST_SELECTED"] = "Не могу скопировать предмет. Список покупок не выбран"

@@ -1,3 +1,5 @@
+local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+
 ----------------------------------------------------------------------------------------------------
 -- helper functions
 ----------------------------------------------------------------------------------------------------
@@ -27,7 +29,7 @@ local function CreateGUI()
 	})
 	window:SetBackdropColor(0,0,0,1)
 	window:SetPoint("CENTER")
-	window:SetSize(880, 450)
+	window:SetSize(880, 540)
 	window:SetMovable(true)
 	window:EnableMouse(true)
 	window:RegisterForDrag("LeftButton")
@@ -63,7 +65,7 @@ local function CreateGUI()
 	textureHeader:SetPoint("TOP", 0, 12)
 	local textHeader = window:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	textHeader:SetPoint("TOP", textureHeader, "TOP", 0, -14)
-	textHeader:SetText("AutoShop 1.0")
+	textHeader:SetText("AutoShop 1.2.0")
 
 	--------------------------------------------------
 	-- checkbox options
@@ -140,31 +142,16 @@ local function CreateGUI()
 
 	-- Autosell recipes
 	local checkboxAutoSellRecipe = CreateCheckbox("AutoSellRecipe", "Sell recipes that are both unusable & bound.",
-		"|cffff0000Warning: this includes recipes you don't have a high enough skill for, so you may want to wait until maxed to enable this.|r")
+		"|cffff0000Warning: this includes recipes you don't have a high enough skill for, so you may want to wait until maxed to enable this.|r\n\nThis also seems less useful on Classic now that most BoP recipes can't be looted again!")
 	checkboxAutoSellRecipe:SetPoint("TOPLEFT", checkboxAutoSellPurple, "BOTTOMLEFT", 0, 6)
 	checkboxAutoSellRecipe:SetScript("OnClick", function(this)
 		ClearFocus()
 		AutoShopSave.autoSellRecipe = this:GetChecked() or false
 	end)
 
-	-- repair items
-	local checkboxAutoRepair = CreateCheckbox("AutoRepair", "Repair automatically")
-	checkboxAutoRepair:SetPoint("TOPLEFT", checkboxAutoSellGray, "TOPLEFT", window:GetWidth()/2+24, 0)
-	checkboxAutoRepair:SetScript("OnClick", function(this)
-		ClearFocus()
-		AutoShopSave.autoRepair = this:GetChecked() or false
-	end)
-
-	local checkboxAutoRepairGuild = CreateCheckbox("AutoRepairGuild", "and try using guild money.")
-	checkboxAutoRepairGuild:SetPoint("LEFT", _G[checkboxAutoRepair:GetName().."Text"], "RIGHT", 0, 0)
-	checkboxAutoRepairGuild:SetScript("OnClick", function(this)
-		ClearFocus()
-		AutoShopSave.autoRepairGuild = this:GetChecked() or false
-	end)
-
 	-- show buy activity
 	local checkboxShowBuyActivity = CreateCheckbox("ShowBuyActivity", "Show chat window messages about buying items.")
-	checkboxShowBuyActivity:SetPoint("TOPLEFT", checkboxAutoRepair, "BOTTOMLEFT", 0, 6)
+	checkboxShowBuyActivity:SetPoint("TOPLEFT", checkboxAutoSellGray, "TOPLEFT", window:GetWidth()/2, 0)
 	checkboxShowBuyActivity:SetScript("OnClick", function(this)
 		ClearFocus()
 		AutoShopSave.showBuyActivity = this:GetChecked() or false
@@ -178,28 +165,145 @@ local function CreateGUI()
 		AutoShopSave.showSellActivity = this:GetChecked() or false
 	end)
 
+	-- never buy more than the wanted amount
+	local checkboxNoMoreThanWanted = CreateCheckbox("LessThanStack", "Never buy more than the wanted amount (special batches)",
+		"Some items cost special currency and come in batches (like 3x Cenarion Mana Salves). If checked, if you wanted 5 more of those then only 1 batch will be bought. If not checked, 2 batches would be bought even though it will get an extra one. Normal money items like most food/drinks aren't affected by this setting and can always be bought in an exact amount.")
+	checkboxNoMoreThanWanted:SetPoint("TOPLEFT", checkboxShowSellActivity, "BOTTOMLEFT", 0, 6)
+	checkboxNoMoreThanWanted:SetScript("OnClick", function(this)
+		ClearFocus()
+		AutoShopSave.noMoreThanWanted = this:GetChecked() or false
+	end)
+
+	-- count bank items
+	local checkboxCountBankItems = CreateCheckbox("CountBankItems", "Count items in the bank when restocking.",
+		"If checked, items in the bank will count as you having them when figuring out how many more to buy.")
+	checkboxCountBankItems:SetPoint("TOPLEFT", checkboxNoMoreThanWanted, "BOTTOMLEFT", 0, 6)
+	checkboxCountBankItems:SetScript("OnClick", function(this)
+		ClearFocus()
+		AutoShopSave.countBankItems = this:GetChecked() or false
+	end)
+
+	-- repair items
+	local checkboxAutoRepair = CreateCheckbox("AutoRepair", "Repair automatically")
+	checkboxAutoRepair:SetPoint("TOPLEFT", checkboxCountBankItems, "BOTTOMLEFT", 0, 6)
+	checkboxAutoRepair:SetScript("OnClick", function(this)
+		ClearFocus()
+		AutoShopSave.autoRepair = this:GetChecked() or false
+	end)
+
+	local checkboxAutoRepairGuild = CreateCheckbox("AutoRepairGuild", "and try using guild money.")
+	checkboxAutoRepairGuild:SetPoint("LEFT", _G[checkboxAutoRepair:GetName().."Text"], "RIGHT", 0, 0)
+	checkboxAutoRepairGuild:SetScript("OnClick", function(this)
+		ClearFocus()
+		AutoShopSave.autoRepairGuild = this:GetChecked() or false
+	end)
+
+	-- repair items in instances
+	local checkboxInstanceRepair = CreateCheckbox("InstanceRepair", "Ignore repair reputation in instances if below durability:",
+		"If checked, the minimum reputation requirement will be ignored if you're inside an instance with equipment durability below the set percentage. This is to allow using things like repair bots or Karazhan merchants while still using a minimum reputation for other places.")
+	checkboxInstanceRepair:SetPoint("TOPLEFT", checkboxAutoRepair, "BOTTOMLEFT", 0, 6)
+	checkboxInstanceRepair:SetScript("OnClick", function(this)
+		ClearFocus()
+		AutoShopSave.instanceRepair = this:GetChecked() or false
+	end)
+
+	local inputInstanceRepair = CreateFrame("EditBox", "AutoshopInputInstanceRepair", window, "InputBoxTemplate")
+	inputInstanceRepair:SetWidth(28)
+	inputInstanceRepair:SetHeight(16)
+	inputInstanceRepair:SetNumeric(true)
+	inputInstanceRepair:SetMaxLetters(3)
+	inputInstanceRepair:SetPoint("LEFT", _G[checkboxInstanceRepair:GetName().."Text"], "RIGHT", 8, 0)
+	inputInstanceRepair:SetAutoFocus(false)
+	inputInstanceRepair:SetScript("OnEnterPressed", function(this) this:ClearFocus() end)
+	inputInstanceRepair:SetScript("OnEditFocusLost", function(this)
+		local durability = tonumber(this:GetText()) or 0
+		if durability > 100 then
+			durability = 100
+		elseif durability < 0 then
+			durability = 0
+		end
+		AutoShopSave.instanceRepairDurability = durability
+		inputInstanceRepair:SetText(durability)
+	end)
+
+	-- minimum repair reputation
+	local textRepairReputation = window:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	textRepairReputation:SetPoint("TOPLEFT", checkboxInstanceRepair, "BOTTOMLEFT", 0, -6)
+	textRepairReputation:SetText("Min. repair reputation:")
+
+	local dropdownRepairReputation = LibDD:Create_UIDropDownMenu("AutoShopDropdownRepairReputation", window)
+	dropdownRepairReputation:SetPoint("TOPLEFT", textRepairReputation, "BOTTOMLEFT", -18, -3)
+	LibDD:UIDropDownMenu_SetWidth(dropdownRepairReputation, 120)
+
+	-- minimum buy reputation
+	local textBuyReputation = window:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	textBuyReputation:SetPoint("LEFT", textRepairReputation, "LEFT", 170, 0)
+	textBuyReputation:SetText("Min. buy reputation:")
+
+	local dropdownBuyReputation = LibDD:Create_UIDropDownMenu("AutoShopDropdownBuyReputation", window)
+	dropdownBuyReputation:SetPoint("TOPLEFT", textBuyReputation, "BOTTOMLEFT", -18, -3)
+	LibDD:UIDropDownMenu_SetWidth(dropdownBuyReputation, 120)
+
+	-- dropdowns
+	local dropdownReputations = {"Neutral", "Friendly", "Honored", "Revered", "Exalted"}
+
+	local function DropdownRepair_OnClick(item)
+		ClearFocus()
+		LibDD:UIDropDownMenu_SetSelectedValue(dropdownRepairReputation, item.value)
+		AutoShopSave.reactionRepair = item.value
+	end
+
+	local function DropdownBuy_OnClick(item)
+		ClearFocus()
+		LibDD:UIDropDownMenu_SetSelectedValue(dropdownBuyReputation, item.value)
+		AutoShopSave.reactionBuy = item.value
+	end
+
+	local dropdownMenuItem = {}
+	local function DropdownReputation_Initialize(dropdown)
+		local func
+		if dropdown == dropdownRepairReputation then
+			func = DropdownRepair_OnClick
+		elseif dropdown == dropdownBuyReputation then
+			func = DropdownBuy_OnClick
+		end
+
+		for i=1,#dropdownReputations do
+			dropdownMenuItem.func = func
+			dropdownMenuItem.checked = nil
+			dropdownMenuItem.value = i + 3
+			dropdownMenuItem.text = dropdownReputations[i]
+			LibDD:UIDropDownMenu_AddButton(dropdownMenuItem)
+		end
+	end
+
+	LibDD:UIDropDownMenu_Initialize(dropdownRepairReputation, DropdownReputation_Initialize)
+	LibDD:UIDropDownMenu_Initialize(dropdownBuyReputation, DropdownReputation_Initialize)
+	LibDD:UIDropDownMenu_SetSelectedValue(dropdownRepairReputation, 4)
+	LibDD:UIDropDownMenu_SetSelectedValue(dropdownBuyReputation, 4)
+
 	--------------------------------------------------
 	-- editboxes
 	--------------------------------------------------
-	local function CreateEditBox(type_name, position_number, title_left, title_right)
-		local container = CreateFrame("Frame", "AutoshopEdit"..type_name, window, "BackdropTemplate")
-		local input = CreateFrame("EditBox", "AutoshopEdit"..type_name.."Input", container)
-		local scroll = CreateFrame("ScrollFrame", "AutoshopEdit"..type_name.."Scroll", container, "UIPanelScrollFrameTemplate")
+	local function CreateEditBox(name, position, title, showPersonalByDefault)
+		local container = CreateFrame("Frame", "AutoshopEdit"..name, window, "BackdropTemplate")
+		local input = CreateFrame("EditBox", "AutoshopEdit"..name.."Input", container)
+		local scroll = CreateFrame("ScrollFrame", "AutoshopEdit"..name.."Scroll", container, "UIPanelScrollFrameTemplate")
 
-		-- header title (left)
-		local title1 = window:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		if position_number == 1 then
-			title1:SetPoint("LEFT", window, "LEFT", 16, 0)
-		elseif position_number == 2 then
-			title1:SetPoint("LEFT", window, "LEFT", (window:GetWidth() / 2) - (125+8), 0)
-		elseif position_number == 3 then
-			title1:SetPoint("RIGHT", window, "RIGHT", -(250+8), 0)
+		-- header title
+		local header = window:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+		if position == 1 then
+			header:SetPoint("LEFT", window, "LEFT", 16, 0)
+		elseif position == 2 then
+			header:SetPoint("LEFT", window, "LEFT", (window:GetWidth() / 2) - (125+8), 0)
+		elseif position == 3 then
+			header:SetPoint("RIGHT", window, "RIGHT", -(250+8), 0)
 		end
-		title1:SetPoint("TOP", checkboxAutoSellRecipe, "BOTTOM", 0, -18)
-		title1:SetText(title_left)
+		header:SetPoint("TOP", dropdownRepairReputation, "BOTTOM", 0, -20)
+		header:SetText(title)
 
 		-- editbox container
-		container:SetPoint("TOPLEFT", title1, "BOTTOMLEFT", 0, -2)
+		container:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -2)
 		container:SetPoint("BOTTOM", window, "BOTTOM", 0, 12)
 		container:SetWidth(250)
 		container:SetBackdrop({
@@ -209,15 +313,28 @@ local function CreateGUI()
 			insets={left=5, right=5, top=5, bottom=5}})
 		container:SetBackdropColor(0,0,0,1)
 
-		-- header title (right)
-		if title_right then
-			local title2 = window:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-			title2:SetPoint("TOP", title1, "TOP", 0, 0)
-			title2:SetPoint("RIGHT", container, "RIGHT", 0, 0)
-			title2:SetText(title_right)
-		end
+		-- shared tab
+		local tabShared = CreateFrame("Button", "AutoShopTabShared"..name, window, "TabButtonTemplate")
+		tabShared:SetSize(150, 25)
+		tabShared:SetPoint("BOTTOMRIGHT", container, "TOPRIGHT", -4, -3)
+		tabShared:SetFrameStrata("DIALOG")
+		_G[tabShared:GetName().."Text"]:SetText("Shared")
+		PanelTemplates_TabResize(tabShared, 0)
+		_G[tabShared:GetName().."HighlightTexture"]:SetWidth(tabShared:GetTextWidth() + 31)
+
+		-- personal tab
+		local tabPersonal = CreateFrame("Button", "AutoShopTabPersonal"..name, window, "TabButtonTemplate")
+		tabPersonal:SetSize(150, 25)
+		tabPersonal:SetPoint("RIGHT", tabShared, "LEFT", 0, 0)
+		tabPersonal:SetFrameStrata("DIALOG")
+		_G[tabPersonal:GetName().."Text"]:SetText("Personal")
+		PanelTemplates_TabResize(tabPersonal, 0)
+		_G[tabPersonal:GetName().."HighlightTexture"]:SetWidth(tabPersonal:GetTextWidth() + 31)
 
 		-- input part
+		input.tabPersonal = tabPersonal
+		input.tabShared = tabShared
+		input.showingPersonal = showPersonalByDefault
 		input:SetMultiLine(true)
 		input:SetAutoFocus(false)
 		input:EnableMouse(true)
@@ -244,9 +361,9 @@ local function CreateGUI()
 				local name = cursor_link:match("%[(.+)]"):lower()
 				local original = input:GetText()
 				if original == "" or original:sub(-1) == "\n" then
-					input:SetText(original .. name .. "\n")
+					input:SetText(original .. name)
 				else
-					input:SetText(original .. "\n" .. name .. "\n")
+					input:SetText(original .. "\n" .. name)
 				end
 				input:SetFocus()
 				CloseDropDownMenus()
@@ -270,30 +387,52 @@ local function CreateGUI()
 		return input
 	end
 
-	local inputSell    = CreateEditBox("Sell", 1, "Sell:")
-	local inputExclude = CreateEditBox("Exclude", 2, "Sell exclusions:")
-	local inputBuy     = CreateEditBox("Buy", 3, "Buy:", "(example: 60 Wild Quillvine)")
+	local inputSell    = CreateEditBox("Sell", 1, "Sell:", false)
+	local inputExclude = CreateEditBox("Exclude", 2, "Sell exclusions:", false)
+	local inputBuy     = CreateEditBox("Buy", 3, "Buy:", true)
 
 	-- saving the lists
 	inputSell:SetScript("OnEditFocusLost", function(this)
-		AutoShopSave.autoSellList = {}
+		local list = {}
 		for line in string.gmatch(this:GetText(), "[^\r\n]+") do
-			AutoShopSave.autoSellList[line:trim():lower()] = true
+			list[line:trim():lower()] = true
+		end
+		if this.showingPersonal then
+			AutoShopSave.autoSellList = list
+		else
+			AutoShopSharedSave.autoSellList = list
 		end
 	end)
 
 	inputExclude:SetScript("OnEditFocusLost", function(this)
-		AutoShopSave.excludeList = {}
+		local list = {}
 		for line in string.gmatch(this:GetText(), "[^\r\n]+") do
-			AutoShopSave.excludeList[line:trim():lower()] = true
+			list[line:trim():lower()] = true
+		end
+		if this.showingPersonal then
+			AutoShopSave.excludeList = list
+		else
+			AutoShopSharedSave.excludeList = list
 		end
 	end)
 
 	inputBuy:SetScript("OnEditFocusLost", function(this)
-		AutoShopSave.autoBuyList = {}
+		local list = {}
+		local string_match = string.match
 		for line in string.gmatch(this:GetText(), "[^\r\n]+") do
-			local amount, name = line:match("^%s*(%d*)%s*(.+)")
-			AutoShopSave.autoBuyList[name:trim():lower()] = amount == "" and 0 or tonumber(amount)
+			local amount, name, reaction = line:match("^%s*(%d*)%s*([^/]+)%s*/?%s*(.*)")
+			local item = {}
+			item.wanted = amount == "" and 0 or tonumber(amount)
+			reaction = reaction:trim():lower()
+			if reaction ~= "" then
+				item.reaction = reaction
+			end
+			list[name:trim():lower()] = item
+		end
+		if this.showingPersonal then
+			AutoShopSave.autoBuyList = list
+		else
+			AutoShopSharedSave.autoBuyList = list
 		end
 	end)
 
@@ -307,7 +446,20 @@ local function CreateGUI()
 	buttonHelp:SetScript("OnEnter", function()
 		GameTooltip:SetOwner(window, "ANCHOR_NONE")
 		GameTooltip:SetPoint("BOTTOM", window, "TOP", 0, 0)
-		GameTooltip:SetText("Write each item name on a separate line.\nNames aren't case sensitive.\nYou can drag and drop items onto the editboxes.\nTo buy all of a limited quantity item, just use the name without a wanted amount.\nPress escape or close the window to save list changes.")
+		GameTooltip:SetText(
+[[|cffffff00Notes:|r
+|cffffffffWrite each item name on a separate line - they're not case sensitive.
+You can drag and drop items onto the editboxes.
+Lists are saved when the editbox loses focus (so pressing escape/closing the window/etc).|r
+
+|cffffff00Buying:|r
+|cffffffffAdd a number to restock to that amount: |r|cffcccc0060 wild quillvine|r
+|cffffffffTo buy all of a limited quantity item, just use the name without a wanted amount.|r
+
+|cffffff00Minimum reputation:|r
+|cffffffffLimited quantity items don't care about minimum reputation settings.
+You can override this setting per item, like: |r|cffcccc0020 noggenfogger elixir / neutral|r
+|cffffffffYou can shorten reputation names by any amount - even just "n" counts as neutral.|r]])
 		GameTooltip:Show()
 	end)
 	buttonHelp:SetScript("OnLeave", function()
@@ -323,6 +475,97 @@ local function CreateGUI()
 		ClearFocus()
 		window:Hide()
 	end)
+
+	--------------------------------------------------
+	-- clicking tabs
+	--------------------------------------------------
+	local function SellTab_OnClick(isPersonal)
+		ClearFocus()
+
+		local list
+		if isPersonal then
+			PanelTemplates_SelectTab(inputSell.tabPersonal);
+			PanelTemplates_DeselectTab(inputSell.tabShared);
+			list = AutoShopSave.autoSellList
+		else
+			PanelTemplates_SelectTab(inputSell.tabShared);
+			PanelTemplates_DeselectTab(inputSell.tabPersonal);
+			list = AutoShopSharedSave.autoSellList
+		end
+
+		local lines = {}
+		for name in pairs(list) do
+			lines[#lines+1] = name
+		end
+		table.sort(lines)
+		inputSell:SetText(table.concat(lines, "\n"))
+		inputSell.showingPersonal = isPersonal
+	end
+
+	local function ExcludeTab_OnClick(isPersonal)
+		ClearFocus()
+
+		local list
+		if isPersonal then
+			PanelTemplates_SelectTab(inputExclude.tabPersonal);
+			PanelTemplates_DeselectTab(inputExclude.tabShared);
+			list = AutoShopSave.excludeList
+		else
+			PanelTemplates_SelectTab(inputExclude.tabShared);
+			PanelTemplates_DeselectTab(inputExclude.tabPersonal);
+			list = AutoShopSharedSave.excludeList
+		end
+
+		local lines = {}
+		for name in pairs(list) do
+			lines[#lines+1] = name
+		end
+		table.sort(lines)
+		inputExclude:SetText(table.concat(lines, "\n"))
+		inputExclude.showingPersonal = isPersonal
+	end
+
+	local function BuyTab_OnClick(isPersonal)
+		ClearFocus()
+
+		local list
+		if isPersonal then
+			PanelTemplates_SelectTab(inputBuy.tabPersonal);
+			PanelTemplates_DeselectTab(inputBuy.tabShared);
+			list = AutoShopSave.autoBuyList
+		else
+			PanelTemplates_SelectTab(inputBuy.tabShared);
+			PanelTemplates_DeselectTab(inputBuy.tabPersonal);
+			list = AutoShopSharedSave.autoBuyList
+		end
+
+		local lines = {}
+		local line
+		for name,item in pairs(list) do
+			if item.wanted and item.wanted > 0 then
+				line = item.wanted .. " " .. name
+			else
+				line = name
+			end
+			if item.reaction then
+				line = line .. " / " .. item.reaction
+			end
+			lines[#lines+1] = line
+		end
+		table.sort(list, function(text1, text2) return text1:match("^%d*%s*(.+)") < text2:match("^%d*%s*(.+)") end)
+		table.sort(lines)
+		inputBuy:SetText(table.concat(lines, "\n"))
+		inputBuy.showingPersonal = isPersonal
+	end
+
+	inputSell.tabPersonal:SetScript("OnClick", function() SellTab_OnClick(true)  end)
+	inputSell.tabShared:SetScript("OnClick",   function() SellTab_OnClick(false) end)
+
+	inputExclude.tabPersonal:SetScript("OnClick", function() ExcludeTab_OnClick(true)  end)
+	inputExclude.tabShared:SetScript("OnClick",   function() ExcludeTab_OnClick(false) end)
+
+	inputBuy.tabPersonal:SetScript("OnClick", function() BuyTab_OnClick(true)  end)
+	inputBuy.tabShared:SetScript("OnClick",   function() BuyTab_OnClick(false) end)
 
 	--------------------------------------------------
 	-- showing the window
@@ -342,36 +585,23 @@ local function CreateGUI()
 		checkboxShowSellActivity:SetChecked(AutoShopSave.showSellActivity)
 		checkboxAutoRepair:SetChecked(AutoShopSave.autoRepair)
 		checkboxAutoRepairGuild:SetChecked(AutoShopSave.autoRepairGuild)
+		checkboxNoMoreThanWanted:SetChecked(AutoShopSave.noMoreThanWanted)
+		checkboxCountBankItems:SetChecked(AutoShopSave.countBankItems)
+		checkboxInstanceRepair:SetChecked(AutoShopSave.instanceRepair)
+		inputInstanceRepair:SetText(AutoShopSave.instanceRepairDurability)
 
 		inputGreenIlvl:SetText(AutoShopSave.autoSellGreenIlvl)
 		inputBlueIlvl:SetText(AutoShopSave.autoSellBlueIlvl)
 		inputPurpleIlvl:SetText(AutoShopSave.autoSellPurpleIlvl)
 
-		-- put lists in alphabetical order
-		local list = {}
-		for name in pairs(AutoShopSave.autoSellList) do
-			list[#list+1] = name
-		end
-		table.sort(list)
-		inputSell:SetText(table.concat(list, "\n"))
+		LibDD:UIDropDownMenu_Initialize(dropdownRepairReputation, DropdownReputation_Initialize)
+		LibDD:UIDropDownMenu_Initialize(dropdownBuyReputation, DropdownReputation_Initialize)
+		LibDD:UIDropDownMenu_SetSelectedValue(dropdownRepairReputation, AutoShopSave.reactionRepair or 4)
+		LibDD:UIDropDownMenu_SetSelectedValue(dropdownBuyReputation, AutoShopSave.reactionBuy or 4)
 
-		list = {}
-		for name in pairs(AutoShopSave.excludeList) do
-			list[#list+1] = name
-		end
-		table.sort(list)
-		inputExclude:SetText(table.concat(list, "\n"))
-
-		list = {}
-		for name,amount in pairs(AutoShopSave.autoBuyList) do
-			if amount and amount > 0 then
-				list[#list+1] = amount .. " " .. name
-			else
-				list[#list+1] = name
-			end
-		end
-		table.sort(list, function(text1, text2) return text1:match("^%d*%s*(.+)") < text2:match("^%d*%s*(.+)") end)
-		inputBuy:SetText(table.concat(list, "\n"))
+		SellTab_OnClick(inputSell.showingPersonal)
+		ExcludeTab_OnClick(inputExclude.showingPersonal)
+		BuyTab_OnClick(inputBuy.showingPersonal)
 	end)
 
 	return

@@ -44,6 +44,7 @@ OmniCCDB = {
 					["id"] = "plates",
 				}, -- [2]
 				{
+					["enabled"] = false,
 					["patterns"] = {
 						"PlaterMainAuraIcon", -- [1]
 						"PlaterSecondaryAuraIcon", -- [2]

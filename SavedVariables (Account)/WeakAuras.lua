@@ -3,19 +3,6 @@ WeakAurasSaved = {
 	["dynamicIconCache"] = {
 	},
 	["editor_tab_spaces"] = 4,
-	["editor_font_size"] = 12,
-	["ProfilingWindow"] = {
-		["xOffset"] = 654.64453125,
-		["yOffset"] = -234,
-	},
-	["login_squelch_time"] = 10,
-	["lastArchiveClear"] = 1659733987,
-	["minimap"] = {
-		["minimapPos"] = 228.8875173730628,
-		["hide"] = true,
-	},
-	["lastUpgrade"] = 1659733990,
-	["dbVersion"] = 53,
 	["displays"] = {
 		["latency"] = {
 			["outline"] = "OUTLINE",
@@ -381,15 +368,15 @@ WeakAurasSaved = {
 			["desc"] = "Displays Dispersion in center of screen - replacement of LoseControl",
 			["config"] = {
 			},
-			["useCooldownModRate"] = true,
+			["frameStrata"] = 1,
 			["zoom"] = 0,
 			["semver"] = "1.0.0",
 			["tocversion"] = 30400,
 			["id"] = "Dispersion CENTER",
 			["anchorFrameType"] = "SCREEN",
-			["alpha"] = 1,
+			["useCooldownModRate"] = true,
 			["width"] = 100,
-			["frameStrata"] = 1,
+			["alpha"] = 1,
 			["uid"] = "0qlmHyN9eIh",
 			["inverse"] = false,
 			["icon"] = true,
@@ -480,28 +467,14 @@ WeakAurasSaved = {
 			["regionType"] = "texture",
 			["blendMode"] = "BLEND",
 			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-PartyFlash-Highlight_Shield",
-			["alpha"] = 1,
 			["desc"] = "Shield debuff visualisation...",
-			["discrete_rotation"] = 0,
 			["authorOptions"] = {
 			},
-			["id"] = "Shield P1",
-			["anchorFrameType"] = "SELECTFRAME",
-			["frameStrata"] = 4,
-			["width"] = 43,
-			["config"] = {
-			},
-			["uid"] = "cec9bPRUhEz",
-			["inverse"] = false,
 			["color"] = {
 				1, -- [1]
 				1, -- [2]
 				1, -- [3]
 				1, -- [4]
-			},
-			["conditions"] = {
-			},
-			["information"] = {
 			},
 			["animation"] = {
 				["start"] = {
@@ -523,6 +496,20 @@ WeakAurasSaved = {
 					["easeType"] = "none",
 				},
 			},
+			["id"] = "Shield P1",
+			["anchorFrameType"] = "SELECTFRAME",
+			["alpha"] = 1,
+			["width"] = 43,
+			["config"] = {
+			},
+			["uid"] = "cec9bPRUhEz",
+			["inverse"] = false,
+			["frameStrata"] = 4,
+			["conditions"] = {
+			},
+			["information"] = {
+			},
+			["discrete_rotation"] = 0,
 		},
 		["Shield P2"] = {
 			["authorOptions"] = {
@@ -625,16 +612,21 @@ WeakAurasSaved = {
 			["regionType"] = "texture",
 			["blendMode"] = "BLEND",
 			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-PartyFlash-Highlight_Shield",
-			["frameStrata"] = 4,
-			["selfPoint"] = "CENTER",
 			["desc"] = "Shield debuff visualisation...",
-			["discrete_rotation"] = 0,
+			["xOffset"] = -39.00000610351562,
+			["selfPoint"] = "CENTER",
+			["color"] = {
+				1, -- [1]
+				1, -- [2]
+				1, -- [3]
+				1, -- [4]
+			},
 			["id"] = "Shield P2",
+			["alpha"] = 1,
+			["frameStrata"] = 4,
+			["anchorFrameType"] = "SELECTFRAME",
 			["config"] = {
 			},
-			["alpha"] = 1,
-			["anchorFrameType"] = "SELECTFRAME",
-			["xOffset"] = -39.00000610351562,
 			["uid"] = "(gtYCxXZiEX",
 			["inverse"] = false,
 			["width"] = 43,
@@ -642,12 +634,7 @@ WeakAurasSaved = {
 			},
 			["information"] = {
 			},
-			["color"] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				1, -- [4]
-			},
+			["discrete_rotation"] = 0,
 		},
 		["Inner Fire REBUFF!"] = {
 			["iconSource"] = -1,
@@ -1226,6 +1213,19 @@ WeakAurasSaved = {
 			["url"] = "",
 		},
 	},
+	["ProfilingWindow"] = {
+		["xOffset"] = 654.64453125,
+		["yOffset"] = -234,
+	},
+	["editor_font_size"] = 12,
+	["lastArchiveClear"] = 1659733987,
+	["minimap"] = {
+		["minimapPos"] = 228.8875173730628,
+		["hide"] = true,
+	},
+	["lastUpgrade"] = 1659733990,
+	["dbVersion"] = 53,
+	["login_squelch_time"] = 10,
 	["registered"] = {
 	},
 	["RealTimeProfilingWindow"] = {

@@ -1597,15 +1597,6 @@ SetCVar("threatWarning", 0)
 
 DEFAULT_CHATFRAME_ALPHA = 0
 
--- Remove Totem of Wrath from possible debuffs of Player(self) - its completely useless and only takes space, wtf Lizzard
-
-hooksecurefunc("AuraButton_Update", function(buttonName, index, filter)
-	local _, _, _, _, _, _, _, _, _, spellId = UnitAura("player", index, filter);
-	local buffName = buttonName..index;
-	local buff = _G[buffName];
-
-	if spellId == 30708 then buff:Hide() end
-end)
 
 -- Change position of player buffs/debuffs - from MoveAny
 local btnsize = 36

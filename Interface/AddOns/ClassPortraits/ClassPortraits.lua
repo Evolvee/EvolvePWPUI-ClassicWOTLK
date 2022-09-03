@@ -42,93 +42,26 @@ local classIcons = {
 	["DEATHKNIGHT"] = {0.25, 0.5, 0.25, 0.75, 0.5, 0.5, 0.5, 0.75}
 }
 
-local PlayerPortrait = PlayerPortrait
-ClassPortraits:SetScript("OnUpdate",  function() -- not returning any UnitID, have to check all frames manually
-	if UnitExists("target") and UnitIsPlayer("target") and TargetFrame.portrait then
-		TargetFrame.portrait:SetTexture(iconPath, true)
-		local t=classIcons[select(2, UnitClass("target"))]
-		TargetFrame.portrait:SetTexCoord(unpack(t))
-	else
-		TargetFrame.portrait:SetTexCoord(0,1,0,1)
+hooksecurefunc("UnitFramePortrait_Update",function(self)
+	if self.unit == "player" then
+		self.portrait:SetTexture("Interface\\Addons\\ClassPortraits\\MYSKIN")
+		return
+	elseif self.unit == "pet" then
+		return
 	end
 
-	if UnitExists("targettarget") then
-		if UnitGUID("targettarget") ~= lastTargetToTGuid then
-			lastTargetToTGuid = UnitGUID("targettarget")
-			if UnitIsPlayer("targettarget") then
-				TargetToTPortrait:SetTexture(iconPath, true)
-				local tt=classIcons[(select(2, UnitClass("targettarget")))]
-				TargetToTPortrait:SetTexCoord(unpack(tt))
-				TargetToTPortrait:Show()
-			else
-				TargetToTPortrait:Hide()
+	if self.portrait then
+		if UnitIsPlayer(self.unit) then
+			local t = CLASS_ICON_TCOORDS[select(2,UnitClass(self.unit))]
+			if t then
+				self.portrait:SetTexture(iconPath)
+				self.portrait:SetTexCoord(unpack(t))
 			end
+		else
+			self.portrait:SetTexCoord(0,1,0,1)
 		end
-	else
-		TargetToTPortrait:Hide()
-		lastTargetToTGuid = nil
 	end
-
-	if UnitExists("focus") and UnitIsPlayer("focus") and FocusFrame.portrait then
-		FocusFrame.portrait:SetTexture(iconPath, true)
-		local f=classIcons[select(2, UnitClass("focus"))]
-		FocusFrame.portrait:SetTexCoord(unpack(f))
-	else
-		FocusFrame.portrait:SetTexCoord(0,1,0,1)
-	end
-
-	if UnitExists("focustarget") ~= nil then
-		if UnitGUID("focustarget") ~= lastFocusToTGuid then
-			lastFocusToTGuid = UnitGUID("focustarget")
-			if UnitIsPlayer("focustarget") then
-				FocusToTPortrait:SetTexture(iconPath, true)
-				local tt=classIcons[(select(2, UnitClass("focustarget")))]
-				FocusToTPortrait:SetTexCoord(unpack(tt))
-				FocusToTPortrait:Show()
-			else
-				FocusToTPortrait:Hide()
-			end
-		end
-	else
-		FocusToTPortrait:Hide()
-		lastFocusToTGuid = nil
-	end
-
-	if UnitExists("party1") and PartyMemberFrame1 and PartyMemberFrame1.portrait then
-		PartyMemberFrame1.portrait:SetTexture(iconPath, true)
-		local p1=classIcons[select(2, UnitClass("party1"))]
-		if p1 then PartyMemberFrame1.portrait:SetTexCoord(unpack(p1)) end
-	end
-
-	if UnitExists("party2") and PartyMemberFrame2 and PartyMemberFrame2.portrait then
-		PartyMemberFrame2.portrait:SetTexture(iconPath, true)
-		local p2=classIcons[select(2, UnitClass("party2"))]
-		if p2 then PartyMemberFrame2.portrait:SetTexCoord(unpack(p2)) end
-	end
-
-	if UnitExists("party3") and PartyMemberFrame3 and PartyMemberFrame3.portrait then
-		PartyMemberFrame3.portrait:SetTexture(iconPath, true)
-		local p3=classIcons[select(2, UnitClass("party3"))]
-		if p3 then PartyMemberFrame3.portrait:SetTexCoord(unpack(p3)) end
-	end
-
-	if UnitExists("party4") and PartyMemberFrame4 and PartyMemberFrame4.portrait then
-		PartyMemberFrame4.portrait:SetTexture(iconPath, true)
-		local p4=classIcons[select(2, UnitClass("party4"))]
-		if p4 then PartyMemberFrame4.portrait:SetTexCoord(unpack(p4)) end
-	end
-end)
-
---REMOVE THE SHIT BELLOW TO REMOVE CUSTOM PlayerFrame PORTRAIT
-local eventFrame = CreateFrame("frame")
-eventFrame:SetScript("OnEvent", function(self, event, arg1)
-	if not arg1 or arg1 == "player" then
-		PlayerPortrait:SetTexture("Interface\\Addons\\ClassPortraits\\MYSKIN")
-	end
-end)
-eventFrame:RegisterEvent("UNIT_PORTRAIT_UPDATE")
-eventFrame:RegisterEvent("PORTRAITS_UPDATED")
--- REMOVE THIS SHIT ABOVE TO REMOVE CUSTOM PlayerFrame PORTRAIT
+end);
 
 -- character sheet frame
 hooksecurefunc("CharacterFrame_OnShow", function()

@@ -1,3 +1,5 @@
+local addonName = ...
+
 ----------------------------------------------------------------------------------------------------
 -- helper functions
 ----------------------------------------------------------------------------------------------------
@@ -14,6 +16,37 @@ local function FormatMoney(amount)
 		return text
 	end
 	return " none"
+end
+
+-- return the reputation value of a reaction string like "exalted"
+-- the strings can be partial, so anything from "e" to "exalted" counts as exalted
+local function ReactionValue(reaction)
+	if reaction then
+		reaction = "^" .. reaction
+		local string_match = string.match
+		if string_match("exalted", reaction) then return 8 end
+		if string_match("revered", reaction) then return 7 end
+		if string_match("honored", reaction) then return 6 end
+		if string_match("honoured", reaction) then return 6 end
+		if string_match("friendly", reaction) then return 5 end
+		if string_match("neutral", reaction) then return 4 end
+	end
+	return 4
+end
+
+-- return the lowest durability percentage of worn equipment
+local function LowestDurabilityPercent()
+	local current, maximum, percent, lowest
+	for i=1,18 do
+		current, maximum = GetInventoryItemDurability(i)
+		if current then
+			percent = current / maximum * 100
+			if not lowest or percent < lowest then
+				lowest = percent
+			end
+		end
+	end
+	return lowest
 end
 
 ----------------------------------------------------------------------------------------------------
@@ -155,7 +188,6 @@ end)
 function autoSellFrame:BuildSellList()
 	self.sellList = {}
 
-	local sell_list            = AutoShopSave.autoSellList
 	local sell_gray            = AutoShopSave.autoSellGray
 	local sell_white           = AutoShopSave.autoSellWhite
 	local sell_green_ilvl      = AutoShopSave.autoSellGreen  and AutoShopSave.autoSellGreenIlvl  or 0
@@ -170,6 +202,12 @@ function autoSellFrame:BuildSellList()
 	local sold_list = {} -- to save how many of each item is sold instead of spamming multiple lines
 	local profit = 0
 	local name, lower_name
+
+	local personal_sell_list = AutoShopSave.autoSellList
+	local shared_sell_list = AutoShopSharedSave.autoSellList
+
+	local personal_exclude_list = AutoShopSave.excludeList
+	local shared_exclude_list = AutoShopSharedSave.excludeList
 
 	for bag=0,4 do
 		for slot=1,GetContainerNumSlots(bag) do
@@ -186,8 +224,11 @@ function autoSellFrame:BuildSellList()
 						or (quality == 3 and (ilvl < sell_blue_ilvl   or (sell_blue_unusable   and IsBoundAndUnusable(bag, slot))))
 						or (quality == 4 and (ilvl < sell_purple_ilvl or (sell_purple_unusable and IsBoundAndUnusable(bag, slot))))))
 				or (sell_recipe and itype == "Recipe" and IsBoundAndUnusable(bag, slot))
-				or sell_list[lower_name] then
-					if not AutoShopSave.excludeList[lower_name] and (not ItemProtectorOrDestroyerSave or not ItemProtectorOrDestroyerSave.protectedItems[lower_name]) and FinalSellChecks(bag, slot, name) then
+				or shared_sell_list[lower_name]
+				or personal_sell_list[lower_name] then
+					if not personal_exclude_list[lower_name] and not shared_exclude_list[lower_name]
+					and (not ItemProtectorOrDestroyerSave or not ItemProtectorOrDestroyerSave.protectedItems[lower_name])
+					and FinalSellChecks(bag, slot, name) then
 						local _, amount = GetContainerItemInfo(bag, slot)
 						sold_list[link] = sold_list[link] and sold_list[link] + amount or amount
 						profit = profit + tooltipMoneyAmount
@@ -217,8 +258,9 @@ local autoBuyFrame = CreateFrame("frame")
 autoBuyFrame:Hide() -- so OnUpdate won't run
 
 function autoBuyFrame:AutoBuy()
-	local buy_list = AutoShopSave.autoBuyList
-	if next(buy_list) == nil then
+	local personal_list = AutoShopSave.autoBuyList
+	local shared_list = AutoShopSharedSave.autoBuyList
+	if next(personal_list) == nil and next(shared_list) == nil then
 		return
 	end
 
@@ -234,31 +276,58 @@ function autoBuyFrame:AutoBuy()
 		return
 	end
 
-	local wanted
+	local npc_reaction = UnitReaction("npc", "player") or 4
+	local buy_reaction = AutoShopSave.reactionBuy or 4
+
+	local reaction
 	for i=1,GetMerchantNumItems() do
-		local name, _, _, quantity, available = GetMerchantItemInfo(i)
-		wanted = name and buy_list[name:lower()] or nil
+		local list_item
+		local name, _, _, quantity, available, _, _, currency = GetMerchantItemInfo(i)
+		if name then
+			name = name:lower()
+			list_item = personal_list[name] or shared_list[name]
+		end
 
-		quantity = 1 -- you can currently buy any amount - leaving the logic below in case it changes
-
-		if wanted and available ~= 0 then
-			-- if wanted is 0 then get as many as possible if it's a limited item
-			local buy = wanted == 0 and (available ~= -1 and available*quantity or 0) or wanted - GetItemCount(name)
-			-- buy = AutoShopSave.hardWantedLimit and math.floor(buy / quantity) or math.ceil(buy / quantity)
-			if available ~= -1 and buy > available then
-				buy = available
-			end
-			if buy > 0 then
-				if AutoShopSave.showBuyActivity then
-					local amount = buy * quantity
-					DEFAULT_CHAT_FRAME:AddMessage("Buying " .. (amount > 1 and (amount .. " ") or " ") .. GetMerchantItemLink(i))
+		if list_item then
+			reaction = list_item.reaction and ReactionValue(list_item.reaction) or buy_reaction
+			if npc_reaction >= reaction or available ~= -1 then
+				if not currency then
+					quantity = 1
 				end
-				-- buy in stacks/batches in case there's not enough inventory space for all of it
-				local stack_buy = quantity > 1 and 1 or GetMerchantItemMaxStack(i)
-				while buy > 0 do
-					local amount = buy > stack_buy and stack_buy or buy
-					BuyMerchantItem(i, amount)
-					buy = buy - amount
+
+				if list_item.wanted and available ~= 0 then
+					local buy
+					-- if wanted is 0 then get as many as possible if it's a limited item
+					if list_item.wanted == 0 then
+						buy = available ~= -1 and available * quantity or 0
+					else
+						buy = list_item.wanted - GetItemCount(name, AutoShopSave.countBankItems)
+						if quantity > 1 then
+							buy = AutoShopSave.noMoreThanWanted and math.floor(buy / quantity) or math.ceil(buy / quantity)
+						end
+					end
+
+					if available ~= -1 and buy > available then
+						buy = available
+					end
+					if buy > 0 then
+						if AutoShopSave.showBuyActivity then
+							local amount = buy * quantity
+							DEFAULT_CHAT_FRAME:AddMessage("Buying " .. (amount > 1 and (amount .. " ") or " ") .. GetMerchantItemLink(i))
+						end
+						-- buy in stacks/batches in case there's not enough inventory space for all of it
+						local stack_buy = quantity > 1 and quantity or GetMerchantItemMaxStack(i)
+						while buy > 0 do
+							if quantity > 1 then
+								BuyMerchantItem(i, quantity)
+								buy = buy - 1
+							else
+								local amount = buy > stack_buy and stack_buy or buy
+								BuyMerchantItem(i, amount)
+								buy = buy - amount
+							end
+						end
+					end
 				end
 			end
 		end
@@ -289,9 +358,18 @@ eventFrame:SetScript("OnEvent", function(self, event, arg1)
 	if event == "MERCHANT_SHOW" then
 		autoSellFrame:BuildSellList()
 		autoBuyFrame:AutoBuy()
+
 		if CanMerchantRepair() and AutoShopSave.autoRepair then
 			local cost, can_repair = GetRepairAllCost()
-			if can_repair then
+			local npc_reaction = UnitReaction("npc", "player") or 4
+			local minimum_reaction = AutoShopSave.reactionRepair or 4
+			local _, instance = IsInInstance()
+			if AutoShopSave.instanceRepair and (instance == "raid" or instance == "party") then
+				if LowestDurabilityPercent() < AutoShopSave.instanceRepairDurability then
+					minimum_reaction = 0
+				end
+			end
+			if can_repair and npc_reaction >= minimum_reaction then
 				if AutoShopSave.autoRepairGuild and IsInGuild() then
 					RepairAllItems(1)
 				end
@@ -311,29 +389,52 @@ eventFrame:SetScript("OnEvent", function(self, event, arg1)
 	end
 
 	-- set up default settings if needed
-	if event == "ADDON_LOADED" and arg1 == "AutoShop" then
+	if event == "ADDON_LOADED" and arg1 == addonName then
 		eventFrame:UnregisterEvent(event)
-		if AutoShopSave                        == nil then AutoShopSave                        = {}    end
-		if AutoShopSave.autoSellGray           == nil then AutoShopSave.autoSellGray           = true  end
-		if AutoShopSave.autoSellWhite          == nil then AutoShopSave.autoSellWhite          = false end
-		if AutoShopSave.autoSellGreen          == nil then AutoShopSave.autoSellGreen          = false end
-		if AutoShopSave.autoSellGreenIlvl      == nil then AutoShopSave.autoSellGreenIlvl      = 1     end
-		if AutoShopSave.autoSellGreenUnusable  == nil then AutoShopSave.autoSellGreenUnusable  = false end
-		if AutoShopSave.autoSellBlue           == nil then AutoShopSave.autoSellBlue           = false end
-		if AutoShopSave.autoSellBlueIlvl       == nil then AutoShopSave.autoSellBlueIlvl       = 1     end
-		if AutoShopSave.autoSellBlueUnusable   == nil then AutoShopSave.autoSellBlueUnusable   = false end
-		if AutoShopSave.autoSellPurple         == nil then AutoShopSave.autoSellPurple         = false end
-		if AutoShopSave.autoSellPurpleIlvl     == nil then AutoShopSave.autoSellPurpleIlvl     = 1     end
-		if AutoShopSave.autoSellPurpleUnusable == nil then AutoShopSave.autoSellPurpleUnusable = false end
-		if AutoShopSave.autoSellRecipe         == nil then AutoShopSave.autoSellRecipe         = false end
-	-- if AutoShopSave.hardWantedLimit        == nil then AutoShopSave.hardWantedLimit        = false end
-		if AutoShopSave.showBuyActivity        == nil then AutoShopSave.showBuyActivity        = true  end
-		if AutoShopSave.showSellActivity       == nil then AutoShopSave.showSellActivity       = true  end
-		if AutoShopSave.autoRepair             == nil then AutoShopSave.autoRepair             = false end
-		if AutoShopSave.autoRepairGuild        == nil then AutoShopSave.autoRepairGuild        = false end
-		if AutoShopSave.autoSellList           == nil then AutoShopSave.autoSellList           = {}    end
-		if AutoShopSave.excludeList            == nil then AutoShopSave.excludeList            = {}    end
-		if AutoShopSave.autoBuyList            == nil then AutoShopSave.autoBuyList            = {}    end
+
+		-- per-character settings
+		if AutoShopSave                          == nil then AutoShopSave                          = {}    end
+		if AutoShopSave.autoSellGray             == nil then AutoShopSave.autoSellGray             = true  end
+		if AutoShopSave.autoSellWhite            == nil then AutoShopSave.autoSellWhite            = false end
+		if AutoShopSave.autoSellGreen            == nil then AutoShopSave.autoSellGreen            = false end
+		if AutoShopSave.autoSellGreenIlvl        == nil then AutoShopSave.autoSellGreenIlvl        = 1     end
+		if AutoShopSave.autoSellGreenUnusable    == nil then AutoShopSave.autoSellGreenUnusable    = false end
+		if AutoShopSave.autoSellBlue             == nil then AutoShopSave.autoSellBlue             = false end
+		if AutoShopSave.autoSellBlueIlvl         == nil then AutoShopSave.autoSellBlueIlvl         = 1     end
+		if AutoShopSave.autoSellBlueUnusable     == nil then AutoShopSave.autoSellBlueUnusable     = false end
+		if AutoShopSave.autoSellPurple           == nil then AutoShopSave.autoSellPurple           = false end
+		if AutoShopSave.autoSellPurpleIlvl       == nil then AutoShopSave.autoSellPurpleIlvl       = 1     end
+		if AutoShopSave.autoSellPurpleUnusable   == nil then AutoShopSave.autoSellPurpleUnusable   = false end
+		if AutoShopSave.autoSellRecipe           == nil then AutoShopSave.autoSellRecipe           = false end
+	-- if AutoShopSave.hardWantedLimit          == nil then AutoShopSave.hardWantedLimit          = false end
+		if AutoShopSave.showBuyActivity          == nil then AutoShopSave.showBuyActivity          = true  end
+		if AutoShopSave.showSellActivity         == nil then AutoShopSave.showSellActivity         = true  end
+		if AutoShopSave.autoRepair               == nil then AutoShopSave.autoRepair               = false end
+		if AutoShopSave.autoRepairGuild          == nil then AutoShopSave.autoRepairGuild          = false end
+		if AutoShopSave.countBankItems           == nil then AutoShopSave.countBankItems           = true  end
+		if AutoShopSave.autoSellList             == nil then AutoShopSave.autoSellList             = {}    end
+		if AutoShopSave.excludeList              == nil then AutoShopSave.excludeList              = {}    end
+		if AutoShopSave.autoBuyList              == nil then AutoShopSave.autoBuyList              = {}    end
+		if AutoShopSave.reactionRepair           == nil then AutoShopSave.reactionRepair           = 4     end
+		if AutoShopSave.reactionBuy              == nil then AutoShopSave.reactionBuy              = 4     end
+		if AutoShopSave.instanceRepair           == nil then AutoShopSave.instanceRepair           = false end
+		if AutoShopSave.instanceRepairDurability == nil then AutoShopSave.instanceRepairDurability = 80    end
+		if AutoShopSave.noMoreThanWanted         == nil then AutoShopSave.noMoreThanWanted         = true  end
+
+		-- convert buy list items to a table to be able to support minimum reputation reactions
+		if AutoShopSave.saveVersion == nil then
+			AutoShopSave.saveVersion = 1
+			for k,v in pairs(AutoShopSave.autoBuyList) do
+				AutoShopSave.autoBuyList[k] = {wanted = v}
+			end
+		end
+
+		-- shared settings
+		if AutoShopSharedSave              == nil then AutoShopSharedSave              = {} end
+		if AutoShopSharedSave.autoSellList == nil then AutoShopSharedSave.autoSellList = {} end
+		if AutoShopSharedSave.excludeList  == nil then AutoShopSharedSave.excludeList  = {} end
+		if AutoShopSharedSave.autoBuyList  == nil then AutoShopSharedSave.autoBuyList  = {} end
+
 		return
 	end
 end)

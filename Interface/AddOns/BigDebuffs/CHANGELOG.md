@@ -1,1 +1,2 @@
-- Add support for WoTLK Classic
+- Update spells
+- Bug fix

@@ -238,6 +238,7 @@ function AuctionatorSaleItemMixin:SellItemClick()
       Auctionator.EventBus:Fire(self, Auctionator.Selling.Events.RefreshBuying, self.itemInfo)
     -- Failed; this item can't be auctioned
     else
+      Auctionator.EventBus:Fire(self, Auctionator.Selling.Events.StopFakeBuyLoading)
       Auctionator.Debug.Message("Invalid sell item")
       self.itemInfo = nil
       self:Update()
@@ -245,6 +246,8 @@ function AuctionatorSaleItemMixin:SellItemClick()
   else
     if self.itemInfo ~= nil then
       Auctionator.EventBus:Fire(self, Auctionator.Selling.Events.RefreshBuying, self.itemInfo)
+    else
+      Auctionator.EventBus:Fire(self, Auctionator.Selling.Events.StopFakeBuyLoading)
     end
     self.itemInfo = nil
   end
@@ -385,6 +388,11 @@ function AuctionatorSaleItemMixin:UpdateForNewItem()
       self:SetUnitPrice(0)
     end
   end)
+
+  -- Used because it can take a while for the throttle to clear on a megaserver,
+  -- this makes it clear that something is loading rather than leaving the
+  -- prices frozen on the previous item.
+  Auctionator.EventBus:Fire(self, Auctionator.Selling.Events.StartFakeBuyLoading, {itemLink = self.itemInfo.itemLink})
 
   self.minPriceSeen = 0
 end

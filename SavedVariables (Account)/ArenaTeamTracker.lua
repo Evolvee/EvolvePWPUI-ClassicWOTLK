@@ -174,13 +174,17 @@ ATTDB = {
 		}, -- [41]
 	},
 	["showTrinket"] = true,
-	["classSelected"] = "WARRIOR",
+	["showTooltip"] = false,
 	["iconOffsetY"] = "2",
 	["attach"] = false,
 	["outside"] = false,
 	["hidden"] = true,
 	["dungeons"] = false,
+	["showIconBorders"] = true,
+	["arena"] = true,
 	["scenarios"] = false,
+	["inraid"] = false,
+	["iconOffsetX"] = "1",
 	["horizontal"] = false,
 	["abilities"] = {
 		["GENERAL"] = {
@@ -197,9 +201,9 @@ ATTDB = {
 				{
 					["spellStatus"] = "ENABLED",
 					["ability"] = "Intercept",
-					["order"] = 1,
-					["cooldown"] = 15,
 					["id"] = 25275,
+					["cooldown"] = 15,
+					["order"] = 1,
 				}, -- [2]
 				{
 					["ability"] = "Spell Reflection",
@@ -213,9 +217,9 @@ ATTDB = {
 				{
 					["spellStatus"] = "ENABLED",
 					["ability"] = "Nature's Swiftness",
-					["order"] = 1,
-					["cooldown"] = 180,
 					["id"] = 16188,
+					["cooldown"] = 180,
+					["order"] = 1,
 				}, -- [1]
 				{
 					["ability"] = "Mana Tide Totem",
@@ -256,67 +260,6 @@ ATTDB = {
 				}, -- [1]
 			},
 		},
-		["PALADIN"] = {
-			["ALL"] = {
-				{
-					["ability"] = "Hammer of Justice",
-					["cooldown"] = 50,
-					["id"] = 10308,
-				}, -- [1]
-				{
-					["ability"] = "Blessing of Protection",
-					["cooldown"] = 180,
-					["id"] = 10278,
-				}, -- [2]
-				{
-					["ability"] = "Divine Shield",
-					["cooldown"] = 300,
-					["id"] = 1020,
-				}, -- [3]
-			},
-		},
-		["DRUID"] = {
-			["ALL"] = {
-				{
-					["spellStatus"] = "ENABLED",
-					["ability"] = "Nature's Swiftness",
-					["order"] = 1,
-					["cooldown"] = 180,
-					["id"] = 17116,
-				}, -- [1]
-				{
-					["ability"] = "Innervate",
-					["cooldown"] = 360,
-					["id"] = 29166,
-				}, -- [2]
-			},
-		},
-		["ROGUE"] = {
-			["ALL"] = {
-				{
-					["spellStatus"] = "ENABLED",
-					["ability"] = "Kidney Shot",
-					["order"] = 1,
-					["cooldown"] = 20,
-					["id"] = 408,
-				}, -- [1]
-				{
-					["ability"] = "Kick",
-					["cooldown"] = 10,
-					["id"] = 1766,
-				}, -- [2]
-				{
-					["ability"] = "Blind",
-					["cooldown"] = 90,
-					["id"] = 2094,
-				}, -- [3]
-				{
-					["ability"] = "Cloak of Shadows",
-					["cooldown"] = 60,
-					["id"] = 31224,
-				}, -- [4]
-			},
-		},
 		["HUNTER"] = {
 			["ALL"] = {
 				{
@@ -336,10 +279,67 @@ ATTDB = {
 				}, -- [3]
 			},
 		},
+		["DRUID"] = {
+			["ALL"] = {
+				{
+					["spellStatus"] = "ENABLED",
+					["ability"] = "Nature's Swiftness",
+					["id"] = 17116,
+					["cooldown"] = 180,
+					["order"] = 1,
+				}, -- [1]
+				{
+					["ability"] = "Innervate",
+					["cooldown"] = 360,
+					["id"] = 29166,
+				}, -- [2]
+			},
+		},
+		["ROGUE"] = {
+			["ALL"] = {
+				{
+					["spellStatus"] = "ENABLED",
+					["ability"] = "Kidney Shot",
+					["id"] = 408,
+					["cooldown"] = 20,
+					["order"] = 1,
+				}, -- [1]
+				{
+					["ability"] = "Kick",
+					["cooldown"] = 10,
+					["id"] = 1766,
+				}, -- [2]
+				{
+					["ability"] = "Blind",
+					["cooldown"] = 90,
+					["id"] = 2094,
+				}, -- [3]
+				{
+					["ability"] = "Cloak of Shadows",
+					["cooldown"] = 60,
+					["id"] = 31224,
+				}, -- [4]
+			},
+		},
+		["PALADIN"] = {
+			["ALL"] = {
+				{
+					["ability"] = "Hammer of Justice",
+					["cooldown"] = 50,
+					["id"] = 10308,
+				}, -- [1]
+				{
+					["ability"] = "Blessing of Protection",
+					["cooldown"] = 180,
+					["id"] = 10278,
+				}, -- [2]
+				{
+					["ability"] = "Divine Shield",
+					["cooldown"] = 300,
+					["id"] = 1020,
+				}, -- [3]
+			},
+		},
 	},
-	["inraid"] = false,
-	["iconOffsetX"] = "1",
-	["arena"] = true,
-	["showIconBorders"] = true,
-	["showTooltip"] = false,
+	["classSelected"] = "WARRIOR",
 }

@@ -1,12 +1,16 @@
-## Interface: 20501
+## Interface: 30400
 ## Title: AutoShop
 ## Author: Pyralis
-## Version: 1.0.0
+## Version: 1.2.0
 ## Notes: Automatically buy and sell items.
 ## SavedVariablesPerCharacter: AutoShopSave
+## SavedVariables: AutoShopSharedSave
 ## DefaultState: Enabled
 ## LoadOnDemand: 0
 ## OptionalDeps: ItemProtectorOrDestroyer
+
+Libs\LibStub\LibStub.lua
+Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
 
 Events.lua
 Settings.lua
