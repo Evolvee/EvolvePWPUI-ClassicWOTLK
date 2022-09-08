@@ -28,7 +28,7 @@ local L = BVP.L
 -- BVP.debug = 9 -- to debug before saved variables are loaded
 
 BVP.slashCmdName = "bvp"
-BVP.addonHash = "4005654"
+BVP.addonHash = "b9511e5"
 BVP.savedVarName = "betterVendorPriceSaved"
 
 -- default value
@@ -74,12 +74,12 @@ function BVP.Slash(arg) -- can't be a : because used directly as slash command
   if cmd == "v" then
     -- version
     BVP:PrintDefault("BetterVendorPrice " .. BVP.manifestVersion ..
-                       " (4005654) by MooreaTv (moorea@ymail.com)")
+                       " (b9511e5) by MooreaTv (moorea@ymail.com)")
   elseif cmd == "b" then
     local subText = L["Please submit on discord or on https://|cFF99E5FFbit.ly/vendorbug|r  or email"]
     BVP:PrintDefault(L["Better Vendor Price bug report open: "] .. subText)
     -- base molib will add version and date/timne
-    BVP:BugReport(subText, "4005654\n\n" .. L["Bug report from slash command"])
+    BVP:BugReport(subText, "b9511e5\n\n" .. L["Bug report from slash command"])
   elseif cmd == "c" then
     -- Show config panel
     -- InterfaceOptionsList_DisplayPanel(BVP.optionsPanel)
@@ -121,7 +121,7 @@ function BVP:CreateOptionsPanel()
   BVP.optionsPanel = p
   p:addText(L["Better Vendor Price options"], "GameFontNormalLarge"):Place()
   p:addText(L["These options let you control the behavior of BetterVendorPrice"] .. " " .. BVP.manifestVersion ..
-              " 4005654"):Place()
+              " b9511e5"):Place()
   p:addText(L["Get Auction House DataBase (|cFF99E5FFAHDB|r) v0.12 or newer to see auction information on the toolip!"])
     :Place(0, 16)
 

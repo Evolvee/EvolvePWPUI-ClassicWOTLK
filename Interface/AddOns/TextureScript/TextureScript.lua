@@ -14,8 +14,8 @@ frame2:SetScript("OnEvent", function(self, event, addon)
                         PartyMemberFrame1PetFrameTexture, PartyMemberFrame2PetFrameTexture, PartyMemberFrame3PetFrameTexture, PartyMemberFrame4PetFrameTexture, BonusActionBarTexture0, BonusActionBarTexture1,
                         TargetofTargetTexture, TargetofFocusTexture, BonusActionBarFrameTexture0, BonusActionBarFrameTexture1, BonusActionBarFrameTexture2, BonusActionBarFrameTexture3,
                         BonusActionBarFrameTexture4, MainMenuBarTexture0, MainMenuBarTexture1, MainMenuBarTexture2, MainMenuBarTexture3, MainMenuMaxLevelBar0, MainMenuMaxLevelBar1, MainMenuMaxLevelBar2,
-                        MainMenuMaxLevelBar3, MinimapBorder, CastingBarFrameBorder, MiniMapBattlefieldBorder, FocusFrameSpellBarBorder, CastingBarBorder, TargetFrameSpellBarBorder, MiniMapTrackingButtonBorder, MiniMapLFGFrameBorder, MainMenuXPBarTextureLeftCap, MainMenuXPBarTextureRightCap, ReputationWatchBarTexture0, ReputationWatchBarTexture1,
-   ReputationWatchBarTexture2, ReputationWatchBarTexture3,
+                        MainMenuMaxLevelBar3, MinimapBorder, CastingBarFrameBorder, MiniMapBattlefieldBorder, FocusFrameSpellBarBorder, CastingBarBorder, TargetFrameSpellBarBorder, MiniMapTrackingButtonBorder, MiniMapLFGFrameBorder, MainMenuXPBarTexture0, MainMenuXPBarTexture1, MainMenuXPBarTexture2, MainMenuXPBarTexture3, ReputationWatchBar.StatusBar.XPBarTexture0, ReputationWatchBar.StatusBar.XPBarTexture1,
+   ReputationWatchBar.StatusBar.XPBarTexture2, ReputationWatchBar.StatusBar.XPBarTexture3,
    ReputationXPBarTexture0, ReputationXPBarTexture1,
    ReputationXPBarTexture2, ReputationXPBarTexture3, MainMenuXPBarTextureMid, MiniMapBattlefieldBorder,
                         MiniMapMailBorder, MinimapBorderTop,
@@ -1268,7 +1268,7 @@ local HideNameplateUnits = {
     ["Strength of Earth Totem VI"] = true,
     ["Strength of Earth Totem VII"] = true,
     ["Strength of Earth Totem VIII"] = true,
-    ["Totem of Wrath"] = true,
+    ["Totem of Wrath I"] = true,
     ["Totem of Wrath II"] = true,
     ["Totem of Wrath III"] = true,
     ["Totem of Wrath IV"] = true,
@@ -1616,6 +1616,25 @@ hooksecurefunc( BuffFrame, "SetPoint", function( self, ... )
 end )
 BuffFrame:ClearAllPoints()
 BuffFrame:SetPoint( "TOPRIGHT", MABuffBar, "TOPRIGHT", 0, 0 )
+
+-- Add class-coloured names into mouseover tooltips
+
+GameTooltip:HookScript("OnTooltipSetUnit", function(GameTooltip)
+	--print("OnTooltipSetUnit")
+	local _, unit = GameTooltip:GetUnit()
+	--print(unit)
+	if UnitIsPlayer(unit) then
+		--print("UnitIsPlayer")
+		local _, class = UnitClass(unit)
+		--print(class)
+		local color = class and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
+		if color then
+			local text = GameTooltipTextLeft1:GetText()
+			--print(text)
+			GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
+		end
+	end
+end)
 
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0

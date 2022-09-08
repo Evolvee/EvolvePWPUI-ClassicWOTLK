@@ -9,6 +9,7 @@ BigDebuffsDB = {
 		["Evolvepwe - Classic Arena - EU"] = "Default",
 		["Evolve - Classic Beta PvP"] = "Default",
 		["Evolve - Classic PTR Realm 1"] = "Default",
+		["Evolvebanned - Firemaw"] = "Default",
 		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvebank - Gehennas"] = "Default",
 		["Dbldogcheck - Firemaw"] = "Default",
@@ -158,7 +159,6 @@ BigDebuffsDB = {
 				},
 				[47585] = {
 					["nameplates"] = 0,
-					["unitFrames"] = 0,
 				},
 				[11426] = {
 					["nameplates"] = 0,
@@ -329,13 +329,15 @@ BigDebuffsDB = {
 				},
 				["enabled"] = false,
 				["player"] = {
+					["relativePoint"] = "CENTER",
 					["position"] = {
-						"LEFT", -- [1]
+						"CENTER", -- [1]
 						nil, -- [2]
-						"LEFT", -- [3]
-						135.9555511474609, -- [4]
-						101.3334121704102, -- [5]
+						"CENTER", -- [3]
+						-4.022158622741699, -- [4]
+						-12.44437408447266, -- [5]
 					},
+					["size"] = 60,
 				},
 				["arena1"] = {
 					["position"] = {
@@ -346,7 +348,9 @@ BigDebuffsDB = {
 						-26.31111907958984, -- [5]
 					},
 				},
-				["cooldownCount"] = false,
+				["arena"] = {
+					["enabled"] = false,
+				},
 				["arena3"] = {
 					["position"] = {
 						"CENTER", -- [1]

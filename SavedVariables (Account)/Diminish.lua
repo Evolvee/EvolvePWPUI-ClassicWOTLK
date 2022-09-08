@@ -1,21 +1,22 @@
 
 DiminishDB = {
 	["profileKeys"] = {
-		["Evolvepwp-Firemaw"] = "Default",
-		["Evolve-Classic PTR Realm 1"] = "Default",
+		["Evolve-Classic Beta PvP"] = "Default",
+		["Wotlkprep-Sulfuron"] = "Default",
+		["Evolvebanned-Firemaw"] = "Default",
 		["Evolvebank-Gehennas"] = "Default",
 		["Dbldogcheck-Firemaw"] = "Default",
-		["Wotlkprep-Sulfuron"] = "Default",
-		["Evolve-Classic Beta PvP"] = "Default",
+		["Evolve-Classic PTR Realm 1"] = "Default",
+		["Evolvepwp-Firemaw"] = "Default",
 		["Evolvebanned-Gehennas"] = "Default",
 	},
 	["profiles"] = {
 		["Default"] = {
 			["categoryTextures"] = {
 			},
-			["timerSwipe"] = true,
-			["timerText"] = false,
 			["trackNPCs"] = false,
+			["timerColors"] = false,
+			["timerText"] = false,
 			["timerEdge"] = true,
 			["border"] = {
 				["edgeSize"] = 2.5,
@@ -23,13 +24,6 @@ DiminishDB = {
 				["name"] = "Default",
 				["edgeFile"] = "Interface\\BUTTONS\\UI-Quickslot-Depress",
 			},
-			["timerStartAuraEnd"] = true,
-			["categoryTextMaxLines"] = 2,
-			["showCategoryText"] = false,
-			["version"] = "1.10",
-			["timerTextOutline"] = "OUTLINE",
-			["colorBlind"] = false,
-			["timerColors"] = false,
 			["unitFrames"] = {
 				["nameplate"] = {
 					["enabled"] = false,
@@ -85,11 +79,14 @@ DiminishDB = {
 					["watchFriendly"] = true,
 					["disabledCategories"] = {
 						["Sleep"] = true,
+						["Charge"] = true,
 						["Incapacitates"] = false,
 						["Chastise"] = true,
 						["Random roots"] = true,
 						["Scatter Shot"] = true,
+						["Horrors"] = true,
 						["Stuns"] = true,
+						["Silences"] = true,
 						["Disorients"] = false,
 						["Kidney Shot"] = true,
 						["Counterattack"] = true,
@@ -270,6 +267,13 @@ DiminishDB = {
 					["isEnabledForZone"] = false,
 				},
 			},
+			["categoryTextMaxLines"] = 2,
+			["showCategoryText"] = false,
+			["version"] = "1.10",
+			["timerTextOutline"] = "OUTLINE",
+			["colorBlind"] = false,
+			["timerSwipe"] = true,
+			["timerStartAuraEnd"] = true,
 			["categoryFont"] = {
 				["x"] = 0,
 				["size"] = 9,

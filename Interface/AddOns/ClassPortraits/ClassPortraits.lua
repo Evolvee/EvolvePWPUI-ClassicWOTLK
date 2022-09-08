@@ -42,7 +42,7 @@ local classIcons = {
 	["DEATHKNIGHT"] = {0.25, 0.5, 0.25, 0.75, 0.5, 0.5, 0.5, 0.75}
 }
 
-hooksecurefunc("UnitFramePortrait_Update",function(self)
+hooksecurefunc("UnitFramePortrait_Update", function(self)
 	if self.unit == "player" then
 		self.portrait:SetTexture("Interface\\Addons\\ClassPortraits\\MYSKIN")
 		return
@@ -50,7 +50,7 @@ hooksecurefunc("UnitFramePortrait_Update",function(self)
 		return
 	end
 
-	if self.portrait then
+	if self.portrait and not (self.unit == "targettarget" or self.unit == "focus-target") then
 		if UnitIsPlayer(self.unit) then
 			local t = CLASS_ICON_TCOORDS[select(2,UnitClass(self.unit))]
 			if t then
@@ -61,7 +61,41 @@ hooksecurefunc("UnitFramePortrait_Update",function(self)
 			self.portrait:SetTexCoord(0,1,0,1)
 		end
 	end
-end);
+
+	if UnitExists("targettarget") ~= nil then
+		if UnitGUID("targettarget") ~= lastTargetToTGuid then
+			lastTargetToTGuid = UnitGUID("targettarget")
+			if UnitIsPlayer("targettarget") then
+				TargetToTPortrait:SetTexture(iconPath, true)
+				local tt=classIcons[(select(2, UnitClass("targettarget")))]
+				TargetToTPortrait:SetTexCoord(unpack(tt))
+				TargetToTPortrait:Show()
+			else
+				TargetToTPortrait:Hide()
+			end
+		end
+	else
+		TargetToTPortrait:Hide()
+		lastTargetToTGuid = nil
+	end
+
+	if UnitExists("focus-target") ~= nil then
+		if UnitGUID("focus-target") ~= lastFocusToTGuid then
+			lastFocusToTGuid = UnitGUID("focus-target")
+			if UnitIsPlayer("focus-target") then
+				FocusToTPortrait:SetTexture(iconPath, true)
+				local tt=classIcons[(select(2, UnitClass("focus-target")))]
+				FocusToTPortrait:SetTexCoord(unpack(tt))
+				FocusToTPortrait:Show()
+			else
+				FocusToTPortrait:Hide()
+			end
+		end
+	else
+		FocusToTPortrait:Hide()
+		lastFocusToTGuid = nil
+	end
+end)
 
 -- character sheet frame
 hooksecurefunc("CharacterFrame_OnShow", function()

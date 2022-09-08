@@ -2,19 +2,18 @@
 DiminishDB = {
 	["profileKeys"] = {
 		["Dbldogcheck-Firemaw"] = "Default",
-		["Evolvepwp-Firemaw"] = "Default",
-		["Evolvebank-Gehennas"] = "Default",
 		["Evolve-Classic Beta PvP"] = "Default",
-		["Wotlkprep-Sulfuron"] = "Default",
+		["Evolvebanned-Firemaw"] = "Default",
+		["Evolvebank-Gehennas"] = "Default",
+		["Evolvepwp-Firemaw"] = "Default",
 		["Evolve-Classic PTR Realm 1"] = "Default",
+		["Wotlkprep-Sulfuron"] = "Default",
 		["Evolvebanned-Gehennas"] = "Default",
 	},
 	["profiles"] = {
 		["Default"] = {
 			["categoryTextures"] = {
 			},
-			["timerColors"] = false,
-			["timerStartAuraEnd"] = true,
 			["timerSwipe"] = true,
 			["unitFrames"] = {
 				["nameplate"] = {
@@ -71,11 +70,14 @@ DiminishDB = {
 					["watchFriendly"] = true,
 					["disabledCategories"] = {
 						["Sleep"] = true,
+						["Charge"] = true,
 						["Incapacitates"] = false,
 						["Chastise"] = true,
 						["Random roots"] = true,
 						["Scatter Shot"] = true,
+						["Horrors"] = true,
 						["Stuns"] = true,
+						["Silences"] = true,
 						["Disorients"] = false,
 						["Kidney Shot"] = true,
 						["Counterattack"] = true,
@@ -256,6 +258,8 @@ DiminishDB = {
 					["isEnabledForZone"] = false,
 				},
 			},
+			["trackNPCs"] = false,
+			["timerStartAuraEnd"] = true,
 			["border"] = {
 				["layer"] = "BORDER",
 				["edgeSize"] = 2.5,
@@ -268,8 +272,8 @@ DiminishDB = {
 			["showCategoryText"] = false,
 			["timerTextOutline"] = "OUTLINE",
 			["colorBlind"] = false,
-			["trackNPCs"] = false,
 			["timerText"] = false,
+			["timerColors"] = false,
 			["categoryFont"] = {
 				["size"] = 9,
 				["x"] = 0,

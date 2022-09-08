@@ -2928,7 +2928,7 @@ WeakAurasOptionsSaved = {
 			["spells"] = "51058=134760",
 		},
 		["Whip Terrorfiend"] = {
-			["spells"] = "35673=135686",
+			["spells"] = "35673=133553",
 		},
 		["Breastplate of Kings"] = {
 			["spells"] = "34533=136241",
@@ -7014,7 +7014,7 @@ WeakAurasOptionsSaved = {
 			["spells"] = "10525=136247",
 		},
 		["Auto Attack"] = {
-			["spells"] = "6603=135686",
+			["spells"] = "6603=133553",
 		},
 		["Green Iron Helm"] = {
 			["spells"] = "3502=136192",
@@ -51500,5 +51500,5 @@ WeakAurasOptionsSaved = {
 	},
 	["spellCacheAchivements"] = true,
 	["spellCacheStrings"] = true,
-	["build"] = "45327",
+	["build"] = "45435",
 }

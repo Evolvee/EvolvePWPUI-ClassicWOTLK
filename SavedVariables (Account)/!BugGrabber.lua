@@ -1,36 +1,14 @@
 
 BugGrabberDB = {
-	["session"] = 3584,
 	["lastSanitation"] = 3,
+	["session"] = 3681,
 	["errors"] = {
 		{
-			["message"] = "Interface\\AddOns\\BindPad\\BindPad-c0.2.lua:1972: attempt to index local 'frameName' (a number value)",
-			["time"] = "2022/09/02 12:42:06",
-			["locals"] = "frameType = \"CheckButton\"\nframeName = 42292\nparentFrame = ATC {\n 0 = <userdata>\n}\ninheritsFrame = \"InterfaceOptionsCheckButtonTemplate\"\nid = nil\n(*temporary) = nil\n(*temporary) = 42292\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = \"attempt to index local 'frameName' (a number value)\"\nBindPadCore = <table> {\n SwitchProfile = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1028\n UpdateAllHotkeys = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1907\n GetTabInfo = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2040\n drag = <table> {\n }\n DoRestoreAllKeys = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1662\n GetSlotInfo = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2036\n HotKeyList = <table> {\n }\n PlaceIntoSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:823\n GetBaseForMorphingSpell = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2137\n OverwriteHotKey = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1927\n GameTooltipSetSpellBookItem = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1803\n GameTooltipSetItemByID = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1788\n CreateFrameQueue = <table> {\n }\n GameTooltipSetBagItem = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1792\n ChatEdit_InsertLinkHook = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1259\n PlayerTalentUpdate = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1494\n GameTooltipSetAction = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1807\n InitHotKeyList = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1852\n useBindPadSlot = 0\n UnbindSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1175\n PickupSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1085\n specInfoCache = <table> {\n }\n SaveBindings = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2127\n DoSaveAllKeys = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1622\n UpdateCursor = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1421\n currentkeybindings = <table> {\n }\n GetProfileForSpec = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1005\n profileNum = 1\n CreateBindPadMacroAction = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1436\n CheckCorruptedSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:964\n GetSlotInfoInTab = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2073\n DoList = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1531\n GetMacroIconInfo = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1589\n FindSpellBookIdByName = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1205\n PickupSpellBookItemHook = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1302\n ManuallySetBinding = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1150\n morphingSpellCache = <table> {\n }\n CarryOverKeybinding = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1132\n ShowDialog = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1817\n AllSlotInfoIter = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2101\n SetTriggerOnKeydown = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1519\n ChangingKeyBindings = false\n InnerSetBinding = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1145\n character = \"PROFILE_Firemaw_Evolvepwp\"\n InitProfile = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1321\n initialized = true\n eventProc = <table> {\n }\n GetBindingKeyFromAction = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2172\n WaitForEvent = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2183\n HideSubFrames = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2122\n HidePopup = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2117\n CreateBindPadSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1988\n GetBindingText = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1214\n NewBindPadMacroName = <function> defined @Interface\\AddOns\\BindPad\\",
-			["stack"] = "[string \"@Interface\\AddOns\\BindPad\\BindPad-c0.2.lua\"]:1972: in function <Interface\\AddOns\\BindPad\\BindPad.lua:1969>\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: in function `CreateFrame'\n[string \"@Interface\\AddOns\\ATT\\ATT-1.lua\"]:1737: in function `clickFunc'\n[string \"@Interface\\AddOns\\ATT\\libs\\LibATTSimpleOptions-90005.lua\"]:479: in function <Interface\\AddOns\\ATT\\libs\\LibATTSimpleOptions.lua:478>",
-			["session"] = 3557,
-			["counter"] = 44,
-		}, -- [1]
-		{
-			["message"] = "Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:177: attempt to index global 'LFGParentFrame' (a nil value)",
-			["time"] = "2022/09/03 12:49:47",
-			["locals"] = "log = <function> defined @Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:1\nClassPortraits = <unnamed> {\n 0 = <userdata>\n}\niconPath = \"Interface\\Addons\\ClassPortraits\\DO NOT STEAL THIS PLS.BLP\"\nTargetToTPortrait = <unnamed> {\n 0 = <userdata>\n}\nlastTargetToTGuid = nil\nFocusToTPortrait = <unnamed> {\n 0 = <userdata>\n}\nlastFocusToTGuid = nil\nUpdatePortrait = <function> defined @Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:20\nclassIcons = <table> {\n HUNTER = <table> {\n }\n WARRIOR = <table> {\n }\n ROGUE = <table> {\n }\n MAGE = <table> {\n }\n PRIEST = <table> {\n }\n WARLOCK = <table> {\n }\n DEATHKNIGHT = <table> {\n }\n DRUID = <table> {\n }\n SHAMAN = <table> {\n }\n PALADIN = <table> {\n }\n}\nPlayerPortrait = PlayerPortrait {\n 0 = <userdata>\n}\neventFrame = <unnamed> {\n 0 = <userdata>\n}\naddonLoadEvent = <unnamed> {\n 0 = <userdata>\n}\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = \"OnEvent\"\n(*temporary) = <function> defined @Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:145\n(*temporary) = <function> defined @Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua:145\n(*temporary) = nil\n(*temporary) = \"attempt to index global 'LFGParentFrame' (a nil value)\"\n",
-			["stack"] = "[string \"@Interface\\AddOns\\ClassPortraits\\ClassPortraits.lua\"]:177: in main chunk",
-			["session"] = 3567,
-			["counter"] = 1,
-		}, -- [2]
-		{
-			["message"] = "(null)",
-			["session"] = 3567,
-			["time"] = "2022/09/03 12:49:48",
-			["counter"] = 3,
-		}, -- [3]
-		{
-			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame1PetFrame:Hide()'.",
-			["time"] = "2022/09/02 15:22:52",
-			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:519: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:519>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:187: in function `PartyMemberFrame_UpdatePet'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:363: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:740: in function <Interface\\FrameXML\\UnitFrame.lua:738>",
-			["session"] = 3578,
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame1:Hide()'.",
+			["time"] = "2022/09/08 16:49:51",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:143: in function `PartyMemberFrame_UpdateMember'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:337: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:742: in function <Interface\\FrameXML\\UnitFrame.lua:740>",
+			["session"] = 3679,
 			["counter"] = 2,
-		}, -- [4]
+		}, -- [1]
 	},
 }
