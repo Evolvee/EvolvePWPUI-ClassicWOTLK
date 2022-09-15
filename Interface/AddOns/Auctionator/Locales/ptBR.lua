@@ -154,6 +154,12 @@ L["CONFIG_SELLING_SHOW_BID_PRICE"] = "Mostrar a opção de oferta quando estiver
 L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_HEADER"] = "Opções de Oferta"
 L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_TEXT"] = "Controla se opção de oferta aparece quando estiver postando um item."
 L["CONFIG_SELLING_SKIP_SHORTCUT"] = "Atalho para pular o item selecionado é"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS"] = "Show split panel view between current prices and historical prices"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_HEADER"] = "Split Panels View"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_TEXT"] = "Normally the historical prices are on a tab inside the Selling tab, instead this makes the current prices always visible, but the historical prices show as a panel below them."
 L["CONFIG_SELLING_TBC_ALL_ITEMS"] = [=[Opções para definir as configurações de lançamento padrão para todos os itens.
 ]=]
 L["CONFIG_SELLING_TEXT"] = "Opções para alterar o comportamento da guia Venda"
@@ -595,6 +601,8 @@ L["TRANSLATORS_RUSSIAN"] = "Russo"
 L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "Chinês Simplificado"
 L["TRANSLATORS_SPANISH"] = "Espanhol"
 L["TRANSLATORS_TRADITIONAL_CHINESE"] = "Chinês Tradicional"
+--[[Translation missing --]]
+L["TRANSLATORS_TURKISH_INFO"] = "Turkish (available separately)"
 L["UNDERCUT_BID"] = "Oferta"
 L["UNDERCUT_NO"] = "Não"
 L["UNDERCUT_PREFERENCE"] = [=[Preferência de sub-corte

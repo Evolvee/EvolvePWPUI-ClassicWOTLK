@@ -160,6 +160,12 @@ L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_TEXT"] = "Controls whether the bid pric
 --[[Translation missing --]]
 L["CONFIG_SELLING_SKIP_SHORTCUT"] = "A shortcut to skip posting the currently selected item is"
 --[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS"] = "Show split panel view between current prices and historical prices"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_HEADER"] = "Split Panels View"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_TEXT"] = "Normally the historical prices are on a tab inside the Selling tab, instead this makes the current prices always visible, but the historical prices show as a panel below them."
+--[[Translation missing --]]
 L["CONFIG_SELLING_TBC_ALL_ITEMS"] = "Options to set the default posting settings for all items."
 L["CONFIG_SELLING_TEXT"] = "판매하기 탭의 설정을 변경합니다."
 --[[Translation missing --]]
@@ -589,6 +595,8 @@ L["TRANSLATORS_RUSSIAN"] = "러시아어"
 L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "중국어 간체"
 L["TRANSLATORS_SPANISH"] = "스페인어"
 L["TRANSLATORS_TRADITIONAL_CHINESE"] = "중국어 번체"
+--[[Translation missing --]]
+L["TRANSLATORS_TURKISH_INFO"] = "Turkish (available separately)"
 --[[Translation missing --]]
 L["UNDERCUT_BID"] = "Bid"
 L["UNDERCUT_NO"] = "X"

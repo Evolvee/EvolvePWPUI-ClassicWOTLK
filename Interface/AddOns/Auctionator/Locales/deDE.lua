@@ -137,6 +137,12 @@ L["CONFIG_SELLING_SHOW_BID_PRICE"] = "Gebotspreisoption beim Auflisten eines Geg
 L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_HEADER"] = "Gebotsoptionen"
 L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_TEXT"] = "Steuert, ob die Option für den Angebotspreis beim Einstellen eines Gegenstands angezeigt wird."
 L["CONFIG_SELLING_SKIP_SHORTCUT"] = "Posten des gewählten Gegenstands überspringen"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS"] = "Show split panel view between current prices and historical prices"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_HEADER"] = "Split Panels View"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_TEXT"] = "Normally the historical prices are on a tab inside the Selling tab, instead this makes the current prices always visible, but the historical prices show as a panel below them."
 L["CONFIG_SELLING_TBC_ALL_ITEMS"] = "Optionen, um die Standard-Aushangseinstellungen für alle Gegenstände festzulegen."
 L["CONFIG_SELLING_TEXT"] = "Optionen zum Ändern des Verhaltens des Verkaufen-Reiters"
 L["CONFIG_SHOPPING_ALWAYS_LOAD_MORE"] = "Ladet immer alle verfügbaren Ergebnisse."
@@ -487,6 +493,7 @@ L["TRANSLATORS_RUSSIAN"] = "Russisch"
 L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "Chinesisch vereinfacht"
 L["TRANSLATORS_SPANISH"] = "Spanisch"
 L["TRANSLATORS_TRADITIONAL_CHINESE"] = "Chinesisch traditionell"
+L["TRANSLATORS_TURKISH_INFO"] = "Türkisch (separat erhältlich)"
 L["UNDERCUT_BID"] = "Gebot"
 L["UNDERCUT_NO"] = "Nein"
 L["UNDERCUT_PREFERENCE"] = "Unterbietungsvorliebe"

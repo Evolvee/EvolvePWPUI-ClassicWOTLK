@@ -4,136 +4,6 @@ WeakAurasSaved = {
 	},
 	["editor_tab_spaces"] = 4,
 	["displays"] = {
-		["latency"] = {
-			["outline"] = "OUTLINE",
-			["wagoID"] = "NEXcXZuWO",
-			["authorOptions"] = {
-			},
-			["preferToUpdate"] = false,
-			["customText"] = "function()\n    local color = \"\"\n    local theTime = GetTime()\n    if not aura_env.last or aura_env.last < theTime - 1 then\n        aura_env.last = theTime\n        local _, _, _, world = GetNetStats()\n        aura_env.text = \"\" .. world \n        local lastrender = GetTime()\n    end\n    local _, _, _, world = GetNetStats()\n    if world < 150 then \n        color = \"|cFF90EE90\"\n    elseif world > 149 and world < 350 then\n        color = \"|cFFFF8C00\"\n    else\n        color = \"|cFFFF0000\"\n    end\n    return color.. aura_env.text .. \"ms\"\nend",
-			["yOffset"] = -379.6885471343994,
-			["anchorPoint"] = "CENTER",
-			["displayText_format_p_time_format"] = 0,
-			["customTextUpdate"] = "update",
-			["automaticWidth"] = "Auto",
-			["actions"] = {
-				["start"] = {
-				},
-				["finish"] = {
-				},
-				["init"] = {
-				},
-			},
-			["triggers"] = {
-				{
-					["trigger"] = {
-						["type"] = "unit",
-						["use_alwaystrue"] = true,
-						["subeventSuffix"] = "_CAST_START",
-						["event"] = "Conditions",
-						["unit"] = "player",
-						["spellIds"] = {
-						},
-						["subeventPrefix"] = "SPELL",
-						["names"] = {
-						},
-						["use_unit"] = true,
-						["debuffType"] = "HELPFUL",
-					},
-					["untrigger"] = {
-					},
-				}, -- [1]
-				["activeTriggerMode"] = -10,
-			},
-			["displayText_format_p_format"] = "timed",
-			["internalVersion"] = 53,
-			["animation"] = {
-				["start"] = {
-					["easeStrength"] = 3,
-					["type"] = "none",
-					["duration_type"] = "seconds",
-					["easeType"] = "none",
-				},
-				["main"] = {
-					["easeStrength"] = 3,
-					["type"] = "none",
-					["duration_type"] = "seconds",
-					["easeType"] = "none",
-				},
-				["finish"] = {
-					["easeStrength"] = 3,
-					["type"] = "none",
-					["duration_type"] = "seconds",
-					["easeType"] = "none",
-				},
-			},
-			["desc"] = "",
-			["font"] = "Fira Mono Medium",
-			["version"] = 1,
-			["displayText_format_c_format"] = "none",
-			["load"] = {
-				["talent"] = {
-					["multi"] = {
-					},
-				},
-				["use_combat"] = false,
-				["class"] = {
-					["multi"] = {
-					},
-				},
-				["spec"] = {
-					["multi"] = {
-					},
-				},
-				["size"] = {
-					["multi"] = {
-					},
-				},
-			},
-			["fontSize"] = 16,
-			["source"] = "import",
-			["shadowXOffset"] = 1,
-			["shadowYOffset"] = -1,
-			["regionType"] = "text",
-			["xOffset"] = 652,
-			["color"] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				1, -- [4]
-			},
-			["fixedWidth"] = 200,
-			["displayText_format_p_time_precision"] = 1,
-			["displayText"] = "%c\n",
-			["semver"] = "1.0.0",
-			["config"] = {
-			},
-			["justify"] = "LEFT",
-			["tocversion"] = 20501,
-			["id"] = "latency",
-			["displayText_format_p_time_dynamic_threshold"] = 60,
-			["frameStrata"] = 1,
-			["anchorFrameType"] = "SCREEN",
-			["selfPoint"] = "BOTTOM",
-			["uid"] = "CUGQf18gDfG",
-			["subRegions"] = {
-				{
-					["type"] = "subbackground",
-				}, -- [1]
-			},
-			["wordWrap"] = "WordWrap",
-			["shadowColor"] = {
-				0, -- [1]
-				0, -- [2]
-				0, -- [3]
-				1, -- [4]
-			},
-			["conditions"] = {
-			},
-			["information"] = {
-			},
-			["url"] = "",
-		},
 		["WOTF"] = {
 			["iconSource"] = 0,
 			["color"] = {
@@ -226,34 +96,7 @@ WeakAurasSaved = {
 			["regionType"] = "icon",
 			["displayIcon"] = 136187,
 			["cooldown"] = true,
-			["authorOptions"] = {
-			},
 			["xOffset"] = -555.2334365844727,
-			["actions"] = {
-				["start"] = {
-				},
-				["init"] = {
-				},
-				["finish"] = {
-				},
-			},
-			["zoom"] = 0,
-			["cooldownTextDisabled"] = false,
-			["config"] = {
-			},
-			["frameStrata"] = 1,
-			["id"] = "WOTF",
-			["width"] = 50,
-			["useCooldownModRate"] = true,
-			["anchorFrameType"] = "SCREEN",
-			["alpha"] = 1,
-			["uid"] = "IPzpPhZljg3",
-			["inverse"] = true,
-			["desc"] = "Displays Will of the Forsaken cooldown icon.",
-			["conditions"] = {
-			},
-			["information"] = {
-			},
 			["animation"] = {
 				["start"] = {
 					["type"] = "none",
@@ -274,6 +117,999 @@ WeakAurasSaved = {
 					["easeType"] = "none",
 				},
 			},
+			["actions"] = {
+				["start"] = {
+				},
+				["init"] = {
+				},
+				["finish"] = {
+				},
+			},
+			["zoom"] = 0,
+			["cooldownTextDisabled"] = false,
+			["config"] = {
+			},
+			["alpha"] = 1,
+			["id"] = "WOTF",
+			["width"] = 50,
+			["frameStrata"] = 1,
+			["anchorFrameType"] = "SCREEN",
+			["useCooldownModRate"] = true,
+			["uid"] = "IPzpPhZljg3",
+			["inverse"] = true,
+			["desc"] = "Displays Will of the Forsaken cooldown icon.",
+			["conditions"] = {
+			},
+			["information"] = {
+			},
+			["authorOptions"] = {
+			},
+		},
+		["AURA MASTERY focus"] = {
+			["xOffset"] = -11,
+			["yOffset"] = -15,
+			["anchorPoint"] = "CENTER",
+			["actions"] = {
+				["start"] = {
+				},
+				["finish"] = {
+				},
+				["init"] = {
+				},
+			},
+			["triggers"] = {
+				{
+					["trigger"] = {
+						["debuffType"] = "HELPFUL",
+						["type"] = "aura2",
+						["useStacks"] = false,
+						["useExactSpellId"] = false,
+						["useTotal"] = false,
+						["matchesShowOn"] = "showOnActive",
+						["event"] = "Health",
+						["unit"] = "focus",
+						["unitExists"] = false,
+						["auranames"] = {
+							"31821", -- [1]
+						},
+						["spellIds"] = {
+						},
+						["subeventPrefix"] = "SPELL",
+						["useName"] = true,
+						["names"] = {
+						},
+						["subeventSuffix"] = "_CAST_START",
+						["useRem"] = false,
+					},
+					["untrigger"] = {
+					},
+				}, -- [1]
+				["activeTriggerMode"] = -10,
+			},
+			["internalVersion"] = 53,
+			["selfPoint"] = "CENTER",
+			["desaturate"] = false,
+			["rotation"] = 0,
+			["subRegions"] = {
+				{
+					["type"] = "subbackground",
+				}, -- [1]
+			},
+			["height"] = 130,
+			["rotate"] = false,
+			["load"] = {
+				["use_class"] = true,
+				["talent"] = {
+					["multi"] = {
+					},
+				},
+				["use_ignoreNameRealm"] = false,
+				["class"] = {
+					["single"] = "PRIEST",
+					["multi"] = {
+						["PALADIN"] = true,
+					},
+				},
+				["spec"] = {
+					["multi"] = {
+					},
+				},
+				["size"] = {
+					["multi"] = {
+					},
+				},
+			},
+			["textureWrapMode"] = "CLAMPTOBLACKADDITIVE",
+			["mirror"] = false,
+			["anchorFrameFrame"] = "FocusFrame",
+			["regionType"] = "texture",
+			["blendMode"] = "ADD",
+			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-FOCUSFRAME-LARGE-FLASH",
+			["desc"] = "AURA MASTERY focus highlight texture...",
+			["authorOptions"] = {
+			},
+			["color"] = {
+				1, -- [1]
+				0, -- [2]
+				0.02745098039215686, -- [3]
+				1, -- [4]
+			},
+			["animation"] = {
+				["start"] = {
+					["easeStrength"] = 3,
+					["type"] = "none",
+					["duration_type"] = "seconds",
+					["easeType"] = "none",
+				},
+				["main"] = {
+					["easeStrength"] = 3,
+					["type"] = "none",
+					["duration_type"] = "seconds",
+					["easeType"] = "none",
+				},
+				["finish"] = {
+					["easeStrength"] = 3,
+					["type"] = "none",
+					["duration_type"] = "seconds",
+					["easeType"] = "none",
+				},
+			},
+			["id"] = "AURA MASTERY focus",
+			["width"] = 256,
+			["alpha"] = 1,
+			["anchorFrameType"] = "SELECTFRAME",
+			["uid"] = "9BBiT8OblIu",
+			["config"] = {
+			},
+			["inverse"] = false,
+			["frameStrata"] = 2,
+			["conditions"] = {
+			},
+			["information"] = {
+			},
+			["discrete_rotation"] = 0,
+		},
+		["WOTF BORDER"] = {
+			["controlledChildren"] = {
+				"Fears", -- [1]
+				"Charms", -- [2]
+				"Sleeps", -- [3]
+			},
+			["borderBackdrop"] = "Blizzard Tooltip",
+			["authorOptions"] = {
+			},
+			["preferToUpdate"] = false,
+			["groupIcon"] = 136187,
+			["anchorPoint"] = "CENTER",
+			["borderColor"] = {
+				0, -- [1]
+				0, -- [2]
+				0, -- [3]
+				1, -- [4]
+			},
+			["url"] = "",
+			["actions"] = {
+				["start"] = {
+				},
+				["finish"] = {
+				},
+				["init"] = {
+				},
+			},
+			["triggers"] = {
+				{
+					["trigger"] = {
+						["unit"] = "player",
+						["type"] = "aura2",
+						["spellIds"] = {
+						},
+						["subeventSuffix"] = "_CAST_START",
+						["subeventPrefix"] = "SPELL",
+						["names"] = {
+						},
+						["event"] = "Health",
+						["debuffType"] = "HELPFUL",
+					},
+					["untrigger"] = {
+					},
+				}, -- [1]
+			},
+			["internalVersion"] = 53,
+			["animation"] = {
+				["start"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+				["main"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+				["finish"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+			},
+			["desc"] = "Border around WOTF when under sleep/charm/fear and WOTF isnt on CD.",
+			["version"] = 2,
+			["subRegions"] = {
+			},
+			["load"] = {
+				["use_class"] = false,
+				["talent"] = {
+					["multi"] = {
+					},
+				},
+				["zoneIds"] = "",
+				["spec"] = {
+					["multi"] = {
+					},
+				},
+				["class"] = {
+					["multi"] = {
+					},
+				},
+				["size"] = {
+					["multi"] = {
+					},
+				},
+			},
+			["backdropColor"] = {
+				1, -- [1]
+				1, -- [2]
+				1, -- [3]
+				0.5, -- [4]
+			},
+			["source"] = "import",
+			["scale"] = 1,
+			["border"] = false,
+			["borderEdge"] = "Square Full White",
+			["regionType"] = "group",
+			["borderSize"] = 2,
+			["borderOffset"] = 4,
+			["semver"] = "1.0.1",
+			["tocversion"] = 11304,
+			["id"] = "WOTF BORDER",
+			["xOffset"] = -555.2299999999996,
+			["frameStrata"] = 1,
+			["anchorFrameType"] = "SCREEN",
+			["yOffset"] = -337.7799999999996,
+			["uid"] = "8B2oZr(3rax",
+			["borderInset"] = 1,
+			["config"] = {
+			},
+			["conditions"] = {
+			},
+			["information"] = {
+				["ignoreOptionsEventErrors"] = true,
+				["groupOffset"] = false,
+			},
+			["selfPoint"] = "CENTER",
+		},
+		["Charms"] = {
+			["iconSource"] = 0,
+			["xOffset"] = 0,
+			["preferToUpdate"] = false,
+			["yOffset"] = 0,
+			["anchorPoint"] = "CENTER",
+			["cooldownSwipe"] = true,
+			["url"] = "",
+			["icon"] = true,
+			["triggers"] = {
+				{
+					["trigger"] = {
+						["useName"] = true,
+						["subeventSuffix"] = "_CAST_START",
+						["event"] = "Health",
+						["subeventPrefix"] = "SPELL",
+						["debuffType"] = "HARMFUL",
+						["type"] = "aura2",
+						["spellIds"] = {
+						},
+						["auranames"] = {
+							"Mind Control", -- [1]
+							"24261", -- [2]
+							"7621", -- [3]
+							"24327", -- [4]
+							"25806", -- [5]
+							"Dominate Mind", -- [6]
+							"Domination", -- [7]
+							"16053", -- [8]
+							"3442", -- [9]
+							"25772", -- [10]
+							"17244", -- [11]
+							"Possessed", -- [12]
+						},
+						["unit"] = "player",
+						["names"] = {
+						},
+						["custom_type"] = "status",
+						["buffShowOn"] = "showOnActive",
+					},
+					["untrigger"] = {
+					},
+				}, -- [1]
+				{
+					["trigger"] = {
+						["debuffType"] = "HELPFUL",
+						["type"] = "spell",
+						["unevent"] = "auto",
+						["subeventSuffix"] = "_CAST_START",
+						["use_genericShowOn"] = true,
+						["duration"] = "1",
+						["event"] = "Action Usable",
+						["unit"] = "player",
+						["realSpellName"] = 7744,
+						["use_spellName"] = true,
+						["genericShowOn"] = "showOnReady",
+						["use_unit"] = true,
+						["subeventPrefix"] = "SPELL",
+						["use_exact_spellName"] = true,
+						["use_track"] = true,
+						["spellName"] = 7744,
+					},
+					["untrigger"] = {
+						["genericShowOn"] = "showOnReady",
+					},
+				}, -- [2]
+				["activeTriggerMode"] = -10,
+			},
+			["internalVersion"] = 53,
+			["keepAspectRatio"] = false,
+			["animation"] = {
+				["start"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+				["main"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+				["finish"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+			},
+			["desaturate"] = false,
+			["version"] = 2,
+			["subRegions"] = {
+				{
+					["type"] = "subbackground",
+				}, -- [1]
+				{
+					["glowFrequency"] = 0.25,
+					["glow"] = true,
+					["useGlowColor"] = false,
+					["glowType"] = "buttonOverlay",
+					["glowLength"] = 10,
+					["glowYOffset"] = 0,
+					["glowColor"] = {
+						1, -- [1]
+						0, -- [2]
+						0.00784313725490196, -- [3]
+						1, -- [4]
+					},
+					["type"] = "subglow",
+					["glowXOffset"] = 0,
+					["glowScale"] = 1,
+					["glowThickness"] = 1,
+					["glowLines"] = 8,
+					["glowBorder"] = false,
+				}, -- [2]
+			},
+			["height"] = 65,
+			["load"] = {
+				["use_race"] = true,
+				["use_never"] = false,
+				["talent"] = {
+					["multi"] = {
+					},
+				},
+				["spec"] = {
+					["multi"] = {
+					},
+				},
+				["use_class"] = true,
+				["race"] = {
+					["single"] = "Scourge",
+					["multi"] = {
+						["Scourge"] = true,
+					},
+				},
+				["faction"] = {
+				},
+				["zoneIds"] = "",
+				["class"] = {
+					["single"] = "PRIEST",
+					["multi"] = {
+					},
+				},
+				["size"] = {
+					["multi"] = {
+					},
+				},
+			},
+			["source"] = "import",
+			["width"] = 65,
+			["alpha"] = 1,
+			["selfPoint"] = "CENTER",
+			["color"] = {
+				0, -- [1]
+				0, -- [2]
+				0, -- [3]
+				0, -- [4]
+			},
+			["information"] = {
+				["ignoreOptionsEventErrors"] = false,
+			},
+			["regionType"] = "icon",
+			["conditions"] = {
+			},
+			["cooldownEdge"] = false,
+			["actions"] = {
+				["start"] = {
+					["do_glow"] = false,
+				},
+				["finish"] = {
+				},
+				["init"] = {
+				},
+			},
+			["uid"] = "AcqL()JqkDr",
+			["useCooldownModRate"] = true,
+			["auto"] = false,
+			["zoom"] = 0,
+			["semver"] = "1.0.1",
+			["tocversion"] = 11304,
+			["id"] = "Charms",
+			["cooldownTextDisabled"] = false,
+			["frameStrata"] = 2,
+			["anchorFrameType"] = "SCREEN",
+			["parent"] = "WOTF BORDER",
+			["config"] = {
+			},
+			["inverse"] = false,
+			["authorOptions"] = {
+			},
+			["displayIcon"] = 136187,
+			["cooldown"] = false,
+			["useTooltip"] = false,
+		},
+		["Sleeps"] = {
+			["iconSource"] = 0,
+			["xOffset"] = 0,
+			["preferToUpdate"] = false,
+			["yOffset"] = 0,
+			["anchorPoint"] = "CENTER",
+			["cooldownSwipe"] = true,
+			["url"] = "",
+			["icon"] = true,
+			["triggers"] = {
+				{
+					["trigger"] = {
+						["type"] = "aura2",
+						["auranames"] = {
+							"Sleep", -- [1]
+							"Deep Slumber", -- [2]
+							"Deep Sleep", -- [3]
+							"15822", -- [4]
+							"8040", -- [5]
+							"Hibernate", -- [6]
+						},
+						["event"] = "Health",
+						["names"] = {
+						},
+						["spellIds"] = {
+						},
+						["subeventSuffix"] = "_CAST_START",
+						["useName"] = true,
+						["unit"] = "player",
+						["subeventPrefix"] = "SPELL",
+						["debuffType"] = "HARMFUL",
+					},
+					["untrigger"] = {
+					},
+				}, -- [1]
+				{
+					["trigger"] = {
+						["debuffType"] = "HELPFUL",
+						["type"] = "spell",
+						["unevent"] = "auto",
+						["subeventSuffix"] = "_CAST_START",
+						["use_genericShowOn"] = true,
+						["duration"] = "1",
+						["event"] = "Action Usable",
+						["unit"] = "player",
+						["realSpellName"] = 7744,
+						["use_spellName"] = true,
+						["genericShowOn"] = "showOnReady",
+						["use_unit"] = true,
+						["subeventPrefix"] = "SPELL",
+						["use_exact_spellName"] = true,
+						["use_track"] = true,
+						["spellName"] = 7744,
+					},
+					["untrigger"] = {
+						["genericShowOn"] = "showOnReady",
+					},
+				}, -- [2]
+				["activeTriggerMode"] = -10,
+			},
+			["internalVersion"] = 53,
+			["keepAspectRatio"] = false,
+			["animation"] = {
+				["start"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+				["main"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+				["finish"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+			},
+			["desaturate"] = false,
+			["version"] = 2,
+			["subRegions"] = {
+				{
+					["type"] = "subbackground",
+				}, -- [1]
+				{
+					["glowFrequency"] = 0.25,
+					["glow"] = true,
+					["useGlowColor"] = false,
+					["glowType"] = "buttonOverlay",
+					["glowLength"] = 10,
+					["glowYOffset"] = 0,
+					["glowColor"] = {
+						1, -- [1]
+						0, -- [2]
+						0.00784313725490196, -- [3]
+						1, -- [4]
+					},
+					["type"] = "subglow",
+					["glowXOffset"] = 0,
+					["glowScale"] = 1,
+					["glowThickness"] = 1,
+					["glowLines"] = 8,
+					["glowBorder"] = false,
+				}, -- [2]
+			},
+			["height"] = 65,
+			["load"] = {
+				["use_race"] = true,
+				["use_never"] = false,
+				["talent"] = {
+					["multi"] = {
+					},
+				},
+				["spec"] = {
+					["multi"] = {
+					},
+				},
+				["use_class"] = true,
+				["race"] = {
+					["single"] = "Scourge",
+					["multi"] = {
+						["Scourge"] = true,
+					},
+				},
+				["faction"] = {
+				},
+				["zoneIds"] = "",
+				["class"] = {
+					["single"] = "PRIEST",
+					["multi"] = {
+					},
+				},
+				["size"] = {
+					["multi"] = {
+					},
+				},
+			},
+			["source"] = "import",
+			["width"] = 65,
+			["alpha"] = 1,
+			["selfPoint"] = "CENTER",
+			["color"] = {
+				0, -- [1]
+				0, -- [2]
+				0, -- [3]
+				0, -- [4]
+			},
+			["information"] = {
+				["ignoreOptionsEventErrors"] = false,
+			},
+			["regionType"] = "icon",
+			["conditions"] = {
+			},
+			["cooldownEdge"] = false,
+			["actions"] = {
+				["start"] = {
+					["do_glow"] = false,
+				},
+				["finish"] = {
+				},
+				["init"] = {
+				},
+			},
+			["uid"] = "VEJL8e54fE0",
+			["useCooldownModRate"] = true,
+			["auto"] = false,
+			["zoom"] = 0,
+			["semver"] = "1.0.1",
+			["tocversion"] = 11304,
+			["id"] = "Sleeps",
+			["cooldownTextDisabled"] = false,
+			["frameStrata"] = 2,
+			["anchorFrameType"] = "SCREEN",
+			["parent"] = "WOTF BORDER",
+			["config"] = {
+			},
+			["inverse"] = false,
+			["authorOptions"] = {
+			},
+			["displayIcon"] = 136187,
+			["cooldown"] = false,
+			["useTooltip"] = false,
+		},
+		["Fears"] = {
+			["iconSource"] = 0,
+			["xOffset"] = 0,
+			["preferToUpdate"] = false,
+			["yOffset"] = 0,
+			["anchorPoint"] = "CENTER",
+			["cooldownSwipe"] = true,
+			["url"] = "",
+			["icon"] = true,
+			["triggers"] = {
+				{
+					["trigger"] = {
+						["type"] = "aura2",
+						["auranames"] = {
+							"Fear", -- [1]
+							"Death Coil", -- [2]
+							"18431", -- [3]
+							"23023", -- [4]
+							"21330", -- [5]
+							"23275", -- [6]
+							"20019", -- [7]
+							"13488", -- [8]
+							"Howl of Terror", -- [9]
+							"Psychic Scream", -- [10]
+							"Intimidating Shout", -- [11]
+							"19408", -- [12]
+							"Scare Beast", -- [13]
+							"7399", -- [14]
+							"8715", -- [15]
+							"14100", -- [16]
+							"6605", -- [17]
+						},
+						["event"] = "Health",
+						["names"] = {
+						},
+						["spellIds"] = {
+						},
+						["subeventSuffix"] = "_CAST_START",
+						["useName"] = true,
+						["unit"] = "player",
+						["subeventPrefix"] = "SPELL",
+						["debuffType"] = "HARMFUL",
+					},
+					["untrigger"] = {
+					},
+				}, -- [1]
+				{
+					["trigger"] = {
+						["debuffType"] = "HELPFUL",
+						["type"] = "spell",
+						["unevent"] = "auto",
+						["subeventSuffix"] = "_CAST_START",
+						["use_genericShowOn"] = true,
+						["duration"] = "1",
+						["event"] = "Action Usable",
+						["unit"] = "player",
+						["realSpellName"] = 7744,
+						["use_spellName"] = true,
+						["genericShowOn"] = "showOnReady",
+						["use_unit"] = true,
+						["subeventPrefix"] = "SPELL",
+						["use_exact_spellName"] = true,
+						["use_track"] = true,
+						["spellName"] = 7744,
+					},
+					["untrigger"] = {
+						["genericShowOn"] = "showOnReady",
+					},
+				}, -- [2]
+				["activeTriggerMode"] = -10,
+			},
+			["internalVersion"] = 53,
+			["keepAspectRatio"] = false,
+			["animation"] = {
+				["start"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+				["main"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+				["finish"] = {
+					["duration_type"] = "seconds",
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["easeType"] = "none",
+				},
+			},
+			["desaturate"] = false,
+			["version"] = 2,
+			["subRegions"] = {
+				{
+					["type"] = "subbackground",
+				}, -- [1]
+				{
+					["glowFrequency"] = 0.25,
+					["glow"] = true,
+					["useGlowColor"] = false,
+					["glowType"] = "buttonOverlay",
+					["glowLength"] = 10,
+					["glowYOffset"] = 0,
+					["glowColor"] = {
+						1, -- [1]
+						0, -- [2]
+						0.00784313725490196, -- [3]
+						1, -- [4]
+					},
+					["type"] = "subglow",
+					["glowXOffset"] = 0,
+					["glowScale"] = 1,
+					["glowThickness"] = 1,
+					["glowLines"] = 8,
+					["glowBorder"] = false,
+				}, -- [2]
+			},
+			["height"] = 65,
+			["load"] = {
+				["use_race"] = true,
+				["use_never"] = false,
+				["talent"] = {
+					["multi"] = {
+					},
+				},
+				["spec"] = {
+					["multi"] = {
+					},
+				},
+				["use_class"] = true,
+				["race"] = {
+					["single"] = "Scourge",
+					["multi"] = {
+						["Scourge"] = true,
+					},
+				},
+				["faction"] = {
+				},
+				["zoneIds"] = "",
+				["class"] = {
+					["single"] = "PRIEST",
+					["multi"] = {
+					},
+				},
+				["size"] = {
+					["multi"] = {
+					},
+				},
+			},
+			["source"] = "import",
+			["width"] = 65,
+			["alpha"] = 1,
+			["selfPoint"] = "CENTER",
+			["color"] = {
+				0, -- [1]
+				0, -- [2]
+				0, -- [3]
+				0, -- [4]
+			},
+			["information"] = {
+				["ignoreOptionsEventErrors"] = false,
+			},
+			["regionType"] = "icon",
+			["conditions"] = {
+			},
+			["cooldownEdge"] = false,
+			["actions"] = {
+				["start"] = {
+					["do_glow"] = false,
+				},
+				["finish"] = {
+				},
+				["init"] = {
+				},
+			},
+			["uid"] = "cpsOq)tZstX",
+			["useCooldownModRate"] = true,
+			["auto"] = false,
+			["zoom"] = 0,
+			["semver"] = "1.0.1",
+			["tocversion"] = 11304,
+			["id"] = "Fears",
+			["cooldownTextDisabled"] = false,
+			["frameStrata"] = 2,
+			["anchorFrameType"] = "SCREEN",
+			["parent"] = "WOTF BORDER",
+			["config"] = {
+			},
+			["inverse"] = false,
+			["authorOptions"] = {
+			},
+			["displayIcon"] = 136187,
+			["cooldown"] = false,
+			["useTooltip"] = false,
+		},
+		["PW: Shield (P2)"] = {
+			["user_y"] = 0,
+			["user_x"] = 0,
+			["authorOptions"] = {
+			},
+			["yOffset"] = 0.57,
+			["foregroundColor"] = {
+				1, -- [1]
+				1, -- [2]
+				1, -- [3]
+				1, -- [4]
+			},
+			["desaturateBackground"] = false,
+			["sameTexture"] = true,
+			["backgroundColor"] = {
+				0.5, -- [1]
+				0.5, -- [2]
+				0.5, -- [3]
+				0.5, -- [4]
+			},
+			["triggers"] = {
+				{
+					["trigger"] = {
+						["type"] = "aura2",
+						["auranames"] = {
+							"6788", -- [1]
+						},
+						["event"] = "Health",
+						["subeventPrefix"] = "SPELL",
+						["subeventSuffix"] = "_CAST_START",
+						["spellIds"] = {
+						},
+						["specificUnit"] = "party2",
+						["useName"] = true,
+						["names"] = {
+						},
+						["unit"] = "member",
+						["debuffType"] = "HARMFUL",
+					},
+					["untrigger"] = {
+					},
+				}, -- [1]
+				["activeTriggerMode"] = -10,
+			},
+			["endAngle"] = 360,
+			["internalVersion"] = 53,
+			["animation"] = {
+				["start"] = {
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["duration_type"] = "seconds",
+					["easeType"] = "none",
+				},
+				["main"] = {
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["duration_type"] = "seconds",
+					["easeType"] = "none",
+				},
+				["finish"] = {
+					["type"] = "none",
+					["easeStrength"] = 3,
+					["duration_type"] = "seconds",
+					["easeType"] = "none",
+				},
+			},
+			["anchorFrameType"] = "SELECTFRAME",
+			["desc"] = "Shield CD on Party2 indicator...",
+			["rotation"] = 0,
+			["font"] = "Friz Quadrata TT",
+			["subRegions"] = {
+				{
+					["type"] = "subbackground",
+				}, -- [1]
+			},
+			["height"] = 43,
+			["slanted"] = false,
+			["load"] = {
+				["use_class"] = true,
+				["talent"] = {
+					["multi"] = {
+					},
+				},
+				["spec"] = {
+					["multi"] = {
+					},
+				},
+				["class"] = {
+					["single"] = "PRIEST",
+					["multi"] = {
+					},
+				},
+				["size"] = {
+					["multi"] = {
+					},
+				},
+			},
+			["actions"] = {
+				["start"] = {
+				},
+				["init"] = {
+				},
+				["finish"] = {
+				},
+			},
+			["useAdjustededMax"] = false,
+			["textureWrapMode"] = "CLAMPTOBLACKADDITIVE",
+			["crop_x"] = 0.41,
+			["startAngle"] = 0,
+			["xOffset"] = -39,
+			["useAdjustededMin"] = false,
+			["mirror"] = false,
+			["anchorFrameFrame"] = "PartyMemberFrame2",
+			["regionType"] = "progresstexture",
+			["desaturateForeground"] = false,
+			["blendMode"] = "BLEND",
+			["config"] = {
+			},
+			["smoothProgress"] = false,
+			["slantMode"] = "INSIDE",
+			["alpha"] = 1,
+			["crop_y"] = 0.41,
+			["anchorPoint"] = "CENTER",
+			["selfPoint"] = "CENTER",
+			["compress"] = false,
+			["id"] = "PW: Shield (P2)",
+			["fontSize"] = 12,
+			["frameStrata"] = 1,
+			["width"] = 43,
+			["foregroundTexture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-PartyFlash-Highlight_Shield",
+			["uid"] = "zDMEhE)lXyO",
+			["inverse"] = false,
+			["backgroundTexture"] = "Interface\\Addons\\WeakAuras\\PowerAurasMedia\\Auras\\Aura3",
+			["orientation"] = "ANTICLOCKWISE",
+			["conditions"] = {
+			},
+			["information"] = {
+			},
+			["backgroundOffset"] = 2,
 		},
 		["Inner Fire REBUFF!"] = {
 			["iconSource"] = -1,
@@ -452,9 +1288,9 @@ WeakAurasSaved = {
 			},
 			["anchorFrameType"] = "SCREEN",
 			["source"] = "import",
-			["useCooldownModRate"] = true,
-			["url"] = "",
+			["frameStrata"] = 1,
 			["icon"] = true,
+			["url"] = "",
 			["cooldown"] = false,
 			["anchorFrameFrame"] = "PlayerFrame",
 			["regionType"] = "icon",
@@ -474,279 +1310,29 @@ WeakAurasSaved = {
 				}, -- [1]
 			},
 			["useTooltip"] = false,
-			["desc"] = "Inner Fire at the right side of the screen to rebuff it!",
+			["xOffset"] = 430,
 			["config"] = {
 			},
-			["frameStrata"] = 1,
-			["semver"] = "1.0.5",
-			["zoom"] = 0,
+			["useCooldownModRate"] = true,
 			["auto"] = true,
+			["cooldownTextDisabled"] = false,
+			["semver"] = "1.0.5",
 			["tocversion"] = 20502,
 			["id"] = "Inner Fire REBUFF!",
-			["cooldownTextDisabled"] = false,
+			["zoom"] = 0,
 			["alpha"] = 1,
 			["width"] = 48,
-			["color"] = {
-				0.984313725490196, -- [1]
-				0.9725490196078431, -- [2]
-				1, -- [3]
-				1, -- [4]
-			},
+			["desc"] = "Inner Fire at the right side of the screen to rebuff it!",
 			["uid"] = ")GOgtvSY(WA",
 			["inverse"] = false,
-			["xOffset"] = 430,
+			["selfPoint"] = "CENTER",
 			["displayIcon"] = 135932,
 			["information"] = {
 				["ignoreOptionsEventErrors"] = true,
 			},
-			["selfPoint"] = "CENTER",
-		},
-		["Shield P1"] = {
-			["xOffset"] = -39.00000610351562,
-			["yOffset"] = 0.568896484375,
-			["anchorPoint"] = "CENTER",
-			["actions"] = {
-				["start"] = {
-				},
-				["finish"] = {
-				},
-				["init"] = {
-				},
-			},
-			["triggers"] = {
-				{
-					["trigger"] = {
-						["useStacks"] = false,
-						["auranames"] = {
-							"6788", -- [1]
-						},
-						["matchesShowOn"] = "showOnActive",
-						["subeventPrefix"] = "SPELL",
-						["unitExists"] = false,
-						["specificUnit"] = "party1",
-						["debuffType"] = "HARMFUL",
-						["useName"] = true,
-						["useExactSpellId"] = false,
-						["useTotal"] = false,
-						["event"] = "Health",
-						["spellIds"] = {
-						},
-						["names"] = {
-						},
-						["subeventSuffix"] = "_CAST_START",
-						["unit"] = "member",
-						["type"] = "aura2",
-						["useRem"] = false,
-					},
-					["untrigger"] = {
-					},
-				}, -- [1]
-				["activeTriggerMode"] = -10,
-			},
-			["internalVersion"] = 53,
-			["selfPoint"] = "CENTER",
-			["desaturate"] = false,
-			["rotation"] = 0,
-			["subRegions"] = {
-				{
-					["type"] = "subbackground",
-				}, -- [1]
-			},
-			["height"] = 43,
-			["rotate"] = false,
-			["load"] = {
-				["use_class"] = true,
-				["talent"] = {
-					["multi"] = {
-					},
-				},
-				["use_ignoreNameRealm"] = false,
-				["class"] = {
-					["single"] = "PRIEST",
-					["multi"] = {
-						["PALADIN"] = true,
-					},
-				},
-				["spec"] = {
-					["multi"] = {
-					},
-				},
-				["size"] = {
-					["multi"] = {
-					},
-				},
-			},
-			["textureWrapMode"] = "CLAMPTOBLACKADDITIVE",
-			["mirror"] = false,
-			["anchorFrameFrame"] = "PartyMemberFrame1",
-			["regionType"] = "texture",
-			["blendMode"] = "BLEND",
-			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-PartyFlash-Highlight_Shield",
 			["color"] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				1, -- [4]
-			},
-			["desc"] = "Shield debuff visualisation...",
-			["discrete_rotation"] = 0,
-			["authorOptions"] = {
-			},
-			["id"] = "Shield P1",
-			["alpha"] = 1,
-			["frameStrata"] = 4,
-			["width"] = 43,
-			["uid"] = "cec9bPRUhEz",
-			["config"] = {
-			},
-			["inverse"] = false,
-			["anchorFrameType"] = "SELECTFRAME",
-			["conditions"] = {
-			},
-			["information"] = {
-			},
-			["animation"] = {
-				["start"] = {
-					["easeStrength"] = 3,
-					["type"] = "none",
-					["duration_type"] = "seconds",
-					["easeType"] = "none",
-				},
-				["main"] = {
-					["easeStrength"] = 3,
-					["type"] = "none",
-					["duration_type"] = "seconds",
-					["easeType"] = "none",
-				},
-				["finish"] = {
-					["easeStrength"] = 3,
-					["type"] = "none",
-					["duration_type"] = "seconds",
-					["easeType"] = "none",
-				},
-			},
-		},
-		["Shield P2"] = {
-			["authorOptions"] = {
-			},
-			["yOffset"] = 0.568896484375,
-			["anchorPoint"] = "CENTER",
-			["actions"] = {
-				["start"] = {
-				},
-				["init"] = {
-				},
-				["finish"] = {
-				},
-			},
-			["triggers"] = {
-				{
-					["trigger"] = {
-						["useStacks"] = false,
-						["auranames"] = {
-							"6788", -- [1]
-						},
-						["matchesShowOn"] = "showOnActive",
-						["names"] = {
-						},
-						["unitExists"] = false,
-						["specificUnit"] = "party2",
-						["debuffType"] = "HARMFUL",
-						["type"] = "aura2",
-						["useExactSpellId"] = false,
-						["useTotal"] = false,
-						["event"] = "Health",
-						["spellIds"] = {
-						},
-						["unit"] = "member",
-						["subeventPrefix"] = "SPELL",
-						["useName"] = true,
-						["subeventSuffix"] = "_CAST_START",
-						["useRem"] = false,
-					},
-					["untrigger"] = {
-					},
-				}, -- [1]
-				["activeTriggerMode"] = -10,
-			},
-			["internalVersion"] = 53,
-			["animation"] = {
-				["start"] = {
-					["type"] = "none",
-					["easeStrength"] = 3,
-					["duration_type"] = "seconds",
-					["easeType"] = "none",
-				},
-				["main"] = {
-					["type"] = "none",
-					["easeStrength"] = 3,
-					["duration_type"] = "seconds",
-					["easeType"] = "none",
-				},
-				["finish"] = {
-					["type"] = "none",
-					["easeStrength"] = 3,
-					["duration_type"] = "seconds",
-					["easeType"] = "none",
-				},
-			},
-			["desaturate"] = false,
-			["rotation"] = 0,
-			["subRegions"] = {
-				{
-					["type"] = "subbackground",
-				}, -- [1]
-			},
-			["height"] = 43,
-			["rotate"] = false,
-			["load"] = {
-				["use_class"] = true,
-				["talent"] = {
-					["multi"] = {
-					},
-				},
-				["use_ignoreNameRealm"] = false,
-				["class"] = {
-					["single"] = "PRIEST",
-					["multi"] = {
-						["PALADIN"] = true,
-					},
-				},
-				["spec"] = {
-					["multi"] = {
-					},
-				},
-				["size"] = {
-					["multi"] = {
-					},
-				},
-			},
-			["textureWrapMode"] = "CLAMPTOBLACKADDITIVE",
-			["mirror"] = false,
-			["anchorFrameFrame"] = "PartyMemberFrame2",
-			["regionType"] = "texture",
-			["blendMode"] = "BLEND",
-			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-PartyFlash-Highlight_Shield",
-			["selfPoint"] = "CENTER",
-			["desc"] = "Shield debuff visualisation...",
-			["discrete_rotation"] = 0,
-			["xOffset"] = -39.00000610351562,
-			["id"] = "Shield P2",
-			["anchorFrameType"] = "SELECTFRAME",
-			["frameStrata"] = 4,
-			["width"] = 43,
-			["uid"] = "(gtYCxXZiEX",
-			["config"] = {
-			},
-			["inverse"] = false,
-			["alpha"] = 1,
-			["conditions"] = {
-			},
-			["information"] = {
-			},
-			["color"] = {
-				1, -- [1]
-				1, -- [2]
+				0.984313725490196, -- [1]
+				0.9725490196078431, -- [2]
 				1, -- [3]
 				1, -- [4]
 			},
@@ -855,30 +1441,40 @@ WeakAurasSaved = {
 			["regionType"] = "texture",
 			["blendMode"] = "ADD",
 			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-FOCUSFRAME-LARGE-FLASH",
-			["desc"] = "AURA MASTERY target highlight texture...",
-			["xOffset"] = -11,
-			["discrete_rotation"] = 0,
 			["authorOptions"] = {
 			},
+			["selfPoint"] = "CENTER",
+			["xOffset"] = -11,
+			["discrete_rotation"] = 0,
 			["id"] = "AURA MASTERY target",
-			["width"] = 256,
-			["frameStrata"] = 2,
 			["anchorFrameType"] = "SELECTFRAME",
+			["alpha"] = 1,
+			["width"] = 256,
 			["uid"] = "25IZogHGlrc",
 			["config"] = {
 			},
 			["inverse"] = false,
-			["alpha"] = 1,
+			["frameStrata"] = 2,
 			["conditions"] = {
 			},
 			["information"] = {
 			},
-			["selfPoint"] = "CENTER",
+			["desc"] = "AURA MASTERY target highlight texture...",
 		},
-		["AURA MASTERY focus"] = {
-			["xOffset"] = -11,
-			["yOffset"] = -15,
-			["anchorPoint"] = "CENTER",
+		["PW: Shield (P1)"] = {
+			["user_y"] = 0,
+			["user_x"] = 0,
+			["authorOptions"] = {
+			},
+			["yOffset"] = 0.57,
+			["foregroundColor"] = {
+				1, -- [1]
+				1, -- [2]
+				1, -- [3]
+				1, -- [4]
+			},
+			["desaturateBackground"] = false,
+			["sameTexture"] = true,
 			["actions"] = {
 				["start"] = {
 				},
@@ -890,78 +1486,29 @@ WeakAurasSaved = {
 			["triggers"] = {
 				{
 					["trigger"] = {
-						["debuffType"] = "HELPFUL",
 						["type"] = "aura2",
-						["useStacks"] = false,
-						["useExactSpellId"] = false,
-						["useTotal"] = false,
-						["matchesShowOn"] = "showOnActive",
+						["subeventSuffix"] = "_CAST_START",
 						["event"] = "Health",
-						["unit"] = "focus",
-						["unitExists"] = false,
+						["subeventPrefix"] = "SPELL",
 						["auranames"] = {
-							"31821", -- [1]
+							"6788", -- [1]
 						},
 						["spellIds"] = {
 						},
-						["subeventPrefix"] = "SPELL",
-						["useName"] = true,
+						["specificUnit"] = "party1",
+						["unit"] = "member",
 						["names"] = {
 						},
-						["subeventSuffix"] = "_CAST_START",
-						["useRem"] = false,
+						["useName"] = true,
+						["debuffType"] = "HARMFUL",
 					},
 					["untrigger"] = {
 					},
 				}, -- [1]
 				["activeTriggerMode"] = -10,
 			},
+			["endAngle"] = 360,
 			["internalVersion"] = 53,
-			["selfPoint"] = "CENTER",
-			["desaturate"] = false,
-			["rotation"] = 0,
-			["subRegions"] = {
-				{
-					["type"] = "subbackground",
-				}, -- [1]
-			},
-			["height"] = 130,
-			["rotate"] = false,
-			["load"] = {
-				["use_class"] = true,
-				["talent"] = {
-					["multi"] = {
-					},
-				},
-				["use_ignoreNameRealm"] = false,
-				["class"] = {
-					["single"] = "PRIEST",
-					["multi"] = {
-						["PALADIN"] = true,
-					},
-				},
-				["spec"] = {
-					["multi"] = {
-					},
-				},
-				["size"] = {
-					["multi"] = {
-					},
-				},
-			},
-			["textureWrapMode"] = "CLAMPTOBLACKADDITIVE",
-			["mirror"] = false,
-			["anchorFrameFrame"] = "FocusFrame",
-			["regionType"] = "texture",
-			["blendMode"] = "ADD",
-			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-FOCUSFRAME-LARGE-FLASH",
-			["discrete_rotation"] = 0,
-			["color"] = {
-				1, -- [1]
-				0, -- [2]
-				0.02745098039215686, -- [3]
-				1, -- [4]
-			},
 			["animation"] = {
 				["start"] = {
 					["easeStrength"] = 3,
@@ -982,22 +1529,77 @@ WeakAurasSaved = {
 					["easeType"] = "none",
 				},
 			},
-			["desc"] = "AURA MASTERY focus highlight texture...",
-			["id"] = "AURA MASTERY focus",
+			["width"] = 43,
+			["desc"] = "Shield CD on Party1 indicator...",
+			["rotation"] = 0,
+			["font"] = "Friz Quadrata TT",
+			["subRegions"] = {
+				{
+					["type"] = "subbackground",
+				}, -- [1]
+			},
+			["height"] = 43,
+			["backgroundOffset"] = 2,
+			["load"] = {
+				["use_class"] = true,
+				["talent"] = {
+					["multi"] = {
+					},
+				},
+				["class"] = {
+					["single"] = "PRIEST",
+					["multi"] = {
+					},
+				},
+				["spec"] = {
+					["multi"] = {
+					},
+				},
+				["size"] = {
+					["multi"] = {
+					},
+				},
+			},
+			["backgroundTexture"] = "Interface\\Addons\\WeakAuras\\PowerAurasMedia\\Auras\\Aura3",
+			["useAdjustededMax"] = false,
+			["textureWrapMode"] = "CLAMPTOBLACKADDITIVE",
+			["conditions"] = {
+			},
+			["startAngle"] = 0,
+			["backgroundColor"] = {
+				0.5, -- [1]
+				0.5, -- [2]
+				0.5, -- [3]
+				0.5, -- [4]
+			},
+			["anchorFrameFrame"] = "PartyMemberFrame1",
+			["mirror"] = false,
+			["useAdjustededMin"] = false,
+			["regionType"] = "progresstexture",
+			["desaturateForeground"] = false,
+			["blendMode"] = "BLEND",
+			["uid"] = "nD2epxy)96V",
+			["foregroundTexture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-PartyFlash-Highlight_Shield",
+			["slantMode"] = "INSIDE",
+			["frameStrata"] = 1,
+			["fontSize"] = 12,
+			["anchorPoint"] = "CENTER",
+			["selfPoint"] = "CENTER",
+			["compress"] = false,
+			["id"] = "PW: Shield (P1)",
+			["crop_y"] = 0.41,
+			["alpha"] = 1,
 			["anchorFrameType"] = "SELECTFRAME",
-			["frameStrata"] = 2,
-			["width"] = 256,
-			["uid"] = "9BBiT8OblIu",
+			["smoothProgress"] = false,
 			["config"] = {
 			},
 			["inverse"] = false,
-			["alpha"] = 1,
-			["conditions"] = {
-			},
+			["xOffset"] = -39,
+			["orientation"] = "ANTICLOCKWISE",
+			["crop_x"] = 0.41,
 			["information"] = {
 			},
-			["authorOptions"] = {
-			},
+			["slanted"] = false,
 		},
 		["Vampiric Embrace REBUFF!"] = {
 			["iconSource"] = -1,
@@ -1095,7 +1697,7 @@ WeakAurasSaved = {
 					["easeType"] = "none",
 				},
 			},
-			["desc"] = "Vampiric Embrac  at the right side of the screen to rebuff it!",
+			["desc"] = "Vampiric Embrace  at the right side of the screen to rebuff it!",
 			["version"] = 6,
 			["subRegions"] = {
 				{
@@ -1180,9 +1782,9 @@ WeakAurasSaved = {
 			},
 			["width"] = 48,
 			["source"] = "import",
-			["alpha"] = 1,
-			["url"] = "",
+			["frameStrata"] = 1,
 			["selfPoint"] = "CENTER",
+			["url"] = "",
 			["information"] = {
 				["ignoreOptionsEventErrors"] = true,
 			},
@@ -1190,22 +1792,23 @@ WeakAurasSaved = {
 			["regionType"] = "icon",
 			["displayIcon"] = 135932,
 			["icon"] = true,
-			["desaturate"] = false,
+			["useTooltip"] = false,
 			["uid"] = "jpzbH4hE5uM",
-			["frameStrata"] = 1,
-			["semver"] = "1.0.5",
-			["cooldownTextDisabled"] = false,
+			["alpha"] = 1,
 			["auto"] = true,
+			["zoom"] = 0,
+			["semver"] = "1.0.5",
 			["tocversion"] = 20502,
 			["id"] = "Vampiric Embrace REBUFF!",
-			["zoom"] = 0,
+			["cooldownTextDisabled"] = false,
 			["useCooldownModRate"] = true,
 			["anchorFrameType"] = "SCREEN",
-			["xOffset"] = 372,
+			["desaturate"] = false,
 			["config"] = {
 			},
 			["inverse"] = false,
-			["useTooltip"] = false,
+			["authorOptions"] = {
+			},
 			["conditions"] = {
 				{
 					["check"] = {
@@ -1222,12 +1825,14 @@ WeakAurasSaved = {
 				}, -- [1]
 			},
 			["cooldown"] = false,
-			["authorOptions"] = {
-			},
+			["xOffset"] = 372,
 		},
 	},
-	["dbVersion"] = 53,
-	["editor_font_size"] = 12,
+	["ProfilingWindow"] = {
+		["xOffset"] = 654.64453125,
+		["yOffset"] = -234,
+	},
+	["login_squelch_time"] = 10,
 	["RealTimeProfilingWindow"] = {
 		["xOffset"] = 203.3777770996094,
 		["yOffset"] = -182.7555541992188,
@@ -1237,17 +1842,14 @@ WeakAurasSaved = {
 		["hide"] = true,
 	},
 	["lastUpgrade"] = 1659733990,
-	["ProfilingWindow"] = {
-		["xOffset"] = 654.64453125,
-		["yOffset"] = -234,
-	},
-	["login_squelch_time"] = 10,
+	["dbVersion"] = 53,
+	["editor_font_size"] = 12,
 	["registered"] = {
 	},
 	["lastArchiveClear"] = 1659733987,
 	["frame"] = {
-		["xOffset"] = -413.3778076171875,
-		["yOffset"] = -38.93408203125,
+		["xOffset"] = -143.1553955078125,
+		["yOffset"] = -30.4010009765625,
 		["height"] = 657.888671875,
 		["width"] = 750,
 	},

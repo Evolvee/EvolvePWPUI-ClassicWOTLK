@@ -138,6 +138,12 @@ L["CONFIG_SELLING_SHOW_BID_PRICE"] = "Afficher le prix d'enchère lors de la mis
 L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_HEADER"] = "Afficher le prix d'enchère"
 L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_TEXT"] = "Ajoute le prix d'enchère en plus du prix d'achat immédiat lors de la prépation de vos ventes."
 L["CONFIG_SELLING_SKIP_SHORTCUT"] = "Ignorer l'objet sélectionné et passer au suivant avec :"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS"] = "Show split panel view between current prices and historical prices"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_HEADER"] = "Split Panels View"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_TEXT"] = "Normally the historical prices are on a tab inside the Selling tab, instead this makes the current prices always visible, but the historical prices show as a panel below them."
 L["CONFIG_SELLING_TBC_ALL_ITEMS"] = "Options liées à la vente des objets."
 L["CONFIG_SELLING_TEXT"] = "Options liées à l'onglet Vente."
 L["CONFIG_SHOPPING_ALWAYS_LOAD_MORE"] = "Chargez toujours tous les résultats disponibles."
@@ -490,6 +496,8 @@ L["TRANSLATORS_RUSSIAN"] = "Russe"
 L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "Chinois simplifié"
 L["TRANSLATORS_SPANISH"] = "Espagnol"
 L["TRANSLATORS_TRADITIONAL_CHINESE"] = "Chinois traditionnel"
+--[[Translation missing --]]
+L["TRANSLATORS_TURKISH_INFO"] = "Turkish (available separately)"
 L["UNDERCUT_BID"] = "Offre"
 L["UNDERCUT_NO"] = "Non"
 L["UNDERCUT_PREFERENCE"] = "Préférence de baisse des prix"

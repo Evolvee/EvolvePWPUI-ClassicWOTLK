@@ -1,0 +1,20 @@
+## Interface: 30400
+## Title: LFG Bulletin Board
+## Notes: Sort LFG/LFM Messages
+## Version: 2.64
+## Author: Vyscî-Whitemane
+## DefaultState: enabled
+## SavedVariables: GroupBulletinBoardDB
+## SavedVariablesPerCharacter: GroupBulletinBoardDBChar
+LibGPIOptions.lua
+LibGPIMinimapButton.lua
+LibGPIToolBox.lua
+Chat.lua
+Localization.lua
+Dungeons.lua
+Tags.lua
+RequestList.lua
+Options.lua
+GroupList.Lua
+GroupBulletinBoard.lua
+GroupBulletinBoard.xml

@@ -98,7 +98,7 @@ L["CONFIG_SAVE_LAST_DURATION_AS_DEFAULT_TOOLTIP_HEADER"] = "将上次使用的�
 L["CONFIG_SAVE_LAST_DURATION_AS_DEFAULT_TOOLTIP_TEXT"] = "将上次使用的时间覆盖预设持续时间"
 L["CONFIG_SCAN_SETTINGS"] = "扫描设定"
 L["CONFIG_SCANNING"] = "完整扫描设定"
-L["CONFIG_SELLING_ALL_ITEMS_CATEGORY"] = "出售: 全部物品"
+L["CONFIG_SELLING_ALL_ITEMS_CATEGORY"] = "销售: 全部物品"
 L["CONFIG_SELLING_AUTO_SELECT_NEXT"] = "自动选择背包中的下一个物品"
 L["CONFIG_SELLING_AUTO_SELECT_NEXT_TOOLTIP_HEADER"] = "自动选择物品"
 L["CONFIG_SELLING_AUTO_SELECT_NEXT_TOOLTIP_TEXT"] = "发布时自动选择背包视图中的下一个物品。"
@@ -136,6 +136,12 @@ L["CONFIG_SELLING_SHOW_BID_PRICE"] = "列出物品时显示出售价格选项（
 L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_HEADER"] = "出售价格选项"
 L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_TEXT"] = "控制发布物品时是否显示出售价格选项。"
 L["CONFIG_SELLING_SKIP_SHORTCUT"] = "跳过发布当前选择物品的快捷键为"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS"] = "Show split panel view between current prices and historical prices"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_HEADER"] = "Split Panels View"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_TEXT"] = "Normally the historical prices are on a tab inside the Selling tab, instead this makes the current prices always visible, but the historical prices show as a panel below them."
 L["CONFIG_SELLING_TBC_ALL_ITEMS"] = "为所有物品设置默认出售设置的选项"
 L["CONFIG_SELLING_TEXT"] = "更改销售标签页面行为的选项。"
 L["CONFIG_SHOPPING_ALWAYS_LOAD_MORE"] = "总是加载所有可用的结果。"
@@ -487,6 +493,8 @@ L["TRANSLATORS_RUSSIAN"] = "俄语"
 L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "简体中文"
 L["TRANSLATORS_SPANISH"] = "西班牙语"
 L["TRANSLATORS_TRADITIONAL_CHINESE"] = "繁体中文"
+--[[Translation missing --]]
+L["TRANSLATORS_TURKISH_INFO"] = "Turkish (available separately)"
 L["UNDERCUT_BID"] = "竞价"
 L["UNDERCUT_NO"] = "否"
 L["UNDERCUT_PREFERENCE"] = "压价偏好"

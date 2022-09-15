@@ -137,6 +137,12 @@ L["CONFIG_SELLING_SHOW_BID_PRICE"] = "Mostra l'opzione per il prezzo d'asta quan
 L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_HEADER"] = "Opzioni Offerta"
 L["CONFIG_SELLING_SHOW_BID_PRICE_TOOLTIP_TEXT"] = "Controlla se attivare o meno l'opzione per il prezzo d'asta per un'oggetto."
 L["CONFIG_SELLING_SKIP_SHORTCUT"] = "La scorciatoia per saltare l'asta dell'oggetto corrente è"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS"] = "Show split panel view between current prices and historical prices"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_HEADER"] = "Split Panels View"
+--[[Translation missing --]]
+L["CONFIG_SELLING_SPLIT_PANELS_TOOLTIP_TEXT"] = "Normally the historical prices are on a tab inside the Selling tab, instead this makes the current prices always visible, but the historical prices show as a panel below them."
 L["CONFIG_SELLING_TBC_ALL_ITEMS"] = "Opzione per impostare la creazione predefinita delle aste per tutti gli oggetti."
 L["CONFIG_SELLING_TEXT"] = "Opzioni per modificare il comportamento della scheda Acquista."
 L["CONFIG_SHOPPING_ALWAYS_LOAD_MORE"] = "Carica sempre tutti i risultati disponibili."
@@ -487,6 +493,8 @@ L["TRANSLATORS_RUSSIAN"] = "Russo"
 L["TRANSLATORS_SIMPLIFIED_CHINESE"] = "Cinese Semplificato"
 L["TRANSLATORS_SPANISH"] = "Spagnolo"
 L["TRANSLATORS_TRADITIONAL_CHINESE"] = "Cinese Tradizionale"
+--[[Translation missing --]]
+L["TRANSLATORS_TURKISH_INFO"] = "Turkish (available separately)"
 L["UNDERCUT_BID"] = "Offerta"
 L["UNDERCUT_NO"] = "No"
 L["UNDERCUT_PREFERENCE"] = "Preferenze Ribasso"

@@ -633,12 +633,12 @@ CharacterMicroButton:SetPushedTexture("Interface/BUTTONS/Custom Evo C panel");
 -- ^^ commented out no longer usable (maybe usable later when Lizzard introduced some similar shit again)
 
 
-
 LFGMicroButton:SetNormalTexture("Interface/BUTTONS/UI-MicroButton-Help-Up");
 LFGMicroButton:SetPushedTexture("Interface/BUTTONS/UI-MicroButton-Help-Up");
 
+-- removing the new "latency" bar unfortunately introduced in wotlk
 
-
+MainMenuBarPerformanceBar:Hide()
 
 --player health bar(status bar) colouring at certain % HP;class colours
 
@@ -741,7 +741,7 @@ hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
 end)
 
 
---Blacklist of frames where tooltips mouseovering is hidden(editable)
+-- Blacklist of frames where tooltips mouseovering is hidden
 
 local tooltipOwnerBlacklist = {
     "ActionButton%d+$",            -- bar buttons
@@ -750,7 +750,15 @@ local tooltipOwnerBlacklist = {
     "MultiBarLeftButton",
     "MultiBarRightButton",
     "MinimapZoneTextButton",
-    "MicroButton$",                -- micro buttons
+	"CharacterMicroButton",
+	"SpellbookMicroButton",
+	"TalentMicroButton",
+	"AchievementMicroButton",
+	"QuestLogMicroButton",
+	"SocialsMicroButton",
+	"PVPMicroButton",
+	"LFGMicroButton",
+	"HelpMicroButton",
     "^KeyRingButton$",             -- key ring
     "^CharacterBag%dSlot$",        -- bags
     "^MainMenuBarBackpackButton$", -- backpack
@@ -1091,8 +1099,8 @@ texture:SetAlpha(0)
 
 PVPMicroButtonTexture:Hide()
 
--- |Patch 2.5.2 no longer valid| texture = WorldMapMicroButton:GetHighlightTexture()
--- |Patch 2.5.2 no longer vlaid| texture:SetAlpha(0)
+-- |since Patch 2.5.2 no longer valid| texture = WorldMapMicroButton:GetHighlightTexture()
+-- |since Patch 2.5.2 no longer valid| texture:SetAlpha(0)
 
 texture = LFGMicroButton:GetHighlightTexture()
 texture:SetAlpha(0)

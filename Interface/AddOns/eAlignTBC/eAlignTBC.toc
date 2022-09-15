@@ -1,6 +1,0 @@
-## Interface: 20504
-## Author: Lohkin
-## Version: TBC
-## Title: eAlign|cffffffffTBC |r
-## Notes: A simple alignment grid.  Use |cffffd700/align|r to toggle on and off.
-eAlignTBC.lua
