@@ -1,9 +1,0 @@
-
-AutoShopSharedSave = {
-	["excludeList"] = {
-	},
-	["autoBuyList"] = {
-	},
-	["autoSellList"] = {
-	},
-}
