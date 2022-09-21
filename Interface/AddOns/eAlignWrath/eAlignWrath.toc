@@ -1,0 +1,6 @@
+## Interface: 30400
+## Author: Lohkin
+## Version: Wrath 3.4.0
+## Title: eAlign|cffffffffWrath |r
+## Notes: A simple alignment grid.  Use |cffffd700/align|r to toggle on and off.
+eAlignWrath.lua

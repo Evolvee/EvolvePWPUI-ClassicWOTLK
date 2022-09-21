@@ -1,9 +1,5 @@
 
 OmniCCDB = {
-	["global"] = {
-		["dbVersion"] = 6,
-		["addonVersion"] = "9.2.1",
-	},
 	["profileKeys"] = {
 		["Evolvexd - Classic Arena - EU"] = "Default",
 		["Evolvebanned - Gehennas"] = "Default",
@@ -22,6 +18,10 @@ OmniCCDB = {
 		["Evolve - Classic PTR Realm 1"] = "Default",
 		["Dbldogcheck - Firemaw"] = "Default",
 		["Evolvebanned - Firemaw"] = "Default",
+	},
+	["global"] = {
+		["dbVersion"] = 6,
+		["addonVersion"] = "9.2.1",
 	},
 	["profiles"] = {
 		["Default"] = {
@@ -59,12 +59,12 @@ OmniCCDB = {
 			["themes"] = {
 				["Default"] = {
 					["textStyles"] = {
+						["minutes"] = {
+						},
 						["soon"] = {
 							["b"] = 0,
 							["scale"] = 1,
 							["g"] = 0.8784313725490196,
-						},
-						["minutes"] = {
 						},
 						["seconds"] = {
 							["b"] = 1,
@@ -82,9 +82,9 @@ OmniCCDB = {
 				},
 				["Plater Nameplates Theme"] = {
 					["textStyles"] = {
-						["soon"] = {
-						},
 						["minutes"] = {
+						},
+						["soon"] = {
 						},
 						["seconds"] = {
 						},

@@ -51500,5 +51500,5 @@ WeakAurasOptionsSaved = {
 	},
 	["spellCacheAchivements"] = true,
 	["spellCacheStrings"] = true,
-	["build"] = "45572",
+	["build"] = "45613",
 }

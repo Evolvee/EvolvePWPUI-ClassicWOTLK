@@ -535,8 +535,8 @@ local barstosmooth = {
 
 local function SmoothSetValue(self, value)
    self.finalValue = value
-   if self.unitType then
-      local guid = UnitGUID(self.unitType)
+   if self.unit then
+      local guid = UnitGUID(self.unit)
       if value == self:GetValue() or not guid or guid ~= self.lastGuid then
          smoothing[self] = nil
          self:SetValue_(value)
@@ -1642,6 +1642,29 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(GameTooltip)
 			GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
 		end
 	end
+end)
+
+-- Filter out the Vampiric Embrace spam healing combat text due to Blizzard being retarded as usual (thx Xyz)
+
+local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo;
+
+local PF = CreateFrame("Frame")
+PF:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+
+PF:SetScript("OnEvent", function()
+    local _, eventType, _, _, _, _, _, _, _, _, _, spellID = CombatLogGetCurrentEventInfo()
+    
+    if not eventType == "SPELL_PERIODIC_HEAL" then
+        return
+    end
+
+    if spellID == 15290 then
+        COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = nil
+        SetCVar("floatingCombatTextCombatHealing", 0)
+    else
+        COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = 1
+        SetCVar("floatingCombatTextCombatHealing", 1)
+    end
 end)
 
 

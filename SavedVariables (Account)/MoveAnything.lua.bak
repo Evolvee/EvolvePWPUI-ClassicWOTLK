@@ -9,43 +9,6 @@ MADB = {
 		["default"] = {
 			["name"] = "default",
 			["frames"] = {
-				["UIWidgetBelowMinimapContainerFrame"] = {
-					["orgPos"] = {
-						"TOPRIGHT", -- [1]
-						"MinimapCluster", -- [2]
-						"BOTTOMRIGHT", -- [3]
-						-400, -- [4]
-						0, -- [5]
-					},
-					["name"] = "UIWidgetBelowMinimapContainerFrame",
-					["pos"] = {
-						"TOPRIGHT", -- [1]
-						"MinimapCluster", -- [2]
-						"BOTTOMRIGHT", -- [3]
-						-104.622314453125, -- [4]
-						-259.5556945800781, -- [5]
-					},
-				},
-				["PartyMemberFrame1"] = {
-					["disableLayerBackground"] = false,
-					["disableLayerArtwork"] = false,
-					["orgPos"] = {
-						"TOP", -- [1]
-						"UIParent", -- [2]
-						"TOP", -- [3]
-						0, -- [4]
-						-135, -- [5]
-					},
-					["name"] = "PartyMemberFrame1",
-					["disableLayerBorder"] = false,
-					["pos"] = {
-						"TOPLEFT", -- [1]
-						"CompactRaidFrameManager", -- [2]
-						"TOPRIGHT", -- [3]
-						-13.4000066280365, -- [4]
-						10.29989013671875, -- [5]
-					},
-				},
 				["PartyMemberFrame3"] = {
 					["orgPos"] = {
 						"LEFT", -- [1]
@@ -61,6 +24,43 @@ MADB = {
 						"BOTTOMLEFT", -- [3]
 						-22.67000555992127, -- [4]
 						-32.26593017578125, -- [5]
+					},
+				},
+				["PartyMemberFrame1"] = {
+					["disableLayerBackground"] = false,
+					["disableLayerArtwork"] = false,
+					["orgPos"] = {
+						"TOP", -- [1]
+						"UIParent", -- [2]
+						"TOP", -- [3]
+						0, -- [4]
+						-135, -- [5]
+					},
+					["name"] = "PartyMemberFrame1",
+					["pos"] = {
+						"TOPLEFT", -- [1]
+						"CompactRaidFrameManager", -- [2]
+						"TOPRIGHT", -- [3]
+						-13.4000066280365, -- [4]
+						10.29989013671875, -- [5]
+					},
+					["disableLayerBorder"] = false,
+				},
+				["PartyMemberFrame2"] = {
+					["orgPos"] = {
+						"LEFT", -- [1]
+						"UIParent", -- [2]
+						"LEFT", -- [3]
+						0.9999999403953552, -- [4]
+						94, -- [5]
+					},
+					["name"] = "PartyMemberFrame2",
+					["pos"] = {
+						"TOPLEFT", -- [1]
+						"PartyMemberFrame1PetFrame", -- [2]
+						"BOTTOMLEFT", -- [3]
+						-23.32999289035797, -- [4]
+						-32.39981079101563, -- [5]
 					},
 				},
 				["MultiBarRightMover"] = {
@@ -131,29 +131,29 @@ MADB = {
 						2.9998779296875, -- [5]
 					},
 				},
-				["PartyMemberFrame2"] = {
+				["UIWidgetBelowMinimapContainerFrame"] = {
 					["orgPos"] = {
-						"LEFT", -- [1]
-						"UIParent", -- [2]
-						"LEFT", -- [3]
-						0.9999999403953552, -- [4]
-						94, -- [5]
+						"TOPRIGHT", -- [1]
+						"MinimapCluster", -- [2]
+						"BOTTOMRIGHT", -- [3]
+						-400, -- [4]
+						0, -- [5]
 					},
-					["name"] = "PartyMemberFrame2",
+					["name"] = "UIWidgetBelowMinimapContainerFrame",
 					["pos"] = {
-						"TOPLEFT", -- [1]
-						"PartyMemberFrame1PetFrame", -- [2]
-						"BOTTOMLEFT", -- [3]
-						-23.32999289035797, -- [4]
-						-32.39981079101563, -- [5]
+						"TOPRIGHT", -- [1]
+						"MinimapCluster", -- [2]
+						"BOTTOMRIGHT", -- [3]
+						-104.622314453125, -- [4]
+						-259.5556945800781, -- [5]
 					},
 				},
 			},
 		},
 	},
 	["modifiedFramesOnly"] = true,
-	["closeGUIOnEscape"] = false,
-	["playSound"] = false,
-	["noBags"] = false,
 	["frameListRows"] = 18,
+	["noBags"] = false,
+	["playSound"] = false,
+	["closeGUIOnEscape"] = false,
 }
