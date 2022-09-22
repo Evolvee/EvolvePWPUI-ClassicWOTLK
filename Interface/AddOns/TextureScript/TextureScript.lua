@@ -550,14 +550,6 @@ local barstosmooth = {
     FocusFrameHealthBar = "focus",
     FocusFrameManaBar = "focus",
     ReputationWatchStatusBar = "",
-    PartyMemberFrame1HealthBar = "party1",
-    PartyMemberFrame1ManaBar = "party1",
-    PartyMemberFrame2HealthBar = "party2",
-    PartyMemberFrame2ManaBar = "party2",
-    PartyMemberFrame3HealthBar = "party3",
-    PartyMemberFrame3ManaBar = "party3",
-    PartyMemberFrame4HealthBar = "party4",
-    PartyMemberFrame4ManaBar = "party4",
 }
 MODUI_RAIDBARS_TO_SMOOTH = {}
 
@@ -670,12 +662,15 @@ local function GradientColour(statusbar)
     value = (value - min) / (max - min);
 
     local r, g
-    if (value > 0.5) then
+    if value > 0.5 then
         r = (1.0 - value) * 2;
         g = 1.0;
-    else
+    elseif value > 0.25 and value < 0.5 then
         r = 1.0;
-        g = value * 2;
+        g = value * 1.75;
+    else
+      r = 1.0;
+      g = 0.0;
     end
     statusbar:SetStatusBarColor(r, g, 0.0);
 
@@ -1485,8 +1480,20 @@ plateEventFrame:SetScript("OnEvent", function(self, event, unit)
 
         -- move the castbar to be directly under the healthbar again
         local cb = nameplate.UnitFrame.CastBar
-        cb:ClearAllPoints()
-        cb:SetPoint("TOP", hb, "BOTTOM", 9, -4)
+        cb:HookScript("OnShow", function()
+            if not cb:IsShown() then
+                cb:Show()
+            end
+            local _, _, _, _, _, _, _, notInterruptible = UnitCastingInfo(unit)
+            local _, _, _, _, _, _, nonInterruptible  = UnitChannelInfo(unit)
+            if notInterruptible or nonInterruptible then
+                cb:ClearAllPoints()
+                cb:SetPoint("TOP", hb, "BOTTOM", 9, -15)
+            else
+                cb:ClearAllPoints()
+                cb:SetPoint("TOP", hb, "BOTTOM", 9, -4)
+            end
+        end)
 
         -- make the selection highlight a tiny bit smaller
         local sh = nameplate.UnitFrame.selectionHighlight
