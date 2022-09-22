@@ -310,10 +310,11 @@ local function OnInit()
 
     PlayerName:Hide()
     PetName:Hide()
-    PlayerFrameGroupIndicator:Hide() -- Hidden by default?
     ActionBarUpButton:Hide()
     ActionBarDownButton:Hide()
     MainMenuBarPageNumber:SetAlpha(0)
+	
+	hooksecurefunc(PlayerFrameGroupIndicator, "Show", PlayerFrameGroupIndicator.Hide)
 	
     UIErrorsFrame:Hide()
 	
