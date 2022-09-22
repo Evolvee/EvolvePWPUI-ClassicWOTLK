@@ -1,44 +1,122 @@
 --EVOLVE PWP UI
 
 local string_split = string.split
+local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo
+local UnitGUID, UnitIsPlayer, UnitIsConnected, UnitClass, UnitClassification = UnitGUID, UnitIsPlayer, UnitIsConnected, UnitClass, UnitClassification
+local UnitIsEnemy, UnitBuff, UnitName = UnitIsEnemy, UnitBuff, UnitName
+local IsActiveBattlefieldArena, GetBattlefieldTeamInfo = IsActiveBattlefieldArena, GetBattlefieldTeamInfo
+local SetCVar = SetCVar
+local pairs = pairs
+local ipairs = ipairs
+local floor = math.floor
+local tostring = tostring
+local select = select
+local tonumber = tonumber
+local math_ceil = math.ceil
+local string_format = string.format
+local GetFrameRate = GetFrameRate
+local mmin, mmax = math.min, math.max
+local mabs = math.abs
+local _G = _G
+local hooksecurefunc = hooksecurefunc
 
 --dark theme
-local frame2=CreateFrame("Frame")
+local frame2 = CreateFrame("Frame")
 frame2:RegisterEvent("ADDON_LOADED")
 frame2:SetScript("OnEvent", function(self, event, addon)
-        if (addon == "Blizzard_TimeManager") then
-                for i, v in pairs({PlayerFrameTexture, PetFrameTexture, PartyMemberFrame1Texture, PartyMemberFrame2Texture, PartyMemberFrame3Texture, PartyMemberFrame4Texture, SlidingActionBarTexture0,
+    for _, v in pairs({
+        PlayerFrameTexture,
+        TargetFrameTextureFrameTexture,
+        TargetFrameToTTextureFrameTexture,
+        FocusFrameToTTextureFrameTexture,
+        FocusFrameTextureFrameTexture,
+        PetFrameTexture,
+        PartyMemberFrame1Texture,
+        PartyMemberFrame2Texture,
+        PartyMemberFrame3Texture,
+        PartyMemberFrame4Texture,
+        SlidingActionBarTexture0,
         SlidingActionBarTexture1,
         MainMenuBarLeftEndCap,
         MainMenuBarRightEndCap,
-                        PartyMemberFrame1PetFrameTexture, PartyMemberFrame2PetFrameTexture, PartyMemberFrame3PetFrameTexture, PartyMemberFrame4PetFrameTexture, BonusActionBarTexture0, BonusActionBarTexture1,
-                        TargetofTargetTexture, TargetofFocusTexture, BonusActionBarFrameTexture0, BonusActionBarFrameTexture1, BonusActionBarFrameTexture2, BonusActionBarFrameTexture3,
-                        BonusActionBarFrameTexture4, MainMenuBarTexture0, MainMenuBarTexture1, MainMenuBarTexture2, MainMenuBarTexture3, MainMenuMaxLevelBar0, MainMenuMaxLevelBar1, MainMenuMaxLevelBar2,
-                        MainMenuMaxLevelBar3, MinimapBorder, CastingBarFrameBorder, MiniMapBattlefieldBorder, FocusFrameSpellBarBorder, CastingBarBorder, TargetFrameSpellBarBorder, MiniMapTrackingButtonBorder, MiniMapLFGFrameBorder, MainMenuXPBarTexture0, MainMenuXPBarTexture1, MainMenuXPBarTexture2, MainMenuXPBarTexture3, ReputationWatchBar.StatusBar.XPBarTexture0, ReputationWatchBar.StatusBar.XPBarTexture1,
-   ReputationWatchBar.StatusBar.XPBarTexture2, ReputationWatchBar.StatusBar.XPBarTexture3,
-   ReputationXPBarTexture0, ReputationXPBarTexture1,
-   ReputationXPBarTexture2, ReputationXPBarTexture3, MainMenuXPBarTextureMid, MiniMapBattlefieldBorder,
-                        MiniMapMailBorder, MinimapBorderTop,
-                        select(1, TimeManagerClockButton:GetRegions())
-                }) do
-                        v:SetVertexColor(.0, .0, .0)
-                end
+        PartyMemberFrame1PetFrameTexture,
+        PartyMemberFrame2PetFrameTexture,
+        PartyMemberFrame3PetFrameTexture,
+        PartyMemberFrame4PetFrameTexture,
+        BonusActionBarTexture0,
+        BonusActionBarTexture1,
+        TargetofTargetTexture,
+        TargetofFocusTexture,
+        BonusActionBarFrameTexture0,
+        BonusActionBarFrameTexture1,
+        BonusActionBarFrameTexture2,
+        BonusActionBarFrameTexture3,
+        BonusActionBarFrameTexture4,
+        MainMenuBarTexture0,
+        MainMenuBarTexture1,
+        MainMenuBarTexture2,
+        MainMenuBarTexture3,
+        MainMenuMaxLevelBar0,
+        MainMenuMaxLevelBar1,
+        MainMenuMaxLevelBar2,
+        MainMenuMaxLevelBar3,
+        MinimapBorder,
+        CastingBarFrameBorder,
+        MiniMapBattlefieldBorder,
+        FocusFrameSpellBarBorder,
+        CastingBarBorder,
+        TargetFrameSpellBarBorder,
+        MiniMapTrackingButtonBorder,
+        MiniMapLFGFrameBorder,
+        MainMenuXPBarTexture0,
+        MainMenuXPBarTexture1,
+        MainMenuXPBarTexture2,
+        MainMenuXPBarTexture3,
+        ReputationWatchBar.StatusBar.XPBarTexture0,
+        ReputationWatchBar.StatusBar.XPBarTexture1,
+        ReputationWatchBar.StatusBar.XPBarTexture2,
+        ReputationWatchBar.StatusBar.XPBarTexture3,
+        ReputationXPBarTexture0,
+        ReputationXPBarTexture1,
+        ReputationXPBarTexture2,
+        ReputationXPBarTexture3,
+        MainMenuXPBarTextureMid,
+        MiniMapBattlefieldBorder,
+        MiniMapMailBorder,
+        MinimapBorderTop }) do
+        v:SetVertexColor(0, 0, 0)
+    end
 
-                for i,v in pairs({ select(2, TimeManagerClockButton:GetRegions()) }) do
-                        v:SetVertexColor(1, 1, 1)
-                end
+    if addon == "Blizzard_TimeManager" then
+        for _, v in pairs({ select(2, TimeManagerClockButton:GetRegions()) }) do
+            v:SetVertexColor(1, 1, 1)
+        end
+    end
 
-                self:UnregisterEvent("ADDON_LOADED")
-                frame2:SetScript("OnEvent", nil)
-		end
+    self:UnregisterEvent("ADDON_LOADED")
+    self:SetScript("OnEvent", nil)
 end)
 
 
--- class colour nameplates
+-- CVars
 
-SetCVar("ShowClassColorInFriendlyNameplate", 1)
-SetCVar("ShowClassColorInNameplate", 1)
+local cvars = {
+    ShowClassColorInFriendlyNameplate = "1",
+    ShowClassColorInNameplate = "1",
+    nameplateMaxDistance = "41",
+    nameplateGlobalScale = "1.2",
+    enableFloatingCombatText = "1",
+    threatWarning = "0"
+}
 
+local function CustomCvar()
+    for cvar, value in pairs(cvars) do
+        local current = tostring(GetCVar(cvar))
+        if current ~= value then
+            SetCVar(cvar, value)
+        end
+    end
+end
 
 -- adding class colours to guild tab
 
@@ -48,79 +126,320 @@ local GuildListScrollFrame = GuildListScrollFrame
 local GUILDMEMBERS_TO_DISPLAY = GUILDMEMBERS_TO_DISPLAY
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 
-hooksecurefunc("GuildStatus_Update", function()
+local function ColorGuildTabs()
     local _, guildIndex, class, color
     local guildOffset = FauxScrollFrame_GetOffset(GuildListScrollFrame)
-    for i=1,GUILDMEMBERS_TO_DISPLAY do
+    for i = 1, GUILDMEMBERS_TO_DISPLAY do
         guildIndex = guildOffset + i
         _, _, _, _, _, _, _, _, _, _, class = GetGuildRosterInfo(guildIndex)
         if not class then
             break
         end
         color = RAID_CLASS_COLORS[class]
-        _G["GuildFrameButton"..i.."Class"]:SetTextColor(color.r, color.g, color.b)
+        _G["GuildFrameButton" .. i .. "Class"]:SetTextColor(color.r, color.g, color.b)
     end
-end)
-
--- ToT texture closing the alpha gap (previously handled by ClassPortraits itself)
-
-TargetFrameToTTextureFrameTexture:SetVertexColor(0,0,0)
-
-
-
---minimap buttons, horde/alliance icons on target/focus/player,minimap city location, minimap sun/clock, minimap text frame,minimap zoomable with mousewheel etc
-
-MinimapZoomIn:Hide()
-MinimapZoomOut:Hide()
-Minimap:EnableMouseWheel(true)
-Minimap:SetScript('OnMouseWheel', function(self, delta)
-        if delta > 0 then
-                Minimap_ZoomIn()
-        else
-                Minimap_ZoomOut()
-        end
-end)
-MiniMapTracking:Hide()
-MinimapBorderTop:Hide()
-PlayerPVPIcon:SetAlpha(0)
-TargetFrameTextureFramePVPIcon:SetAlpha(0)
-FocusFrameTextureFramePVPIcon:SetAlpha(0)
-for i=1,4 do
-   _G["PartyMemberFrame"..i.."PVPIcon"]:SetAlpha(0)
 end
-GameTimeTexture:Hide()
-GameTimeFrame:Hide()
-MiniMapMailFrame:ClearAllPoints() MiniMapMailFrame:SetPoint('BOTTOMRIGHT', 0, -10)
-MinimapZoneTextButton:Hide()
 
--- MiniMapWorldMapButton:Hide() needs to be done like this since patch 2.5.3 for some reason
+local function OnInit()
 
-MiniMapWorldMapButton:Hide()
-MiniMapWorldMapButton.Show = function() return end
+    -- Color Clock
+    select(1, TimeManagerClockButton:GetRegions()):SetVertexColor(0, 0, 0)
 
+    -- ToT texture closing the alpha gap (previously handled by ClassPortraits itself)
+    TargetFrameToTTextureFrameTexture:SetVertexColor(0, 0, 0)
 
+    --minimap buttons, horde/alliance icons on target/focus/player,minimap city location, minimap sun/clock, minimap text frame,minimap zoomable with mousewheel etc
+    MinimapZoomIn:Hide()
+    MinimapZoomOut:Hide()
+    Minimap:EnableMouseWheel(true)
+    Minimap:SetScript('OnMouseWheel', function(self, delta)
+        if delta > 0 then
+            Minimap_ZoomIn()
+        else
+            Minimap_ZoomOut()
+        end
+    end)
+    MiniMapTracking:Hide()
+    MinimapBorderTop:Hide()
+    PlayerPVPIcon:SetAlpha(0)
+    TargetFrameTextureFramePVPIcon:SetAlpha(0)
+    FocusFrameTextureFramePVPIcon:SetAlpha(0)
+    for i = 1, 4 do
+        _G["PartyMemberFrame" .. i .. "PVPIcon"]:SetAlpha(0)
+    end
+    GameTimeTexture:Hide()
+    GameTimeFrame:Hide()
+    MiniMapMailFrame:ClearAllPoints()
+    MiniMapMailFrame:SetPoint('BOTTOMRIGHT', 0, -10)
+    MinimapZoneTextButton:Hide()
 
+    -- MiniMapWorldMapButton:Hide() needs to be done like this since patch 2.5.3 for some reason
+    MiniMapWorldMapButton:Hide()
+    hooksecurefunc(MiniMapWorldMapButton, "Show", MiniMapWorldMapButton.Hide)
 
--- Attempt to Hide the modern shitclient multigroup icon at PlayerFrame
+    -- Attempt to Hide the modern shitclient multigroup icon at PlayerFrame
+    local mg = PlayerPlayTime:GetParent().MultiGroupFrame
+    hooksecurefunc(mg, "Show", mg.Hide)
 
-local mg = PlayerPlayTime:GetParent().MultiGroupFrame
-hooksecurefunc(mg, "Show", mg.Hide)
+    -- Hide Player and Pet hit indicators
+    hooksecurefunc(PlayerHitIndicator, "Show", PlayerHitIndicator.Hide)
+    hooksecurefunc(PetHitIndicator, "Show", PetHitIndicator.Hide)
 
+    -- Color Guild Tabs
+    hooksecurefunc("GuildStatus_Update", ColorGuildTabs)
 
+    --Pet Frame (IT IS NECCESSARY TO COPY INTERFACE/TARGETINGFRAME FOLDER AS WELL)
 
+    PetFrameHealthBar:SetWidth(70)
+    PetFrameHealthBar:SetHeight(18)
+    PetFrameManaBar:SetWidth(71)
+    PetFrameManaBar:SetHeight(10)
+    PetFrameHealthBar:SetPoint("TOPLEFT", 45, -14)
+    PetFrameHealthBarText:SetPoint("CENTER", 19, 4)
+    PetFrameHealthBarText:SetFont("Fonts/FRIZQT__.TTF", 14, "OUTLINE")
+    PetFrameManaBarText:SetPoint("CENTER", 19, -10)
+    PetFrameManaBarText:SetFont("Fonts/FRIZQT__.TTF", 9, "OUTLINE")
+    PetFrameManaBar:SetPoint("TOPLEFT", 45, -32)
 
+    --Party Member Frames 1-4
 
+    PartyMemberFrame1:SetScale(1.25)
+    PartyMemberFrame1Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
+    PartyMemberFrame1HealthBar:SetWidth(70)
+    PartyMemberFrame1HealthBar:SetHeight(18)
+    PartyMemberFrame1ManaBar:SetWidth(71)
+    PartyMemberFrame1ManaBar:SetHeight(10)
+    PartyMemberFrame1HealthBar:SetPoint("TOPLEFT", 45, -14)
+    PartyMemberFrame1ManaBar:SetPoint("TOPLEFT", 45, -32)
 
--- Disable combat text spam over player & pet frame
-PlayerHitIndicator:SetText(nil)
-PlayerHitIndicator.SetText = function() end
+    PartyMemberFrame2:SetScale(1.25)
+    PartyMemberFrame2Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
+    PartyMemberFrame2HealthBar:SetWidth(70)
+    PartyMemberFrame2HealthBar:SetHeight(18)
+    PartyMemberFrame2ManaBar:SetWidth(71)
+    PartyMemberFrame2ManaBar:SetHeight(10)
+    PartyMemberFrame2HealthBar:SetPoint("TOPLEFT", 45, -14)
+    PartyMemberFrame2ManaBar:SetPoint("TOPLEFT", 45, -32)
 
-PetHitIndicator:SetText(nil)
-PetHitIndicator.SetText = function() end
+    PartyMemberFrame3:SetScale(1.25)
+    PartyMemberFrame3Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
+    PartyMemberFrame3HealthBar:SetWidth(70)
+    PartyMemberFrame3HealthBar:SetHeight(18)
+    PartyMemberFrame3ManaBar:SetWidth(71)
+    PartyMemberFrame3ManaBar:SetHeight(10)
+    PartyMemberFrame3HealthBar:SetPoint("TOPLEFT", 45, -14)
+    PartyMemberFrame3ManaBar:SetPoint("TOPLEFT", 45, -32)
 
+    PartyMemberFrame4:SetScale(1.25)
+    PartyMemberFrame4Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
+    PartyMemberFrame4HealthBar:SetWidth(70)
+    PartyMemberFrame4HealthBar:SetHeight(18)
+    PartyMemberFrame4ManaBar:SetWidth(71)
+    PartyMemberFrame4ManaBar:SetHeight(10)
+    PartyMemberFrame4HealthBar:SetPoint("TOPLEFT", 45, -14)
+    PartyMemberFrame4ManaBar:SetPoint("TOPLEFT", 45, -32)
 
+    --Player Frame, Focus Frame, Target Frame
 
+    PlayerFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame")
+    PlayerStatusTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-Player-Status")
+    PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -22)
+    PlayerFrameHealthBar:SetWidth(119)
+    PlayerFrameHealthBar:SetHeight(29)
+    PlayerName:SetPoint("CENTER", 50, 35)
+    PlayerFrameHealthBarText:SetPoint("CENTER", 50, 12)
+    PlayerFrameHealthBarText:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
+    PlayerFrameManaBarText:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
 
+    TargetFrameHealthBar:SetWidth(119)
+    TargetFrameHealthBar:SetHeight(29)
+    TargetFrameHealthBar:SetPoint("TOPLEFT", 7, -22)
+    TargetFrameHealthBar:SetPoint("CENTER", -50, 6)
+    TargetFrameNameBackground:Hide()
+    TargetFrameTextureFrameName:SetPoint("CENTER", -50, 35)
+    TargetFrameHealthBar.TextString:SetPoint("CENTER", -50, 12)
+    TargetFrameHealthBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
+    TargetFrameManaBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
+
+    FocusFrameHealthBar:SetWidth(119)
+    FocusFrameHealthBar:SetHeight(29)
+    FocusFrameHealthBar:SetPoint("TOPLEFT", 7, -22)
+    FocusFrameHealthBar:SetPoint("CENTER", -50, 6)
+    FocusFrameNameBackground:Hide()
+    FocusFrameTextureFrameName:SetPoint("CENTER", -50, 35)
+    FocusFrameHealthBar.TextString:SetPoint("CENTER", -50, 12)
+    FocusFrameHealthBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
+    FocusFrameManaBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
+
+    hooksecurefunc("PlayerFrame_UpdateLevelTextAnchor", function(level)
+        if (level >= 100) then
+            PlayerLevelText:Hide();
+            PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -22);
+        else
+            PlayerLevelText:Hide();
+            PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -22);
+        end
+    end)
+
+    hooksecurefunc("TargetFrame_CheckFaction", function(self)
+        self.nameBackground:SetVertexColor(0.0, 0.0, 0.0, 0.5);
+    end)
+
+    --Left and Right Dragons on action bar hidden
+    MainMenuBarLeftEndCap:Hide()
+    MainMenuBarRightEndCap:Hide()
+
+    -- Hidden Player glow combat/rested flashes + Hidden Focus Flash on Focused Target + Trying to completely hide the red glowing status on target/focus frames when they have low HP(this is not completely fixed yet)
+    hooksecurefunc("PlayerFrame_UpdateStatus", function()
+        PlayerStatusTexture:Hide()
+        PlayerRestGlow:Hide()
+        PlayerRestIcon:Hide()
+        PlayerAttackIcon:Hide()
+        PlayerAttackGlow:Hide()
+        PlayerStatusGlow:Hide()
+        PlayerAttackBackground:Hide()
+    end)
+
+    -- Hidden Party Frame Colour-Statuses (debuffs)
+    hooksecurefunc(PartyMemberFrame1Status, "Show", PartyMemberFrame1Status.Hide)
+    hooksecurefunc(PartyMemberFrame2Status, "Show", PartyMemberFrame2Status.Hide)
+    hooksecurefunc(PartyMemberFrame3Status, "Show", PartyMemberFrame3Status.Hide)
+    hooksecurefunc(PartyMemberFrame4Status, "Show", PartyMemberFrame4Status.Hide)
+
+    --Player,Focus,Target,Pet and Party 1-4 Frames cleaned of names, group frame titles, combat indicators, glows, leader icons, master looter icons, levels, rest icons, !Improved Error Frame button hidden, Red Erros in top-center of screen hidden etc
+
+    PlayerName:Hide()
+    PetName:Hide()
+    PlayerFrameGroupIndicator:Hide() -- Hidden by default?
+    ActionBarUpButton:Hide()
+    ActionBarDownButton:Hide()
+    MainMenuBarPageNumber:SetAlpha(0)
+	
+    UIErrorsFrame:Hide()
+	
+    PlayerLevelText:SetAlpha(0)
+    PlayerLeaderIcon:SetAlpha(0)
+    PlayerStatusTexture:SetAlpha(0)
+    PlayerMasterIcon:SetAlpha(0)
+
+    FocusFrameTextureFrameLevelText:SetAlpha(0)
+    FocusFrameTextureFrameLeaderIcon:SetAlpha(0)
+
+    TargetFrameTextureFrameLevelText:SetAlpha(0)
+    TargetFrameTextureFrameLeaderIcon:SetAlpha(0)
+
+    PartyMemberFrame1LeaderIcon:SetAlpha(0)
+    PartyMemberFrame1MasterIcon:SetAlpha(0)
+
+    PartyMemberFrame2LeaderIcon:SetAlpha(0)
+    PartyMemberFrame2MasterIcon:SetAlpha(0)
+
+    PartyMemberFrame3LeaderIcon:SetAlpha(0)
+    PartyMemberFrame3MasterIcon:SetAlpha(0)
+
+    PartyMemberFrame4LeaderIcon:SetAlpha(0)
+    PartyMemberFrame4MasterIcon:SetAlpha(0)
+
+    PartyMemberFrame1Name:SetAlpha(0)
+    PartyMemberFrame2Name:SetAlpha(0)
+    PartyMemberFrame3Name:SetAlpha(0)
+    PartyMemberFrame4Name:SetAlpha(0)
+
+    ChatFrameMenuButton:Hide()
+    ChatFrameChannelButton:Hide()
+
+    --POSITION OF DEBUFFS ON PARTY MEMBER FRAMES 1-4
+
+    PartyMemberFrame1Debuff1:ClearAllPoints();
+    PartyMemberFrame1Debuff1:SetPoint("BOTTOMLEFT", 45.00000048894432, -9.374971298968035);
+
+    PartyMemberFrame2Debuff1:ClearAllPoints();
+    PartyMemberFrame2Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -8.437474379317337);
+
+    PartyMemberFrame3Debuff1:ClearAllPoints();
+    PartyMemberFrame3Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -10.31263004755721);
+
+    PartyMemberFrame4Debuff1:ClearAllPoints();
+    PartyMemberFrame4Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -8.437541575172077);
+
+    -- TargetFrame castbar slight up-scaling
+
+    TargetFrameSpellBar:SetScale(1.1)
+
+    -- FocusFrame castbar slight up-scaling
+
+    FocusFrameSpellBar:SetScale(1.1)
+
+    -- Rework Main Cast-Bar texture (castbar is now going to be round) - this is kinda "idk kev"... not sure if I rly like it, yet...
+
+    CastingBarFrame:SetScale(1)
+    CastingBarFrame.Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
+    CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
+    CastingBarFrame.Spark:SetHeight(50)
+    CastingBarFrame.Text:ClearAllPoints()
+    CastingBarFrame.Text:SetPoint("CENTER", 0, 1)
+    CastingBarFrame.Border:SetWidth(CastingBarFrame.Border:GetWidth() + 4)
+    CastingBarFrame.Flash:SetWidth(CastingBarFrame.Flash:GetWidth() + 4)
+    CastingBarFrame.BorderShield:SetWidth(CastingBarFrame.BorderShield:GetWidth() + 4)
+    CastingBarFrame.Border:SetPoint("TOP", 0, 26)
+    CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
+    CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
+
+    --Action bar buttons are now bigger, better looking and also fixes spellbook/wep switch bugging of dark theme
+
+    hooksecurefunc("ActionButton_ShowGrid", function(Button)
+        if not Button then
+            Button = this
+        end
+        _G[Button:GetName() .. "NormalTexture"]:SetVertexColor(1, 1, 1, 1)
+    end)
+    for _, Bar in pairs({ "Action", "MultiBarBottomLeft", "MultiBarBottomRight", "MultiBarLeft", "MultiBarRight", "Stance", "PetAction" }) do
+        for i = 1, 12 do
+            local Button = Bar .. "Button" .. i
+            if _G[Button] then
+                _G[Button .. "Icon"]:SetTexCoord(0.06, 0.94, 0.06, 0.94)
+            end
+        end
+    end
+
+    --removing character "C" button image
+
+    MicroButtonPortrait:Hide()
+    PaperDollFrame:HookScript("OnShow", function()
+        MicroButtonPortrait:Show()
+    end)
+
+    PaperDollFrame:HookScript("OnHide", function(...)
+        MicroButtonPortrait:Hide()
+    end)
+
+    CharacterMicroButton:SetNormalTexture("Interface/BUTTONS/Custom Evo C panel");
+    CharacterMicroButton:SetPushedTexture("Interface/BUTTONS/Custom Evo C panel");
+
+    LFGMicroButton:SetNormalTexture("Interface/BUTTONS/UI-MicroButton-Help-Up");
+    LFGMicroButton:SetPushedTexture("Interface/BUTTONS/UI-MicroButton-Help-Up");
+
+    -- removing the new "latency" bar unfortunately introduced in wotlk
+
+    MainMenuBarPerformanceBar:Hide()
+
+    -- add health and mana text to party frames
+    for i = 1, 4 do
+        local pFrame = _G["PartyMemberFrame" .. i]
+
+        local healthText = pFrame.healthbar:CreateFontString(nil, "OVERLAY", "GameFontWhite")
+        healthText:SetFont("Fonts/FRIZQT__.TTF", 15, "OUTLINE")
+        healthText:SetPoint("CENTER")
+
+        local manaText = pFrame.manabar:CreateFontString(nil, "OVERLAY", "GameFontWhite")
+        manaText:SetFont("Fonts/FRIZQT__.TTF", 9, "OUTLINE")
+        manaText:SetPoint("CENTER")
+
+        pFrame.healthbar.fontString = healthText
+        pFrame.manabar.fontString = manaText
+    end
+
+end
 
 --current HP/MANA value
 PetFrameHealthBar.useSimpleValue = true
@@ -131,197 +450,84 @@ TargetFrameHealthBar.useSimpleValue = true
 TargetFrameManaBar.useSimpleValue = true
 FocusFrameHealthBar.useSimpleValue = true
 FocusFrameManaBar.useSimpleValue = true
-for i=1,4 do
-   _G["PartyMemberFrame"..i.."HealthBar"].useSimpleValue = true
-   _G["PartyMemberFrame"..i.."ManaBar"].useSimpleValue = true
+for i = 1, 4 do
+    _G["PartyMemberFrame" .. i .. "HealthBar"].useSimpleValue = true
+    _G["PartyMemberFrame" .. i .. "ManaBar"].useSimpleValue = true
 end
 
-function TextStatusBar_UpdateTextString(textStatusBar)
-   if ( not textStatusBar ) then
-      textStatusBar = this;
-   end
-   local textString = textStatusBar.TextString;
-   if(textString) then
-      local value = textStatusBar.finalValue or textStatusBar:GetValue();
-      local valueMin, valueMax = textStatusBar:GetMinMaxValues();
+local function TextStatusBar_UpdateTextString(textStatusBar)
+    if (not textStatusBar) then
+        textStatusBar = this;
+    end
+    local textString = textStatusBar.TextString;
+    if (textString) then
+        local value = textStatusBar.finalValue or textStatusBar:GetValue();
+        local valueMin, valueMax = textStatusBar:GetMinMaxValues();
 
-      if ( ( tonumber(valueMax) ~= valueMax or valueMax > 0 ) and not ( textStatusBar.pauseUpdates ) ) then
-         textStatusBar:Show();
-         if ( value and valueMax > 0 and ( GetCVar("statusTextPercentage") == "1" or textStatusBar.showPercentage ) ) then
-            if ( value == 0 and textStatusBar.zeroText ) then
-               textString:SetText(textStatusBar.zeroText);
-               textStatusBar.isZero = 1;
-               textString:Show();
-               return;
-            end
-            value = tostring(math.ceil((value / valueMax) * 100)) .. "%";
-            if ( textStatusBar.prefix and (textStatusBar.alwaysPrefix or not (textStatusBar.cvar and GetCVar(textStatusBar.cvar) == "1" and textStatusBar.textLockable) ) ) then
-               textString:SetText(textStatusBar.prefix .. " " .. value);
+        if ((tonumber(valueMax) ~= valueMax or valueMax > 0) and not (textStatusBar.pauseUpdates)) then
+            textStatusBar:Show();
+            if (value and valueMax > 0 and (GetCVar("statusTextPercentage") == "1" or textStatusBar.showPercentage)) then
+                if (value == 0 and textStatusBar.zeroText) then
+                    textString:SetText(textStatusBar.zeroText);
+                    textStatusBar.isZero = 1;
+                    textString:Show();
+                    return ;
+                end
+                value = tostring(math_ceil((value / valueMax) * 100)) .. "%";
+                if (textStatusBar.prefix and (textStatusBar.alwaysPrefix or not (textStatusBar.cvar and GetCVar(textStatusBar.cvar) == "1" and textStatusBar.textLockable))) then
+                    textString:SetText(textStatusBar.prefix .. " " .. value);
+                else
+                    textString:SetText(value);
+                end
+            elseif (value == 0 and textStatusBar.zeroText) then
+                textString:SetText(textStatusBar.zeroText);
+                textStatusBar.isZero = 1;
+                textString:Show();
+                return ;
+            elseif (textStatusBar.useSimpleValue) then
+                textStatusBar.isZero = nil;
+                textString:SetText(value);
             else
-               textString:SetText(value);
+                textStatusBar.isZero = nil;
+                if (textStatusBar.prefix and (textStatusBar.alwaysPrefix or not (textStatusBar.cvar and GetCVar(textStatusBar.cvar) == "1" and textStatusBar.textLockable))) then
+                    textString:SetText(textStatusBar.prefix .. " " .. value .. " / " .. valueMax);
+                else
+                    textString:SetText(value .. " / " .. valueMax);
+                end
             end
-         elseif ( value == 0 and textStatusBar.zeroText ) then
-            textString:SetText(textStatusBar.zeroText);
-            textStatusBar.isZero = 1;
-            textString:Show();
-            return;
-         elseif ( textStatusBar.useSimpleValue ) then
-            textStatusBar.isZero = nil;
-            textString:SetText(value);
-         else
-            textStatusBar.isZero = nil;
-            if ( textStatusBar.prefix and (textStatusBar.alwaysPrefix or not (textStatusBar.cvar and GetCVar(textStatusBar.cvar) == "1" and textStatusBar.textLockable) ) ) then
-               textString:SetText(textStatusBar.prefix.." "..value.." / "..valueMax);
-            else
-               textString:SetText(value.." / "..valueMax);
-            end
-         end
 
-         if ( (textStatusBar.cvar and GetCVar(textStatusBar.cvar) == "1" and textStatusBar.textLockable) or textStatusBar.forceShow ) then
-            textString:Show();
-         elseif ( textStatusBar.lockShow > 0 ) then
-            textString:Show();
-         else
+            if ((textStatusBar.cvar and GetCVar(textStatusBar.cvar) == "1" and textStatusBar.textLockable) or textStatusBar.forceShow) then
+                textString:Show();
+            elseif (textStatusBar.lockShow > 0) then
+                textString:Show();
+            else
+                textString:Hide();
+            end
+        else
             textString:Hide();
-         end
-      else
-         textString:Hide();
-         textStatusBar:Hide();
-      end
-   end
+            textStatusBar:Hide();
+        end
+    end
 end
 
+local function Classification(self, forceNormalTexture)
+    local classification = UnitClassification(self.unit);
 
-
---Pet Frame (IT IS NECCESSARY TO COPY INTERFACE/TARGETINGFRAME FOLDER AS WELL)
-
-PetFrameHealthBar:SetWidth(70)
-PetFrameHealthBar:SetHeight(18)
-PetFrameManaBar:SetWidth(71)
-PetFrameManaBar:SetHeight(10)
-PetFrameHealthBar:SetPoint("TOPLEFT", 45, -14)
-PetFrameHealthBarText:SetPoint("CENTER", 19, 4)
-PetFrameHealthBarText:SetFont("Fonts/FRIZQT__.TTF", 14, "OUTLINE")
-PetFrameManaBarText:SetPoint("CENTER", 19, -10)
-PetFrameManaBarText:SetFont("Fonts/FRIZQT__.TTF", 9, "OUTLINE")
-PetFrameManaBar:SetPoint("TOPLEFT", 45, -32)
-
-
---Party Member Frames 1-4
-
-PartyMemberFrame1:SetScale(1.25)
-PartyMemberFrame1Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
-PartyMemberFrame1HealthBar:SetWidth(70)
-PartyMemberFrame1HealthBar:SetHeight(18)
-PartyMemberFrame1ManaBar:SetWidth(71)
-PartyMemberFrame1ManaBar:SetHeight(10)
-PartyMemberFrame1HealthBar:SetPoint("TOPLEFT", 45, -14)
-PartyMemberFrame1ManaBar:SetPoint("TOPLEFT", 45, -32)
-
-
-PartyMemberFrame2:SetScale(1.25)
-PartyMemberFrame2Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
-PartyMemberFrame2HealthBar:SetWidth(70)
-PartyMemberFrame2HealthBar:SetHeight(18)
-PartyMemberFrame2ManaBar:SetWidth(71)
-PartyMemberFrame2ManaBar:SetHeight(10)
-PartyMemberFrame2HealthBar:SetPoint("TOPLEFT", 45, -14)
-PartyMemberFrame2ManaBar:SetPoint("TOPLEFT", 45, -32)
-
-PartyMemberFrame3:SetScale(1.25)
-PartyMemberFrame3Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
-PartyMemberFrame3HealthBar:SetWidth(70)
-PartyMemberFrame3HealthBar:SetHeight(18)
-PartyMemberFrame3ManaBar:SetWidth(71)
-PartyMemberFrame3ManaBar:SetHeight(10)
-PartyMemberFrame3HealthBar:SetPoint("TOPLEFT", 45, -14)
-PartyMemberFrame3ManaBar:SetPoint("TOPLEFT", 45, -32)
-
-PartyMemberFrame4:SetScale(1.25)
-PartyMemberFrame4Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
-PartyMemberFrame4HealthBar:SetWidth(70)
-PartyMemberFrame4HealthBar:SetHeight(18)
-PartyMemberFrame4ManaBar:SetWidth(71)
-PartyMemberFrame4ManaBar:SetHeight(10)
-PartyMemberFrame4HealthBar:SetPoint("TOPLEFT", 45, -14)
-PartyMemberFrame4ManaBar:SetPoint("TOPLEFT", 45, -32)
-
-
-
---Player Frame, Focus Frame, Target Frame
-
-PlayerFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame")
-PlayerStatusTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-Player-Status")
-PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -22)
-PlayerFrameHealthBar:SetWidth(119)
-PlayerFrameHealthBar:SetHeight(29)
-PlayerName:SetPoint("CENTER", 50, 35)
-PlayerFrameHealthBarText:SetPoint("CENTER", 50, 12)
-PlayerFrameHealthBarText:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
-PlayerFrameManaBarText:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
-
--- retarded classic client forces you to reapply this on every reload (god bless 2.4.3)
-
-hooksecurefunc("PlayerFrame_UpdateLevelTextAnchor", function(level)
-  if ( level >= 100 ) then
-    PlayerLevelText:Hide();
-    PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -22);
-  else
-    PlayerLevelText:Hide();
-    PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -22);
-  end
-end)
-
-
-hooksecurefunc("TargetFrame_CheckFaction", function(self)
-    self.nameBackground:SetVertexColor(0.0, 0.0, 0.0, 0.5);
-end)
-
-
--- end of retardation
-
-
-TargetFrameHealthBar:SetWidth(119)
-TargetFrameHealthBar:SetHeight(29)
-TargetFrameHealthBar:SetPoint("TOPLEFT", 7, -22)TargetFrameHealthBar:SetPoint("CENTER", -50, 6)
-TargetFrameNameBackground:Hide()
-TargetFrameTextureFrameName:SetPoint("CENTER", -50, 35)
-TargetFrameHealthBar.TextString:SetPoint("CENTER", -50, 12)
-TargetFrameHealthBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
-TargetFrameManaBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
-
-FocusFrameHealthBar:SetWidth(119)
-FocusFrameHealthBar:SetHeight(29)
-FocusFrameHealthBar:SetPoint("TOPLEFT", 7, -22)FocusFrameHealthBar:SetPoint("CENTER", -50, 6)
-FocusFrameNameBackground:Hide()
-FocusFrameTextureFrameName:SetPoint("CENTER", -50, 35)
-FocusFrameHealthBar.TextString:SetPoint("CENTER", -50, 12)
-FocusFrameHealthBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
-FocusFrameManaBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
-
--- aparently "FocusFrame_CheckClassification" doesnt exist anymore in this modern abomination of a client so docking it inside Target...
-
-hooksecurefunc("TargetFrame_CheckClassification", function(self, forceNormalTexture)
-    local classification = UnitClassification("target")
     if classification == "elite" or classification == "worldboss" then
-        TargetFrameTextureFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame-Elite")
-        FocusFrameTextureFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame-Elite")
+        self.borderTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame-Elite")
     elseif classification == "rareelite" then
-        TargetFrameTextureFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame-Rare-Elite")
-        FocusFrameTextureFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame-Rare-Elite")
+        self.borderTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame-Rare-Elite")
     elseif classification == "rare" then
-        TargetFrameTextureFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame-Rare")
-        FocusFrameTextureFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame-Rare")
+        self.borderTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame-Rare")
     else
-        TargetFrameTextureFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame")
-        FocusFrameTextureFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\FocusFrame")
+        self.borderTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame")
     end
 
     -- fix Blizzard's overlapping backgrounds causing a darker line
     if forceNormalTexture then
         if classification ~= "minus" then
             self.Background:SetHeight(24)
-        else
+            -- else
             -- not sure if "minus" mobs exist in TBC - wowpedia says:
             -- Patch 5.0.4: used for minion mobs that typically have less health than normal mobs of their level, but engage the player in larger numbers
             -- if they do exist, have to check if the default 12 is an OK size for it not to overlap
@@ -330,810 +536,648 @@ hooksecurefunc("TargetFrame_CheckClassification", function(self, forceNormalText
     else
         self.Background:SetHeight(24)
     end
-end)
-
-
-
---Left and Right Dragons on action bar hidden
-
-MainMenuBarLeftEndCap:Hide()
-MainMenuBarRightEndCap:Hide()
-
-
-
-
-
--- Hidden Player glow combat/rested flashes + Hidden Focus Flash on Focused Target + Trying to completely hide the red glowing status on target/focus frames when they have low HP(this is not completely fixed yet)
-
-
-hooksecurefunc("PlayerFrame_UpdateStatus", function()
-   if IsResting("player") then
-      PlayerStatusTexture:Hide()
-      PlayerRestGlow:Hide()
-      PlayerStatusGlow:Hide()
-      elseif PlayerFrame.inCombat then
-      PlayerStatusTexture:Hide()
-      PlayerAttackGlow:Hide()
-      PlayerStatusGlow:Hide()
-   end
-end)
-
-
--- Hidden Party Frame Colour-Statuses (debuffs)
-
-PartyMemberFrame1Status.Show = function(self) self:Hide() end
-PartyMemberFrame2Status.Show = function(self) self:Hide() end
-PartyMemberFrame3Status.Show = function(self) self:Hide() end
-PartyMemberFrame4Status.Show = function(self) self:Hide() end
-
---Player,Focus,Target,Pet and Party 1-4 Frames cleaned of names, group frame titles, combat indicators, glows, leader icons, master looter icons, levels, rest icons, !Improved Error Frame button hidden, Red Erros in top-center of screen hidden etc
-
-
-PlayerName:Hide()
-PetName:Hide()
-PlayerFrameGroupIndicator:SetScript("OnShow", PlayerFrameGroupIndicator.Hide)
-ActionBarUpButton:Hide()
-ActionBarDownButton:Hide()
-MainMenuBarPageNumber:SetAlpha(0)
-
-UIErrorsFrame:Hide()
-
-PlayerRestIcon:SetAlpha(0)
-PlayerAttackIcon:SetAlpha(0)
-PlayerRestGlow:SetAlpha(0)
-PlayerLevelText:SetAlpha(0)
-PlayerAttackGlow:SetAlpha(0)
-PlayerStatusGlow:SetAlpha(0)
-PlayerAttackBackground:SetAlpha(0)
-PlayerLeaderIcon:SetAlpha(0)
-PlayerStatusTexture:SetAlpha(0)
-PlayerMasterIcon:SetAlpha(0)
-
-FocusFrameTextureFrameLevelText:SetAlpha(0)
-FocusFrameTextureFrameLeaderIcon:SetAlpha(0)
-
-TargetFrameTextureFrameLevelText:SetAlpha(0)
-TargetFrameTextureFrameLeaderIcon:SetAlpha(0)
-
-
-
-PartyMemberFrame1LeaderIcon:SetAlpha(0)
-PartyMemberFrame1MasterIcon:SetAlpha(0)
-
-PartyMemberFrame2LeaderIcon:SetAlpha(0)
-PartyMemberFrame2MasterIcon:SetAlpha(0)
-
-PartyMemberFrame3LeaderIcon:SetAlpha(0)
-PartyMemberFrame3MasterIcon:SetAlpha(0)
-
-PartyMemberFrame4LeaderIcon:SetAlpha(0)
-PartyMemberFrame4MasterIcon:SetAlpha(0)
-
-PartyMemberFrame1Name:SetAlpha(0)
-PartyMemberFrame2Name:SetAlpha(0)
-PartyMemberFrame3Name:SetAlpha(0)
-PartyMemberFrame4Name:SetAlpha(0)
-
-ChatFrameMenuButton:Hide()
-ChatFrameChannelButton:Hide()
-
-function PlayerFrameMultiGroupFrame_OnLoad(self)
-    self:Hide()
-end
-
-
---POSITION OF DEBUFFS ON PARTY MEMBER FRAMES 1-4
-
-PartyMemberFrame1Debuff1:ClearAllPoints();
-PartyMemberFrame1Debuff1:SetPoint("BOTTOMLEFT", 45.00000048894432, -9.374971298968035);
-
-PartyMemberFrame2Debuff1:ClearAllPoints();
-PartyMemberFrame2Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -8.437474379317337);
-
-PartyMemberFrame3Debuff1:ClearAllPoints();
-PartyMemberFrame3Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -10.31263004755721);
-
-PartyMemberFrame4Debuff1:ClearAllPoints();
-PartyMemberFrame4Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -8.437541575172077);
-
-
-
-
-
--- TargetFrame castbar slight up-scaling
-
-TargetFrameSpellBar:SetScale(1.1)
-
-
--- FocusFrame castbar slight up-scaling
-
-FocusFrameSpellBar:SetScale(1.1)
-
-
--- Rework Main Cast-Bar texture (castbar is now going to be round) - this is kinda "idk kev"... not sure of I rly like it, yet
-
-CastingBarFrame:SetScale(1)
-CastingBarFrame.Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
-CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
-CastingBarFrame.Spark:SetHeight(50)
-CastingBarFrame.Text:ClearAllPoints()
-CastingBarFrame.Text:SetPoint("CENTER", 0, 1)
-CastingBarFrame.Border:SetWidth(CastingBarFrame.Border:GetWidth() + 4)
-CastingBarFrame.Flash:SetWidth(CastingBarFrame.Flash:GetWidth() + 4)CastingBarFrame.BorderShield:SetWidth(CastingBarFrame.BorderShield:GetWidth() + 4)
-CastingBarFrame.Border:SetPoint("TOP", 0, 26)
-CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
-CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
-		
-
-
---Action bar buttons are now bigger, better looking and also fixes spellbook/wep switch bugging of dark theme
-
-hooksecurefunc("ActionButton_ShowGrid", function(Button)
-   if not Button then
-      Button = this
-   end
-   _G[Button:GetName().."NormalTexture"]:SetVertexColor(1, 1, 1, 1)
-end)
-for _, Bar in pairs({ "Action", "MultiBarBottomLeft", "MultiBarBottomRight", "MultiBarLeft", "MultiBarRight", "Stance", "PetAction" }) do
-for i = 1, 12 do
-local Button = Bar.."Button"..i
-if _G[Button] then _G[Button.."Icon"]:SetTexCoord(0.06, 0.94, 0.06, 0.94) end
-end
 end
 
 --smooth status bars(animated)
 
-local floor = math.floor
 local barstosmooth = {
-   PlayerFrameHealthBar = "player",
-   PlayerFrameManaBar = "player",
-   TargetFrameHealthBar = "target",
-   PetFrameHealthBar = "pet",
-   PetFrameManaBar = "pet",
-   TargetFrameManaBar = "target",
-   FocusFrameHealthBar = "focus",
-   FocusFrameManaBar = "focus",
-   ReputationWatchStatusBar = "",
-   PartyMemberFrame1HealthBar = "party1",
-   PartyMemberFrame1ManaBar = "party1",
-   PartyMemberFrame2HealthBar = "party2",
-   PartyMemberFrame2ManaBar = "party2",
-   PartyMemberFrame3HealthBar = "party3",
-   PartyMemberFrame3ManaBar = "party3",
-   PartyMemberFrame4HealthBar = "party4",
-   PartyMemberFrame4ManaBar = "party4",
-    }
-    MODUI_RAIDBARS_TO_SMOOTH = {}
+    PlayerFrameHealthBar = "player",
+    PlayerFrameManaBar = "player",
+    TargetFrameHealthBar = "target",
+    PetFrameHealthBar = "pet",
+    PetFrameManaBar = "pet",
+    TargetFrameManaBar = "target",
+    FocusFrameHealthBar = "focus",
+    FocusFrameManaBar = "focus",
+    ReputationWatchStatusBar = "",
+    PartyMemberFrame1HealthBar = "party1",
+    PartyMemberFrame1ManaBar = "party1",
+    PartyMemberFrame2HealthBar = "party2",
+    PartyMemberFrame2ManaBar = "party2",
+    PartyMemberFrame3HealthBar = "party3",
+    PartyMemberFrame3ManaBar = "party3",
+    PartyMemberFrame4HealthBar = "party4",
+    PartyMemberFrame4ManaBar = "party4",
+}
+MODUI_RAIDBARS_TO_SMOOTH = {}
 
-    local smoothframe = CreateFrame'Frame'
-    smoothing = {}
+local smoothframe = CreateFrame("Frame")
+local smoothing = {}
 
-    local isPlate = function(frame)
-        local overlayRegion = frame:GetRegions()
-        if not overlayRegion or overlayRegion:GetObjectType() ~= 'Texture'
-        or overlayRegion:GetTexture() ~= [[Interface\Tooltips\Nameplate-Border]] then
-            return false
-        end
+local function isPlate(frame)
+    local name = frame:GetName()
+    if name and name:find("NamePlate") then
         return true
     end
 
-    local min, max = math.min, math.max
-    local function AnimationTick()
-        local limit = 30/GetFramerate()
-        for bar, value in pairs(smoothing) do
-            local cur = bar:GetValue()
-            local new = cur + min((value - cur)/3, max(value - cur, limit))
-            if new ~= new then new = value end
-            if cur == value or abs(new - value) < 2 then
-                bar:SetValue_(value)
-                smoothing[bar] = nil
-            else
-                bar:SetValue_(floor(new))
-            end
+    return false
+end
+
+local function AnimationTick()
+    local limit = 30 / GetFramerate()
+
+    for bar, value in pairs(smoothing) do
+        local cur = bar:GetValue()
+        local new = cur + mmin((value - cur) / 3, mmax(value - cur, limit))
+        if new ~= new then
+            new = value
+        end
+        if cur == value or mabs(new - value) < 2 then
+            bar:SetValue_(value)
+            smoothing[bar] = nil
+        else
+            bar:SetValue_(floor(new))
         end
     end
+end
 
 local function SmoothSetValue(self, value)
-   self.finalValue = value
-   if self.unit then
-      local guid = UnitGUID(self.unit)
-      if value == self:GetValue() or not guid or guid ~= self.lastGuid then
-         smoothing[self] = nil
-         self:SetValue_(value)
-      else
-         smoothing[self] = value
-      end
-      self.lastGuid = guid
-   else
-     local _, max = self:GetMinMaxValues()
-     if value == self:GetValue() or self._max and self._max ~= max then
-         smoothing[self] = nil
-         self:SetValue_(value)
-     else
-         smoothing[self] = value
-     end
-     self._max = max
-   end
+    self.finalValue = value
+    if self.unit then
+        local guid = UnitGUID(self.unit)
+        if value == self:GetValue() or not guid or guid ~= self.lastGuid then
+            smoothing[self] = nil
+            self:SetValue_(value)
+        else
+            smoothing[self] = value
+        end
+        self.lastGuid = guid
+    else
+        local _, max = self:GetMinMaxValues()
+        if value == self:GetValue() or self._max and self._max ~= max then
+            smoothing[self] = nil
+            self:SetValue_(value)
+        else
+            smoothing[self] = value
+        end
+        self._max = max
+    end
 end
-    for bar, value in pairs(smoothing) do
-        if bar.SetValue_ then bar.SetValue = SmoothSetValue end
+
+local function SmoothBar(bar)
+    if not bar.SetValue_ then
+        bar.SetValue_ = bar.SetValue
+        bar.SetValue = SmoothSetValue
     end
+end
 
-    local function SmoothBar(bar)
-        if not bar.SetValue_ then
-            bar.SetValue_ = bar.SetValue bar.SetValue = SmoothSetValue
-        end
-    end
-
-    local function ResetBar(bar)
-        if bar.SetValue_ then
-            bar.SetValue = bar.SetValue_ bar.SetValue_ = nil
-        end
-    end
-
-    smoothframe:SetScript('OnUpdate', function()
-
--- skip applying the script in PVE instances because NuBlizzard is retarded as usual
-
-        local _, instanceType = IsInInstance()
-if instanceType ~= "party" and instanceType ~= "raid" then
-        local frames = {WorldFrame:GetChildren()}
-        for _, plate in ipairs(frames) do
-            if not plate:IsForbidden() and plate:IsVisible() and isPlate(plate) then
-                local v = plate:GetChildren()
-                SmoothBar(v)
+smoothframe:SetScript("OnUpdate", function()
+    local frames = { WorldFrame:GetChildren() }
+    for _, plate in ipairs(frames) do
+        if not plate:IsForbidden() and isPlate(plate) and C_NamePlate.GetNamePlates() and plate:IsVisible() then
+            local v = plate:GetChildren()
+            if v.healthBar then
+                SmoothBar(v.healthBar)
             end
         end
+    end
+    AnimationTick()
+end)
+
+smoothframe:RegisterEvent("ADDON_LOADED")
+smoothframe:SetScript("OnEvent", function(self)
+    for k, v in pairs(barstosmooth) do
+        if _G[k] then
+            SmoothBar(_G[k])
+            _G[k]:SetScript("OnHide", function(frame)
+                frame.lastGuid = nil;
+                frame.max_ = nil
+            end)
+            if v ~= "" then
+                _G[k].unit = v
+            end
         end
-        AnimationTick()
+    end
+    self:UnregisterEvent("ADDON_LOADED")
+    self:SetScript("OnEvent", nil)
+end)
+
+local function GradientColour(statusbar)
+    if (not statusbar or statusbar.disconnected) then
+        return
+    end
+
+    local min, max = statusbar:GetMinMaxValues();
+    if (max <= min) then
+        return
+    end
+
+    local value = statusbar:GetValue()
+    if ((value < min) or (value > max)) then
+        return
+    end
+
+    value = (value - min) / (max - min);
+
+    local r, g
+    if (value > 0.5) then
+        r = (1.0 - value) * 2;
+        g = 1.0;
+    else
+        r = 1.0;
+        g = value * 2;
+    end
+    statusbar:SetStatusBarColor(r, g, 0.0);
+
+    return
+end
+
+--player health bar(status bar) colouring at certain % HP;class colours
+
+local function colour(statusbar, unit)
+    if not statusbar then
+        return
+    end
+
+    if unit then
+        if UnitIsPlayer(unit) and UnitIsConnected(unit) and unit == statusbar.unit then
+            if unit == "player" then
+                GradientColour(statusbar)
+            elseif unit ~= "player" and UnitClass(unit) then
+                local _, class = UnitClass(unit)
+                local c = RAID_CLASS_COLORS[class]
+                if c then
+                    statusbar:SetStatusBarColor(c.r, c.g, c.b)
+                end
+            end
+        end
+    end
+end
+
+-- remove red tint when low on health
+local function RemoveRedFromPortrait(bar)
+    local parent = bar:GetParent()
+    local r, g, b = parent.portrait:GetVertexColor()
+    if g == 0 and r > .99 and b == 0 then
+        parent.portrait:SetVertexColor(1.0, 1.0, 1.0, 1.0)
+    end
+end
+
+-- remove low health flashing from portraits
+local function RemoveFlashFromPortrait(self)
+    if self.portrait:GetAlpha() < 1 then
+        self.portrait:SetAlpha(1)
+    end
+end
+
+local sounds = {
+    569772, -- sound/spells/fizzle/fizzleholya.ogg
+    569773, -- sound/spells/fizzle/fizzlefirea.ogg
+    569774, -- sound/spells/fizzle/fizzlenaturea.ogg
+    569775, -- sound/spells/fizzle/fizzlefrosta.ogg
+    569776, -- sound/spells/fizzle/fizzleshadowa.ogg
+    567407, -- sound/interface/uchatscrollbutton.ogg annoying clicking sound when you press a spell on action bar
+    598127, -- DalaranArena_WaterIncoming
+    565772, -- DalaranSewer_ArenaWaterFall_Closed
+    569506, -- DalaranSewer_ArenaWaterFall_Close
+    598178, -- Orgrimmar_Arena_PillarWarning
+
+}
+
+local tooltipOwnerBlacklist = {
+    "ActionButton%d+$", -- bar buttons
+    "MultiBarBottomLeftButton",
+    "MultiBarBottomRightButton",
+    "MultiBarLeftButton",
+    "MultiBarRightButton",
+    "MinimapZoneTextButton",
+    "CharacterMicroButton",
+    "SpellbookMicroButton",
+    "TalentMicroButton",
+    "AchievementMicroButton",
+    "QuestLogMicroButton",
+    "SocialsMicroButton",
+    "PVPMicroButton",
+    "LFGMicroButton",
+    "HelpMicroButton",
+    "^KeyRingButton$", -- key ring
+    "^CharacterBag%dSlot$", -- bags
+    "^MainMenuBarBackpackButton$", -- backpack
+}
+
+local function SecondInit()
+    -- Remove the "highlight" dark texture when mouse-overing chat frame
+
+    DEFAULT_CHATFRAME_ALPHA = 0
+
+    -- COMBAT_TEXT_RESIST = "FUCK BLIZZARD"
+    COMBAT_TEXT_RESIST = "SHIT EXPANSION"
+    COMBAT_TEXT_MISS = "SHIT EXPANSION"
+
+    hooksecurefunc("TextStatusBar_UpdateTextStringWithValues", TextStatusBar_UpdateTextString)
+    hooksecurefunc("TargetFrame_CheckClassification", Classification)
+
+    hooksecurefunc("UnitFrameHealthBar_Update", colour)
+    hooksecurefunc("HealthBar_OnValueChanged", function(self)
+        if not self:IsForbidden() then
+            colour(self, self.unit)
+        end
     end)
 
-     for k,v in pairs (barstosmooth) do
-      if _G[k] then
-         SmoothBar(_G[k])
-_G[k]:SetScript("OnHide", function(self) self.lastGuid = nil; self.max_ = nil end)
-         if v ~= "" then
-            _G[k].unitType = v
-         end
-      end
-   end
-    smoothframe:RegisterEvent'ADDON_LOADED'
-    smoothframe:SetScript('OnEvent', function()
-        if arg1 == 'Blizzard_RaidUI' then
-            for i = 1, 40 do
-                local hp = _G['modraid'..i]
-                local pp = _G['modraid'..i]
-                if hp then
-                    for _, v in pairs({hp.hp, pp.mana}) do SmoothBar(v) end
+    hooksecurefunc("TargetHealthCheck", RemoveRedFromPortrait)
+    hooksecurefunc("PartyMemberHealthCheck", RemoveRedFromPortrait)
+
+    hooksecurefunc("TargetofTargetHealthCheck", function(self)
+        local r, g, b = self.portrait:GetVertexColor()
+        if g == 0 and r > .99 and b == 0 then
+            self.portrait:SetVertexColor(1.0, 1.0, 1.0, 1.0)
+        end
+    end)
+
+    hooksecurefunc("TargetFrame_HealthUpdate", RemoveFlashFromPortrait)
+    hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", RemoveFlashFromPortrait)
+
+    -- Do not show party1-5 rage/energy values in their PartyMemberFrames in order to provide more simplicity and cleaner UI
+    hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
+        local healthbar = self.healthbar
+        local manabar = self.manabar
+
+        if healthbar.finalValue ~= healthbar.lastTextValue then
+            healthbar.lastTextValue = healthbar.finalValue
+            healthbar.fontString:SetText(healthbar.finalValue)
+        end
+
+        local _, max = manabar:GetMinMaxValues()
+        if max <= 120 and max >= 100 then
+            manabar.fontString:SetText("")
+            manabar.lastTextValue = -1
+        elseif manabar.finalValue ~= manabar.lastTextValue then
+            manabar.lastTextValue = manabar.finalValue
+            manabar.fontString:SetText(manabar.lastTextValue)
+        end
+    end)
+
+    -- Blacklist of frames where tooltips mouseovering is hidden
+    GameTooltip:HookScript("OnShow", function(self, ...)
+        local owner = self:GetOwner() and self:GetOwner():GetName()
+        if owner then
+            -- hide world object tooltips like torches and signs
+            if owner == "UIParent" and not self:GetUnit() then
+                self:Hide()
+                return
+            end
+            -- hide tooltips owned by frames in the blacklist
+            for i = 1, #tooltipOwnerBlacklist do
+                if owner:find(tooltipOwnerBlacklist[i]) then
+                    self:Hide()
+                    return
                 end
             end
         end
     end)
 
 
+    --increasing self(player)-debuff size
+    hooksecurefunc("DebuffButton_UpdateAnchors", function(buttonName, index)
+        _G[buttonName .. index]:SetScale(1.23)
+    end)
 
---removing character "C" button image
+    -- SpeedyActions level: Garage clicker
+    MultiBarBottomLeftButton1:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton2:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton3:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton4:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton5:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton6:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton7:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton8:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton9:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton10:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton11:RegisterForClicks("AnyDown")
+    MultiBarBottomLeftButton12:RegisterForClicks("AnyDown")
 
-MicroButtonPortrait:Hide()
-local originalPaperDollFrameOnShow = PaperDollFrame:GetScript("OnShow")
-PaperDollFrame:SetScript("OnShow", function(...) MicroButtonPortrait:Show() if originalPaperDollFrameOnShow then originalPaperDollFrameOnShow(...) end end)
-local originalPaperDollFrameOnHide = PaperDollFrame:GetScript("OnHide")
-PaperDollFrame:SetScript("OnHide", function(...) MicroButtonPortrait:Hide() if originalPaperDollFrameOnHide then originalPaperDollFrameOnHide(...) end end)
+    MultiBarBottomRightButton1:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton2:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton3:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton4:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton5:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton6:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton7:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton8:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton9:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton10:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton11:RegisterForClicks("AnyDown")
+    MultiBarBottomRightButton12:RegisterForClicks("AnyDown")
 
-CharacterMicroButton:SetNormalTexture("Interface/BUTTONS/Custom Evo C panel");
-CharacterMicroButton:SetPushedTexture("Interface/BUTTONS/Custom Evo C panel");
+    ActionButton1:RegisterForClicks("Anydown")
+    ActionButton2:RegisterForClicks("Anydown")
+    ActionButton3:RegisterForClicks("Anydown")
+    ActionButton4:RegisterForClicks("Anydown")
+    ActionButton5:RegisterForClicks("Anydown")
+    ActionButton6:RegisterForClicks("Anydown")
+    ActionButton7:RegisterForClicks("Anydown")
+    ActionButton8:RegisterForClicks("Anydown")
+    ActionButton9:RegisterForClicks("Anydown")
+    ActionButton10:RegisterForClicks("Anydown")
+    ActionButton11:RegisterForClicks("Anydown")
+    ActionButton12:RegisterForClicks("Anydown")
+
+    MainMenuBarBackpackButton:RegisterForClicks("Anydown")
+    CharacterBag1Slot:RegisterForClicks("Anydown")
+    CharacterBag0Slot:RegisterForClicks("Anydown")
+    CharacterBag2Slot:RegisterForClicks("Anydown")
+    CharacterBag3Slot:RegisterForClicks("Anydown")
+
+    MultiBarLeftButton1:RegisterForClicks("Anydown")
+    MultiBarLeftButton2:RegisterForClicks("Anydown")
+    MultiBarLeftButton3:RegisterForClicks("Anydown")
+    MultiBarLeftButton4:RegisterForClicks("Anydown")
+    MultiBarLeftButton5:RegisterForClicks("Anydown")
+    MultiBarLeftButton6:RegisterForClicks("Anydown")
+    MultiBarLeftButton7:RegisterForClicks("Anydown")
+    MultiBarLeftButton8:RegisterForClicks("Anydown")
+    MultiBarLeftButton9:RegisterForClicks("Anydown")
+    MultiBarLeftButton10:RegisterForClicks("Anydown")
+    MultiBarLeftButton11:RegisterForClicks("Anydown")
+    MultiBarLeftButton12:RegisterForClicks("Anydown")
+
+    MultiBarRightButton1:RegisterForClicks("Anydown")
+    MultiBarRightButton2:RegisterForClicks("Anydown")
+    MultiBarRightButton3:RegisterForClicks("Anydown")
+    MultiBarRightButton4:RegisterForClicks("Anydown")
+    MultiBarRightButton5:RegisterForClicks("Anydown")
+    MultiBarRightButton6:RegisterForClicks("Anydown")
+    MultiBarRightButton7:RegisterForClicks("Anydown")
+    MultiBarRightButton8:RegisterForClicks("Anydown")
+    MultiBarRightButton9:RegisterForClicks("Anydown")
+    MultiBarRightButton10:RegisterForClicks("Anydown")
+    MultiBarRightButton11:RegisterForClicks("Anydown")
+    MultiBarRightButton12:RegisterForClicks("Anydown")
+
+    -- move target of target to the right in order to allow clear vision of buffs/debuffs on a target, this will also be prolly mandatory when I try to resize the debuff scale to match 2.4.3
+    TargetFrameToT:ClearAllPoints();
+    TargetFrameToT:SetPoint("RIGHT", "TargetFrame", "BOTTOMRIGHT", -20, 5);
+    FocusFrameToT:ClearAllPoints();
+    FocusFrameToT:SetPoint("RIGHT", "FocusFrame", "BOTTOMRIGHT", -20, 5);
+
+    --position of minimap(remove to reset minimap position)
+    MinimapCluster:ClearAllPoints();
+    MinimapCluster:SetPoint("BOTTOMLEFT", 1186.333618164063, 595.0001831054688);
 
 
--- removing WorldMapMicroButton (shait classic addition to the game)
--- E: as of Patch 2.5.2 Lizzard removed it and replaced it with LFG button instead
+    -- Removing Stance Bar (Shadowform icon literally the most useless and space-taking thing Lizzard invented in WOTLK)
+    RegisterStateDriver(StanceBarFrame, "visibility", "hide")
 
---WorldMapMicroButton:UnregisterEvent("UNIT_PORTRAIT_UPDATE")
---MicroButtonPortrait:SetTexture(nil)
+    --disable mouseover flashing on buttons
+    texture = MultiBarBottomLeftButton1:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton2:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton3:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton4:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton5:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton6:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton7:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton8:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton9:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton10:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton11:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomLeftButton12:GetHighlightTexture()
+    texture:SetAlpha(0)
 
--- ^^ commented out no longer usable (maybe usable later when Lizzard introduced some similar shit again)
+    texture = MultiBarBottomRightButton1:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton2:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton3:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton4:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton5:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton6:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton7:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton8:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton9:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton10:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton11:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarBottomRightButton12:GetHighlightTexture()
+    texture:SetAlpha(0)
 
+    texture = MultiBarLeftButton1:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton2:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton3:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton4:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton5:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton6:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton7:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton8:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton9:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton10:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton11:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarLeftButton12:GetHighlightTexture()
+    texture:SetAlpha(0)
 
-LFGMicroButton:SetNormalTexture("Interface/BUTTONS/UI-MicroButton-Help-Up");
-LFGMicroButton:SetPushedTexture("Interface/BUTTONS/UI-MicroButton-Help-Up");
+    texture = MultiBarRightButton1:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton2:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton3:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton4:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton5:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton6:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton7:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton8:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton9:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton10:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton11:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = MultiBarRightButton12:GetHighlightTexture()
+    texture:SetAlpha(0)
 
--- removing the new "latency" bar unfortunately introduced in wotlk
+    texture = ActionButton1:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton2:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton3:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton4:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton5:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton6:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton7:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton8:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton9:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton10:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton11:GetHighlightTexture()
+    texture:SetAlpha(0)
+    texture = ActionButton12:GetHighlightTexture()
+    texture:SetAlpha(0)
 
-MainMenuBarPerformanceBar:Hide()
+    texture = MainMenuBarBackpackButton:GetHighlightTexture()
+    texture:SetAlpha(0)
 
---player health bar(status bar) colouring at certain % HP;class colours
+    texture = CharacterBag0Slot:GetHighlightTexture()
+    texture:SetAlpha(0)
 
-local function colour(statusbar, unit)
-    if UnitIsPlayer(unit) and UnitIsConnected(unit) and unit == statusbar.unit then
-        if statusbar == PlayerFrameHealthBar then
-		 statusbar.lockColor = true
-            local percent = UnitHealth("player") * 100 / UnitHealthMax("player")
-            if percent <= 25 then
-                statusbar:SetStatusBarColor(1, 0, 0)
-            elseif percent <= 60 then
-                statusbar:SetStatusBarColor(1, 1, 0)
-            else
-                statusbar:SetStatusBarColor(0, 1, 0)
-            end
-        else
+    texture = CharacterBag1Slot:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = CharacterBag2Slot:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = CharacterBag3Slot:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = CharacterMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = SpellbookMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = TalentMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = QuestLogMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = SocialsMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = AchievementMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = PVPMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    PVPMicroButtonTexture:Hide()
+
+    -- |since Patch 2.5.2 no longer valid| texture = WorldMapMicroButton:GetHighlightTexture()
+    -- |since Patch 2.5.2 no longer valid| texture:SetAlpha(0)
+
+    texture = LFGMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = MainMenuMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    texture = HelpMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+
+    -- Remove Fizzle sounds (this was previously done by replacing the actual sound in Data/Sounds)
+    for _, fdid in pairs(sounds) do
+        MuteSoundFile(fdid)
+    end
+
+    -- remove the shitty new client "raid frame manager" left gray bar next to the party frames (currently shows on/off on mouseover)
+    local manager = CompactRaidFrameManager
+    manager:SetAlpha(0)
+    -- look through a frame's parents
+    local function FindParent(frame, target)
+        if frame == target then
+            return true
+        elseif frame then
+            return FindParent(frame:GetParent(), target)
+        end
+    end
+
+    manager:HookScript("OnEnter", function(self)
+        self:SetAlpha(1)
+    end)
+
+    manager:HookScript("OnLeave", function(self)
+        if manager.collapsed and not FindParent(GetMouseFocus(), self) then
+            self:SetAlpha(0)
+        end
+    end)
+
+    manager.toggleButton:HookScript("OnClick", function()
+        if manager.collapsed then
+            manager:SetAlpha(0)
+        end
+    end)
+    -- keep the container frame visible
+    manager.container:SetIgnoreParentAlpha(true)
+    manager.containerResizeFrame:SetIgnoreParentAlpha(true)
+
+    -- Prevent displaying the server name in player nameplates
+    hooksecurefunc("CompactUnitFrame_UpdateName", function(frame)
+        if frame.unit:find("^nameplate") and UnitIsPlayer(frame.unit) then
+            frame.name:SetText((UnitName(frame.unit)):gsub("%-.*", "")) -- not sure if UnitName() adds the realm so :gsub() might not be needed
+        end
+    end)
+
+    -- Hide healthbar under unit tooltips
+    GameTooltip:HookScript("OnTooltipSetUnit", function(self, tooltip)
+        GameTooltipStatusBar:Hide()
+    end)
+
+    -- Change position of player buffs/debuffs
+    hooksecurefunc("UIParent_UpdateTopFramePositions", function()
+        BuffFrame:ClearAllPoints()
+        BuffFrame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -180, -13)
+    end)
+
+    -- Add class-coloured names into mouseover tooltips
+
+    GameTooltip:HookScript("OnTooltipSetUnit", function(GameTooltip)
+        --print("OnTooltipSetUnit")
+        local _, unit = GameTooltip:GetUnit()
+        --print(unit)
+        if UnitIsPlayer(unit) then
+            --print("UnitIsPlayer")
             local _, class = UnitClass(unit)
-            local c = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-            if c then
-                statusbar:SetStatusBarColor(c.r, c.g, c.b)
-                statusbar.lockColor = true
-            else
-                statusbar:SetStatusBarColor(0, 1, 0)
-                statusbar.lockColor = false
+            --print(class)
+            local color = class and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
+            if color then
+                local text = GameTooltipTextLeft1:GetText()
+                --print(text)
+                GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
             end
         end
-    else
-        statusbar:SetStatusBarColor(0, 1, 0)
-        statusbar.lockColor = false
-    end
-end
-hooksecurefunc("UnitFrameHealthBar_Update", colour)
-hooksecurefunc("UnitFrameHealthBar_OnUpdate", function(self)
-    colour(self, self.unit)
-end)
+    end)
 
-
--- remove red tint when low on health
-local function RemoveRedFromPortrait(bar)
-	local parent = bar:GetParent()
-   local r, g, b = parent.portrait:GetVertexColor()
-   if g == 0 and r > .99 and b == 0 then
-      parent.portrait:SetVertexColor(1.0, 1.0, 1.0, 1.0)
-   end
-end
-hooksecurefunc("TargetHealthCheck", RemoveRedFromPortrait)
-hooksecurefunc("PartyMemberHealthCheck", RemoveRedFromPortrait)
-
-hooksecurefunc("TargetofTargetHealthCheck", function(self)
-   local r, g, b = self.portrait:GetVertexColor()
-   if g == 0 and r > .99 and b == 0 then
-      self.portrait:SetVertexColor(1.0, 1.0, 1.0, 1.0)
-   end
-end)
-
--- remove low health flashing from portraits
-local function RemoveFlashFromPortrait(self)
-	if self.portrait:GetAlpha() < 1 then
-		self.portrait:SetAlpha(1)
-	end
-end
-hooksecurefunc("TargetFrame_HealthUpdate", RemoveFlashFromPortrait)
-hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", RemoveFlashFromPortrait)
-
--- add health and mana text to party frames
-for i=1,4 do
-	local pFrame = _G["PartyMemberFrame"..i]
-
-	local healthText = pFrame.healthbar:CreateFontString(nil, "OVERLAY", "GameFontWhite")
-	healthText:SetFont("Fonts/FRIZQT__.TTF", 15, "OUTLINE")
-	healthText:SetPoint("CENTER")
-
-	local manaText = pFrame.manabar:CreateFontString(nil, "OVERLAY", "GameFontWhite")
-	manaText:SetFont("Fonts/FRIZQT__.TTF", 9, "OUTLINE")
-	manaText:SetPoint("CENTER")
-
-	pFrame.healthbar.fontString = healthText
-	pFrame.manabar.fontString = manaText
-end
-
--- Do not show party1-5 rage/energy values in their PartyMemberFrames in order to provide more simplicity and cleaner UI
-
-hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
-    local healthbar = self.healthbar
-    local manabar = self.manabar
-
-    if healthbar.finalValue ~= healthbar.lastTextValue then
-        healthbar.lastTextValue = healthbar.finalValue
-        healthbar.fontString:SetText(healthbar.finalValue)
-    end
-
-    local _, max = manabar:GetMinMaxValues()
-    if max <= 120 and max >= 100 then
-        manabar.fontString:SetText("")
-        manabar.lastTextValue = -1
-    elseif manabar.finalValue ~= manabar.lastTextValue then
-        manabar.lastTextValue = manabar.finalValue
-        manabar.fontString:SetText(manabar.lastTextValue)
-    end
-end)
-
-
--- Blacklist of frames where tooltips mouseovering is hidden
-
-local tooltipOwnerBlacklist = {
-    "ActionButton%d+$",            -- bar buttons
-    "MultiBarBottomLeftButton",
-    "MultiBarBottomRightButton",
-    "MultiBarLeftButton",
-    "MultiBarRightButton",
-    "MinimapZoneTextButton",
-	"CharacterMicroButton",
-	"SpellbookMicroButton",
-	"TalentMicroButton",
-	"AchievementMicroButton",
-	"QuestLogMicroButton",
-	"SocialsMicroButton",
-	"PVPMicroButton",
-	"LFGMicroButton",
-	"HelpMicroButton",
-    "^KeyRingButton$",             -- key ring
-    "^CharacterBag%dSlot$",        -- bags
-    "^MainMenuBarBackpackButton$", -- backpack
-}
-
-local GameTooltip_OnShow = GameTooltip:GetScript("OnShow")
-GameTooltip:SetScript("OnShow", function(self, ...)
-    local owner = self:GetOwner() and self:GetOwner():GetName()
-    if owner then
-        -- hide world object tooltips like torches and signs
-        if owner == "UIParent" and not self:GetUnit() then
-            self:Hide()
-            return
-        end
-        -- hide tooltips owned by frames in the blacklist
-        for i=1,#tooltipOwnerBlacklist do
-            if owner:find(tooltipOwnerBlacklist[i]) then
-                self:Hide()
-                return
-            end
-        end
-    end
-    if GameTooltip_OnShow then
-        GameTooltip_OnShow(self, ...)
-    end
-end)
-
-
---increasing self(player)-debuff size
-
-hooksecurefunc("DebuffButton_UpdateAnchors", function(buttonName, index)
-    _G[buttonName..index]:SetScale(1.23)
-end)
-
-
-
--- SpeedyActions level: Garage clicker
-
-MultiBarBottomLeftButton1:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton2:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton3:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton4:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton5:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton6:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton7:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton8:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton9:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton10:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton11:RegisterForClicks("AnyDown")
-MultiBarBottomLeftButton12:RegisterForClicks("AnyDown")
-
-MultiBarBottomRightButton1:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton2:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton3:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton4:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton5:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton6:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton7:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton8:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton9:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton10:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton11:RegisterForClicks("AnyDown")
-MultiBarBottomRightButton12:RegisterForClicks("AnyDown")
-
-ActionButton1:RegisterForClicks("Anydown")
-ActionButton2:RegisterForClicks("Anydown")
-ActionButton3:RegisterForClicks("Anydown")
-ActionButton4:RegisterForClicks("Anydown")
-ActionButton5:RegisterForClicks("Anydown")
-ActionButton6:RegisterForClicks("Anydown")
-ActionButton7:RegisterForClicks("Anydown")
-ActionButton8:RegisterForClicks("Anydown")
-ActionButton9:RegisterForClicks("Anydown")
-ActionButton10:RegisterForClicks("Anydown")
-ActionButton11:RegisterForClicks("Anydown")
-ActionButton12:RegisterForClicks("Anydown")
-
-MainMenuBarBackpackButton:RegisterForClicks("Anydown")
-CharacterBag1Slot:RegisterForClicks("Anydown")
-CharacterBag0Slot:RegisterForClicks("Anydown")
-CharacterBag2Slot:RegisterForClicks("Anydown")
-CharacterBag3Slot:RegisterForClicks("Anydown")
-
-MultiBarLeftButton1:RegisterForClicks("Anydown")
-MultiBarLeftButton2:RegisterForClicks("Anydown")
-MultiBarLeftButton3:RegisterForClicks("Anydown")
-MultiBarLeftButton4:RegisterForClicks("Anydown")
-MultiBarLeftButton5:RegisterForClicks("Anydown")
-MultiBarLeftButton6:RegisterForClicks("Anydown")
-MultiBarLeftButton7:RegisterForClicks("Anydown")
-MultiBarLeftButton8:RegisterForClicks("Anydown")
-MultiBarLeftButton9:RegisterForClicks("Anydown")
-MultiBarLeftButton10:RegisterForClicks("Anydown")
-MultiBarLeftButton11:RegisterForClicks("Anydown")
-MultiBarLeftButton12:RegisterForClicks("Anydown")
-
-MultiBarRightButton1:RegisterForClicks("Anydown")
-MultiBarRightButton2:RegisterForClicks("Anydown")
-MultiBarRightButton3:RegisterForClicks("Anydown")
-MultiBarRightButton4:RegisterForClicks("Anydown")
-MultiBarRightButton5:RegisterForClicks("Anydown")
-MultiBarRightButton6:RegisterForClicks("Anydown")
-MultiBarRightButton7:RegisterForClicks("Anydown")
-MultiBarRightButton8:RegisterForClicks("Anydown")
-MultiBarRightButton9:RegisterForClicks("Anydown")
-MultiBarRightButton10:RegisterForClicks("Anydown")
-MultiBarRightButton11:RegisterForClicks("Anydown")
-MultiBarRightButton12:RegisterForClicks("Anydown")
-
-
--- move target of target to the right in order to allow clear vision of buffs/debuffs on a target, this will also be prolly mandatory when I try to resize the debuff scale to match 2.4.3
-
-local FRAMEZ = CreateFrame("FRAME")
-
-FRAMEZ:RegisterEvent("ADDON_LOADED")
-
-FRAMEZ:SetScript("OnUpdate",
-
-	function()
-		if not InCombatLockdown() then
-			TargetFrameToT:ClearAllPoints();
-			TargetFrameToT:SetPoint("RIGHT", "TargetFrame", "BOTTOMRIGHT", -20, 5);
-			FocusFrameToT:ClearAllPoints();
-			FocusFrameToT:SetPoint("RIGHT", "FocusFrame", "BOTTOMRIGHT", -20, 5);
-		end
-
-	end
-
-)
-
-
-
--- Hiding some of the new retail shait UI elements
-
-PlayerFrameGroupIndicator:Hide()
-
-
---position of minimap(remove to reset minimap position)
-MinimapCluster:ClearAllPoints();
-MinimapCluster:SetPoint("BOTTOMLEFT", 1186.333618164063, 595.0001831054688);
-
-
-
--- Increased nameplate DISTANCE and SIZE +
--- Hackfixed Floating Combat Text randomly turning off +
-
-
-local function OnEvent(self, event)
-	SetCVar("nameplateMaxDistance", "41")
-	SetCVar("nameplateGlobalScale", "1.2")
-	SetCVar("enableFloatingCombatText", 1)
 end
 
 local f = CreateFrame("Frame")
-f:RegisterEvent("PLAYER_ENTERING_WORLD")
-f:SetScript("OnEvent", OnEvent)
+f:RegisterEvent("PLAYER_LOGIN")
+f:SetScript("OnEvent", function(self)
+    CustomCvar()
+    OnInit()
+    SecondInit()
 
-
-
-
---position of buff frame (for some reason Classic TBC has it more to the left than 2.4.3)
-
--- handled by addon D4KiR MoveAndImprove for now (until moveanything fixes their laggy shit I guess)
-
-
-
---positition of the 2 side action button bars, for some reason Classic TBC doesnt maximize the UI properly so its not possible to click on buttons by placing mouse to the border of the screen, also original TBC multibars are placed way above the default classic ones...
-
-
-
--- Removing Stance Bar (Shadowform icon literally the most useless and space-taking thing Lizzard invented in WOTLK)
-
-RegisterStateDriver(StanceBarFrame, "visibility", "hide")
-
-
---disable mouseover flashing on buttons
-
-texture = MultiBarBottomLeftButton1:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton2:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton3:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton4:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton5:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton6:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton7:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton8:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton9:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton10:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton11:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomLeftButton12:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = MultiBarBottomRightButton1:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton2:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton3:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton4:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton5:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton6:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton7:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton8:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton9:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton10:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton11:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarBottomRightButton12:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = MultiBarLeftButton1:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton2:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton3:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton4:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton5:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton6:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton7:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton8:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton9:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton10:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton11:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarLeftButton12:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = MultiBarRightButton1:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton2:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton3:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton4:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton5:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton6:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton7:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton8:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton9:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton10:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton11:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = MultiBarRightButton12:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = ActionButton1:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton2:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton3:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton4:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton5:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton6:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton7:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton8:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton9:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton10:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton11:GetHighlightTexture()
-texture:SetAlpha(0)
-texture = ActionButton12:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = MainMenuBarBackpackButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = CharacterBag0Slot:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = CharacterBag1Slot:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = CharacterBag2Slot:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = CharacterBag3Slot:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = CharacterMicroButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = SpellbookMicroButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = TalentMicroButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = QuestLogMicroButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = SocialsMicroButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = AchievementMicroButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = PVPMicroButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-PVPMicroButtonTexture:Hide()
-
--- |since Patch 2.5.2 no longer valid| texture = WorldMapMicroButton:GetHighlightTexture()
--- |since Patch 2.5.2 no longer valid| texture:SetAlpha(0)
-
-texture = LFGMicroButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = MainMenuMicroButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-texture = HelpMicroButton:GetHighlightTexture()
-texture:SetAlpha(0)
-
-
-
--- Remove Fizzle sounds (this was previously done by replacing the actual sound in Data/Sounds) 
-
-local sounds = {
-	569772, -- sound/spells/fizzle/fizzleholya.ogg
-	569773, -- sound/spells/fizzle/fizzlefirea.ogg
-	569774, -- sound/spells/fizzle/fizzlenaturea.ogg
-	569775, -- sound/spells/fizzle/fizzlefrosta.ogg
-	569776, -- sound/spells/fizzle/fizzleshadowa.ogg
-	567407, -- sound/interface/uchatscrollbutton.ogg annoying clicking sound when you press a spell on action bar
-	598127, -- DalaranArena_WaterIncoming
-	565772, -- DalaranSewer_ArenaWaterFall_Closed
-	569506, -- DalaranSewer_ArenaWaterFall_Close
-	598178, -- Orgrimmar_Arena_PillarWarning
-
-}
-
-for _, fdid in pairs(sounds) do
-	MuteSoundFile(fdid)
-end
-
-
+    self:UnregisterEvent("PLAYER_LOGIN")
+end)
 
 -- highlight dispelable shit from enemies target/focus
 
@@ -1149,30 +1193,29 @@ local function Update(frame)
             frameStealable = _G[frameName .. 'Stealable']
             if (isEnemy and frameStealable and debuffType == 'Magic') then
                 frameStealable:Show()
+            else
+                frameStealable:Hide()
             end
         end
     end
 end
-TargetFrame:HookScript("OnEvent", function(self) Update(self) end)
-FocusFrame:HookScript("OnEvent", function(self) Update(self) end)
-
-
-
+hooksecurefunc("TargetFrame_UpdateAuras", Update);
 
 
 -- stop Gladdy from showing nameplates (necessary for the next script) !! IMPORTANT - You MUST use the "Lock Frame" function in General tab of Gladdy alongside with this!!
 
 -- IT IS ALSO ABSOLUTELY NECESSARY FOR YOU TO DISABLE THE "Totem Plates" PLUGIN IN GLADDY UI
 
-
-local Gladdy = LibStub and LibStub("Gladdy")
-if Gladdy then
-    local TotemPlates = Gladdy.modules["Totem Plates"]
-    if TotemPlates then
-        local TotemPlates_ToggleAddon = TotemPlates.ToggleAddon
-        function TotemPlates:ToggleAddon(nameplate, show)
-            if not show then
-                TotemPlates_ToggleAddon(self, nameplate, show)
+if IsAddOnLoaded("Gladdy") then
+    local Gladdy = LibStub and LibStub("Gladdy")
+    if Gladdy then
+        local TotemPlates = Gladdy.modules["Totem Plates"]
+        if TotemPlates then
+            local TotemPlates_ToggleAddon = TotemPlates.ToggleAddon
+            function TotemPlates:ToggleAddon(nameplate, show)
+                if not show then
+                    TotemPlates_ToggleAddon(self, nameplate, show)
+                end
             end
         end
     end
@@ -1306,6 +1349,10 @@ local tremorTotems = {} -- {[totem GUID] = {[shaman]=GUID, nameplate=<nameplate 
 local nameplatesToRecheck = {}
 
 local plateEventFrame = CreateFrame("frame")
+plateEventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+plateEventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
+plateEventFrame:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
+plateEventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 plateEventFrame:Hide()
 
 local function HideNameplate(nameplate)
@@ -1325,8 +1372,8 @@ local function HandleNewNameplate(nameplate, unit)
     end
 
     local creatureType, _, _, _, _, npcId = string_split("-", UnitGUID(unit))
-        if (HideNameplateUnits[name] or HideNameplateUnits[npcId])
-    or (creatureType == "Pet" and not ShowNameplatePetIds[npcId]) then
+    if (HideNameplateUnits[name] or HideNameplateUnits[npcId])
+            or (creatureType == "Pet" and not ShowNameplatePetIds[npcId]) then
         HideNameplate(nameplate)
     elseif name == "Tremor Totem" then
         local texture = (nameplate.UnitFrame.healthBar.border:GetRegions())
@@ -1336,7 +1383,7 @@ local function HandleNewNameplate(nameplate, unit)
             if totem then
                 totem.nameplate = nameplate
             else
-                tremorTotems[guid] = {["shaman"] = "Unknown", ["nameplate"] = nameplate}
+                tremorTotems[guid] = { ["shaman"] = "Unknown", ["nameplate"] = nameplate }
             end
             nameplate.tremorTotemGuid = guid
             texture:SetTexture("Interface/Addons/TextureScript/Nameplate-Border-TREMOR.blp")
@@ -1349,8 +1396,8 @@ end
 
 local plateUpdateElapsed = 0
 plateEventFrame:SetScript("OnUpdate", function(self, elapsed)
-    
-    for guid,nameplate in pairs(nameplatesToRecheck) do
+
+    for guid, nameplate in pairs(nameplatesToRecheck) do
         nameplatesToRecheck[guid] = nil
         if nameplate.recheckGuid == guid and nameplate.UnitFrame then
             HandleNewNameplate(nameplate, nameplate.UnitFrame.displayedUnit)
@@ -1367,13 +1414,13 @@ plateEventFrame:SetScript("OnEvent", function(self, event, unit)
     -- watch for recasts or damage to totems
     ----------------------------------------
     if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-	    local _, action, _, sourceGuid, sourceName, sourceFlags, _, destGuid, destName, destFlags, _,
-            ex1, ex2, ex3, ex4, ex5, ex6, ex7, ex8, ex9, ex10, ex11, ex12, ex13, ex14 = CombatLogGetCurrentEventInfo()
+        local _, action, _, sourceGuid, sourceName, sourceFlags, _, destGuid, destName, destFlags, _,
+        ex1, ex2, ex3, ex4, ex5, ex6, ex7, ex8, ex9, ex10, ex11, ex12, ex13, ex14 = CombatLogGetCurrentEventInfo()
 
         if destName == "Tremor Totem" then
             if action == "SPELL_SUMMON" then
                 if destName == "Tremor Totem" then
-                    for totem,info in pairs(tremorTotems) do
+                    for totem, info in pairs(tremorTotems) do
                         if info.shaman == sourceGuid then
                             local nameplate = info.nameplate
                             if nameplate and nameplate.tremorTotemGuid == totem and nameplate.UnitFrame then
@@ -1382,13 +1429,16 @@ plateEventFrame:SetScript("OnEvent", function(self, event, unit)
                             end
                         end
                     end
-                    tremorTotems[destGuid] = {["shaman"] = sourceGuid}
+                    tremorTotems[destGuid] = { ["shaman"] = sourceGuid }
                 end
             else
                 local damage
-                if action == "SWING_DAMAGE" or action == "RANGE_DAMAGE" then damage = ex1
-                elseif action == "SPELL_DAMAGE" then                         damage = ex4
-                else                                                         damage = 0
+                if action == "SWING_DAMAGE" or action == "RANGE_DAMAGE" then
+                    damage = ex1
+                elseif action == "SPELL_DAMAGE" then
+                    damage = ex4
+                else
+                    damage = 0
                 end
 
                 if damage >= 5 then
@@ -1417,12 +1467,12 @@ plateEventFrame:SetScript("OnEvent", function(self, event, unit)
     ----------------------------------------
     -- nameplates being added or removed
     ----------------------------------------
-	local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
-	if not nameplate then
-		return
-	end
+    local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
+    if not nameplate then
+        return
+    end
 
-	if event == "NAME_PLATE_UNIT_ADDED" then
+    if event == "NAME_PLATE_UNIT_ADDED" then
         local texture = (nameplate.UnitFrame.healthBar.border:GetRegions())
         texture:SetTexture("Interface/Addons/TextureScript/Nameplate-Border.blp")
 
@@ -1448,79 +1498,36 @@ plateEventFrame:SetScript("OnEvent", function(self, event, unit)
         return
     end
 
-	if event == "NAME_PLATE_UNIT_REMOVED" then
+    if event == "NAME_PLATE_UNIT_REMOVED" then
         nameplate.tremorTotemGuid = nil
         tremorTotems[UnitGUID(unit) or ""] = nil
         if nameplate.UnitFrame then
-		    if nameplate.wasHidden then
+            if nameplate.wasHidden then
                 nameplate.wasHidden = nil
                 nameplate.UnitFrame:Show()
             end
-		end
+        end
         return
-	end
-end)
-plateEventFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-plateEventFrame:RegisterEvent("NAME_PLATE_UNIT_ADDED")
-plateEventFrame:RegisterEvent("NAME_PLATE_UNIT_REMOVED")
-plateEventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-
-
--- remove the shitty new client "raid frame manager" left gray bar next to the party frames (currently shows on/off on mouseover)
-
-
-local manager = CompactRaidFrameManager
-manager:SetAlpha(0)
--- look through a frame's parents
-local function FindParent(frame, target)
-	if frame == target then
-		return true
-	elseif frame then
-		return FindParent(frame:GetParent(), target)
-	end
-end
-
-manager:HookScript("OnEnter", function(self)
-	self:SetAlpha(1)
-end)
-
-manager:HookScript("OnLeave", function(self)
-	if manager.collapsed and not FindParent(GetMouseFocus(), self) then
-		self:SetAlpha(0)
-	end
-end)
-
-manager.toggleButton:HookScript("OnClick", function()
-	if manager.collapsed then
-		manager:SetAlpha(0)
-	end
-end)
--- keep the container frame visible
-manager.container:SetIgnoreParentAlpha(true)
-manager.containerResizeFrame:SetIgnoreParentAlpha(true)
-
-
-
--- Prevent displaying the server name in player nameplates
-
-hooksecurefunc("CompactUnitFrame_UpdateName",function(frame)
-    if frame.unit:find("^nameplate") and UnitIsPlayer(frame.unit) then
-        frame.name:SetText((UnitName(frame.unit)):gsub("%-.*", "")) -- not sure if UnitName() adds the realm so :gsub() might not be needed
     end
 end)
-
 
 -- Skip certain gossip_menu windows for vendors and especially arena/bg NPCs --> can be bypassed by pressing ctrl/alt/shift
 
 local gossipSkipType = {
-    ["banker"]=1,
-    ["taxi"]=1,
-    ["trainer"]=1,
-    ["vendor"]=1,
-    ["battlemaster"]=1,
+    ["banker"] = 1,
+    ["taxi"] = 1,
+    ["trainer"] = 1,
+    ["vendor"] = 1,
+    ["battlemaster"] = 1,
 }
 
+local IsShiftKeyDown, IsAltKeyDown, IsControlKeyDown = IsShiftKeyDown, IsAltKeyDown, IsControlKeyDown
+local GetNumGossipOptions, GetNumGossipActiveQuests, GetNumGossipAvailableQuests = GetNumGossipOptions, GetNumGossipActiveQuests, GetNumGossipAvailableQuests
+local GetGossipOptions = GetGossipOptions
+local SelectGossipOption, Dismount = SelectGossipOption, Dismount
+
 local skipEventFrame = CreateFrame("frame")
+skipEventFrame:RegisterEvent("GOSSIP_SHOW")
 skipEventFrame:SetScript("OnEvent", function(self)
     if not IsShiftKeyDown() and GetNumGossipOptions() == 1 and GetNumGossipActiveQuests() == 0 and GetNumGossipAvailableQuests() == 0 then
         local gossipText, gossipType = GetGossipOptions()
@@ -1533,17 +1540,15 @@ skipEventFrame:SetScript("OnEvent", function(self)
         end
     end
     if GetNumGossipOptions() > 0 and not IsShiftKeyDown() and not IsAltKeyDown() and not IsControlKeyDown() then
-        local options = {GetGossipOptions()}
-        for i=1,GetNumGossipOptions() do
-            if options[(i-1)*2+2] == "vendor" then
+        local options = { GetGossipOptions() }
+        for i = 1, GetNumGossipOptions() do
+            if options[(i - 1) * 2 + 2] == "vendor" then
                 SelectGossipOption(i)
                 return
             end
         end
     end
 end)
-skipEventFrame:RegisterEvent("GOSSIP_SHOW")
-
 
 -- Add MMR at the bottom of Arena Scoreboard
 
@@ -1561,99 +1566,42 @@ teamRatingFrame.ratings:SetJustifyH("LEFT")
 teamRatingFrame.ratings:SetPoint("TOPLEFT", teamRatingFrame.names, "TOPRIGHT", 0, 0)
 
 teamRatingFrame:SetScript("OnShow", function(self)
-	local nWidth = teamRatingFrame.names:GetWidth()
-	local rWidth = teamRatingFrame.ratings:GetWidth()
-	local x = (nWidth / 2) - ((nWidth + rWidth - 10) / 2) -- no idea why "- 10" helps centering it!
-	teamRatingFrame.names:ClearAllPoints()
-	teamRatingFrame.names:SetPoint("BOTTOM", teamRatingFrame, "BOTTOM", x, 0)
+    local nWidth = teamRatingFrame.names:GetWidth()
+    local rWidth = teamRatingFrame.ratings:GetWidth()
+    local x = (nWidth / 2) - ((nWidth + rWidth - 10) / 2) -- no idea why "- 10" helps centering it!
+    teamRatingFrame.names:ClearAllPoints()
+    teamRatingFrame.names:SetPoint("BOTTOM", teamRatingFrame, "BOTTOM", x, 0)
 end)
 
 teamRatingFrame:SetScript("OnEvent", function(self, event)
-	if event == "UPDATE_BATTLEFIELD_SCORE" then
-		local _, isRatedArena = IsActiveBattlefieldArena()
-		if isRatedArena then
-			local name1, oldRating1, newRating1, mmr1 = GetBattlefieldTeamInfo(0)
-			local name2, oldRating2, newRating2, mmr2 = GetBattlefieldTeamInfo(1)
-			if newRating1 and newRating1 > 0 then
-				local nameText = string.format('|cffbd67ff"%s" |r\n|cffffd500"%s" |r', name1, name2)
-				local ratingText = string.format('|cffbd67ffMMR: %d|r\n|cffffd500MMR: %d|r', mmr1, mmr2)
-				teamRatingFrame.names:SetText(nameText)
-				teamRatingFrame.ratings:SetText(ratingText)
-				teamRatingFrame:Show()
-				return
-			end
-		end
-	end
-	teamRatingFrame:Hide()
+    if event == "UPDATE_BATTLEFIELD_SCORE" then
+        local _, isRatedArena = IsActiveBattlefieldArena()
+        if isRatedArena then
+            local name1, oldRating1, newRating1, mmr1 = GetBattlefieldTeamInfo(0)
+            local name2, oldRating2, newRating2, mmr2 = GetBattlefieldTeamInfo(1)
+            if newRating1 and newRating1 > 0 then
+                local nameText = string_format('|cffbd67ff"%s" |r\n|cffffd500"%s" |r', name1, name2)
+                local ratingText = string_format('|cffbd67ffMMR: %d|r\n|cffffd500MMR: %d|r', mmr1, mmr2)
+                teamRatingFrame.names:SetText(nameText)
+                teamRatingFrame.ratings:SetText(ratingText)
+                teamRatingFrame:Show()
+                return
+            end
+        end
+    end
+    teamRatingFrame:Hide()
 end)
 teamRatingFrame:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
 teamRatingFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
-
--- Hide healthbar under unit tooltips
-GameTooltip:HookScript("OnTooltipSetUnit", function(self, tooltip)
-    GameTooltipStatusBar:Hide()
-end)
-
-
--- Remove the new WOTLK threat warning bullshit making frames highlighted with red/yellow textures
-
-SetCVar("threatWarning", 0)
-
-
--- Remove the "highlight" dark texture when mouse-overing chat frame
-
-DEFAULT_CHATFRAME_ALPHA = 0
-
-
--- Change position of player buffs/debuffs - from MoveAny
-local btnsize = 36
-local MABuffBar = CreateFrame( "FRAME", "MABuffBar", UIParent )
-MABuffBar:SetPoint( "TOPRIGHT", UIParent, "TOPRIGHT", -180, -13 )
-MABuffBar:SetSize( btnsize * 8, btnsize * 6 )
-
-hooksecurefunc( BuffFrame, "SetPoint", function( self, ... )
-    if self.masetpoint_buff then return end
-    self.masetpoint_buff = true
-
-    self:SetMovable( true )
-    self:ClearAllPoints()
-    self:SetPoint( "TOPRIGHT", MABuffBar, "TOPRIGHT", 0, 0 )
-
-    self.masetpoint_buff = false
-end )
-BuffFrame:ClearAllPoints()
-BuffFrame:SetPoint( "TOPRIGHT", MABuffBar, "TOPRIGHT", 0, 0 )
-
--- Add class-coloured names into mouseover tooltips
-
-GameTooltip:HookScript("OnTooltipSetUnit", function(GameTooltip)
-	--print("OnTooltipSetUnit")
-	local _, unit = GameTooltip:GetUnit()
-	--print(unit)
-	if UnitIsPlayer(unit) then
-		--print("UnitIsPlayer")
-		local _, class = UnitClass(unit)
-		--print(class)
-		local color = class and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
-		if color then
-			local text = GameTooltipTextLeft1:GetText()
-			--print(text)
-			GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
-		end
-	end
-end)
-
 -- Filter out the Vampiric Embrace spam healing combat text due to Blizzard being retarded as usual (thx Xyz)
-
-local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo;
 
 local PF = CreateFrame("Frame")
 PF:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
 
 PF:SetScript("OnEvent", function()
     local _, eventType, _, _, _, _, _, _, _, _, _, spellID = CombatLogGetCurrentEventInfo()
-    
+
     if not eventType == "SPELL_PERIODIC_HEAL" then
         return
     end
@@ -1684,17 +1632,12 @@ end)
 --https://eu.forums.blizzard.com/en/wow/t/lf-a-blizzard-response-all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/320188
 -- https://us.forums.blizzard.com/en/wow/t/all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/1114096/5
 
--- COMBAT_TEXT_RESIST = "FUCK BLIZZARD"
 
 -- WE DID IT REDDIT - https://github.com/JamminL/wotlk-classic-bugs/issues/143#issuecomment-1209998266 - after a year of TBC being absolutely fucking unplayable, especially for a shadow priest, they "finally" fixed it... So adding more appropriate message instead for WOTLK (hi sacred cleansing)...
-
-COMBAT_TEXT_RESIST = "SHIT EXPANSION"
-COMBAT_TEXT_MISS = "SHIT EXPANSION"
 
 
 --Login message informing all scripts of this file were properly executed
 
-ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.1 Loaded successfully!",0,205,255)
-ChatFrame1:AddMessage("Check for updates at:",0,205,255)
-ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK",0,205,255)
-
+ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.1 Loaded successfully!", 0, 205, 255)
+ChatFrame1:AddMessage("Check for updates at:", 0, 205, 255)
+ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK", 0, 205, 255)
