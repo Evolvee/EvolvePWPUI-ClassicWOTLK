@@ -1,7 +1,7 @@
 
 BugGrabberDB = {
-	["session"] = 3852,
 	["lastSanitation"] = 3,
+	["session"] = 3925,
 	["errors"] = {
 		{
 			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:68: attempt to index global 'PVPFramePortraitTexture' (a nil value)",
@@ -82,19 +82,12 @@ BugGrabberDB = {
 			["counter"] = 1,
 		}, -- [10]
 		{
-			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame1:Show()'.",
-			["time"] = "2022/09/10 16:15:35",
-			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:150: in function `PartyMemberFrame_UpdateMember'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:337: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:742: in function <Interface\\FrameXML\\UnitFrame.lua:740>",
-			["session"] = 3724,
-			["counter"] = 2,
-		}, -- [11]
-		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'MultiBarRightButton1:Hide()'.",
 			["time"] = "2022/09/10 21:51:40",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface\\FrameXML\\ActionButton.lua\"]:487: in function `ActionButton_HideGrid'\n[string \"@Interface\\FrameXML\\MultiActionBars.lua\"]:130: in function `MultiActionBar_UpdateGrid'\n[string \"@Interface\\FrameXML\\MultiActionBars.lua\"]:120: in function `MultiActionBar_HideAllGrids'\n[string \"@Interface\\FrameXML\\SpellBookFrame.lua\"]:269: in function <Interface\\FrameXML\\SpellBookFrame.lua:258>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface_Wrath\\FrameXML\\UIParent.lua\"]:2199: in function `SetUIPanel'\n[string \"@Interface_Wrath\\FrameXML\\UIParent.lua\"]:2279: in function `HideUIPanel'\n[string \"@Interface_Wrath\\FrameXML\\UIParent.lua\"]:1932: in function <Interface_Wrath\\FrameXML\\UIParent.lua:1924>\n[string \"=[C]\"]: in function `SetAttribute'\n[string \"@Interface_Wrath\\FrameXML\\UIParent.lua\"]:2739: in function <Interface_Wrath\\FrameXML\\UIParent.lua:2722>\n[string \"=[C]\"]: in function `HideUIPanel'\n[string \"@Interface\\SharedXML\\SharedUIPanelTemplates.lua\"]:313: in function `HideParentPanel'\n[string \"*:OnClick\"]:1: in function <[string \"*:OnClick\"]:1>",
 			["session"] = 3726,
 			["counter"] = 1,
-		}, -- [12]
+		}, -- [11]
 		{
 			["message"] = "Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2521: attempt to compare number with nil",
 			["time"] = "2022/09/10 16:16:10",
@@ -102,7 +95,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2521: in function `GearManagerDialogPopup_Update'\n[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2592: in function `GearSetPopupButton_OnClick'\n[string \"*:OnClick\"]:1: in function <[string \"*:OnClick\"]:1>",
 			["session"] = 3733,
 			["counter"] = 8,
-		}, -- [13]
+		}, -- [12]
 		{
 			["message"] = "...AddOns\\Auctionator\\Source_Classic\\AH\\Mixins\\Scan.lua:45: Scan already running",
 			["time"] = "2022/09/12 21:39:45",
@@ -110,29 +103,21 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `error'\n[string \"@Interface\\AddOns\\Auctionator\\Source_Classic\\AH\\Mixins\\Scan.lua\"]:45: in function `StartQuery'\n[string \"@Interface\\AddOns\\Auctionator\\Source_Classic\\AH\\Wrappers.lua\"]:9: in function `QueryAuctionItems'\n[string \"@Interface\\AddOns\\Auctionator\\Source_Classic\\Search\\Mixins\\DirectSearchProviderMixin.lua\"]:98: in function <..._Classic\\Search\\Mixins\\DirectSearchProviderMixin.lua:90>\n[string \"@Interface\\AddOns\\Auctionator\\Source\\Search\\Mixins\\MultiSearchMixin.lua\"]:82: in function `NextSearch'\n[string \"@Interface\\AddOns\\Auctionator\\Source\\Search\\Mixins\\MultiSearchMixin.lua\"]:30: in function `Search'\n[string \"@Interface\\AddOns\\Auctionator\\Source\\Tabs\\ShoppingLists\\Mixins\\SearchManager.lua\"]:50: in function `DoSearch'\n[string \"@Interface\\AddOns\\Auctionator\\Source\\Tabs\\ShoppingLists\\Mixins\\SearchManager.lua\"]:31: in function `ReceiveEvent'\n[string \"@Interface\\AddOns\\Auctionator\\Source\\Utilities\\EventBusMixin.lua\"]:77: in function `Fire'\n[string \"@Interface\\AddOns\\Auctionator\\Source\\Tabs\\ShoppingLists\\Mixins\\ScrollListRecents.lua\"]:35: in function `StartSearch'\n[string \"@Interface\\AddOns\\Auctionator\\Source\\Tabs\\ShoppingLists\\Mixins\\ScrollListRecents.lua\"]:23: in function `ReceiveEvent'\n[string \"@Interface\\AddOns\\Auctionator\\Source\\Utilities\\EventBusMixin.lua\"]:77: in function `Fire'\n[string \"@Interface\\AddOns\\Auctionator\\Source\\Tabs\\ShoppingLists\\Mixins\\OneItemSearchButton.lua\"]:50: in function `DoSearch'\n[string \"@Interface\\AddOns\\Auctionator\\Source\\Tabs\\ShoppingLists\\Mixins\\OneItemSearchButton.lua\"]:56: in function <...ce\\Tabs\\ShoppingLists\\Mixins\\OneItemSearchButton.lua:53>\n[string \"=[C]\"]: in function `Click'\n[string \"@Interface\\AddOns\\Auctionator\\Source\\ShoppingLists\\Hooks.lua\"]:17: in function <...ce\\AddOns\\Auctionator\\Source\\ShoppingLists\\Hooks.lua:1>\n[string \"@Interface\\AddOns\\Auctionator\\Source\\ShoppingLists\\Hooks.lua\"]:27: in function <...ce\\AddOns\\Auctionator\\Source\\ShoppingLists\\Hooks.lua:26>\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: in function `ChatEdit_InsertLink'\n[string \"@Interface\\AddOns\\Auctionator\\Source_Classic\\Tabs\\Buying\\Mixins\\ItemTooltip.lua\"]:22: in function <...or\\Source_Classic\\Tabs\\Buying\\Mixins\\ItemTooltip.lua:19>",
 			["session"] = 3744,
 			["counter"] = 1,
-		}, -- [14]
+		}, -- [13]
 		{
 			["message"] = "Lua error in aura 'PW: Shield (P1)': Anchoring\nWeakAuras Version: 4.1.2\nWrong object type for function",
 			["time"] = "2022/09/14 13:50:35",
 			["stack"] = "[string \"=[C]\"]: ?\n[string \"=[C]\"]: in function `xpcall'\n[string \"@Interface\\AddOns\\WeakAuras\\WeakAuras-4.1.2.lua\"]:5179: in function `AnchorFrame'\n[string \"@Interface\\AddOns\\WeakAuras\\RegionTypes\\RegionPrototype.lua\"]:581: in function `modify'\n[string \"@Interface\\AddOns\\WeakAuras\\RegionTypes\\ProgressTexture.lua\"]:1009: in function `modify'\n[string \"@Interface\\AddOns\\WeakAuras\\WeakAuras-4.1.2.lua\"]:2978: in function `SetRegion'\n[string \"@Interface\\AddOns\\WeakAuras\\WeakAuras-4.1.2.lua\"]:2863: in function <Interface\\AddOns\\WeakAuras\\WeakAuras.lua:2752>\n[string \"@Interface\\AddOns\\WeakAuras\\WeakAuras-4.1.2.lua\"]:2900: in function `Add'\n[string \"@Interface\\AddOns\\WeakAurasOptions\\OptionsFrames\\FrameChooser.lua\"]:95: in function `StopFrameChooser'\n[string \"@Interface\\AddOns\\WeakAurasOptions\\OptionsFrames\\FrameChooser.lua\"]:41: in function <...dOns\\WeakAurasOptions\\OptionsFrames\\FrameChooser.lua:35>",
 			["session"] = 3760,
 			["counter"] = 2,
-		}, -- [15]
+		}, -- [14]
 		{
 			["message"] = "Lua error in aura 'PW: Shield (P1)': Update Position\nWeakAuras Version: 4.1.2\n<unnamed>:SetPoint(): Wrong object type for function",
 			["time"] = "2022/09/14 13:50:35",
 			["stack"] = "[string \"=[C]\"]: ?\n[string \"=[C]\"]: in function `xpcall'\n[string \"@Interface\\AddOns\\WeakAuras\\RegionTypes\\RegionPrototype.lua\"]:297: in function <...ace\\AddOns\\WeakAuras\\RegionTypes\\RegionPrototype.lua:288>\n[string \"@Interface\\AddOns\\WeakAuras\\RegionTypes\\RegionPrototype.lua\"]:315: in function `SetAnchor'\n[string \"@Interface\\AddOns\\WeakAuras\\WeakAuras-4.1.2.lua\"]:5195: in function `AnchorFrame'\n[string \"@Interface\\AddOns\\WeakAuras\\RegionTypes\\RegionPrototype.lua\"]:581: in function `modify'\n[string \"@Interface\\AddOns\\WeakAuras\\RegionTypes\\ProgressTexture.lua\"]:1009: in function `modify'\n[string \"@Interface\\AddOns\\WeakAuras\\WeakAuras-4.1.2.lua\"]:2978: in function `SetRegion'\n[string \"@Interface\\AddOns\\WeakAuras\\WeakAuras-4.1.2.lua\"]:2863: in function <Interface\\AddOns\\WeakAuras\\WeakAuras.lua:2752>\n[string \"@Interface\\AddOns\\WeakAuras\\WeakAuras-4.1.2.lua\"]:2900: in function `Add'\n[string \"@Interface\\AddOns\\WeakAurasOptions\\OptionsFrames\\FrameChooser.lua\"]:95: in function `StopFrameChooser'\n[string \"@Interface\\AddOns\\WeakAurasOptions\\OptionsFrames\\FrameChooser.lua\"]:41: in function <...dOns\\WeakAurasOptions\\OptionsFrames\\FrameChooser.lua:35>",
 			["session"] = 3760,
 			["counter"] = 2,
-		}, -- [16]
-		{
-			["message"] = "Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2379: attempt to perform arithmetic on upvalue '_numItems' (a nil value)",
-			["time"] = "2022/09/10 16:04:28",
-			["locals"] = "popup = GearManagerDialogPopup {\n OnOkay = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2559\n SetSelection = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2337\n BottomLeft = <unnamed> {\n }\n BG = <unnamed> {\n }\n buttons = <table> {\n }\n TopLeft = <unnamed> {\n }\n BottomRight = <unnamed> {\n }\n CancelButton = <unnamed> {\n }\n parentLeft = 0\n OnCancel = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2581\n OkayButton = <unnamed> {\n }\n 0 = <userdata>\n TopRight = <unnamed> {\n }\n}\nselectedSet = GearSetButton2 {\n 0 = <userdata>\n name = \"PVE\"\n id = 1\n text = GearSetButton2Name {\n }\n icon = GearSetButton2Icon {\n }\n Icon = GearSetButton2Icon {\n }\n}\nindex = 873\n(*temporary) = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2337\n(*temporary) = GearManagerDialogPopup {\n OnOkay = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2559\n SetSelection = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2337\n BottomLeft = <unnamed> {\n }\n BG = <unnamed> {\n }\n buttons = <table> {\n }\n TopLeft = <unnamed> {\n }\n BottomRight = <unnamed> {\n }\n CancelButton = <unnamed> {\n }\n parentLeft = 0\n OnCancel = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2581\n OkayButton = <unnamed> {\n }\n 0 = <userdata>\n TopRight = <unnamed> {\n }\n}\n(*temporary) = false\n(*temporary) = nil\n(*temporary) = 873\n(*temporary) = 236234\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = \"attempt to perform arithmetic on upvalue '_numItems' (a nil value)\"\n_numItems = nil\n_TotalItems = nil\niconsTable = <table> {\n 1 = 132089\n 2 = 132090\n 3 = 132091\n 4 = 132092\n 5 = 132093\n 6 = 132094\n 7 = 132095\n 8 = 132096\n 9 = 132097\n 10 = 132098\n 11 = 132099\n 12 = 132100\n 13 = 132101\n 14 = 132102\n 15 = 132103\n 16 = 132104\n 17 = 132105\n 18 = 132106\n 19 = 132107\n 20 = 132108\n 21 = 132109\n 22 = 132110\n 23 = 132111\n 24 = 132112\n 25 = 132113\n 26 = 132114\n 27 = 132115\n 28 = 132116\n 29 = 132117\n 30 = 132118\n 31 = 132119\n 32 = 132120\n 33 = 132121\n 34 = 132122\n 35 = 132123\n 36 = 132124\n 37 = 132125\n 38 = 132126\n 39 = 132127\n 40 = 132128\n 41 = 132129\n 42 = 132130\n 43 = 132131\n 44 = 132132\n 45 = 132133\n 46 = 132134\n 47 = 132135\n 48 = 132136\n 49 = 132137\n 50 = 132138\n 51 = 132139\n 52 = 132140\n 53 = 132141\n 54 = 132142\n 55 = 132143\n 56 = 132144\n 57 = 132145\n 58 = 132146\n 59 = 132147\n 60 = 132148\n 61 = 132149\n 62 = 132150\n 63 = 132151\n 64 = 132152\n 65 = 132153\n 66 = 132154\n 67 = 132155\n 68 = 132156\n 69 = 132157\n 70 = 132158\n 71 = 132159\n 72 = 132160\n 73 = 132161\n 74 = 132162\n 75 = 132163\n 76 = 132164\n 77 = 132165\n 78 = 132166\n 79 = 132167\n 80 = 132168\n 81 = 132169\n 82 = 132170\n 83 = 132171\n 84 = 132172\n 85 = 132173\n 86 = 132174\n 87 = 132175\n 88 = 132176\n 89 = 132177\n 90 = 132178\n 91 = 132179\n 92 = 132180\n 93 = 132181\n 94 = 132182\n 95 = 132183\n 96 = 132184\n 97 = 132185\n 98 = 132186\n 99 = 132187\n 100 = 132188\n 101 = 132189\n 102 = 132190\n 103 = 132191\n 104 = 132192\n 105 = 132193\n 106 = 132194\n 107 = 132195\n 108 = 132196\n 109 = 132197\n 110 = 132198\n 111 = 132199\n 112 = 132200\n 113 = 132201\n 114 = 132202\n 115 = 132203\n 116 = 132204\n 117 = 132205\n 118 = 132206\n 119 = 132207\n 120 = 132208\n 121 = 132209\n 122 = 132210\n 123 = 132211\n 124 = 132212\n 125 = 132213\n 126 = 132214\n 127 = 132215\n 128 = 132216\n 129 = 132217\n 130 = 132218\n 131 = 132219\n 132 = 132220\n 133 = 132221\n 134 = 132222\n 135 = 132223\n 136 = 132224\n 137 = 132225\n 138 = 132226\n 139 = 132227\n 140 = 132228\n 141 = 132229\n 142 = 132230\n 143 = 132231\n 144 = 132232\n 145 = 132233\n 146 = 132234\n 147 = 132235\n 148 = 132236\n 149 = 132237\n 150 = 132238\n 151 = 132239\n 152 = 132240\n 153 = 132241\n 154 = 132242\n 155 = 132243\n 156 = 132244\n 157 = 132245\n 158 = 132246\n 159 = 132247\n 160 = 132248\n 161 = 132249\n 162 = 132250\n 163 = 132251\n 164 = 132252\n 165 = 132253\n 166 = 132254\n 167 = 132255\n 168 = 132256\n 169 = 132257\n 170 = 132258\n 171 = 132259\n 172 = 132260\n 173 = 132261\n 174 = 132262\n 175 = 132263\n 176 = 132264\n 177 = 132265\n 178 = 132266\n 179 = 132267\n 180 = 132268\n 181 = 132269\n 182 = 132270\n 183 = 132271\n 184 = 132272\n 185 = 132273\n 186 =",
-			["stack"] = "[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2379: in function `RecalculateGearManagerDialogPopup'\n[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2356: in function <Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2353>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2272: in function <Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2269>",
-			["session"] = 3762,
-			["counter"] = 18,
-		}, -- [17]
+		}, -- [15]
 		{
 			["message"] = "Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua:103: attempt to index global 'QuickJoinToastButton' (a nil value)",
 			["time"] = "2022/09/15 15:41:00",
@@ -140,7 +125,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua\"]:103: in function `HideChat'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua\"]:149: in function `ToggleVisible'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua\"]:161: in function <Interface\\AddOns\\HideChatButton\\HideChatButton.lua:155>",
 			["session"] = 3775,
 			["counter"] = 6,
-		}, -- [18]
+		}, -- [16]
 		{
 			["message"] = "Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua:189: Attempt to register unknown event \"CHAT_MSG_BATTLEGROUND\"",
 			["time"] = "2022/09/15 15:40:47",
@@ -148,7 +133,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `RegisterEvent'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua\"]:189: in main chunk",
 			["session"] = 3776,
 			["counter"] = 2,
-		}, -- [19]
+		}, -- [17]
 		{
 			["message"] = "Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua:197: Attempt to register unknown event \"CHAT_MSG_BATTLEGROUND\"",
 			["time"] = "2022/09/15 15:42:14",
@@ -156,7 +141,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `RegisterEvent'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua\"]:197: in main chunk",
 			["session"] = 3777,
 			["counter"] = 1,
-		}, -- [20]
+		}, -- [18]
 		{
 			["message"] = "Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua:111: attempt to index global 'QuickJoinToastButton' (a nil value)",
 			["time"] = "2022/09/15 15:49:08",
@@ -164,7 +149,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua\"]:111: in function `HideChat'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua\"]:157: in function `ToggleVisible'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-6.0.3.lua\"]:169: in function <Interface\\AddOns\\HideChatButton\\HideChatButton.lua:163>",
 			["session"] = 3777,
 			["counter"] = 2,
-		}, -- [21]
+		}, -- [19]
 		{
 			["message"] = "Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua:189: Attempt to register unknown event \"CHAT_MSG_BATTLEGROUND\"",
 			["time"] = "2022/09/15 15:50:03",
@@ -172,7 +157,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `RegisterEvent'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua\"]:189: in main chunk",
 			["session"] = 3778,
 			["counter"] = 1,
-		}, -- [22]
+		}, -- [20]
 		{
 			["message"] = "Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua:189: Attempt to register unknown event \"CHAT_MSG_BATTLEGROUND_LEADER\"",
 			["time"] = "2022/09/15 15:50:24",
@@ -180,13 +165,13 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `RegisterEvent'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua\"]:189: in main chunk",
 			["session"] = 3779,
 			["counter"] = 1,
-		}, -- [23]
+		}, -- [21]
 		{
 			["message"] = "(null)",
-			["session"] = 3779,
 			["time"] = "2022/09/09 12:40:41",
+			["session"] = 3779,
 			["counter"] = 27,
-		}, -- [24]
+		}, -- [22]
 		{
 			["message"] = "Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua:103: attempt to index global 'QuickJoinToastButton' (a nil value)",
 			["time"] = "2022/09/15 15:50:39",
@@ -194,7 +179,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua\"]:103: in function `HideChat'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua\"]:149: in function `ToggleVisible'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua\"]:161: in function <Interface\\AddOns\\HideChatButton\\HideChatButton.lua:155>",
 			["session"] = 3781,
 			["counter"] = 3,
-		}, -- [25]
+		}, -- [23]
 		{
 			["message"] = "Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua:112: attempt to index global 'QuickJoinToastButton' (a nil value)",
 			["time"] = "2022/09/15 15:52:35",
@@ -202,7 +187,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua\"]:112: in function `ShowChat'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua\"]:146: in function `ToggleVisible'\n[string \"@Interface\\AddOns\\HideChatButton\\HideChatButton-3.4.0.45572.lua\"]:160: in function <Interface\\AddOns\\HideChatButton\\HideChatButton.lua:154>",
 			["session"] = 3783,
 			["counter"] = 1,
-		}, -- [26]
+		}, -- [24]
 		{
 			["message"] = "[string \"ChatFrameMenuButton:Hide\"]:1: function arguments expected near '<eof>'",
 			["time"] = "2022/09/15 16:02:01",
@@ -210,21 +195,14 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `RunScript'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:2196: in function `?'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:4933: in function `ChatEdit_ParseText'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:4596: in function `ChatEdit_SendText'\n[string \"@Interface\\FrameXML\\ChatFrame.lua\"]:4632: in function `ChatEdit_OnEnterPressed'\n[string \"*:OnEnterPressed\"]:1: in function <[string \"*:OnEnterPressed\"]:1>",
 			["session"] = 3786,
 			["counter"] = 1,
-		}, -- [27]
+		}, -- [25]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'LFGBulletinBoard' tried to call the protected function 'Search()'.",
 			["time"] = "2022/09/15 21:33:14",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:69: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
 			["session"] = 3797,
 			["counter"] = 1,
-		}, -- [28]
-		{
-			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'LoseControl' tried to call the protected function 'Search()'.",
-			["time"] = "2022/09/10 14:21:38",
-			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:69: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
-			["session"] = 3827,
-			["counter"] = 4,
-		}, -- [29]
+		}, -- [26]
 		{
 			["message"] = "Interface\\AddOns\\MoveAnything\\MoveAnything-18.0.5.lua:6079: BasicActionButtonsMover:SetPoint(): Couldn't find region named 'MainMenuBarArtFrameBackground'",
 			["time"] = "2022/09/20 18:41:02",
@@ -232,7 +210,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `SetPoint'\n[string \"@Interface\\AddOns\\MoveAnything\\MoveAnything-18.0.5.lua\"]:6079: in function `CreateVM'\n[string \"@Interface\\AddOns\\MoveAnything\\MoveAnything-18.0.5.lua\"]:1944: in function `GetDefaultFrameParent'\n[string \"@Interface\\AddOns\\MoveAnything\\MoveAnything-18.0.5.lua\"]:3791: in function `NudgerOnUpdate'\n[string \"*:OnUpdate\"]:1: in function <[string \"*:OnUpdate\"]:1>",
 			["session"] = 3832,
 			["counter"] = 50,
-		}, -- [30]
+		}, -- [27]
 		{
 			["message"] = "Interface\\AddOns\\Gladdy\\EventListener.lua:399: attempt to index field '?' (a nil value)",
 			["time"] = "2022/09/20 19:27:06",
@@ -240,20 +218,103 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\Gladdy\\EventListener.lua\"]:399: in function `?'\n[string \"@Interface\\AddOns\\Gladdy\\EventListener.lua\"]:29: in function <Interface\\AddOns\\Gladdy\\EventListener.lua:28>",
 			["session"] = 3838,
 			["counter"] = 6,
+		}, -- [28]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'HideChatButton' tried to call the protected function 'Search()'.",
+			["time"] = "2022/09/21 13:47:11",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:67: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
+			["session"] = 3853,
+			["counter"] = 1,
+		}, -- [29]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'LoseControl' tried to call the protected function 'Search()'.",
+			["time"] = "2022/09/10 14:21:38",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:69: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
+			["session"] = 3857,
+			["counter"] = 5,
+		}, -- [30]
+		{
+			["message"] = "Interface\\SharedXML\\AddonList.lua:586: AddOn index must be in the range of 1 to 35",
+			["time"] = "2022/09/21 17:04:20",
+			["locals"] = "(*temporary) = 0\n",
+			["stack"] = "[string \"=[C]\"]: in function `GetAddOnInfo'\n[string \"@Interface\\SharedXML\\AddonList.lua\"]:586: in function `AddonTooltip_Update'\n[string \"@Interface\\SharedXML\\AddonList.lua\"]:465: in function `AddonListScrollFrame_OnVerticalScroll'\n[string \"*:OnVerticalScroll\"]:1: in function <[string \"*:OnVerticalScroll\"]:1>\n[string \"=[C]\"]: in function `SetVerticalScroll'\n[string \"@Interface\\SharedXML\\SecureUIPanelTemplates.lua\"]:64: in function <Interface\\SharedXML\\SecureUIPanelTemplates.lua:63>\n[string \"=[C]\"]: in function `SetValue'\n[string \"@Interface\\SharedXML\\AddonList.lua\"]:461: in function `AddonListScrollFrame_OnVerticalScroll'\n[string \"*:OnVerticalScroll\"]:1: in function <[string \"*:OnVerticalScroll\"]:1>\n[string \"=[C]\"]: in function `SetVerticalScroll'\n[string \"@Interface\\SharedXML\\SecureUIPanelTemplates.lua\"]:64: in function <Interface\\SharedXML\\SecureUIPanelTemplates.lua:63>",
+			["session"] = 3858,
+			["counter"] = 8,
 		}, -- [31]
 		{
-			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame1PetFrame:Hide()'.",
-			["time"] = "2022/09/12 12:14:13",
-			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:599: in function `PartyMemberFrame_UpdateOnlineStatus'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:170: in function `PartyMemberFrame_UpdateMember'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:337: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:742: in function <Interface\\FrameXML\\UnitFrame.lua:740>",
-			["session"] = 3841,
-			["counter"] = 7,
+			["message"] = "Interface\\AddOns\\LoseControl\\LoseControl-3.00.lua:9069: SetPortraitToTexture(): Texture is not 64x64 pixels: FileData ID 237567.\n",
+			["time"] = "2022/09/23 18:54:46",
+			["locals"] = "(*temporary) = <unnamed> {\n 0 = <userdata>\n}\n(*temporary) = 237567\n",
+			["stack"] = "[string \"=[C]\"]: ?\n[string \"@Interface\\AddOns\\LoseControl\\LoseControl-3.00.lua\"]:9069: in function `OnClick'\n[string \"@Interface\\AddOns\\LoseControl\\LoseControl-3.00.lua\"]:11527: in function <Interface\\AddOns\\LoseControl\\LoseControl.lua:11475>",
+			["session"] = 3883,
+			["counter"] = 1,
 		}, -- [32]
+		{
+			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:778: '<eof>' expected near 'end'",
+			["time"] = "2022/09/23 19:12:57",
+			["locals"] = "",
+			["stack"] = "",
+			["session"] = 3885,
+			["counter"] = 4,
+		}, -- [33]
+		{
+			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:776: '<eof>' expected near 'else'",
+			["time"] = "2022/09/23 19:13:14",
+			["locals"] = "",
+			["stack"] = "",
+			["session"] = 3886,
+			["counter"] = 4,
+		}, -- [34]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame1:Hide()'.",
 			["time"] = "2022/09/08 16:49:51",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:143: in function `PartyMemberFrame_UpdateMember'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:337: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:742: in function <Interface\\FrameXML\\UnitFrame.lua:740>",
-			["session"] = 3843,
+			["session"] = 3901,
+			["counter"] = 9,
+		}, -- [35]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame1:Show()'.",
+			["time"] = "2022/09/10 16:15:35",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:150: in function `PartyMemberFrame_UpdateMember'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:337: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:742: in function <Interface\\FrameXML\\UnitFrame.lua:740>",
+			["session"] = 3909,
+			["counter"] = 4,
+		}, -- [36]
+		{
+			["message"] = "Interface\\AddOns\\BindPad\\BindPad-c0.2.lua:1972: attempt to index local 'frameName' (a number value)",
+			["time"] = "2022/09/23 20:33:26",
+			["locals"] = "frameType = \"CheckButton\"\nframeName = 42292\nparentFrame = ATC {\n 0 = <userdata>\n}\ninheritsFrame = \"InterfaceOptionsCheckButtonTemplate\"\nid = nil\n(*temporary) = nil\n(*temporary) = 42292\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = \"attempt to index local 'frameName' (a number value)\"\nBindPadCore = <table> {\n SwitchProfile = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1028\n UpdateAllHotkeys = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1907\n GetTabInfo = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2040\n drag = <table> {\n }\n DoRestoreAllKeys = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1662\n GetSlotInfo = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2036\n HotKeyList = <table> {\n }\n PlaceIntoSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:823\n GetBaseForMorphingSpell = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2137\n OverwriteHotKey = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1927\n GameTooltipSetSpellBookItem = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1803\n GameTooltipSetItemByID = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1788\n CreateFrameQueue = <table> {\n }\n GameTooltipSetBagItem = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1792\n ChatEdit_InsertLinkHook = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1259\n PlayerTalentUpdate = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1494\n GameTooltipSetAction = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1807\n InitHotKeyList = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1852\n useBindPadSlot = 0\n UnbindSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1175\n PickupSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1085\n specInfoCache = <table> {\n }\n SaveBindings = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2127\n DoSaveAllKeys = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1622\n UpdateCursor = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1421\n currentkeybindings = <table> {\n }\n initialized = true\n GetProfileForSpec = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1005\n profileNum = 1\n CreateBindPadMacroAction = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1436\n CheckCorruptedSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:964\n GetSlotInfoInTab = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2073\n DoList = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1531\n GetMacroIconInfo = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1589\n FindSpellBookIdByName = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1205\n PickupSpellBookItemHook = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1302\n ManuallySetBinding = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1150\n morphingSpellCache = <table> {\n }\n CarryOverKeybinding = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1132\n ShowDialog = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1817\n AllSlotInfoIter = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2101\n SetTriggerOnKeydown = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1519\n InnerSetBinding = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1145\n ChangingKeyBindings = false\n InitProfile = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1321\n character = \"PROFILE_Gehennas_Evolvebanned\"\n eventProc = <table> {\n }\n GetBindingKeyFromAction = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2172\n WaitForEvent = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2183\n HideSubFrames = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2122\n HidePopup = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2117\n CreateBindPadSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1988\n GetBindingText = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1214\n NewBindPadMacroName = <function> defined @Interface\\AddOns\\Bind",
+			["stack"] = "[string \"@Interface\\AddOns\\BindPad\\BindPad-c0.2.lua\"]:1972: in function <Interface\\AddOns\\BindPad\\BindPad.lua:1969>\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: in function `CreateFrame'\n[string \"@Interface\\AddOns\\ATT\\ATT-1.lua\"]:1737: in function `clickFunc'\n[string \"@Interface\\AddOns\\ATT\\libs\\LibATTSimpleOptions-90005.lua\"]:479: in function <Interface\\AddOns\\ATT\\libs\\LibATTSimpleOptions.lua:478>",
+			["session"] = 3910,
 			["counter"] = 8,
-		}, -- [33]
+		}, -- [37]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'ArenaEnemyFrame2:SetPoint()'.",
+			["time"] = "2022/09/23 20:07:10",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `SetPoint'\n[string \"@Interface\\AddOns\\Blizzard_ArenaUI\\Blizzard_ArenaUI.lua\"]:174: in function `ArenaEnemyFrame_UpdatePlayer'\n[string \"@Interface\\AddOns\\Blizzard_ArenaUI\\Blizzard_ArenaUI.lua\"]:250: in function <...terface\\AddOns\\Blizzard_ArenaUI\\Blizzard_ArenaUI.lua:212>",
+			["session"] = 3911,
+			["counter"] = 4,
+		}, -- [38]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'ArenaEnemyFrame1:SetPoint()'.",
+			["time"] = "2022/09/23 21:07:44",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `SetPoint'\n[string \"@Interface\\AddOns\\Blizzard_ArenaUI\\Blizzard_ArenaUI.lua\"]:174: in function `ArenaEnemyFrame_UpdatePlayer'\n[string \"@Interface\\AddOns\\Blizzard_ArenaUI\\Blizzard_ArenaUI.lua\"]:250: in function <...terface\\AddOns\\Blizzard_ArenaUI\\Blizzard_ArenaUI.lua:212>",
+			["session"] = 3915,
+			["counter"] = 1,
+		}, -- [39]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'PartyMemberFrame1PetFrame:Hide()'.",
+			["time"] = "2022/09/12 12:14:13",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Hide'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:599: in function `PartyMemberFrame_UpdateOnlineStatus'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:170: in function `PartyMemberFrame_UpdateMember'\n[string \"@Interface\\FrameXML\\PartyMemberFrame.lua\"]:337: in function `PartyMemberFrame_OnEvent'\n[string \"*:OnEvent\"]:1: in function `OnEvent'\n[string \"@Interface\\FrameXML\\UnitFrame.lua\"]:742: in function <Interface\\FrameXML\\UnitFrame.lua:740>",
+			["session"] = 3916,
+			["counter"] = 15,
+		}, -- [40]
+		{
+			["message"] = "Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2379: attempt to perform arithmetic on upvalue '_numItems' (a nil value)",
+			["time"] = "2022/09/10 16:04:28",
+			["locals"] = "popup = GearManagerDialogPopup {\n OnOkay = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2559\n SetSelection = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2337\n BottomLeft = <unnamed> {\n }\n BG = <unnamed> {\n }\n buttons = <table> {\n }\n TopLeft = <unnamed> {\n }\n BottomRight = <unnamed> {\n }\n CancelButton = <unnamed> {\n }\n parentLeft = 0\n OnCancel = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2581\n OkayButton = <unnamed> {\n }\n 0 = <userdata>\n TopRight = <unnamed> {\n }\n}\nselectedSet = GearSetButton2 {\n 0 = <userdata>\n name = \"PVE\"\n id = 1\n text = GearSetButton2Name {\n }\n icon = GearSetButton2Icon {\n }\n Icon = GearSetButton2Icon {\n }\n}\nindex = 873\n(*temporary) = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2337\n(*temporary) = GearManagerDialogPopup {\n OnOkay = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2559\n SetSelection = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2337\n BottomLeft = <unnamed> {\n }\n BG = <unnamed> {\n }\n buttons = <table> {\n }\n TopLeft = <unnamed> {\n }\n BottomRight = <unnamed> {\n }\n CancelButton = <unnamed> {\n }\n parentLeft = 0\n OnCancel = <function> defined @Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2581\n OkayButton = <unnamed> {\n }\n 0 = <userdata>\n TopRight = <unnamed> {\n }\n}\n(*temporary) = false\n(*temporary) = nil\n(*temporary) = 873\n(*temporary) = 236234\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = \"attempt to perform arithmetic on upvalue '_numItems' (a nil value)\"\n_numItems = nil\n_TotalItems = nil\niconsTable = <table> {\n 1 = 132089\n 2 = 132090\n 3 = 132091\n 4 = 132092\n 5 = 132093\n 6 = 132094\n 7 = 132095\n 8 = 132096\n 9 = 132097\n 10 = 132098\n 11 = 132099\n 12 = 132100\n 13 = 132101\n 14 = 132102\n 15 = 132103\n 16 = 132104\n 17 = 132105\n 18 = 132106\n 19 = 132107\n 20 = 132108\n 21 = 132109\n 22 = 132110\n 23 = 132111\n 24 = 132112\n 25 = 132113\n 26 = 132114\n 27 = 132115\n 28 = 132116\n 29 = 132117\n 30 = 132118\n 31 = 132119\n 32 = 132120\n 33 = 132121\n 34 = 132122\n 35 = 132123\n 36 = 132124\n 37 = 132125\n 38 = 132126\n 39 = 132127\n 40 = 132128\n 41 = 132129\n 42 = 132130\n 43 = 132131\n 44 = 132132\n 45 = 132133\n 46 = 132134\n 47 = 132135\n 48 = 132136\n 49 = 132137\n 50 = 132138\n 51 = 132139\n 52 = 132140\n 53 = 132141\n 54 = 132142\n 55 = 132143\n 56 = 132144\n 57 = 132145\n 58 = 132146\n 59 = 132147\n 60 = 132148\n 61 = 132149\n 62 = 132150\n 63 = 132151\n 64 = 132152\n 65 = 132153\n 66 = 132154\n 67 = 132155\n 68 = 132156\n 69 = 132157\n 70 = 132158\n 71 = 132159\n 72 = 132160\n 73 = 132161\n 74 = 132162\n 75 = 132163\n 76 = 132164\n 77 = 132165\n 78 = 132166\n 79 = 132167\n 80 = 132168\n 81 = 132169\n 82 = 132170\n 83 = 132171\n 84 = 132172\n 85 = 132173\n 86 = 132174\n 87 = 132175\n 88 = 132176\n 89 = 132177\n 90 = 132178\n 91 = 132179\n 92 = 132180\n 93 = 132181\n 94 = 132182\n 95 = 132183\n 96 = 132184\n 97 = 132185\n 98 = 132186\n 99 = 132187\n 100 = 132188\n 101 = 132189\n 102 = 132190\n 103 = 132191\n 104 = 132192\n 105 = 132193\n 106 = 132194\n 107 = 132195\n 108 = 132196\n 109 = 132197\n 110 = 132198\n 111 = 132199\n 112 = 132200\n 113 = 132201\n 114 = 132202\n 115 = 132203\n 116 = 132204\n 117 = 132205\n 118 = 132206\n 119 = 132207\n 120 = 132208\n 121 = 132209\n 122 = 132210\n 123 = 132211\n 124 = 132212\n 125 = 132213\n 126 = 132214\n 127 = 132215\n 128 = 132216\n 129 = 132217\n 130 = 132218\n 131 = 132219\n 132 = 132220\n 133 = 132221\n 134 = 132222\n 135 = 132223\n 136 = 132224\n 137 = 132225\n 138 = 132226\n 139 = 132227\n 140 = 132228\n 141 = 132229\n 142 = 132230\n 143 = 132231\n 144 = 132232\n 145 = 132233\n 146 = 132234\n 147 = 132235\n 148 = 132236\n 149 = 132237\n 150 = 132238\n 151 = 132239\n 152 = 132240\n 153 = 132241\n 154 = 132242\n 155 = 132243\n 156 = 132244\n 157 = 132245\n 158 = 132246\n 159 = 132247\n 160 = 132248\n 161 = 132249\n 162 = 132250\n 163 = 132251\n 164 = 132252\n 165 = 132253\n 166 = 132254\n 167 = 132255\n 168 = 132256\n 169 = 132257\n 170 = 132258\n 171 = 132259\n 172 = 132260\n 173 = 132261\n 174 = 132262\n 175 = 132263\n 176 = 132264\n 177 = 132265\n 178 = 132266\n 179 = 132267\n 180 = 132268\n 181 = 132269\n 182 = 132270\n 183 = 132271\n 184 = 132272\n 185 = 132273\n 186 =",
+			["stack"] = "[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2379: in function `RecalculateGearManagerDialogPopup'\n[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2356: in function <Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2353>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2272: in function <Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2269>",
+			["session"] = 3925,
+			["counter"] = 20,
+		}, -- [41]
 	},
 }

@@ -19,18 +19,18 @@ ATTDB = {
 		},
 		["alertCD"] = {
 		},
-		["positions"] = {
-		},
-		["glow"] = true,
-		["alertCDtext"] = {
-		},
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
-		["IconRows"] = 1,
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
 			["dungeons"] = true,
+		},
+		["IconRows"] = 1,
+		["alertCDtext"] = {
+		},
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["glow"] = true,
+		["positions"] = {
 		},
 	},
 	["TANK"] = {
@@ -52,54 +52,20 @@ ATTDB = {
 		},
 		["alertCD"] = {
 		},
-		["positions"] = {
-		},
-		["glow"] = true,
-		["alertCDtext"] = {
-		},
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
-		["IconRows"] = 1,
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
 			["dungeons"] = true,
 		},
-	},
-	["DAMAGER"] = {
-		["iconOrder"] = {
-		},
-		["scale"] = 1,
-		["showSelf"] = true,
-		["raidGroupSize"] = 5,
-		["isEnabledTrinkets"] = {
-		},
-		["offsetX"] = 0,
-		["customSpells"] = {
-		},
-		["isEnabledRacial"] = {
-		},
-		["iconOffsetY"] = 2,
-		["attach"] = 0,
-		["isEnabledSpell"] = {
-		},
-		["alertCD"] = {
-		},
-		["positions"] = {
-		},
-		["glow"] = true,
+		["IconRows"] = 1,
 		["alertCDtext"] = {
 		},
 		["iconOffsetX"] = 5,
 		["offsetY"] = 0,
-		["IconRows"] = 1,
-		["isEnabledVisibility"] = {
-			["outside"] = true,
-			["arena"] = true,
-			["dungeons"] = true,
+		["glow"] = true,
+		["positions"] = {
 		},
 	},
-	["ProfileSelected"] = "DEFAULT",
 	["Extra2"] = {
 		["iconOrder"] = {
 		},
@@ -119,18 +85,52 @@ ATTDB = {
 		},
 		["alertCD"] = {
 		},
-		["positions"] = {
-		},
-		["glow"] = true,
-		["alertCDtext"] = {
-		},
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
-		["IconRows"] = 1,
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
 			["dungeons"] = true,
+		},
+		["IconRows"] = 1,
+		["alertCDtext"] = {
+		},
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["glow"] = true,
+		["positions"] = {
+		},
+	},
+	["ProfileSelected"] = "DEFAULT",
+	["DAMAGER"] = {
+		["iconOrder"] = {
+		},
+		["scale"] = 1,
+		["showSelf"] = true,
+		["raidGroupSize"] = 5,
+		["isEnabledTrinkets"] = {
+		},
+		["offsetX"] = 0,
+		["customSpells"] = {
+		},
+		["isEnabledRacial"] = {
+		},
+		["iconOffsetY"] = 2,
+		["attach"] = 0,
+		["isEnabledSpell"] = {
+		},
+		["alertCD"] = {
+		},
+		["isEnabledVisibility"] = {
+			["outside"] = true,
+			["arena"] = true,
+			["dungeons"] = true,
+		},
+		["IconRows"] = 1,
+		["alertCDtext"] = {
+		},
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["glow"] = true,
+		["positions"] = {
 		},
 	},
 	["DEFAULT"] = {
@@ -147,13 +147,13 @@ ATTDB = {
 			},
 			["WARLOCK"] = {
 			},
-			["ROGUE"] = {
+			["HUNTER"] = {
 			},
 			["DRUID"] = {
 			},
 			["PALADIN"] = {
 			},
-			["HUNTER"] = {
+			["ROGUE"] = {
 			},
 		},
 		["growLeft"] = false,
@@ -167,7 +167,7 @@ ATTDB = {
 		["specSelected"] = "71",
 		["offsetX"] = 0,
 		["lock"] = true,
-		["showTooltip"] = false,
+		["classSelected"] = "WARRIOR",
 		["customSpells"] = {
 			["DEATHKNIGHT"] = {
 			},
@@ -181,40 +181,61 @@ ATTDB = {
 			},
 			["WARLOCK"] = {
 			},
-			["ROGUE"] = {
+			["HUNTER"] = {
 			},
 			["DRUID"] = {
 			},
 			["PALADIN"] = {
 			},
-			["HUNTER"] = {
+			["ROGUE"] = {
 			},
 		},
-		["showIconBorders"] = true,
-		["horizontal"] = false,
-		["hidden"] = true,
+		["isEnabledVisibility"] = {
+			["arena"] = true,
+		},
+		["offsetY"] = 0,
+		["alertCD"] = {
+			["DEATHKNIGHT"] = {
+			},
+			["WARRIOR"] = {
+			},
+			["SHAMAN"] = {
+			},
+			["MAGE"] = {
+			},
+			["PRIEST"] = {
+			},
+			["WARLOCK"] = {
+			},
+			["HUNTER"] = {
+			},
+			["DRUID"] = {
+			},
+			["PALADIN"] = {
+			},
+			["ROGUE"] = {
+			},
+		},
 		["isEnabledRacial"] = {
 			[59752] = true,
 		},
 		["iconOffsetY"] = 0,
-		["attach"] = 0,
+		["showIconBorders"] = true,
 		["isEnabledSpell"] = {
 			["DEATHKNIGHT"] = {
 				[48707] = true,
 				[51052] = true,
-				[47528] = true,
 				[49576] = true,
+				[47528] = true,
 			},
 			["WARRIOR"] = {
-				[3411] = true,
-				[23920] = true,
 				[46924] = true,
 			},
 			["SHAMAN"] = {
 				[16188] = true,
 				[51514] = true,
-				[51490] = true,
 				[16190] = true,
+				[51490] = true,
 			},
 			["MAGE"] = {
 				[2139] = true,
@@ -230,6 +251,20 @@ ATTDB = {
 			["WARLOCK"] = {
 				[19647] = true,
 			},
+			["HUNTER"] = {
+				[34490] = true,
+				[19503] = true,
+				[49012] = true,
+				[19263] = true,
+			},
+			["DRUID"] = {
+				[29166] = true,
+				[17116] = true,
+			},
+			["PALADIN"] = {
+				[642] = true,
+				[10308] = true,
+			},
 			["ROGUE"] = {
 				[1766] = true,
 				[2094] = true,
@@ -237,23 +272,9 @@ ATTDB = {
 				[51713] = true,
 				[8643] = true,
 			},
-			["DRUID"] = {
-				[29166] = true,
-				[17116] = true,
-			},
-			["PALADIN"] = {
-				[10278] = true,
-				[642] = true,
-				[10308] = true,
-			},
-			["HUNTER"] = {
-				[34490] = true,
-				[19503] = true,
-				[19263] = true,
-				[49012] = true,
-			},
 		},
-		["alertCD"] = {
+		["hidden"] = true,
+		["alertCDtext"] = {
 			["DEATHKNIGHT"] = {
 			},
 			["WARRIOR"] = {
@@ -266,16 +287,17 @@ ATTDB = {
 			},
 			["WARLOCK"] = {
 			},
-			["ROGUE"] = {
+			["HUNTER"] = {
 			},
 			["DRUID"] = {
 			},
 			["PALADIN"] = {
 			},
-			["HUNTER"] = {
+			["ROGUE"] = {
 			},
 		},
-		["IconRows"] = 2,
+		["reverseIcons"] = false,
+		["glow"] = true,
 		["positions"] = {
 			{
 				["y"] = -118.3665771484375,
@@ -438,36 +460,11 @@ ATTDB = {
 				["x"] = 675.1666870117188,
 			}, -- [40]
 		},
-		["glow"] = true,
-		["reverseIcons"] = false,
-		["alertCDtext"] = {
-			["DEATHKNIGHT"] = {
-			},
-			["WARRIOR"] = {
-			},
-			["SHAMAN"] = {
-			},
-			["MAGE"] = {
-			},
-			["PRIEST"] = {
-			},
-			["WARLOCK"] = {
-			},
-			["ROGUE"] = {
-			},
-			["DRUID"] = {
-			},
-			["PALADIN"] = {
-			},
-			["HUNTER"] = {
-			},
-		},
+		["IconRows"] = 2,
 		["iconOffsetX"] = 0,
-		["offsetY"] = 0,
-		["isEnabledVisibility"] = {
-			["arena"] = true,
-		},
-		["classSelected"] = "WARRIOR",
+		["horizontal"] = false,
+		["attach"] = 0,
+		["showTooltip"] = false,
 	},
 	["HEALER"] = {
 		["iconOrder"] = {
@@ -488,18 +485,18 @@ ATTDB = {
 		},
 		["alertCD"] = {
 		},
-		["positions"] = {
-		},
-		["glow"] = true,
-		["alertCDtext"] = {
-		},
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
-		["IconRows"] = 1,
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
 			["dungeons"] = true,
+		},
+		["IconRows"] = 1,
+		["alertCDtext"] = {
+		},
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["glow"] = true,
+		["positions"] = {
 		},
 	},
 }

@@ -1,91 +1,85 @@
 
 InterruptBarDB = {
+	["lock"] = true,
+	["alpha"] = 1,
 	["abilities"] = {
 		["melee"] = {
 		},
 		["caster"] = {
 			{
-				["spellid"] = 1766,
-				["duration"] = 10,
-				["icon"] = 132219,
 				["name"] = "Kick",
+				["duration"] = 10,
+				["spellid"] = 1766,
+				["icon"] = 132219,
 			}, -- [1]
 			{
-				["spellid"] = 6552,
-				["duration"] = 10,
-				["icon"] = 132938,
 				["name"] = "Pummel",
+				["duration"] = 10,
+				["spellid"] = 6552,
+				["icon"] = 132938,
 			}, -- [2]
 			{
-				["spellid"] = 2139,
-				["duration"] = 24,
-				["icon"] = 135856,
 				["name"] = "Counterspell",
+				["duration"] = 24,
+				["spellid"] = 2139,
+				["icon"] = 135856,
 			}, -- [3]
 			{
-				["spellid"] = 10890,
-				["duration"] = 27,
-				["icon"] = 136184,
 				["name"] = "Psychic Scream",
+				["duration"] = 27,
+				["spellid"] = 10890,
+				["icon"] = 136184,
 			}, -- [4]
 			{
-				["spellid"] = 408,
-				["duration"] = 20,
-				["icon"] = 132298,
 				["name"] = "Kidney Shot",
+				["duration"] = 20,
+				["spellid"] = 408,
+				["icon"] = 132298,
 			}, -- [5]
 			{
-				["spellid"] = 31224,
-				["duration"] = 60,
-				["icon"] = 136177,
 				["name"] = "Cloak of Shadows",
+				["duration"] = 60,
+				["spellid"] = 31224,
+				["icon"] = 136177,
 			}, -- [6]
 			{
-				["spellid"] = 2094,
-				["duration"] = 90,
-				["icon"] = 136175,
 				["name"] = "Blind",
+				["duration"] = 90,
+				["spellid"] = 2094,
+				["icon"] = 136175,
 			}, -- [7]
 			{
-				["spellid"] = 19647,
-				["duration"] = 24,
-				["icon"] = 136174,
-				["name"] = "Spell Lock",
+				["name"] = "Mind Freeze",
+				["duration"] = 10,
+				["spellid"] = 47528,
+				["icon"] = 237527,
 			}, -- [8]
 			{
-				["spellid"] = 72,
-				["duration"] = 12,
-				["icon"] = 132357,
 				["name"] = "Shield Bash",
+				["duration"] = 12,
+				["spellid"] = 72,
+				["icon"] = 132357,
 			}, -- [9]
 			{
-				["spellid"] = 19503,
-				["duration"] = 30,
-				["icon"] = 132153,
-				["name"] = "Scatter Shot",
+				["name"] = "Spell Lock",
+				["duration"] = 24,
+				["spellid"] = 19647,
+				["icon"] = 136174,
 			}, -- [10]
 			{
-				["spellid"] = 34490,
-				["duration"] = 20,
-				["icon"] = 132323,
-				["name"] = "Silencing Shot",
+				["name"] = "Scatter Shot",
+				["duration"] = 30,
+				["spellid"] = 19503,
+				["icon"] = 132153,
 			}, -- [11]
 			{
-				["spellid"] = 16979,
-				["duration"] = 15,
-				["icon"] = 132183,
-				["name"] = "Feral Charge - Bear",
+				["name"] = "Silencing Shot",
+				["duration"] = 20,
+				["spellid"] = 34490,
+				["icon"] = 132323,
 			}, -- [12]
-			{
-				["spellid"] = 1499,
-				["duration"] = 30,
-				["icon"] = 135834,
-				["name"] = "Freezing Trap",
-			}, -- [13]
 		},
 	},
-	["hidden"] = true,
-	["columns"] = 7,
 	["Position"] = {
 		["yOfs"] = 79.87128448486328,
 		["xOfs"] = -88.92115020751953,
@@ -94,6 +88,6 @@ InterruptBarDB = {
 	},
 	["scale"] = 1.38,
 	["preset"] = "caster",
-	["alpha"] = 1,
-	["lock"] = true,
+	["hidden"] = true,
+	["columns"] = 7,
 }

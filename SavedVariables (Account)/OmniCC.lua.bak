@@ -1,5 +1,9 @@
 
 OmniCCDB = {
+	["global"] = {
+		["dbVersion"] = 6,
+		["addonVersion"] = "9.2.1",
+	},
 	["profileKeys"] = {
 		["Evolvexd - Classic Arena - EU"] = "Default",
 		["Evolvebanned - Gehennas"] = "Default",
@@ -18,10 +22,6 @@ OmniCCDB = {
 		["Evolve - Classic PTR Realm 1"] = "Default",
 		["Dbldogcheck - Firemaw"] = "Default",
 		["Evolvebanned - Firemaw"] = "Default",
-	},
-	["global"] = {
-		["dbVersion"] = 6,
-		["addonVersion"] = "9.2.1",
 	},
 	["profiles"] = {
 		["Default"] = {
@@ -44,27 +44,16 @@ OmniCCDB = {
 					["name"] = "Unit Nameplates",
 					["id"] = "plates",
 				}, -- [2]
-				{
-					["enabled"] = false,
-					["patterns"] = {
-						"PlaterMainAuraIcon", -- [1]
-						"PlaterSecondaryAuraIcon", -- [2]
-						"ExtraIconRowIcon", -- [3]
-					},
-					["id"] = "Plater Nameplates Rule",
-					["priority"] = 3,
-					["theme"] = "Plater Nameplates Theme",
-				}, -- [3]
 			},
 			["themes"] = {
 				["Default"] = {
 					["textStyles"] = {
-						["minutes"] = {
-						},
 						["soon"] = {
 							["b"] = 0,
 							["scale"] = 1,
 							["g"] = 0.8784313725490196,
+						},
+						["minutes"] = {
 						},
 						["seconds"] = {
 							["b"] = 1,
@@ -79,16 +68,6 @@ OmniCCDB = {
 					["minSize"] = 0.99,
 					["effect"] = "none",
 					["fontSize"] = 15,
-				},
-				["Plater Nameplates Theme"] = {
-					["textStyles"] = {
-						["minutes"] = {
-						},
-						["soon"] = {
-						},
-						["seconds"] = {
-						},
-					},
 				},
 			},
 		},

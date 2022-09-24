@@ -8,15 +8,10 @@ local IsActiveBattlefieldArena, GetBattlefieldTeamInfo = IsActiveBattlefieldAren
 local SetCVar = SetCVar
 local pairs = pairs
 local ipairs = ipairs
-local floor = math.floor
 local tostring = tostring
 local select = select
 local tonumber = tonumber
-local math_ceil = math.ceil
 local string_format = string.format
-local GetFrameRate = GetFrameRate
-local mmin, mmax = math.min, math.max
-local mabs = math.abs
 local _G = _G
 local hooksecurefunc = hooksecurefunc
 local FauxScrollFrame_GetOffset = FauxScrollFrame_GetOffset
@@ -116,7 +111,7 @@ local cvars = {
     nameplateGlobalScale = "1.2",
     enableFloatingCombatText = "1",
     threatWarning = "0",
-    predictedHealth = "1",
+    predictedHealth = "0",
     Sound_EnableDSPEffects = "0"
 }
 
@@ -168,95 +163,25 @@ hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
     local hp = healthbar.finalValue or healthbar:GetValue()
     local mana = manabar.finalValue or manabar:GetValue()
 
-    healthbar.fontString:SetText(hp)
+    if hp ~= healthbar.lastTextValue then
+        healthbar.lastTextValue = hp
+        healthbar.fontString:SetText(hp)
+    end
 
     local _, max = manabar:GetMinMaxValues()
     if max <= 120 and max >= 100 then
         manabar.fontString:SetText("")
-    else
-        manabar.fontString:SetText(mana)
+        manabar.lastTextValue = -1
+    elseif mana ~= manabar.lastTextValue then
+        manabar.lastTextValue = mana
+        manabar.fontString:SetText(manabar.lastTextValue)
     end
+
 end)
 
 hooksecurefunc("PartyMemberFrame_UpdateMember", function(self)
-    for i= 1, MAX_PARTY_MEMBERS, 1 do
-        if UnitExists("party"..i) and not InCombatLockdown() then
-            --Party Member Frames 1-4
-            PartyMemberFrame1:SetScale(1.25)
-            PartyMemberFrame1Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
-            PartyMemberFrame1HealthBar:SetWidth(70)
-            PartyMemberFrame1HealthBar:SetHeight(18)
-            PartyMemberFrame1ManaBar:SetWidth(71)
-            PartyMemberFrame1ManaBar:SetHeight(10)
-            PartyMemberFrame1HealthBar:SetPoint("TOPLEFT", 45, -14)
-            PartyMemberFrame1ManaBar:SetPoint("TOPLEFT", 45, -32)
-
-            PartyMemberFrame2:SetScale(1.25)
-            PartyMemberFrame2Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
-            PartyMemberFrame2HealthBar:SetWidth(70)
-            PartyMemberFrame2HealthBar:SetHeight(18)
-            PartyMemberFrame2ManaBar:SetWidth(71)
-            PartyMemberFrame2ManaBar:SetHeight(10)
-            PartyMemberFrame2HealthBar:SetPoint("TOPLEFT", 45, -14)
-            PartyMemberFrame2ManaBar:SetPoint("TOPLEFT", 45, -32)
-
-            PartyMemberFrame3:SetScale(1.25)
-            PartyMemberFrame3Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
-            PartyMemberFrame3HealthBar:SetWidth(70)
-            PartyMemberFrame3HealthBar:SetHeight(18)
-            PartyMemberFrame3ManaBar:SetWidth(71)
-            PartyMemberFrame3ManaBar:SetHeight(10)
-            PartyMemberFrame3HealthBar:SetPoint("TOPLEFT", 45, -14)
-            PartyMemberFrame3ManaBar:SetPoint("TOPLEFT", 45, -32)
-
-            PartyMemberFrame4:SetScale(1.25)
-            PartyMemberFrame4Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
-            PartyMemberFrame4HealthBar:SetWidth(70)
-            PartyMemberFrame4HealthBar:SetHeight(18)
-            PartyMemberFrame4ManaBar:SetWidth(71)
-            PartyMemberFrame4ManaBar:SetHeight(10)
-            PartyMemberFrame4HealthBar:SetPoint("TOPLEFT", 45, -14)
-            PartyMemberFrame4ManaBar:SetPoint("TOPLEFT", 45, -32)
-
-            -- Reposition
-            PartyMemberFrame1:ClearAllPoints()
-            PartyMemberFrame1:SetPoint("TOPLEFT", CompactRaidFrameManager, "TOPRIGHT", -13.4, 10.3)
-
-            PartyMemberFrame2:ClearAllPoints()
-            PartyMemberFrame2:SetPoint("TOPLEFT", PartyMemberFrame1PetFrame, "BOTTOMLEFT", -23.33, -32.4)
-
-            PartyMemberFrame3:ClearAllPoints()
-            PartyMemberFrame3:SetPoint("TOPLEFT", PartyMemberFrame2PetFrame, "BOTTOMLEFT", -23.33, -32.27)
-
-            PartyMemberFrame4:ClearAllPoints()
-            PartyMemberFrame4:SetPoint("TOPLEFT", PartyMemberFrame3PetFrame, "BOTTOMLEFT", -23.33, -32.7)
-
-            --POSITION OF DEBUFFS ON PARTY MEMBER FRAMES 1-4
-
-            PartyMemberFrame1Debuff1:ClearAllPoints();
-            PartyMemberFrame1Debuff1:SetPoint("BOTTOMLEFT", 45.00000048894432, -9.374971298968035);
-
-            PartyMemberFrame2Debuff1:ClearAllPoints();
-            PartyMemberFrame2Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -8.437474379317337);
-
-            PartyMemberFrame3Debuff1:ClearAllPoints();
-            PartyMemberFrame3Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -10.31263004755721);
-
-            PartyMemberFrame4Debuff1:ClearAllPoints();
-            PartyMemberFrame4Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -8.437541575172077);
-
-            PartyMemberFrame1LeaderIcon:SetAlpha(0)
-            PartyMemberFrame1MasterIcon:SetAlpha(0)
-
-            PartyMemberFrame2LeaderIcon:SetAlpha(0)
-            PartyMemberFrame2MasterIcon:SetAlpha(0)
-
-            PartyMemberFrame3LeaderIcon:SetAlpha(0)
-            PartyMemberFrame3MasterIcon:SetAlpha(0)
-
-            PartyMemberFrame4LeaderIcon:SetAlpha(0)
-            PartyMemberFrame4MasterIcon:SetAlpha(0)
-
+    for i = 1, MAX_PARTY_MEMBERS, 1 do
+        if UnitExists("party" .. i) then
             local prefix = self:GetName();
             _G[prefix .. "Name"]:SetAlpha(0);
         end
@@ -344,17 +269,10 @@ local function OnInit()
 
     -- Position
 
-    --UIWidgetBelowMinimapContainerFrame:ClearAllPoints()
-    --UIWidgetBelowMinimapContainerFrame:SetPoint("TOPRIGHT", MinimapCluster, "BOTTOMRIGHT", -104.62, -259.56)
     FocusFrame:StopMovingOrSizing()
     FocusFrame:ClearAllPoints()
     FocusFrame:SetPoint("CENTER", UIParent, "CENTER", -237, 115)
     FocusFrame:SetUserPlaced(true)
-
-    --MultiBarRight:ClearAllPoints()
-    --MultiBarRight:SetPoint("TOPRIGHT", VerticalMultiBarsContainer, "TOPRIGHT", 2, 3)
-    --MultiBarLeft:ClearAllPoints()
-    --MultiBarLeft:SetPoint("TOPLEFT", VerticalMultiBarsContainer, "TOPLEFT", 2, 3)
 
     -- ToT texture closing the alpha gap (previously handled by ClassPortraits itself)
     TargetFrameToTTextureFrameTexture:SetVertexColor(0, 0, 0)
@@ -380,7 +298,6 @@ local function OnInit()
     PlayerFrameHealthBarText:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
     PlayerFrameManaBarText:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
 
-    -- end of retardation
     TargetFrameHealthBar:SetWidth(119)
     TargetFrameHealthBar:SetHeight(29)
     TargetFrameHealthBar:SetPoint("TOPLEFT", 7, -22)
@@ -401,6 +318,82 @@ local function OnInit()
     FocusFrameHealthBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
     FocusFrameManaBar.TextString:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
 
+    --Party Member Frames 1-4
+    PartyMemberFrame1:SetScale(1.25)
+    PartyMemberFrame1Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
+    PartyMemberFrame1HealthBar:SetWidth(70)
+    PartyMemberFrame1HealthBar:SetHeight(18)
+    PartyMemberFrame1ManaBar:SetWidth(71)
+    PartyMemberFrame1ManaBar:SetHeight(10)
+    PartyMemberFrame1HealthBar:SetPoint("TOPLEFT", 45, -14)
+    PartyMemberFrame1ManaBar:SetPoint("TOPLEFT", 45, -32)
+
+    PartyMemberFrame2:SetScale(1.25)
+    PartyMemberFrame2Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
+    PartyMemberFrame2HealthBar:SetWidth(70)
+    PartyMemberFrame2HealthBar:SetHeight(18)
+    PartyMemberFrame2ManaBar:SetWidth(71)
+    PartyMemberFrame2ManaBar:SetHeight(10)
+    PartyMemberFrame2HealthBar:SetPoint("TOPLEFT", 45, -14)
+    PartyMemberFrame2ManaBar:SetPoint("TOPLEFT", 45, -32)
+
+    PartyMemberFrame3:SetScale(1.25)
+    PartyMemberFrame3Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
+    PartyMemberFrame3HealthBar:SetWidth(70)
+    PartyMemberFrame3HealthBar:SetHeight(18)
+    PartyMemberFrame3ManaBar:SetWidth(71)
+    PartyMemberFrame3ManaBar:SetHeight(10)
+    PartyMemberFrame3HealthBar:SetPoint("TOPLEFT", 45, -14)
+    PartyMemberFrame3ManaBar:SetPoint("TOPLEFT", 45, -32)
+
+    PartyMemberFrame4:SetScale(1.25)
+    PartyMemberFrame4Texture:SetTexture("Interface\\AddOns\\TextureScript\\UI-PartyFrame")
+    PartyMemberFrame4HealthBar:SetWidth(70)
+    PartyMemberFrame4HealthBar:SetHeight(18)
+    PartyMemberFrame4ManaBar:SetWidth(71)
+    PartyMemberFrame4ManaBar:SetHeight(10)
+    PartyMemberFrame4HealthBar:SetPoint("TOPLEFT", 45, -14)
+    PartyMemberFrame4ManaBar:SetPoint("TOPLEFT", 45, -32)
+
+    -- Reposition
+    PartyMemberFrame1:ClearAllPoints()
+    PartyMemberFrame1:SetPoint("TOPLEFT", CompactRaidFrameManager, "TOPRIGHT", -13.4, 10.3)
+
+    PartyMemberFrame2:ClearAllPoints()
+    PartyMemberFrame2:SetPoint("TOPLEFT", PartyMemberFrame1PetFrame, "BOTTOMLEFT", -23.33, -32.4)
+
+    PartyMemberFrame3:ClearAllPoints()
+    PartyMemberFrame3:SetPoint("TOPLEFT", PartyMemberFrame2PetFrame, "BOTTOMLEFT", -23.33, -32.27)
+
+    PartyMemberFrame4:ClearAllPoints()
+    PartyMemberFrame4:SetPoint("TOPLEFT", PartyMemberFrame3PetFrame, "BOTTOMLEFT", -23.33, -32.7)
+
+    --POSITION OF DEBUFFS ON PARTY MEMBER FRAMES 1-4
+
+    PartyMemberFrame1Debuff1:ClearAllPoints();
+    PartyMemberFrame1Debuff1:SetPoint("BOTTOMLEFT", 45.00000048894432, -9.374971298968035);
+
+    PartyMemberFrame2Debuff1:ClearAllPoints();
+    PartyMemberFrame2Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -8.437474379317337);
+
+    PartyMemberFrame3Debuff1:ClearAllPoints();
+    PartyMemberFrame3Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -10.31263004755721);
+
+    PartyMemberFrame4Debuff1:ClearAllPoints();
+    PartyMemberFrame4Debuff1:SetPoint("BOTTOMLEFT", 44.99999870080508, -8.437541575172077);
+
+    PartyMemberFrame1LeaderIcon:SetAlpha(0)
+    PartyMemberFrame1MasterIcon:SetAlpha(0)
+
+    PartyMemberFrame2LeaderIcon:SetAlpha(0)
+    PartyMemberFrame2MasterIcon:SetAlpha(0)
+
+    PartyMemberFrame3LeaderIcon:SetAlpha(0)
+    PartyMemberFrame3MasterIcon:SetAlpha(0)
+
+    PartyMemberFrame4LeaderIcon:SetAlpha(0)
+    PartyMemberFrame4MasterIcon:SetAlpha(0)
+
     -- Hide Gryphons
     MainMenuBarLeftEndCap:Hide()
     MainMenuBarRightEndCap:Hide()
@@ -413,9 +406,10 @@ local function OnInit()
     ActionBarUpButton:SetAlpha(0)
     ActionBarDownButton:SetAlpha(0)
     MainMenuBarPageNumber:SetAlpha(0)
+	
     UIErrorsFrame:SetAlpha(0)
+	
     PlayerLevelText:SetAlpha(0)
-
     PlayerLeaderIcon:SetAlpha(0)
     PlayerStatusTexture:SetAlpha(0)
     PlayerMasterIcon:SetAlpha(0)
@@ -435,7 +429,7 @@ local function OnInit()
     -- FocusFrame castbar slight up-scaling
     FocusFrameSpellBar:SetScale(1.1)
 
-    -- Rework Main Cast-Bar texture (castbar is now going to be round) - this is kinda "idk kev"... not sure of I rly like it, yet
+    -- Rework Main Cast-Bar texture (castbar is now going to be round) - this is kinda "idk kev"... not sure if I rly like it, yet...
     CastingBarFrame:SetScale(1)
     CastingBarFrame.Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
     CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
@@ -819,61 +813,49 @@ for i = 1, 4 do
     _G["PartyMemberFrame" .. i .. "ManaBar"].useSimpleValue = true
 end
 
-local function TextStatusBar_UpdateTextString(textStatusBar)
-    if (not textStatusBar) then
-        textStatusBar = this;
+local function TextStatusBar_UpdateTextString(statusFrame, textString, value, valueMin, valueMax)
+    local value = statusFrame.finalValue or statusFrame:GetValue();
+
+    if (statusFrame.LeftText and statusFrame.RightText) then
+        statusFrame.LeftText:SetText("");
+        statusFrame.RightText:SetText("");
+        statusFrame.LeftText:Hide();
+        statusFrame.RightText:Hide();
     end
-    local textString = textStatusBar.TextString;
-    if (textString) then
-        local value = textStatusBar.finalValue or textStatusBar:GetValue();
-        local valueMin, valueMax = textStatusBar:GetMinMaxValues();
 
-        if ((tonumber(valueMax) ~= valueMax or valueMax > 0) and not (textStatusBar.pauseUpdates)) then
-            textStatusBar:Show();
-            if (value and valueMax > 0 and (GetCVar("statusTextPercentage") == "1" or textStatusBar.showPercentage)) then
-                if (value == 0 and textStatusBar.zeroText) then
-                    textString:SetText(textStatusBar.zeroText);
-                    textStatusBar.isZero = 1;
-                    textString:Show();
-                    return ;
-                end
-                value = tostring(math.ceil((value / valueMax) * 100)) .. "%";
-                if (textStatusBar.prefix and (textStatusBar.alwaysPrefix or not (textStatusBar.cvar and GetCVar(textStatusBar.cvar) == "1" and textStatusBar.textLockable))) then
-                    textString:SetText(textStatusBar.prefix .. " " .. value);
-                else
-                    textString:SetText(value);
-                end
-            elseif (value == 0 and textStatusBar.zeroText) then
-                textString:SetText(textStatusBar.zeroText);
-                textStatusBar.isZero = 1;
-                textString:Show();
-                return ;
-            elseif (textStatusBar.useSimpleValue) then
-                textStatusBar.isZero = nil;
-                textString:SetText(value);
-            else
-                textStatusBar.isZero = nil;
-                if (textStatusBar.prefix and (textStatusBar.alwaysPrefix or not (textStatusBar.cvar and GetCVar(textStatusBar.cvar) == "1" and textStatusBar.textLockable))) then
-                    textString:SetText(textStatusBar.prefix .. " " .. value .. " / " .. valueMax);
-                else
-                    textString:SetText(value .. " / " .. valueMax);
-                end
-            end
+    local textDisplay = GetCVar("statusTextDisplay")
 
-            if ((textStatusBar.cvar and GetCVar(textStatusBar.cvar) == "1" and textStatusBar.textLockable) or textStatusBar.forceShow) then
-                textString:Show();
-            elseif (textStatusBar.lockShow > 0) then
-                textString:Show();
-            else
-                textString:Hide();
+    if ((tonumber(valueMax) ~= valueMax or valueMax > 0) and not (statusFrame.pauseUpdates)) then
+        if textDisplay == "NUMERIC" and (value and valueMax > 0) then
+            statusFrame.isZero = nil;
+            textString:Show();
+            textString:SetText(value)
+        elseif (textDisplay == "BOTH") and (value and valueMax > 0) then
+            if (statusFrame.LeftText and statusFrame.RightText) then
+                if (not statusFrame.powerToken or statusFrame.powerToken == "MANA") then
+                    statusFrame.LeftText:SetText(math.ceil((value / valueMax) * 100) .. "%");
+                    statusFrame.LeftText:Show();
+                end
+                statusFrame.RightText:SetText(value)
+                statusFrame.RightText:Show();
             end
-        else
             textString:Hide();
-            textStatusBar:Hide();
+        elseif textDisplay == "PERCENT" and (value and valueMax > 0) then
+            local percent = math.ceil((value / valueMax) * 100) .. "%";
+            textString:SetText(percent)
+            textString:Show();
+        end
+    else
+        textString:Hide();
+        textString:SetText("");
+        if (not statusFrame.alwaysShow) then
+            statusFrame:Hide();
+        else
+            statusFrame:SetValue(0);
         end
     end
 end
-hooksecurefunc("TextStatusBar_UpdateTextString", TextStatusBar_UpdateTextString)
+hooksecurefunc("TextStatusBar_UpdateTextStringWithValues", TextStatusBar_UpdateTextString)
 
 local function Classification(self, forceNormalTexture)
     local classification = UnitClassification(self.unit);
@@ -906,6 +888,15 @@ hooksecurefunc("TargetFrame_CheckClassification", Classification)
 
 --smooth status bars(animated)
 
+local floor = math.floor
+local activeObjects = {}
+local handledObjects = {}
+local TARGET_FPS = 120
+local AMOUNT = .33
+local abs = math.abs
+
+-- PartyMemberFrameHealthbar is more protected than fort knox (taint)
+
 local barstosmooth = {
     PlayerFrameHealthBar = "player",
     PlayerFrameManaBar = "player",
@@ -913,10 +904,17 @@ local barstosmooth = {
     TargetFrameManaBar = "target",
     FocusFrameHealthBar = "focus",
     FocusFrameManaBar = "focus",
+    -- PetFrameHealthBar = "pet",
+    -- PetFrameManaBar = "pet",
+    -- PartyMemberFrame1HealthBar = "party1",
+    -- PartyMemberFrame1ManaBar = "party1",
+    -- PartyMemberFrame2HealthBar = "party2",
+    -- PartyMemberFrame2ManaBar = "party2",
+    -- PartyMemberFrame3HealthBar = "party3",
+    -- PartyMemberFrame3ManaBar = "party3",
+    -- PartyMemberFrame4HealthBar = "party4",
+    -- PartyMemberFrame4ManaBar = "party4",
 }
-
-local smoothframe = CreateFrame("Frame")
-local smoothing = {}
 
 local function isPlate(frame)
     local name = frame:GetName()
@@ -927,55 +925,103 @@ local function isPlate(frame)
     return false
 end
 
-local function AnimationTick()
-    local limit = 30 / GetFramerate()
+local function clamp(v, min, max)
+    min = min or 0
+    max = max or 1
 
-    for bar, value in pairs(smoothing) do
-        local cur = bar:GetValue()
-        local new = cur + mmin((value - cur) / 3, mmax(value - cur, limit))
-        if new ~= new then
-            new = value
+    if v > max then
+        return max
+    elseif v < min then
+        return min
+    end
+
+    return v
+end
+
+local function isCloseEnough(new, target, range)
+    if range > 0 then
+        return abs((new - target) / range) <= 0.001
+    end
+
+    return true
+end
+
+local smoothframe = CreateFrame("Frame")
+local function AnimationTick(_, elapsed)
+    for unitFrame, info in next, activeObjects do
+        local new = Lerp(unitFrame._value, info.currentHealth, clamp(AMOUNT * elapsed * TARGET_FPS))
+        if info.changedGUID or isCloseEnough(new, info.currentHealth, unitFrame._max - unitFrame._min) then
+            new = info.currentHealth
+            activeObjects[unitFrame] = nil
         end
-        if cur == value or mabs(new - value) < 2 then
-            bar:SetValue_(value)
-            smoothing[bar] = nil
-        else
-            bar:SetValue_(floor(new))
-        end
+        unitFrame:SetValue_(floor(new))
+        unitFrame._value = new
     end
 end
 
-local function SmoothSetValue(self, value)
+local function bar_SetSmoothedValue(self, value)
     self.finalValue = value
+
+    value = tonumber(value)
+    self._value = self:GetValue()
+    if not activeObjects[self] then
+        activeObjects[self] = {}
+    end
     if self.unit then
         local guid = UnitGUID(self.unit)
-        if value == self:GetValue() or not guid or guid ~= self.lastGuid then
-            smoothing[self] = nil
-            self:SetValue_(value)
-        else
-            smoothing[self] = value
+        if guid ~= self.guid then
+            activeObjects[self].changedGUID = true
         end
-        self.lastGuid = guid
-    else
-        local _, max = self:GetMinMaxValues()
-        if value == self:GetValue() or self._max and self._max ~= max then
-            smoothing[self] = nil
-            self:SetValue_(value)
-        else
-            smoothing[self] = value
-        end
-        self._max = max
+        self.guid = guid
     end
+
+    activeObjects[self].currentHealth = clamp(value, self._min, self._max)
+end
+
+local function bar_SetSmoothedMinMaxValues(self, min, max)
+    min, max = tonumber(min), tonumber(max)
+
+    self:SetMinMaxValues_(min, max)
+
+    if self._max and self._max ~= max then
+        local ratio = 1
+        if max ~= 0 and self._max and self._max ~= 0 then
+            ratio = max / (self._max or max)
+        end
+
+        local currentHealth = activeObjects[self] and activeObjects[self].currentHealth
+        if currentHealth then
+            activeObjects[self].currentHealth = currentHealth * ratio
+        end
+
+        local cur = self._value
+        if cur then
+            self:SetValue_(cur * ratio)
+            self._value = cur * ratio
+        end
+    end
+
+    self._min = min
+    self._max = max
 end
 
 local function SmoothBar(bar)
+    bar._min, bar._max = bar:GetMinMaxValues()
+    bar._value = bar:GetValue()
+
     if not bar.SetValue_ then
         bar.SetValue_ = bar.SetValue
-        bar.SetValue = SmoothSetValue
+        bar.SetValue = bar_SetSmoothedValue
     end
+    if not bar.SetMinMaxValues_ then
+        bar.SetMinMaxValues_ = bar.SetMinMaxValues
+        bar.SetMinMaxValues = bar_SetSmoothedMinMaxValues
+    end
+
+    handledObjects[bar] = true
 end
 
-smoothframe:SetScript("OnUpdate", function()
+local function onUpdate(self, elapsed)
     local frames = { WorldFrame:GetChildren() }
     for _, plate in ipairs(frames) do
         if not plate:IsForbidden() and isPlate(plate) and C_NamePlate.GetNamePlates() and plate:IsVisible() then
@@ -985,85 +1031,83 @@ smoothframe:SetScript("OnUpdate", function()
             end
         end
     end
-    AnimationTick()
-end)
+    AnimationTick(_, elapsed)
+end
 
-smoothframe:RegisterEvent("ADDON_LOADED")
-smoothframe:SetScript("OnEvent", function(self)
+local function init()
     for k, v in pairs(barstosmooth) do
         if _G[k] then
             SmoothBar(_G[k])
-            _G[k]:SetScript("OnHide", function(frame)
-                frame.lastGuid = nil;
-                frame.max_ = nil
+            _G[k]:HookScript("OnHide", function()
+                _G[k].lastGuid = nil;
+                _G[k].min_ = nil
+                _G[k].max_ = nil
             end)
             if v ~= "" then
                 _G[k].unit = v
             end
         end
     end
+end
+
+smoothframe:RegisterEvent("ADDON_LOADED")
+smoothframe:SetScript("OnEvent", function(self, event)
+    if event == "ADDON_LOADED" then
+        smoothframe:SetScript("OnUpdate", onUpdate)
+        init()
+    end
     self:UnregisterEvent("ADDON_LOADED")
     self:SetScript("OnEvent", nil)
 end)
 
---player health bar(status bar) colouring at certain % HP;class colours
-
-local function GradientColour(statusbar)
-    if (not statusbar or statusbar.disconnected) then
-        return
-    end
-
-    local min, max = statusbar:GetMinMaxValues();
-    if (max <= min) then
-        return
-    end
-
-    local value = statusbar:GetValue()
-    if ((value < min) or (value > max)) then
-        return
-    end
-
-    value = (value - min) / (max - min);
-
-    local r, g
-    if value > 0.5 then
-        r = (1.0 - value) * 2;
-        g = 1.0;
-    elseif value > 0.25 and value < 0.5 then
-        r = 1.0;
-        g = value * 1.75;
-    else
-        r = 1.0;
-        g = 0.0;
-    end
-    statusbar:SetStatusBarColor(r, g, 0.0);
-
-    return
-end
-
+-- statusbar.lockColor causes taints
 local function colour(statusbar, unit)
-    if UnitIsPlayer(unit) and UnitIsConnected(unit) and unit == statusbar.unit then
-        if statusbar == PlayerFrameHealthBar then
-            statusbar.lockColor = true
-            GradientColour(statusbar)
-        else
-            local _, class = UnitClass(unit)
-            local c = CUSTOM_CLASS_COLORS and CUSTOM_CLASS_COLORS[class] or RAID_CLASS_COLORS[class]
-            if c then
-                statusbar:SetStatusBarColor(c.r, c.g, c.b)
-                statusbar.lockColor = true
-            else
-                statusbar:SetStatusBarColor(0, 1, 0)
-                statusbar.lockColor = false
+    if not statusbar then
+        return
+    end
+
+    if unit then
+        if UnitIsPlayer(unit) and UnitIsConnected(unit) and unit == statusbar.unit then
+            if UnitClass(unit) and unit ~= "player" then
+                local _, class = UnitClass(unit)
+                local c = RAID_CLASS_COLORS[class]
+                if c then
+                    statusbar:SetStatusBarColor(c.r, c.g, c.b)
+                end
+            elseif unit == "player" then
+                local value = UnitHealth(unit)
+                local min, max = statusbar:GetMinMaxValues()
+
+                local r, g
+
+                if ((value < min) or (value > max)) then
+                    return
+                end
+
+                if ((max - min) > 0) then
+                    value = (value - min) / (max - min)
+                else
+                    value = 0
+                end
+
+                if value > 0.5 then
+                    r = (1.0 - value) * 2;
+                    g = 1.0;
+                elseif value > 0.25 and value < 0.5 then
+                    r = 1.0;
+                    g = value * 1.75;
+                else
+                    r = 1.0;
+                    g = 0.0;
+                end
+                PlayerFrameHealthBar:SetStatusBarColor(r,g, 0.0)
+                return
             end
         end
-    else
-        statusbar:SetStatusBarColor(0, 1, 0)
-        statusbar.lockColor = false
     end
 end
 hooksecurefunc("UnitFrameHealthBar_Update", colour)
-hooksecurefunc("UnitFrameHealthBar_OnUpdate", function(self)
+hooksecurefunc("HealthBar_OnValueChanged", function(self)
     colour(self, self.unit)
 end)
 
@@ -1087,7 +1131,7 @@ end
 hooksecurefunc("TargetFrame_HealthUpdate", RemoveFlashFromPortrait)
 hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", RemoveFlashFromPortrait)
 
--- highlight dispelable shit from enemies target/focus
+-- highlight dispellable shit from enemies target/focus
 
 local function Update(frame)
     local buffFrame, frameStealable, icon, debuffType, isStealable, _
@@ -1099,7 +1143,7 @@ local function Update(frame)
             local frameName = selfName .. 'Buff' .. i
             buffFrame = _G[frameName]
             frameStealable = _G[frameName .. 'Stealable']
-            if (isEnemy and frameStealable and debuffType == 'Magic') then
+            if (isEnemy and isStealable and debuffType == 'Magic') then
                 frameStealable:Show()
             else
                 frameStealable:Hide()
@@ -1116,7 +1160,7 @@ hooksecurefunc("TargetofTargetHealthCheck", function(self)
     end
 end)
 
--- Blacklist of frames where tooltips mouseovering is hidden
+-- Blacklist of frames where tooltip mouseover is hidden
 GameTooltip:HookScript("OnShow", function(self, ...)
     local owner = self:GetOwner() and self:GetOwner():GetName()
     if owner then
@@ -1135,7 +1179,7 @@ GameTooltip:HookScript("OnShow", function(self, ...)
     end
 end)
 
---increasing self(player)-debuff size
+--increasing bufframe debuff size
 hooksecurefunc("DebuffButton_UpdateAnchors", function(buttonName, index)
     _G[buttonName .. index]:SetScale(1.23)
 end)
@@ -1178,31 +1222,27 @@ hooksecurefunc("CompactUnitFrame_UpdateName", function(frame)
     end
 end)
 
--- Hide healthbar under unit tooltips
+-- Hide HealthBar under unit tooltips
 GameTooltip:HookScript("OnTooltipSetUnit", function()
     GameTooltipStatusBar:Hide()
 end)
 
--- Change position of player buffs/debuffs, actionbar
+-- Change BuffFrame position
 hooksecurefunc("UIParent_UpdateTopFramePositions", function()
     BuffFrame:ClearAllPoints()
     BuffFrame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -180, -13)
 end)
 
--- Add class-coloured names into mouseover tooltips
+-- Add class-coloured names on mouseover tooltips
 
 GameTooltip:HookScript("OnTooltipSetUnit", function(GameTooltip)
-    --print("OnTooltipSetUnit")
     local _, unit = GameTooltip:GetUnit()
-    --print(unit)
+
     if UnitIsPlayer(unit) then
-        --print("UnitIsPlayer")
         local _, class = UnitClass(unit)
-        --print(class)
         local color = class and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
         if color then
             local text = GameTooltipTextLeft1:GetText()
-            --print(text)
             GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
         end
     end
@@ -1621,7 +1661,7 @@ teamRatingFrame:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
 teamRatingFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
 -- Filter out the Vampiric Embrace spam healing combat text due to Blizzard being retarded as usual (thx Xyz)
--- PlaySound on Tremor Totem
+-- PlaySound whenever an enemy casts Tremor Totem in arena (previously handled in a standalone addon "EvolveAlert" - https://github.com/Evolvee/EvolvePWPUI-ClassicTBC/tree/main/Interface/AddOns/EvolveAlert)
 
 local COMBATLOG_FILTER_HOSTILE_PLAYERS = COMBATLOG_FILTER_HOSTILE_PLAYERS;
 local eventRegistered = {
@@ -1652,6 +1692,34 @@ PF:SetScript("OnEvent", function()
     end
 end)
 
+local function SetPosition(frame, ...)
+    if InCombatLockdown() then return end
+
+    if type(frame) == "string" then
+        frame = _G[frame]
+    end
+    if type(frame) == "table" and type(frame.IsObjectType) == "function" and frame:IsObjectType("Frame") then
+        frame:SetMovable(true)
+        frame:SetUserPlaced(true)
+        frame:SetDontSavePosition(true)
+        if ... then
+            frame:ClearAllPoints()
+            frame:SetPoint(...)
+        end
+        frame:SetMovable(false)
+    end
+end
+SetPosition(MultiBarRight, "TOPRIGHT", VerticalMultiBarsContainer, "TOPRIGHT", 2, 3)
+SetPosition(MultiBarLeft, "TOPLEFT", VerticalMultiBarsContainer, "TOPLEFT", 2, 3)
+
+local widget = _G["UIWidgetBelowMinimapContainerFrame"]
+hooksecurefunc(widget, "SetPoint", function(self, _, parent)
+    if parent and ( parent == "MinimapCluster" or parent == _G["MinimapCluster"] ) then
+        widget:ClearAllPoints()
+        widget:SetPoint("TOPRIGHT", UIWidgetTopCenterContainerFrame, "BOTTOMRIGHT", 585, -370)
+    end
+end)
+
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
 
@@ -1670,6 +1738,6 @@ end)
 
 --Login message informing all scripts of this file were properly executed
 
-ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.1 Loaded successfully!", 0, 205, 255)
+ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v1.0 Loaded successfully!", 0, 205, 255)
 ChatFrame1:AddMessage("Check for updates at:", 0, 205, 255)
 ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK", 0, 205, 255)
