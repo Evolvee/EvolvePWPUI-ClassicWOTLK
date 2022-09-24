@@ -19,6 +19,10 @@ local GetGuildRosterInfo = GetGuildRosterInfo
 local GuildListScrollFrame = GuildListScrollFrame
 local GUILDMEMBERS_TO_DISPLAY = GUILDMEMBERS_TO_DISPLAY
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
+local mmin, mmax = math.min, math.max
+local mabs = math.abs
+local floor = math.floor
+local GetFramerate = GetFramerate
 
 --dark theme
 local frame2 = CreateFrame("Frame")
@@ -113,7 +117,7 @@ local cvars = {
     threatWarning = "0",
     predictedHealth = "0",
     Sound_EnableDSPEffects = "0",
-	countdownForCooldowns = "1"
+    countdownForCooldowns = "1"
 }
 
 local function CustomCvar()
@@ -181,8 +185,8 @@ hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
 end)
 
 hooksecurefunc("PartyMemberFrame_UpdateMember", function(self)
-  local prefix = self:GetName();
-  _G[prefix .. "Name"]:Hide();
+    local prefix = self:GetName();
+    _G[prefix .. "Name"]:Hide();
 end)
 
 -- Hidden Party Frame Colour-Statuses (debuffs)
@@ -403,9 +407,9 @@ local function OnInit()
     ActionBarUpButton:SetAlpha(0)
     ActionBarDownButton:SetAlpha(0)
     MainMenuBarPageNumber:SetAlpha(0)
-	
+
     UIErrorsFrame:SetAlpha(0)
-	
+
     PlayerLevelText:SetAlpha(0)
     PlayerLeaderIcon:SetAlpha(0)
     PlayerStatusTexture:SetAlpha(0)
@@ -820,27 +824,72 @@ local function TextStatusBar_UpdateTextString(statusFrame, textString, value, va
         statusFrame.RightText:Hide();
     end
 
-    local textDisplay = GetCVar("statusTextDisplay")
-
     if ((tonumber(valueMax) ~= valueMax or valueMax > 0) and not (statusFrame.pauseUpdates)) then
-        if textDisplay == "NUMERIC" and (value and valueMax > 0) then
-            statusFrame.isZero = nil;
+        statusFrame:Show();
+
+        if ((statusFrame.cvar and GetCVar(statusFrame.cvar) == "1" and statusFrame.textLockable) or statusFrame.forceShow) then
             textString:Show();
-            textString:SetText(value)
-        elseif (textDisplay == "BOTH") and (value and valueMax > 0) then
-            if (statusFrame.LeftText and statusFrame.RightText) then
-                if (not statusFrame.powerToken or statusFrame.powerToken == "MANA") then
-                    statusFrame.LeftText:SetText(math.ceil((value / valueMax) * 100) .. "%");
-                    statusFrame.LeftText:Show();
-                end
-                statusFrame.RightText:SetText(value)
-                statusFrame.RightText:Show();
-            end
+        elseif (statusFrame.lockShow > 0 and (not statusFrame.forceHideText)) then
+            textString:Show();
+        else
+            textString:SetText("");
             textString:Hide();
-        elseif textDisplay == "PERCENT" and (value and valueMax > 0) then
-            local percent = math.ceil((value / valueMax) * 100) .. "%";
-            textString:SetText(percent)
+            return ;
+        end
+
+        local valueDisplay = value;
+        local valueMaxDisplay = valueMax;
+        -- Modern WoW always breaks up large numbers, whereas Classic never did.
+        -- We'll remove breaking-up by default for Classic, but add a flag to reenable it.
+        if (statusFrame.breakUpLargeNumbers) then
+            if (statusFrame.capNumericDisplay) then
+                valueDisplay = AbbreviateLargeNumbers(value);
+                valueMaxDisplay = AbbreviateLargeNumbers(valueMax);
+            else
+                valueDisplay = BreakUpLargeNumbers(value);
+                valueMaxDisplay = BreakUpLargeNumbers(valueMax);
+            end
+        end
+
+        local textDisplay = GetCVar("statusTextDisplay");
+        if (value and valueMax > 0 and ((textDisplay ~= "NUMERIC" and textDisplay ~= "NONE") or statusFrame.showPercentage) and not statusFrame.showNumeric) then
+            if (value == 0 and statusFrame.zeroText) then
+                textString:SetText(statusFrame.zeroText);
+                statusFrame.isZero = 1;
+                textString:Show();
+            elseif (textDisplay == "BOTH" and not statusFrame.showPercentage) then
+                if (statusFrame.LeftText and statusFrame.RightText) then
+                    if (not statusFrame.powerToken or statusFrame.powerToken == "MANA") then
+                        statusFrame.LeftText:SetText(math.ceil((value / valueMax) * 100) .. "%");
+                        statusFrame.LeftText:Show();
+                    end
+                    statusFrame.RightText:SetText(valueDisplay);
+                    statusFrame.RightText:Show();
+                    textString:Hide();
+                else
+                    valueDisplay = "(" .. math.ceil((value / valueMax) * 100) .. "%) " .. valueDisplay .. " / " .. valueMaxDisplay;
+                end
+                textString:SetText(valueDisplay);
+            else
+                valueDisplay = math.ceil((value / valueMax) * 100) .. "%";
+                if (statusFrame.prefix and (statusFrame.alwaysPrefix or not (statusFrame.cvar and GetCVar(statusFrame.cvar) == "1" and statusFrame.textLockable))) then
+                    textString:SetText(statusFrame.prefix .. " " .. valueDisplay);
+                else
+                    textString:SetText(valueDisplay);
+                end
+            end
+        elseif (value == 0 and statusFrame.zeroText) then
+            textString:SetText(statusFrame.zeroText);
+            statusFrame.isZero = 1;
             textString:Show();
+            return ;
+        else
+            statusFrame.isZero = nil;
+            if (statusFrame.prefix and (statusFrame.alwaysPrefix or not (statusFrame.cvar and GetCVar(statusFrame.cvar) == "1" and statusFrame.textLockable))) then
+                textString:SetText(statusFrame.prefix .. " " .. valueDisplay .. " / " .. valueMaxDisplay);
+            else
+                textString:SetText(value);
+            end
         end
     else
         textString:Hide();
@@ -885,15 +934,6 @@ hooksecurefunc("TargetFrame_CheckClassification", Classification)
 
 --smooth status bars(animated)
 
-local floor = math.floor
-local activeObjects = {}
-local handledObjects = {}
-local TARGET_FPS = 120
-local AMOUNT = .33
-local abs = math.abs
-
--- PartyMemberFrameHealthbar is more protected than fort knox (taint)
-
 local barstosmooth = {
     PlayerFrameHealthBar = "player",
     PlayerFrameManaBar = "player",
@@ -901,17 +941,10 @@ local barstosmooth = {
     TargetFrameManaBar = "target",
     FocusFrameHealthBar = "focus",
     FocusFrameManaBar = "focus",
-    -- PetFrameHealthBar = "pet",
-    -- PetFrameManaBar = "pet",
-    -- PartyMemberFrame1HealthBar = "party1",
-    -- PartyMemberFrame1ManaBar = "party1",
-    -- PartyMemberFrame2HealthBar = "party2",
-    -- PartyMemberFrame2ManaBar = "party2",
-    -- PartyMemberFrame3HealthBar = "party3",
-    -- PartyMemberFrame3ManaBar = "party3",
-    -- PartyMemberFrame4HealthBar = "party4",
-    -- PartyMemberFrame4ManaBar = "party4",
 }
+
+local smoothframe = CreateFrame("Frame")
+local smoothing = {}
 
 local function isPlate(frame)
     local name = frame:GetName()
@@ -922,103 +955,55 @@ local function isPlate(frame)
     return false
 end
 
-local function clamp(v, min, max)
-    min = min or 0
-    max = max or 1
+local function AnimationTick()
+    local limit = 30 / GetFramerate()
 
-    if v > max then
-        return max
-    elseif v < min then
-        return min
-    end
-
-    return v
-end
-
-local function isCloseEnough(new, target, range)
-    if range > 0 then
-        return abs((new - target) / range) <= 0.001
-    end
-
-    return true
-end
-
-local smoothframe = CreateFrame("Frame")
-local function AnimationTick(_, elapsed)
-    for unitFrame, info in next, activeObjects do
-        local new = Lerp(unitFrame._value, info.currentHealth, clamp(AMOUNT * elapsed * TARGET_FPS))
-        if info.changedGUID or isCloseEnough(new, info.currentHealth, unitFrame._max - unitFrame._min) then
-            new = info.currentHealth
-            activeObjects[unitFrame] = nil
+    for bar, value in pairs(smoothing) do
+        local cur = bar:GetValue()
+        local new = cur + mmin((value - cur) / 3, mmax(value - cur, limit))
+        if new ~= new then
+            new = value
         end
-        unitFrame:SetValue_(floor(new))
-        unitFrame._value = new
+        if cur == value or mabs(new - value) < 2 then
+            bar:SetValue_(value)
+            smoothing[bar] = nil
+        else
+            bar:SetValue_(floor(new))
+        end
     end
 end
 
-local function bar_SetSmoothedValue(self, value)
+local function SmoothSetValue(self, value)
     self.finalValue = value
-
-    value = tonumber(value)
-    self._value = self:GetValue()
-    if not activeObjects[self] then
-        activeObjects[self] = {}
-    end
     if self.unit then
         local guid = UnitGUID(self.unit)
-        if guid ~= self.guid then
-            activeObjects[self].changedGUID = true
+        if value == self:GetValue() or not guid or guid ~= self.lastGuid then
+            smoothing[self] = nil
+            self:SetValue_(value)
+        else
+            smoothing[self] = value
         end
-        self.guid = guid
+        self.lastGuid = guid
+    else
+        local _, max = self:GetMinMaxValues()
+        if value == self:GetValue() or self._max and self._max ~= max then
+            smoothing[self] = nil
+            self:SetValue_(value)
+        else
+            smoothing[self] = value
+        end
+        self._max = max
     end
-
-    activeObjects[self].currentHealth = clamp(value, self._min, self._max)
-end
-
-local function bar_SetSmoothedMinMaxValues(self, min, max)
-    min, max = tonumber(min), tonumber(max)
-
-    self:SetMinMaxValues_(min, max)
-
-    if self._max and self._max ~= max then
-        local ratio = 1
-        if max ~= 0 and self._max and self._max ~= 0 then
-            ratio = max / (self._max or max)
-        end
-
-        local currentHealth = activeObjects[self] and activeObjects[self].currentHealth
-        if currentHealth then
-            activeObjects[self].currentHealth = currentHealth * ratio
-        end
-
-        local cur = self._value
-        if cur then
-            self:SetValue_(cur * ratio)
-            self._value = cur * ratio
-        end
-    end
-
-    self._min = min
-    self._max = max
 end
 
 local function SmoothBar(bar)
-    bar._min, bar._max = bar:GetMinMaxValues()
-    bar._value = bar:GetValue()
-
     if not bar.SetValue_ then
         bar.SetValue_ = bar.SetValue
-        bar.SetValue = bar_SetSmoothedValue
+        bar.SetValue = SmoothSetValue
     end
-    if not bar.SetMinMaxValues_ then
-        bar.SetMinMaxValues_ = bar.SetMinMaxValues
-        bar.SetMinMaxValues = bar_SetSmoothedMinMaxValues
-    end
-
-    handledObjects[bar] = true
 end
 
-local function onUpdate(self, elapsed)
+smoothframe:SetScript("OnUpdate", function()
     local frames = { WorldFrame:GetChildren() }
     for _, plate in ipairs(frames) do
         if not plate:IsForbidden() and isPlate(plate) and C_NamePlate.GetNamePlates() and plate:IsVisible() then
@@ -1028,30 +1013,22 @@ local function onUpdate(self, elapsed)
             end
         end
     end
-    AnimationTick(_, elapsed)
-end
+    AnimationTick()
+end)
 
-local function init()
+smoothframe:RegisterEvent("ADDON_LOADED")
+smoothframe:SetScript("OnEvent", function(self)
     for k, v in pairs(barstosmooth) do
         if _G[k] then
             SmoothBar(_G[k])
-            _G[k]:HookScript("OnHide", function()
-                _G[k].lastGuid = nil;
-                _G[k].min_ = nil
-                _G[k].max_ = nil
+            _G[k]:SetScript("OnHide", function(frame)
+                frame.lastGuid = nil;
+                frame.max_ = nil
             end)
             if v ~= "" then
                 _G[k].unit = v
             end
         end
-    end
-end
-
-smoothframe:RegisterEvent("ADDON_LOADED")
-smoothframe:SetScript("OnEvent", function(self, event)
-    if event == "ADDON_LOADED" then
-        smoothframe:SetScript("OnUpdate", onUpdate)
-        init()
     end
     self:UnregisterEvent("ADDON_LOADED")
     self:SetScript("OnEvent", nil)
@@ -1097,7 +1074,7 @@ local function colour(statusbar, unit)
                     r = 1.0;
                     g = 0.0;
                 end
-                PlayerFrameHealthBar:SetStatusBarColor(r,g, 0.0)
+                PlayerFrameHealthBar:SetStatusBarColor(r, g, 0.0)
                 return
             end
         end
@@ -1691,7 +1668,9 @@ end)
 
 -- Moving right and left multibar (actionbars at the right side) to match the 2.4.3 position
 local function SetPosition(frame, ...)
-    if InCombatLockdown() then return end
+    if InCombatLockdown() then
+        return
+    end
 
     if type(frame) == "string" then
         frame = _G[frame]
@@ -1712,7 +1691,7 @@ SetPosition(MultiBarLeft, "TOPLEFT", VerticalMultiBarsContainer, "TOPLEFT", 2, 3
 
 local widget = _G["UIWidgetBelowMinimapContainerFrame"]
 hooksecurefunc(widget, "SetPoint", function(self, _, parent)
-    if parent and ( parent == "MinimapCluster" or parent == _G["MinimapCluster"] ) then
+    if parent and (parent == "MinimapCluster" or parent == _G["MinimapCluster"]) then
         widget:ClearAllPoints()
         widget:SetPoint("TOPRIGHT", UIWidgetTopCenterContainerFrame, "BOTTOMRIGHT", 585, -370)
     end
