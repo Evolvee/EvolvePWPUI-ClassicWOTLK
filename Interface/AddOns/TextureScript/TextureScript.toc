@@ -1,5 +1,5 @@
 ## Interface: 30400
-## Author: Evolve, Pyralis
+## Author: Evolve, Pyralis, Xyz
 ## Title: |cff69ccf0EvolvePWPUI - ClassicWOTLK|r
 ## Notes: Evolve PWP UI for Classic WOTLK
 
