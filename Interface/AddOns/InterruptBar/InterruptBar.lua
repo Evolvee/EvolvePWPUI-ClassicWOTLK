@@ -12,11 +12,11 @@ local defaultAbilities = {
    { spellid = 408, duration = 20},     -- Kidney Shot   
    { spellid = 31224, duration = 60},   -- Cloak of Shadows
    { spellid = 2094, duration = 90},    -- Blind
-   { spellid = 19647, duration = 24},   -- Spell Lock
+   { spellid = 47528, duration = 10},   -- Mind Freeze
    { spellid = 72, duration = 12},      -- Shield Bash
+   { spellid = 19647, duration = 24},   -- Spell Lock
    { spellid = 19503, duration = 30},   -- Scatter Shot
    { spellid = 34490, duration = 20},   -- Silencing Shot
-   { spellid = 16979, duration = 15},   -- Feral Charge
    
             
   },

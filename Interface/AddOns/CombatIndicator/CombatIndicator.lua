@@ -1,56 +1,55 @@
---sizes
-local targetSize=35;
-local focusSize=35;
-local FocusCreate = CreateFrame("Frame");
-local Target=CreateFrame("Frame");
-local Focus=CreateFrame("Frame");
+local UnitAffectingCombat = UnitAffectingCombat
+local pairs = pairs
 
---target part´
-Target:SetParent(TargetFrame);
-Target:SetPoint("RIGHT", TargetFrame, -3, 10);
-Target:SetHeight(targetSize);
-Target:SetWidth(targetSize);
-Target.texture=Target:CreateTexture(nil,BORDER);
-Target.texture:SetAllPoints();
-Target.texture:SetTexture("Interface\\Icons\\ABILITY_DUALWIELD");
-Target:Hide();
-
-local function FrameOnUpdate(self)
-	if UnitAffectingCombat("target") then 
-		self:Show(); 
-	else 
-		self:Hide();
-	end 
-end 
-
-local TargetUpdate = CreateFrame("Frame") 
-TargetUpdate:SetScript("OnUpdate", function(self) FrameOnUpdate(Target) end);
-
-
---focus part, requires more work due to focusframe being an addon in TBC
-local FocusUpdate = CreateFrame("Frame"); 
-
-local function FrameOnUpdate(self)
-	if UnitAffectingCombat("focus") then
-		self:Show();
-	else 
-		self:Hide(); 
-	end 
-end 
-
-local function CreateFocus()
-	if(UnitGUID("focus")~=nil) then
-		Focus:SetParent(FocusFrame);
-		Focus:SetPoint("RIGHT", FocusFrame, -3, 10);
-		Focus:SetHeight(focusSize);
-		Focus:SetWidth(focusSize);
-		Focus.texture=Focus:CreateTexture(nil,BORDER);
-		Focus.texture:SetAllPoints(Focus);
-		Focus.texture:SetTexture("Interface\\Icons\\ABILITY_DUALWIELD");
-		Focus:Hide();
-		FocusCreate:SetScript("OnUpdate", nil);
-		
-	end
+local function CreateCombatIndicatorForUnit(unit, frame)
+    local ciFrame = CreateFrame("Frame", nil, frame)
+    ciFrame:SetPoint("LEFT", frame, "RIGHT", -38, 10)
+    ciFrame:SetSize(35, 35)
+    ciFrame.texture = ciFrame:CreateTexture(nil, "BORDER")
+    ciFrame.texture:SetAllPoints(ciFrame)
+    ciFrame.texture:SetTexture("Interface\\Icons\\ABILITY_DUALWIELD")
+    ciFrame:Hide()
+    ciFrame.unit = unit
+    return ciFrame
 end
-FocusUpdate:SetScript("OnUpdate", function(self) FrameOnUpdate(Focus) end);
-FocusCreate:SetScript("OnUpdate", CreateFocus);
+
+local ciCore = CreateFrame("Frame")
+ciCore.ciFrames = {}
+ciCore:RegisterEvent("UNIT_FLAGS")
+ciCore:RegisterEvent("PLAYER_TARGET_CHANGED")
+ciCore:RegisterEvent("PLAYER_FOCUS_CHANGED")
+
+function ciCore:UNIT_FLAGS(unitTarget)
+    if not (unitTarget == "target" or unitTarget == "focus") then return end
+
+    for _,ciFrame in pairs(self.ciFrames) do
+        if UnitAffectingCombat(ciFrame.unit) then 
+            ciFrame:Show() 
+        else
+            ciFrame:Hide()
+        end 
+    end
+end
+
+function ciCore:PLAYER_TARGET_CHANGED()
+    if UnitAffectingCombat("target") then 
+        self.ciFrames["target"]:Show() 
+    else
+        self.ciFrames["target"]:Hide() 
+    end
+end
+
+function ciCore:PLAYER_FOCUS_CHANGED()
+    if UnitAffectingCombat("focus") then 
+        self.ciFrames["focus"]:Show() 
+    else
+        self.ciFrames["focus"]:Hide() 
+    end
+end
+
+ciCore:SetScript("OnEvent", function(self, event, ...)
+        self[event](self, ...)
+end)
+
+ciCore.ciFrames["target"] = CreateCombatIndicatorForUnit("target", TargetFrame)
+ciCore.ciFrames["focus"] = CreateCombatIndicatorForUnit("focus", FocusFrame)

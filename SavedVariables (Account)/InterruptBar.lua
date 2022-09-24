@@ -7,76 +7,76 @@ InterruptBarDB = {
 		},
 		["caster"] = {
 			{
-				["name"] = "Kick",
-				["duration"] = 10,
 				["spellid"] = 1766,
+				["duration"] = 10,
 				["icon"] = 132219,
+				["name"] = "Kick",
 			}, -- [1]
 			{
-				["name"] = "Pummel",
-				["duration"] = 10,
 				["spellid"] = 6552,
+				["duration"] = 10,
 				["icon"] = 132938,
+				["name"] = "Pummel",
 			}, -- [2]
 			{
-				["name"] = "Counterspell",
-				["duration"] = 24,
 				["spellid"] = 2139,
+				["duration"] = 24,
 				["icon"] = 135856,
+				["name"] = "Counterspell",
 			}, -- [3]
 			{
-				["name"] = "Psychic Scream",
-				["duration"] = 27,
 				["spellid"] = 10890,
+				["duration"] = 27,
 				["icon"] = 136184,
+				["name"] = "Psychic Scream",
 			}, -- [4]
 			{
-				["name"] = "Kidney Shot",
-				["duration"] = 20,
 				["spellid"] = 408,
+				["duration"] = 20,
 				["icon"] = 132298,
+				["name"] = "Kidney Shot",
 			}, -- [5]
 			{
-				["name"] = "Cloak of Shadows",
-				["duration"] = 60,
 				["spellid"] = 31224,
+				["duration"] = 60,
 				["icon"] = 136177,
+				["name"] = "Cloak of Shadows",
 			}, -- [6]
 			{
-				["name"] = "Blind",
-				["duration"] = 90,
 				["spellid"] = 2094,
+				["duration"] = 90,
 				["icon"] = 136175,
+				["name"] = "Blind",
 			}, -- [7]
 			{
-				["name"] = "Mind Freeze",
-				["duration"] = 10,
 				["spellid"] = 47528,
+				["duration"] = 10,
 				["icon"] = 237527,
+				["name"] = "Mind Freeze",
 			}, -- [8]
 			{
-				["name"] = "Shield Bash",
-				["duration"] = 12,
 				["spellid"] = 72,
+				["duration"] = 12,
 				["icon"] = 132357,
+				["name"] = "Shield Bash",
 			}, -- [9]
 			{
-				["name"] = "Spell Lock",
-				["duration"] = 24,
 				["spellid"] = 19647,
+				["duration"] = 24,
 				["icon"] = 136174,
+				["name"] = "Spell Lock",
 			}, -- [10]
 			{
-				["name"] = "Scatter Shot",
-				["duration"] = 30,
 				["spellid"] = 19503,
+				["duration"] = 30,
 				["icon"] = 132153,
+				["name"] = "Scatter Shot",
 			}, -- [11]
 			{
-				["name"] = "Silencing Shot",
-				["duration"] = 20,
 				["spellid"] = 34490,
+				["duration"] = 20,
 				["icon"] = 132323,
+				["name"] = "Silencing Shot",
 			}, -- [12]
 		},
 	},

@@ -1,7 +1,7 @@
 
 BugGrabberDB = {
 	["lastSanitation"] = 3,
-	["session"] = 3925,
+	["session"] = 3957,
 	["errors"] = {
 		{
 			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:68: attempt to index global 'PVPFramePortraitTexture' (a nil value)",
@@ -316,5 +316,20 @@ BugGrabberDB = {
 			["session"] = 3925,
 			["counter"] = 20,
 		}, -- [41]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'TextureScript' tried to call the protected function 'MultiBarLeft:ClearAllPoints()'.",
+			["time"] = "2022/09/24 19:49:03",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `ClearAllPoints'\n[string \"@Interface\\AddOns\\TextureScript\\TextureScript.lua\"]:1714: in function <Interface\\AddOns\\TextureScript\\TextureScript.lua:1709>\n[string \"=[C]\"]: in function `SetPoint'\n[string \"@Interface\\FrameXML\\MultiActionBars.lua\"]:75: in function `MultiActionBar_Update'\n[string \"@Interface\\FrameXML\\ActionBarController.lua\"]:157: in function `ValidateActionBarTransition'\n[string \"@Interface\\FrameXML\\ActionBarController.lua\"]:125: in function `ActionBarController_UpdateAll'\n[string \"@Interface\\FrameXML\\ActionBarController.lua\"]:54: in function <Interface\\FrameXML\\ActionBarController.lua:43>",
+			["session"] = 3941,
+			["counter"] = 1,
+		}, -- [42]
+		{
+			["message"] = "...e\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua:97: Usage: CopyToClipboard(\"string\" [, removeMarkup])",
+			["time"] = "2022/09/24 21:50:48",
+			["locals"] = "(*temporary) = MultiBarBottomRightButton12Icon {\n 0 = <userdata>\n}\n",
+			["stack"] = "[string \"=[C]\"]: in function `CopyToClipboard'\n[string \"@Interface\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua\"]:97: in function `FrameStackTooltip_HandleFrameCommand'\n[string \"@Interface\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua\"]:67: in function `command'\n[string \"@Interface\\SharedXML\\KeyCommand.lua\"]:47: in function `Update'\n[string \"@Interface\\SharedXML\\KeyCommand.lua\"]:111: in function `KeyCommand_Update'\n[string \"@Interface\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools-1.0.lua\"]:301: in function <...e\\AddOns\\Blizzard_DebugTools\\Blizzard_DebugTools.lua:300>",
+			["session"] = 3954,
+			["counter"] = 2,
+		}, -- [43]
 	},
 }

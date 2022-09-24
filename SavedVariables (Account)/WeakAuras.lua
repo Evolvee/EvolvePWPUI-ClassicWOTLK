@@ -3,6 +3,19 @@ WeakAurasSaved = {
 	["dynamicIconCache"] = {
 	},
 	["editor_tab_spaces"] = 4,
+	["login_squelch_time"] = 10,
+	["dbVersion"] = 53,
+	["editor_font_size"] = 12,
+	["lastArchiveClear"] = 1659733987,
+	["minimap"] = {
+		["minimapPos"] = 228.8875173730628,
+		["hide"] = true,
+	},
+	["lastUpgrade"] = 1659733990,
+	["ProfilingWindow"] = {
+		["xOffset"] = 654.64453125,
+		["yOffset"] = -234,
+	},
 	["displays"] = {
 		["WOTF"] = {
 			["iconSource"] = 0,
@@ -96,6 +109,7 @@ WeakAurasSaved = {
 			["regionType"] = "icon",
 			["displayIcon"] = 136187,
 			["cooldown"] = true,
+			["xOffset"] = -555.2334365844727,
 			["animation"] = {
 				["start"] = {
 					["type"] = "none",
@@ -116,8 +130,6 @@ WeakAurasSaved = {
 					["easeType"] = "none",
 				},
 			},
-			["authorOptions"] = {
-			},
 			["actions"] = {
 				["start"] = {
 				},
@@ -130,12 +142,12 @@ WeakAurasSaved = {
 			["cooldownTextDisabled"] = false,
 			["config"] = {
 			},
-			["useCooldownModRate"] = true,
+			["alpha"] = 1,
 			["id"] = "WOTF",
 			["width"] = 50,
-			["alpha"] = 1,
-			["anchorFrameType"] = "SCREEN",
 			["frameStrata"] = 1,
+			["anchorFrameType"] = "SCREEN",
+			["useCooldownModRate"] = true,
 			["uid"] = "IPzpPhZljg3",
 			["inverse"] = true,
 			["desc"] = "Displays Will of the Forsaken cooldown icon.",
@@ -143,7 +155,8 @@ WeakAurasSaved = {
 			},
 			["information"] = {
 			},
-			["xOffset"] = -555.2334365844727,
+			["authorOptions"] = {
+			},
 		},
 		["AURA MASTERY focus"] = {
 			["xOffset"] = -11,
@@ -225,6 +238,8 @@ WeakAurasSaved = {
 			["regionType"] = "texture",
 			["blendMode"] = "ADD",
 			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-FOCUSFRAME-LARGE-FLASH",
+			["authorOptions"] = {
+			},
 			["animation"] = {
 				["start"] = {
 					["easeStrength"] = 3,
@@ -245,15 +260,8 @@ WeakAurasSaved = {
 					["easeType"] = "none",
 				},
 			},
+			["desc"] = "AURA MASTERY focus highlight texture...",
 			["discrete_rotation"] = 0,
-			["authorOptions"] = {
-			},
-			["color"] = {
-				1, -- [1]
-				0, -- [2]
-				0.02745098039215686, -- [3]
-				1, -- [4]
-			},
 			["id"] = "AURA MASTERY focus",
 			["width"] = 256,
 			["alpha"] = 1,
@@ -267,7 +275,12 @@ WeakAurasSaved = {
 			},
 			["information"] = {
 			},
-			["desc"] = "AURA MASTERY focus highlight texture...",
+			["color"] = {
+				1, -- [1]
+				0, -- [2]
+				0.02745098039215686, -- [3]
+				1, -- [4]
+			},
 		},
 		["WOTF BORDER"] = {
 			["controlledChildren"] = {
@@ -375,13 +388,13 @@ WeakAurasSaved = {
 			["semver"] = "1.0.1",
 			["tocversion"] = 11304,
 			["id"] = "WOTF BORDER",
-			["config"] = {
-			},
+			["selfPoint"] = "CENTER",
 			["frameStrata"] = 1,
 			["anchorFrameType"] = "SCREEN",
-			["selfPoint"] = "CENTER",
+			["xOffset"] = -555.2299999999996,
+			["config"] = {
+			},
 			["uid"] = "8B2oZr(3rax",
-			["yOffset"] = -337.7799999999996,
 			["borderInset"] = 1,
 			["conditions"] = {
 			},
@@ -389,7 +402,7 @@ WeakAurasSaved = {
 				["ignoreOptionsEventErrors"] = true,
 				["groupOffset"] = false,
 			},
-			["xOffset"] = -555.2299999999996,
+			["yOffset"] = -337.7799999999996,
 		},
 		["Charms"] = {
 			["iconSource"] = 0,
@@ -1667,10 +1680,11 @@ WeakAurasSaved = {
 			["regionType"] = "texture",
 			["blendMode"] = "ADD",
 			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-FOCUSFRAME-LARGE-FLASH",
-			["discrete_rotation"] = 0,
-			["desc"] = "AURA MASTERY target highlight texture...",
 			["selfPoint"] = "CENTER",
-			["xOffset"] = -11,
+			["discrete_rotation"] = 0,
+			["authorOptions"] = {
+			},
+			["desc"] = "AURA MASTERY target highlight texture...",
 			["id"] = "AURA MASTERY target",
 			["anchorFrameType"] = "SELECTFRAME",
 			["alpha"] = 1,
@@ -1684,8 +1698,7 @@ WeakAurasSaved = {
 			},
 			["information"] = {
 			},
-			["authorOptions"] = {
-			},
+			["xOffset"] = -11,
 		},
 		["PW: Shield (P1)"] = {
 			["user_y"] = 0,
@@ -2043,19 +2056,6 @@ WeakAurasSaved = {
 			["cooldownTextDisabled"] = false,
 		},
 	},
-	["dbVersion"] = 53,
-	["login_squelch_time"] = 10,
-	["lastArchiveClear"] = 1659733987,
-	["minimap"] = {
-		["minimapPos"] = 228.8875173730628,
-		["hide"] = true,
-	},
-	["lastUpgrade"] = 1659733990,
-	["ProfilingWindow"] = {
-		["xOffset"] = 654.64453125,
-		["yOffset"] = -234,
-	},
-	["editor_font_size"] = 12,
 	["registered"] = {
 	},
 	["RealTimeProfilingWindow"] = {

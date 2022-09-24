@@ -3,22 +3,8 @@ WeakAurasSaved = {
 	["dynamicIconCache"] = {
 	},
 	["editor_tab_spaces"] = 4,
-	["login_squelch_time"] = 10,
-	["dbVersion"] = 53,
 	["editor_font_size"] = 12,
-	["RealTimeProfilingWindow"] = {
-		["xOffset"] = 203.3777770996094,
-		["yOffset"] = -182.7555541992188,
-	},
-	["minimap"] = {
-		["minimapPos"] = 228.8875173730628,
-		["hide"] = true,
-	},
-	["lastUpgrade"] = 1659733990,
-	["ProfilingWindow"] = {
-		["xOffset"] = 654.64453125,
-		["yOffset"] = -234,
-	},
+	["dbVersion"] = 53,
 	["displays"] = {
 		["WOTF"] = {
 			["iconSource"] = 0,
@@ -114,7 +100,32 @@ WeakAurasSaved = {
 			},
 			["information"] = {
 			},
+			["authorOptions"] = {
+			},
 			["xOffset"] = -555.2334365844727,
+			["desc"] = "Displays Will of the Forsaken cooldown icon.",
+			["cooldownTextDisabled"] = false,
+			["zoom"] = 0,
+			["uid"] = "IPzpPhZljg3",
+			["frameStrata"] = 1,
+			["id"] = "WOTF",
+			["anchorFrameType"] = "SCREEN",
+			["useCooldownModRate"] = true,
+			["width"] = 50,
+			["alpha"] = 1,
+			["config"] = {
+			},
+			["inverse"] = true,
+			["actions"] = {
+				["start"] = {
+				},
+				["finish"] = {
+				},
+				["init"] = {
+				},
+			},
+			["displayIcon"] = 136187,
+			["cooldown"] = true,
 			["animation"] = {
 				["start"] = {
 					["easeStrength"] = 3,
@@ -134,31 +145,6 @@ WeakAurasSaved = {
 					["duration_type"] = "seconds",
 					["easeType"] = "none",
 				},
-			},
-			["desc"] = "Displays Will of the Forsaken cooldown icon.",
-			["cooldownTextDisabled"] = false,
-			["zoom"] = 0,
-			["uid"] = "IPzpPhZljg3",
-			["alpha"] = 1,
-			["id"] = "WOTF",
-			["anchorFrameType"] = "SCREEN",
-			["frameStrata"] = 1,
-			["width"] = 50,
-			["useCooldownModRate"] = true,
-			["config"] = {
-			},
-			["inverse"] = true,
-			["actions"] = {
-				["start"] = {
-				},
-				["finish"] = {
-				},
-				["init"] = {
-				},
-			},
-			["displayIcon"] = 136187,
-			["cooldown"] = true,
-			["authorOptions"] = {
 			},
 		},
 		["AURA MASTERY focus"] = {
@@ -241,14 +227,28 @@ WeakAurasSaved = {
 			["regionType"] = "texture",
 			["blendMode"] = "ADD",
 			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-FOCUSFRAME-LARGE-FLASH",
-			["desc"] = "AURA MASTERY focus highlight texture...",
-			["authorOptions"] = {
-			},
 			["color"] = {
 				1, -- [1]
 				0, -- [2]
 				0.02745098039215686, -- [3]
 				1, -- [4]
+			},
+			["desc"] = "AURA MASTERY focus highlight texture...",
+			["discrete_rotation"] = 0,
+			["authorOptions"] = {
+			},
+			["id"] = "AURA MASTERY focus",
+			["alpha"] = 1,
+			["frameStrata"] = 2,
+			["anchorFrameType"] = "SELECTFRAME",
+			["config"] = {
+			},
+			["uid"] = "9BBiT8OblIu",
+			["inverse"] = false,
+			["width"] = 256,
+			["conditions"] = {
+			},
+			["information"] = {
 			},
 			["animation"] = {
 				["start"] = {
@@ -270,20 +270,6 @@ WeakAurasSaved = {
 					["easeType"] = "none",
 				},
 			},
-			["id"] = "AURA MASTERY focus",
-			["alpha"] = 1,
-			["frameStrata"] = 2,
-			["anchorFrameType"] = "SELECTFRAME",
-			["config"] = {
-			},
-			["uid"] = "9BBiT8OblIu",
-			["inverse"] = false,
-			["width"] = 256,
-			["conditions"] = {
-			},
-			["information"] = {
-			},
-			["discrete_rotation"] = 0,
 		},
 		["WOTF BORDER"] = {
 			["controlledChildren"] = {
@@ -391,21 +377,21 @@ WeakAurasSaved = {
 			["semver"] = "1.0.1",
 			["tocversion"] = 11304,
 			["id"] = "WOTF BORDER",
-			["xOffset"] = -555.2299999999996,
+			["config"] = {
+			},
 			["frameStrata"] = 1,
 			["anchorFrameType"] = "SCREEN",
 			["yOffset"] = -337.7799999999996,
 			["uid"] = "8B2oZr(3rax",
 			["borderInset"] = 1,
-			["config"] = {
-			},
+			["selfPoint"] = "CENTER",
 			["conditions"] = {
 			},
 			["information"] = {
 				["groupOffset"] = false,
 				["ignoreOptionsEventErrors"] = true,
 			},
-			["selfPoint"] = "CENTER",
+			["xOffset"] = -555.2299999999996,
 		},
 		["Charms"] = {
 			["iconSource"] = 0,
@@ -1108,11 +1094,11 @@ WeakAurasSaved = {
 			["regionType"] = "texture",
 			["blendMode"] = "ADD",
 			["texture"] = "Interface\\AddOns\\WeakAuras\\Media\\Textures\\UI-FOCUSFRAME-LARGE-FLASH",
+			["xOffset"] = -11,
 			["authorOptions"] = {
 			},
+			["desc"] = "AURA MASTERY target highlight texture...",
 			["selfPoint"] = "CENTER",
-			["xOffset"] = -11,
-			["discrete_rotation"] = 0,
 			["id"] = "AURA MASTERY target",
 			["alpha"] = 1,
 			["frameStrata"] = 2,
@@ -1126,7 +1112,7 @@ WeakAurasSaved = {
 			},
 			["information"] = {
 			},
-			["desc"] = "AURA MASTERY target highlight texture...",
+			["discrete_rotation"] = 0,
 		},
 		["Fears"] = {
 			["iconSource"] = 0,
@@ -2059,6 +2045,20 @@ WeakAurasSaved = {
 			["url"] = "",
 		},
 	},
+	["RealTimeProfilingWindow"] = {
+		["xOffset"] = 203.3777770996094,
+		["yOffset"] = -182.7555541992188,
+	},
+	["minimap"] = {
+		["minimapPos"] = 228.8875173730628,
+		["hide"] = true,
+	},
+	["lastUpgrade"] = 1659733990,
+	["ProfilingWindow"] = {
+		["xOffset"] = 654.64453125,
+		["yOffset"] = -234,
+	},
+	["login_squelch_time"] = 10,
 	["registered"] = {
 	},
 	["lastArchiveClear"] = 1659733987,

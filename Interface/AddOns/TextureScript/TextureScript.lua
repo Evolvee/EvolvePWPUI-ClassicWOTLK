@@ -112,7 +112,8 @@ local cvars = {
     enableFloatingCombatText = "1",
     threatWarning = "0",
     predictedHealth = "0",
-    Sound_EnableDSPEffects = "0"
+    Sound_EnableDSPEffects = "0",
+	countdownForCooldowns = "1"
 }
 
 local function CustomCvar()
@@ -162,14 +163,14 @@ hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
     local manabar = self.manabar
     local hp = healthbar.finalValue or healthbar:GetValue()
     local mana = manabar.finalValue or manabar:GetValue()
+    local powertype = UnitPowerType(self.unit)
 
     if hp ~= healthbar.lastTextValue then
         healthbar.lastTextValue = hp
-        healthbar.fontString:SetText(hp)
+        healthbar.fontString:SetText(healthbar.lastTextValue)
     end
 
-    local _, max = manabar:GetMinMaxValues()
-    if max <= 120 and max >= 100 then
+    if powertype ~= 0 then
         manabar.fontString:SetText("")
         manabar.lastTextValue = -1
     elseif mana ~= manabar.lastTextValue then
@@ -180,12 +181,8 @@ hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
 end)
 
 hooksecurefunc("PartyMemberFrame_UpdateMember", function(self)
-    for i = 1, MAX_PARTY_MEMBERS, 1 do
-        if UnitExists("party" .. i) then
-            local prefix = self:GetName();
-            _G[prefix .. "Name"]:SetAlpha(0);
-        end
-    end
+  local prefix = self:GetName();
+  _G[prefix .. "Name"]:Hide();
 end)
 
 -- Hidden Party Frame Colour-Statuses (debuffs)
@@ -1692,6 +1689,7 @@ PF:SetScript("OnEvent", function()
     end
 end)
 
+-- Moving right and left multibar (actionbars at the right side) to match the 2.4.3 position
 local function SetPosition(frame, ...)
     if InCombatLockdown() then return end
 
