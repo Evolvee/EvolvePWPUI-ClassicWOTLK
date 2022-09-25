@@ -168,6 +168,13 @@ hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
     local hp = healthbar.finalValue or healthbar:GetValue()
     local mana = manabar.finalValue or manabar:GetValue()
     local powertype = UnitPowerType(self.unit)
+    local prefix = self:GetName()
+
+    local _, class = UnitClass(self.unit)
+    local c = RAID_CLASS_COLORS[class]
+    if c then
+        _G[prefix .. "HealthBar"]:SetStatusBarColor(c.r, c.g, c.b)
+    end
 
     if hp ~= healthbar.lastTextValue then
         healthbar.lastTextValue = hp
@@ -181,7 +188,6 @@ hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
         manabar.lastTextValue = mana
         manabar.fontString:SetText(manabar.lastTextValue)
     end
-
 end)
 
 hooksecurefunc("PartyMemberFrame_UpdateMember", function(self)
@@ -801,18 +807,6 @@ PaperDollFrame:HookScript("OnHide", function()
 end)
 
 --current HP/MANA value
-PetFrameHealthBar.useSimpleValue = true
-PetFrameManaBar.useSimpleValue = true
-PlayerFrameHealthBar.useSimpleValue = true
-PlayerFrameManaBar.useSimpleValue = true
-TargetFrameHealthBar.useSimpleValue = true
-TargetFrameManaBar.useSimpleValue = true
-FocusFrameHealthBar.useSimpleValue = true
-FocusFrameManaBar.useSimpleValue = true
-for i = 1, 4 do
-    _G["PartyMemberFrame" .. i .. "HealthBar"].useSimpleValue = true
-    _G["PartyMemberFrame" .. i .. "ManaBar"].useSimpleValue = true
-end
 
 local function TextStatusBar_UpdateTextString(statusFrame, textString, value, valueMin, valueMax)
     local value = statusFrame.finalValue or statusFrame:GetValue();
@@ -1036,30 +1030,29 @@ end)
 
 -- statusbar.lockColor causes taints
 local function colour(statusbar, unit)
-    if not statusbar then
+    if (not statusbar or statusbar.lockValues) then
         return
     end
 
     if unit then
-        if UnitIsPlayer(unit) and UnitIsConnected(unit) and unit == statusbar.unit then
-            if UnitClass(unit) and unit ~= "player" then
+        if UnitIsPlayer(unit) and unit == statusbar.unit then
+            if (UnitIsConnected(unit) and UnitClass(unit) and unit ~= "player" and not statusbar.lockColor) then -- ArenaFrames lock/unlock color
                 local _, class = UnitClass(unit)
                 local c = RAID_CLASS_COLORS[class]
                 if c then
                     statusbar:SetStatusBarColor(c.r, c.g, c.b)
                 end
             elseif unit == "player" then
-                local value = UnitHealth(unit)
-                local min, max = statusbar:GetMinMaxValues()
-
+                local value = UnitHealth("player")
+                local _, max = PlayerFrameHealthBar:GetMinMaxValues()
                 local r, g
 
-                if ((value < min) or (value > max)) then
+                if ((value < 0) or (value > max)) then
                     return
                 end
 
-                if ((max - min) > 0) then
-                    value = (value - min) / (max - min)
+                if max > 0 then
+                    value = value / max
                 else
                     value = 0
                 end
@@ -1075,7 +1068,8 @@ local function colour(statusbar, unit)
                     g = 0.0;
                 end
                 PlayerFrameHealthBar:SetStatusBarColor(r, g, 0.0)
-                return
+            else
+                statusbar:SetStatusBarColor(0.5, 0.5, 0.5)
             end
         end
     end
@@ -1517,7 +1511,7 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
         sh:ClearAllPoints()
         sh:SetPoint("TOPLEFT", sh:GetParent(), "TOPLEFT", 1, -1)
         sh:SetPoint("BOTTOMRIGHT", sh:GetParent(), "BOTTOMRIGHT", -1, 1)
-
+        -- this doesnt work for non-interruptable shield castbar when the enemy "spam-chains" such spells
         local cb = nameplate.UnitFrame.CastBar
         cb:HookScript("OnShow", function()
             if not cb:IsShown() then
@@ -1527,7 +1521,7 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
             local _, _, _, _, _, _, nonInterruptible = UnitChannelInfo(unit)
             if notInterruptible or nonInterruptible then
                 cb:ClearAllPoints()
-                cb:SetPoint("TOP", hb, "BOTTOM", 9, -15)
+                cb:SetPoint("TOP", hb, "BOTTOM", 9, -12)
             else
                 cb:ClearAllPoints()
                 cb:SetPoint("TOP", hb, "BOTTOM", 9, -4)
@@ -1696,7 +1690,6 @@ hooksecurefunc(widget, "SetPoint", function(self, _, parent)
         widget:SetPoint("TOPRIGHT", UIWidgetTopCenterContainerFrame, "BOTTOMRIGHT", 585, -370)
     end
 end)
-
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
 
