@@ -74,9 +74,9 @@ local function IsBadBuff(buttonName, index, filter)
             buff.count:SetAlpha(0.01)
         else
             buff.bad = false
-		buff:SetAlpha(1)
-		buff.duration:SetAlpha(1)
-		buff.count:SetAlpha(1)
+            buff:SetAlpha(1)
+            buff.duration:SetAlpha(1)
+            buff.count:SetAlpha(1)
         end
     end
     return 1
@@ -143,6 +143,37 @@ local function New_BuffFrame_UpdateAllBuffAnchors()
     end
 end
 hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", New_BuffFrame_UpdateAllBuffAnchors)
+
+local buffsPerRow = 10;
+local ceil = math.ceil
+local buffWidth = TempEnchant1:GetWidth();
+local buffHeight = TempEnchant1:GetHeight();
+local buffXInterval = buffWidth + 6
+
+local function New_DebuffButton_UpdateAnchors(buttonName, index)
+    local buffName = buttonName..index;
+    local buff = _G[buffName];
+    local NewcolNum
+
+    if buff:GetAlpha() < 1 then
+        buff:ClearAllPoints();
+        buff:SetPoint("TOPRIGHT", ConsolidatedBuffs, "TOPLEFT", 0, 10000);
+        return;
+    else
+        NewcolNum = 0;
+        for i=1, index do
+            if _G["DebuffButton"..i]:GetAlpha() > 0.01 then
+                NewcolNum = NewcolNum + 1;
+            end
+        end
+        local rowNum = 3 + ceil(index / buffsPerRow);
+        local colNum = NewcolNum % buffsPerRow;
+
+        buff:ClearAllPoints();
+        buff:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", (-(colNum - 1) * buffXInterval) - 145, -(rowNum - 1) * (buffHeight + BUFF_ROW_SPACING - 2) - 15 );
+    end
+end
+hooksecurefunc("DebuffButton_UpdateAnchors", New_DebuffButton_UpdateAnchors);
 
 function SimpleAuraFilter:OpenMenu()
     local d = AceGUI:Create("Frame")

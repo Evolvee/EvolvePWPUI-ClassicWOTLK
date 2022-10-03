@@ -246,6 +246,19 @@ local tooltipOwnerBlacklist = {
     "^MainMenuBarBackpackButton$", -- backpack
 }
 
+local function PlayerFrameArt()
+    PlayerFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame")
+    PlayerStatusTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-Player-Status")
+    PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -22)
+    PlayerFrameHealthBar:SetWidth(119)
+    PlayerFrameHealthBar:SetHeight(29)
+    PlayerName:SetPoint("CENTER", 50, 35)
+    PlayerFrameHealthBarText:SetPoint("CENTER", 50, 12)
+    PlayerFrameHealthBarText:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
+    PlayerFrameManaBarText:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
+end
+hooksecurefunc("PlayerFrame_ToPlayerArt", PlayerFrameArt)
+
 local function OnInit()
 
     --minimap buttons, horde/alliance icons on target/focus/player,minimap city location, minimap sun/clock, minimap text frame,minimap zoomable with mousewheel etc
@@ -294,16 +307,8 @@ local function OnInit()
         _G["PartyMemberFrame" .. i .. "PVPIcon"]:SetAlpha(0)
     end
 
-    --Player Frame, Focus Frame, Target Frame
-    PlayerFrameTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-TargetingFrame")
-    PlayerStatusTexture:SetTexture("Interface\\AddOns\\TextureScript\\UI-Player-Status")
-    PlayerFrameHealthBar:SetPoint("TOPLEFT", 106, -22)
-    PlayerFrameHealthBar:SetWidth(119)
-    PlayerFrameHealthBar:SetHeight(29)
-    PlayerName:SetPoint("CENTER", 50, 35)
-    PlayerFrameHealthBarText:SetPoint("CENTER", 50, 12)
-    PlayerFrameHealthBarText:SetFont("Fonts/FRIZQT__.TTF", 16, "OUTLINE")
-    PlayerFrameManaBarText:SetFont("Fonts/FRIZQT__.TTF", 10, "OUTLINE")
+    -- Player Frame, Focus Frame, Target Frame
+    PlayerFrameArt()
 
     TargetFrameHealthBar:SetWidth(119)
     TargetFrameHealthBar:SetHeight(29)
@@ -410,8 +415,8 @@ local function OnInit()
     PlayerName:SetAlpha(0)
     PetName:SetAlpha(0)
     PlayerFrameGroupIndicator:SetAlpha(0)
-    ActionBarUpButton:SetAlpha(0)
-    ActionBarDownButton:SetAlpha(0)
+    ActionBarUpButton:Hide()
+    ActionBarDownButton:Hide()
     MainMenuBarPageNumber:SetAlpha(0)
 
     UIErrorsFrame:SetAlpha(0)
@@ -1036,7 +1041,8 @@ local function colour(statusbar, unit)
 
     if unit then
         if UnitIsPlayer(unit) and unit == statusbar.unit then
-            if (UnitIsConnected(unit) and UnitClass(unit) and unit ~= "player" and not statusbar.lockColor) then -- ArenaFrames lock/unlock color
+            if (UnitIsConnected(unit) and UnitClass(unit) and unit ~= "player" and not statusbar.lockColor) then
+                -- ArenaFrames lock/unlock color
                 local _, class = UnitClass(unit)
                 local c = RAID_CLASS_COLORS[class]
                 if c then
@@ -1218,11 +1224,13 @@ end)
 
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN")
-f:SetScript("OnEvent", function(self)
-    CustomCvar()
-    OnInit()
-
+f:SetScript("OnEvent", function(self, event)
+    if event == "PLAYER_LOGIN" then
+        CustomCvar()
+        OnInit()
+    end
     self:UnregisterEvent("PLAYER_LOGIN")
+    self:SetScript("OnEvent", nil)
 end)
 
 -- stop Gladdy from showing nameplates (necessary for the next script) !! IMPORTANT - You MUST use the "Lock Frame" function in General tab of Gladdy alongside with this!!
@@ -1433,12 +1441,43 @@ plateEventFrame:SetScript("OnUpdate", function(self, elapsed)
     end
 end)
 
+-- Filter out the Vampiric Embrace spam healing combat text due to Blizzard being retarded as usual (thx Xyz)
+-- PlaySound whenever an enemy casts Tremor Totem in arena (previously handled in a standalone addon "EvolveAlert" - https://github.com/Evolvee/EvolvePWPUI-ClassicTBC/tree/main/Interface/AddOns/EvolveAlert)
+
+local COMBATLOG_FILTER_HOSTILE_PLAYERS = COMBATLOG_FILTER_HOSTILE_PLAYERS;
+local eventRegistered = {
+    ["SPELL_PERIODIC_HEAL"] = true,
+    ["SPELL_CAST_SUCCESS"] = true,
+    ["SPELL_SUMMON"] = true,
+    ["SWING_DAMAGE"] = true,
+    ["RANGE_DAMAGE"] = true,
+    ["SPELL_DAMAGE"] = true,
+}
+
 plateEventFrame:SetScript("OnEvent", function(_, event, unit)
     ----------------------------------------
     -- watch for recasts or damage to totems
     ----------------------------------------
     if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-        local _, action, _, sourceGuid, _, _, _, destGuid, destName, _, _, ex1, _, _, ex4 = CombatLogGetCurrentEventInfo()
+        local _, action, _, sourceGuid, _, sourceFlags, _, destGuid, destName, _, _, ex1, _, _, ex4 = CombatLogGetCurrentEventInfo()
+        local isSourceEnemy = CombatLog_Object_IsA(sourceFlags, COMBATLOG_FILTER_HOSTILE_PLAYERS)
+        local _, instanceType = IsInInstance()
+
+        if not (eventRegistered[action]) then
+            return
+        end
+
+        if isSourceEnemy and instanceType == "arena" and ex1 == 8143 and action == "SPELL_CAST_SUCCESS" then
+            PlaySound(12889)
+        end
+
+        if action == "SPELL_PERIODIC_HEAL" and ex1 == 15290 then
+            COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = nil
+            SetCVar("floatingCombatTextCombatHealing", 0)
+        else
+            COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = 1
+            SetCVar("floatingCombatTextCombatHealing", 1)
+        end
 
         if destName == "Tremor Totem" then
             if action == "SPELL_SUMMON" then
@@ -1553,6 +1592,7 @@ local gossipSkipType = {
     ["trainer"] = 1,
     ["vendor"] = 1,
     ["battlemaster"] = 1,
+	["auctioneer"] = 1, -- eng AH in Dalaran...
 }
 
 local IsShiftKeyDown, IsAltKeyDown, IsControlKeyDown = IsShiftKeyDown, IsAltKeyDown, IsControlKeyDown
@@ -1628,38 +1668,6 @@ end)
 teamRatingFrame:RegisterEvent("UPDATE_BATTLEFIELD_SCORE")
 teamRatingFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
--- Filter out the Vampiric Embrace spam healing combat text due to Blizzard being retarded as usual (thx Xyz)
--- PlaySound whenever an enemy casts Tremor Totem in arena (previously handled in a standalone addon "EvolveAlert" - https://github.com/Evolvee/EvolvePWPUI-ClassicTBC/tree/main/Interface/AddOns/EvolveAlert)
-
-local COMBATLOG_FILTER_HOSTILE_PLAYERS = COMBATLOG_FILTER_HOSTILE_PLAYERS;
-local eventRegistered = {
-    ["SPELL_PERIODIC_HEAL"] = true,
-    ["SPELL_CAST_SUCCESS"] = true
-}
-local PF = CreateFrame("Frame")
-PF:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
-PF:SetScript("OnEvent", function()
-    local _, eventType, _, _, _, sourceFlags, _, _, _, _, _, spellID = CombatLogGetCurrentEventInfo()
-    local isSourceEnemy = CombatLog_Object_IsA(sourceFlags, COMBATLOG_FILTER_HOSTILE_PLAYERS)
-    local _, instanceType = IsInInstance()
-
-    if not (eventRegistered[eventType]) then
-        return
-    end
-
-    if isSourceEnemy and instanceType == "arena" and spellID == 8143 and eventType == "SPELL_CAST_SUCCESS" then
-        PlaySound(12889)
-    end
-
-    if eventType == "SPELL_PERIODIC_HEAL" and spellID == 15290 then
-        COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = nil
-        SetCVar("floatingCombatTextCombatHealing", 0)
-    else
-        COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = 1
-        SetCVar("floatingCombatTextCombatHealing", 1)
-    end
-end)
-
 -- Moving right and left multibar (actionbars at the right side) to match the 2.4.3 position
 local function SetPosition(frame, ...)
     if InCombatLockdown() then
@@ -1687,7 +1695,7 @@ local widget = _G["UIWidgetBelowMinimapContainerFrame"]
 hooksecurefunc(widget, "SetPoint", function(self, _, parent)
     if parent and (parent == "MinimapCluster" or parent == _G["MinimapCluster"]) then
         widget:ClearAllPoints()
-        widget:SetPoint("TOPRIGHT", UIWidgetTopCenterContainerFrame, "BOTTOMRIGHT", 585, -370)
+        widget:SetPoint("TOPRIGHT", UIWidgetTopCenterContainerFrame, "BOTTOMRIGHT", 580, -345)
     end
 end)
 
