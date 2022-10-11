@@ -1,9 +1,9 @@
-## Interface: 20504
-## X-Expansion: 5
+## Interface: 30400
+## X-Expansion: 6
 ## Title: Diminish
 ## Notes: Lightweight diminishing returns tracker for hostile and friendly units.
 ## SavedVariables: DiminishDB
-## Version: v2.5.1
+## Version: v2.5.2
 ## X-Curse-Project-ID: 92871
 ## X-Wago-ID: 7nGvPW6x
 

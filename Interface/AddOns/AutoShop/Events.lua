@@ -317,6 +317,9 @@ function autoBuyFrame:AutoBuy()
 						end
 						-- buy in stacks/batches in case there's not enough inventory space for all of it
 						local stack_buy = quantity > 1 and quantity or GetMerchantItemMaxStack(i)
+						if stack_buy > 250 then
+							stack_buy = 250
+						end
 						while buy > 0 do
 							if quantity > 1 then
 								BuyMerchantItem(i, quantity)

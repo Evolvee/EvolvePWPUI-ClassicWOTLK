@@ -300,6 +300,7 @@ BigDebuffsDB = {
 			},
 			["unitFrames"] = {
 				["tooltips"] = false,
+				["cooldownCount"] = false,
 				["arena2"] = {
 					["position"] = {
 						"CENTER", -- [1]
@@ -327,15 +328,15 @@ BigDebuffsDB = {
 						57.60003280639648, -- [5]
 					},
 				},
-				["enabled"] = false,
 				["player"] = {
 					["relativePoint"] = "CENTER",
+					["anchor"] = "manual",
 					["position"] = {
 						"CENTER", -- [1]
 						nil, -- [2]
 						"CENTER", -- [3]
-						-4.022158622741699, -- [4]
-						-12.44437408447266, -- [5]
+						-0.466623455286026, -- [4]
+						20.9779109954834, -- [5]
 					},
 					["size"] = 60,
 				},

@@ -65,7 +65,7 @@ local function CreateGUI()
 	textureHeader:SetPoint("TOP", 0, 12)
 	local textHeader = window:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	textHeader:SetPoint("TOP", textureHeader, "TOP", 0, -14)
-	textHeader:SetText("AutoShop 1.2.0")
+	textHeader:SetText("AutoShop 1.2.1")
 
 	--------------------------------------------------
 	-- checkbox options

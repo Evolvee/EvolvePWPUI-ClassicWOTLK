@@ -2,6 +2,13 @@ local SimpleAuraFilter = LibStub("AceAddon-3.0"):NewAddon("SimpleAuraFilter", "A
 
 local GetSpellInfo = GetSpellInfo
 local AceGUI = LibStub("AceGUI-3.0")
+local buffsPerRow = 10;
+local ceil = math.ceil
+local buffWidth = TempEnchant1:GetWidth();
+local buffHeight = TempEnchant1:GetHeight();
+local buffXInterval = buffWidth + 6
+local UnitAura = UnitAura
+
 
 function SimpleAuraFilter:OnInitialize()
     -- Called when the addon is loaded
@@ -59,33 +66,9 @@ end
 
 -- ********* Hooks
 
-local function IsBadBuff(buttonName, index, filter)
-    local unit = PlayerFrame.unit
-    local name, _, count, _, duration = UnitAura(unit, index, filter);
-
-    local buffName = buttonName .. index
-    local buff = _G[buffName]
-
-    if name then
-        if SimpleAuraFilter.db.profile.filters[name] then
-            buff.bad = true
-            buff:SetAlpha(0.01)
-            buff.duration:SetAlpha(0.01)
-            buff.count:SetAlpha(0.01)
-        else
-            buff.bad = false
-            buff:SetAlpha(1)
-            buff.duration:SetAlpha(1)
-            buff.count:SetAlpha(1)
-        end
-    end
-    return 1
-end
-
-hooksecurefunc("AuraButton_Update", IsBadBuff)
-
 local function New_BuffFrame_UpdateAllBuffAnchors()
-    local buff, previousBuff, aboveBuff, index;
+    local buff, previousBuff, aboveBuff, index, name;
+    local unit = PlayerFrame.unit;
     local numBuffs = 0;
     local numAuraRows = 0;
     local slack = BuffFrame.numEnchants
@@ -95,8 +78,9 @@ local function New_BuffFrame_UpdateAllBuffAnchors()
 
     for i = 1, BUFF_ACTUAL_DISPLAY do
         buff = _G["BuffButton" .. i];
-
-        if buff:GetAlpha() < 1 then
+        name = UnitAura(unit, i, "HELPFUL");
+        if (SimpleAuraFilter.db.profile.filters[name]) then
+            buff:ClearAllPoints()
             buff:SetPoint("TOPRIGHT", ConsolidatedBuffs, "TOPLEFT", 0, 10000);
         else
             if (buff.consolidated) then
@@ -139,30 +123,30 @@ local function New_BuffFrame_UpdateAllBuffAnchors()
                 end
                 previousBuff = buff;
             end
+            if SimpleAuraFilter.db.profile.filters[name] then
+                buff:SetAlpha(0);
+            end
         end
     end
 end
 hooksecurefunc("BuffFrame_UpdateAllBuffAnchors", New_BuffFrame_UpdateAllBuffAnchors)
 
-local buffsPerRow = 10;
-local ceil = math.ceil
-local buffWidth = TempEnchant1:GetWidth();
-local buffHeight = TempEnchant1:GetHeight();
-local buffXInterval = buffWidth + 6
-
 local function New_DebuffButton_UpdateAnchors(buttonName, index)
+    local NewcolNum
     local buffName = buttonName..index;
     local buff = _G[buffName];
-    local NewcolNum
+    local name = UnitAura("player", index, "HARMFUL");
 
-    if buff:GetAlpha() < 1 then
+    if (SimpleAuraFilter.db.profile.filters[name]) then
         buff:ClearAllPoints();
         buff:SetPoint("TOPRIGHT", ConsolidatedBuffs, "TOPLEFT", 0, 10000);
+        buff:SetAlpha(0);
         return;
-    else
+    end
+
         NewcolNum = 0;
         for i=1, index do
-            if _G["DebuffButton"..i]:GetAlpha() > 0.01 then
+            if _G["DebuffButton"..i]:GetAlpha() > 0 then
                 NewcolNum = NewcolNum + 1;
             end
         end
@@ -170,8 +154,7 @@ local function New_DebuffButton_UpdateAnchors(buttonName, index)
         local colNum = NewcolNum % buffsPerRow;
 
         buff:ClearAllPoints();
-        buff:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", (-(colNum - 1) * buffXInterval) - 145, -(rowNum - 1) * (buffHeight + BUFF_ROW_SPACING - 2) - 15 );
-    end
+        buff:SetPoint("TOPRIGHT", BuffFrame, "TOPRIGHT", (-(colNum - 1) * buffXInterval), -(rowNum - 1) * (buffHeight + BUFF_ROW_SPACING - 2));
 end
 hooksecurefunc("DebuffButton_UpdateAnchors", New_DebuffButton_UpdateAnchors);
 

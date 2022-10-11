@@ -64,6 +64,9 @@ OmniCCDB = {
 						"ActionButton10", -- [14]
 						"ActionButton11", -- [15]
 						"ActionButton12", -- [16]
+						"WeakAurasCooldownwotf", -- [17]
+						"ContainerFrame", -- [18]
+						"Character", -- [19]
 					},
 					["id"] = "Action Bars",
 					["priority"] = 3,

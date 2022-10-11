@@ -52,7 +52,21 @@ OmniCCDB = {
 						"MultiBarBottomRight", -- [2]
 						"MultiBarLeft", -- [3]
 						"MultiBarRight", -- [4]
-						"MainMenuBar", -- [5]
+						"ActionButton1", -- [5]
+						"ActionButton2", -- [6]
+						"ActionButton3", -- [7]
+						"ActionButton4", -- [8]
+						"ActionButton5", -- [9]
+						"ActionButton6", -- [10]
+						"ActionButton7", -- [11]
+						"ActionButton8", -- [12]
+						"ActionButton9", -- [13]
+						"ActionButton10", -- [14]
+						"ActionButton11", -- [15]
+						"ActionButton12", -- [16]
+						"WeakAurasCooldownwotf", -- [17]
+						"ContainerFrame", -- [18]
+						"Character", -- [19]
 					},
 					["id"] = "Action Bars",
 					["priority"] = 3,

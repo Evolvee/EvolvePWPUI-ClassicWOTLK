@@ -1,7 +1,17 @@
 
 InterruptBarDB = {
-	["lock"] = true,
+	["Position"] = {
+		["yOfs"] = 79.87128448486328,
+		["xOfs"] = -88.92115020751953,
+		["point"] = "RIGHT",
+		["relativePoint"] = "RIGHT",
+	},
 	["alpha"] = 1,
+	["columns"] = 7,
+	["lock"] = true,
+	["scale"] = 1.38,
+	["preset"] = "caster",
+	["hidden"] = true,
 	["abilities"] = {
 		["melee"] = {
 		},
@@ -80,14 +90,4 @@ InterruptBarDB = {
 			}, -- [12]
 		},
 	},
-	["Position"] = {
-		["yOfs"] = 79.87128448486328,
-		["xOfs"] = -88.92115020751953,
-		["point"] = "RIGHT",
-		["relativePoint"] = "RIGHT",
-	},
-	["scale"] = 1.38,
-	["preset"] = "caster",
-	["hidden"] = true,
-	["columns"] = 7,
 }

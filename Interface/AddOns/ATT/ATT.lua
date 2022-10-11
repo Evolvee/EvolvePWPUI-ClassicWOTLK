@@ -22,7 +22,7 @@ local GetTalentInfo = GetTalentInfo
 local GetInventoryItemID = GetInventoryItemID
 local LGlows = LibStub("LibATTButtonGlow")
 local ChatPrefix = "ATT-Check"
-local ATTversion = 1
+local ATTversion = 3
 local ATTnewversion
 local db
 local selectedDB
@@ -572,7 +572,6 @@ function ATT:ApplyIconTextureBorder(icon)
 	end
 end
                               
-
 function ATT:UpdateAnchorGUID(unit, guid, newInspect)
     local _,class = UnitClass(unit)
     local anchor = self:CheckValidAnchor(unit)
@@ -586,11 +585,11 @@ function ATT:UpdateAnchorGUID(unit, guid, newInspect)
     if class and newInspect then
         dbInspect[guid] = {}
         local isInspect = (guid ~= PlayerGUID) and true  --here
-        local tabs = GetNumTalentTabs(isInspect)
-        for i = 1, tabs do
-            local ntalents = GetNumTalents(i,isInspect)
-            for j = 1, ntalents do
-                Name, _, _, _, rank, maxRank, _, meetsPrereq = GetTalentInfo(i,j,isInspect)
+        --  local tabs = GetNumTalentTabs(isInspect)
+        for i = 1, 3 do
+            --  local ntalents = GetNumTalents(i,isInspect)
+            for j = 1, 31 do
+                Name, _, _, _, rank, maxRank, _, meetsPrereq = GetTalentInfo(i,j,isInspect,unit)
                 if rank and Name then dbInspect[guid][Name] = rank end
             end
         end
@@ -602,6 +601,12 @@ function ATT:UpdateAnchorGUID(unit, guid, newInspect)
                 local itemID = GetItemInfoInstant(itemLink)
                 if k == 13 then dbInspect[guid]["item1"] = itemID end
                 if k == 14 then dbInspect[guid]["item2"] = itemID end
+            end
+        end
+        if not isInspect then
+            for i = 1, 6 do
+                local _,_, glyphSpellID = GetGlyphSocketInfo(i)
+              --  if glyphSpellID then dbInspect[guid][glyphSpellID] = 1   end
             end
         end
         dbInspect[guid]["isInspected"] = true
@@ -1110,6 +1115,10 @@ function ATT:LoadProfiles()
     end
 end
 
+function ATT:ACTIVE_TALENT_GROUP_CHANGED()
+     self:InspectPlayer()
+end
+
 local function ATT_OnLoad(self)
     self:RegisterEvent("PLAYER_ENTERING_WORLD")
     self:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
@@ -1121,7 +1130,9 @@ local function ATT_OnLoad(self)
     self:RegisterEvent("CVAR_UPDATE", "USE_RAID_STYLE_PARTY_FRAMES")
     self:RegisterEvent("CHAT_MSG_BG_SYSTEM_NEUTRAL")
     self:RegisterEvent("LEARNED_SPELL_IN_TAB")
+    self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 
+    
     if C_ChatInfo.RegisterAddonMessagePrefix(ChatPrefix) then self.useCrossAddonCommunication = true end
     if self.useCrossAddonCommunication then self:RegisterEvent("CHAT_MSG_ADDON") end
     self:SetScript("OnEvent",function(self,event, ...) if self[event] then self[event](self, ...) end end);

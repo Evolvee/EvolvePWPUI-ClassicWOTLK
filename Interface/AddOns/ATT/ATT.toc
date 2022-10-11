@@ -2,7 +2,7 @@
 ## Author - by Izy inspired by the old Party Ability Bars (PAB)
 ## Contact/support @ curseforge.com/wow/addons/att
 ## Title: Ability Team Tracker WotLK
-## Version: 1
+## Version: 3
 ## Notes: Track cooldowns of your party members.
 ## SavedVariables: ATTDB
 ## SavedVariablesPerCharacter: ATTCharDB
