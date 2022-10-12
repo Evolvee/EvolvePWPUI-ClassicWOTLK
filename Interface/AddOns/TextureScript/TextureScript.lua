@@ -1107,18 +1107,24 @@ hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", RemoveFlashFromPortrait)
 
 -- highlight dispellable shit from enemies target/focus
 
+local TrackSpells = { [GetSpellInfo(69369)] = true, } -- new
 local function Update(frame)
     local buffFrame, frameStealable, icon, debuffType, isStealable, _
     local selfName = frame:GetName()
     local isEnemy = UnitIsEnemy(PlayerFrame.unit, frame.unit)
     for i = 1, MAX_TARGET_BUFFS do
-        _, icon, _, debuffType, _, _, _, isStealable = UnitBuff(frame.unit, i)
+        name, icon, _, debuffType, _, _, _, isStealable = UnitBuff(frame.unit, i) -- changed
         if (icon and (not frame.maxBuffs or i <= frame.maxBuffs)) then
             local frameName = selfName .. 'Buff' .. i
             buffFrame = _G[frameName]
             frameStealable = _G[frameName .. 'Stealable']
             if (isEnemy and isStealable and debuffType == 'Magic') then
                 frameStealable:Show()
+                if TrackSpells[name] then -- new 
+                     frameStealable:SetVertexColor(0,0,200/255) -- new
+                else -- new
+                     frameStealable:SetVertexColor(1,1,1) -- new
+                end -- new
             else
                 frameStealable:Hide()
             end
