@@ -89,6 +89,10 @@ smbDefaults = {
 			-- War
 			46857, -- Trauma
 			30070, -- Blood Frenzy
+			-- Priest
+			6788, -- Weakened Soul (tracking it better with custom WA instead)
+			-- Shaman
+			30708, -- Totem of Wrath
 			-- Rogue
 			48660, -- Hemorrhage
 			-- Warlock

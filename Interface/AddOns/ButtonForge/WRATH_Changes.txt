@@ -1,0 +1,372 @@
+notes for wrath
+
+changed ----------------------------------------------------------------------------
+to ---------------------------------------------------------------------------------
+
+equipment sets are back
+
+
+local activeTalentGroup = GetActiveTalentGroup()  -- active talent spec
+local numTalentGroups = GetNumTalentGroups() -- total talent specs
+
+---------------------------------------------------------------------------------------------------------
+
+update .toc file for Classic Wrath
+
+with
+
+## Interface: 30400
+## Title: Button Forge |cff69ccf0(Classic-Wrath)|r
+## Version: 1.0.6-classic-Wrath
+
+
+Const.lua -----------------------------------------------------------------
+
+changed ----------------------------------------------------------------------------
+Const.VersionMinor			= 0.5;
+to ---------------------------------------------------------------------------------
+Const.VersionMinor			= 0.6;
+
+
+button.lua -----------------------------------------------------------------
+
+changed ----------------------------------------------------------------------------
+local IsUsable, NotEnoughMana = IsUsableSpell(self.SpellNameRank);
+to ---------------------------------------------------------------------------------
+local IsUsable, NotEnoughMana = IsUsableSpell(self.SpellName);
+
+changed ----------------------------------------------------------------------------
+  GetCompanionInfo(CompanionType, MountID);
+to ----------------------------------------------------------------------------
+  Util.GetCompanionInfo(CompanionType, MountID, MountName);
+
+changed ----------------------------------------------------------------------------
+	elseif (Mode == "mount") then
+		self:SetCommandExplicitCompanion(ButtonSave["MountID"], "MOUNT");
+to ---------------------------------------------------------------------------------
+	elseif (Mode == "mount") then
+    Util.MountSpellID = self.ButtonSave["MountSpellID"]
+    creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo("MOUNT", ButtonSave["MountID"]);
+    if self.ButtonSave["MountSpellID"] == creatureSpellID then
+      Util.CompanionType = "MOUNT"
+      Util.MountName = self.ButtonSave["MountName"]
+      self:SetCommandExplicitCompanion(ButtonSave["MountID"], "MOUNT", ButtonSave["MountSpellID"]);
+    else      
+      Util.MountName = self.ButtonSave["MountName"]
+      Util.CompanionType = "CRITTER"
+      self:SetCommandExplicitCompanion(ButtonSave["MountID"], "CRITTER", ButtonSave["MountSpellID"]);
+    end
+
+changed ----------------------------------------------------------------------------
+	local Active = select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID));
+to ---------------------------------------------------------------------------------
+	local Active = select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, Util.MountSpellID));
+
+changed ----------------------------------------------------------------------------
+local IsUsable = IsUsableSpell(self.MountSpellID) and not (select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID)));
+to ---------------------------------------------------------------------------------
+local IsUsable = IsUsableSpell(self.MountSpellID) and not (select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, Util.MountSpellID)));
+
+changed ----------------------------------------------------------------------------
+function Button:SetCommandCompanion(MountID, Type)
+	--local SpellName = GetSpellInfo(SpellId);
+	self:SetCommandExplicitCompanion(MountID, Type);
+end
+to ---------------------------------------------------------------------------------
+function Button:SetCommandCompanion(MountID, Type, MountSpellID)
+	--local SpellName = GetSpellInfo(SpellId);
+	self:SetCommandExplicitCompanion(MountID, Type, MountSpellID);
+end
+
+changed ----------------------------------------------------------------------------
+function Button:SetCommandExplicitCompanion(MountID, Type)
+	self:SetEnvCompanion(MountID, Type);
+end
+to ---------------------------------------------------------------------------------
+function Button:SetCommandExplicitCompanion(MountID, Type, MountSpellID)
+	self:SetEnvCompanion(MountID, Type, MountSpellID);
+end
+
+
+	
+changed ----------------------------------------------------------------------------
+function Button:GetCursorCompanion()
+	return self.Mode, self.MountID;
+end
+to ---------------------------------------------------------------------------------
+function Button:GetCursorCompanion()
+	return self.Mode, self.MountSpellID
+end
+
+Bar.lua -----------------------------------------------------------------
+
+changed ----------------------------------------------------------------------------
+		--	local NumSpecs = GetNumSpecializations() -- DOESN'T EXIST IN CLASSIC
+		local NumSpecs = 1;
+to ---------------------------------------------------------------------------------
+		local NumSpecs = GetNumTalentGroups()
+
+change
+		if (self.BarSave["HSpec1"]) then
+		  Text = Text.."[spec:1] hide; ";
+		end
+		if (self.BarSave["HSpec2"]) then
+ 			Text = Text.."[spec:2] hide; ";
+		end
+to
+		if self.BarSave["Enabled"] then
+		  if (self.BarSave["HSpec1"]) and Util_GetCurspec() == 1 then
+			   -- Text = Text.."[spec:1] hide; ";
+			   Text = Text.."hide; ";
+		  end
+		  if (self.BarSave["HSpec2"]) and Util_GetCurspec() == 2 then
+  		   -- Text = Text.."[spec:2] hide; ";
+  			 Text = Text.."hide; ";
+      end
+      if not strfind(Text, "hide;",1,true) then
+        if self.BarSave["VDriver"] ~= nil then
+          if strfind(self.BarSave["VDriver"], "[spec:1]",1,true) and Util_GetCurspec() == 1 then
+		        Text = Text.."hide; ";
+		      end
+  		    if strfind(self.BarSave["VDriver"], "[spec:2]",1,true) and Util_GetCurspec() == 2 then
+	    	    Text = Text.."hide; ";
+	  	    end
+	  	  end
+		  end
+	  end
+
+
+
+EventManager.lua -----------------------------------------------------------------
+
+
+changed ----------------------------------------------------------------------------
+  --Conditional:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");	--spec:
+to ---------------------------------------------------------------------------------
+  Conditional:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");	--spec:
+
+added
+  Misc:RegisterEvent("EQUIPMENT_SETS_CHANGED");		--resync equip sets
+after
+  Misc:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED");
+
+
+changed ----------------------------------------------------------------------------
+  --	elseif (Event =="ACTIVE_TALENT_GROUP_CHANGED") then
+		  --Set the talentswap flag so we know not to auto promote any spells
+  --		self.RefreshSpells = true;
+  --		self.TalentSwap = true;
+  --		self:SetScript("OnUpdate", self.OnUpdate);
+to ---------------------------------------------------------------------------------
+	elseif (Event =="ACTIVE_TALENT_GROUP_CHANGED") then
+		-- Set the talentswap flag so we know not to auto promote any spells
+		self.RefreshSpells = true;
+		self.TalentSwap = true;
+		Util.VDriverOverride(); -- refreshes bars after talent group change, so don't need to hit buttonforge config to refresh.
+		self:SetScript("OnUpdate", self.OnUpdate);		
+
+
+
+EventManager.lua -----------------------------------------------------------------
+
+
+changed ----------------------------------------------------------------------------
+  Misc:RegisterEvent("CURSOR_UPDATE");	
+to ---------------------------------------------------------------------------------
+  Misc:RegisterEvent("CURSOR_CHANGED");	
+
+
+
+UILibDragIcon.lua -----------------------------------------------------------------
+
+
+changed all ------------------------------------------------------------------------
+  DragIcon:RegisterEvent("CURSOR_UPDATE")
+to ---------------------------------------------------------------------------------
+  DragIcon:RegisterEvent("CURSOR_CHANGED")
+
+changed all ------------------------------------------------------------------------
+  DragIcon:UnregisterEvent("CURSOR_UPDATE");
+to ---------------------------------------------------------------------------------
+  DragIcon:UnregisterEvent("CURSOR_CHANGED");
+  
+
+Util.lua -----------------------------------------------------------------
+
+
+changed ----------------------------------------------------------------------------
+  local _, _, offset, numSlots = GetSpellTabInfo(i)
+to ---------------------------------------------------------------------------------
+  local _, _, offset, numSlots, isGuild, offspecID  = GetSpellTabInfo(i)
+
+changed some ----------------------------------------------------------------------------
+  GetCompanionInfo(CompanionType, MountID);
+to ----------------------------------------------------------------------------
+  Util.GetCompanionInfo(CompanionType, MountID, spellID);
+
+changed ----------------------------------------------------------------------------
+Util.MountUselessIndexToIndex = {};
+to ----------------------------------------------------------------------------
+Util.MountUselessIndexToIndex = {};
+Util.MountName = "";
+
+
+changed ----------------------------------------------------------------------------
+function Util.CacheCompanions()
+	Util.Critters = {};
+    --[[
+    for i = 1, GetNumCompanions("CRITTER") do
+        local Id, Name = GetCompanionInfo("CRITTER", i);
+		if (not Name) then
+			return;
+		end
+        Util.Critters[Name] = i;
+    end]]
+	
+	Util.Mounts = {};
+	--[[
+	for i, mountID in pairs(C_MountJournal.GetMountIDs()) do
+		local creatureName, spellID = C_MountJournal.GetMountInfoByID(mountID);
+		if (not creatureName) then
+			return;
+		end
+        Util.Mounts[spellID] = mountID;
+	end
+	Util.CompanionsCached = true;]]
+end
+to ---------------------------------------------------------------------------------
+function Util.CacheCompanions()
+    Util.Critters = {};
+    for i = 1, GetNumCompanions("CRITTER") do
+        local Id, Name = GetCompanionInfo("CRITTER", i);
+		if (not Name) then
+			return;
+		end
+        Util.Critters[Name] = i;
+    end
+	
+    Util.Mounts = {};
+    for i = 1, GetNumCompanions("MOUNT") do
+        local Id, Name = GetCompanionInfo("MOUNT", i);
+		if (not Name) then
+			return;
+		end
+        Util.Mounts[Name] = i;
+    end
+	Util.CompanionsCached = true;
+end
+
+changed ----------------------------------------------------------------------------
+	elseif (Command == "mount") then
+		if (Subvalue == nil) then
+			creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo("MOUNT", Data);
+			PickupSpell(creatureSpellID);
+		end
+to ---------------------------------------------------------------------------------
+	elseif (Command == "mount") then
+		PickupSpell(Data); -- MountSpellID passed
+
+
+changed ----------------------------------------------------------------------------
+function Util.LookupCompanion(Name)
+    if (Util.Critters[Name]) then
+        return "CRITTER", Util.Critters[Name]; 
+    elseif (Util.Mounts[Name]) then
+        return "MOUNT", Util.Mounts[Name];
+    else
+        return nil, nil;
+    end
+end
+to ---------------------------------------------------------------------------------
+function Util.CacheCompanions()
+    Util.Critters = {};
+    for i = 1, GetNumCompanions("CRITTER") do
+      local creatureID, creatureName, creatureSpellID, icon, isSummoned = GetCompanionInfo("CRITTER", i)
+      local spellName, rank, icon, castTime, minRange, maxRange, spellID = GetSpellInfo(creatureSpellID)
+      if spellName ~= nil then
+        Util.Critters[spellName] = i;
+      end
+	  end
+    Util.Mounts = {};
+    for i = 1, GetNumCompanions("MOUNT") do
+      local creatureID, creatureName, creatureSpellID, icon, isSummoned = GetCompanionInfo("MOUNT", i)
+      local spellName, rank, icon, castTime, minRange, maxRange, spellID = GetSpellInfo(creatureSpellID)
+      if spellName ~= nil then
+        Util.Mounts[spellName] = i;
+      end
+    end
+	Util.CompanionsCached = true;
+end
+
+	
+added to end of Util.lua
+
+function Util.GetCompanionInfo(CompanionType, MountID, spellID)
+
+  if spellID ~= nil then
+    if Util.Critters == nil or Util.Mounts == nil then
+      Util.CacheCompanions()
+    end
+    Util.MountSpellID = spellID
+    if Util.Critters[MountName] ~= nil then
+      if Util.Critters[MountName] == MountID then
+        CompanionType = "CRITTER"
+      end
+    end
+    if Util.Mounts[MountName] ~= nil then
+      if Util.Mounts[MountName] == MountID then
+        CompanionType = "MOUNT"
+      end
+    end
+  end
+  
+	creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo(CompanionType, MountID);
+  Util.MountSpellID = creatureSpellID
+  Util.CompanionType = CompanionType
+  Util.MountName = creatureName
+  
+  return creatureID,creatureName,creatureSpellID,icon,issummoned,mountTypeID
+end
+
+function Util_GetCurspec()
+  local curspec = 1
+  if  GetActiveTalentGroup() ~= nil then
+    curspec = GetActiveTalentGroup()
+  end
+  return(curspec)
+end
+
+
+-- 10/02/2022 spec macro conditionals added to wrath classic
+Bar.lua -----------------------------------------------------------------
+
+change -----------------------------------------------------------------
+		if self.BarSave["Enabled"] then
+		  if (self.BarSave["HSpec1"]) and Util_GetCurspec() == 1 then
+			   -- Text = Text.."[spec:1] hide; ";
+			   Text = Text.."hide; ";
+		  end
+		  if (self.BarSave["HSpec2"]) and Util_GetCurspec() == 2 then
+  		   -- Text = Text.."[spec:2] hide; ";
+  			 Text = Text.."hide; ";
+      end
+      if not strfind(Text, "hide;",1,true) then
+        if self.BarSave["VDriver"] ~= nil then
+          if strfind(self.BarSave["VDriver"], "[spec:1]",1,true) and Util_GetCurspec() == 1 then
+		        Text = Text.."hide; ";
+		      end
+  		    if strfind(self.BarSave["VDriver"], "[spec:2]",1,true) and Util_GetCurspec() == 2 then
+	    	    Text = Text.."hide; ";
+	  	    end
+	  	  end
+		  end
+	  end
+
+back to -----------------------------------------------------------------
+
+		if (self.BarSave["HSpec1"]) then
+		  Text = Text.."[spec:1] hide; ";
+		end
+		if (self.BarSave["HSpec2"]) then
+ 			Text = Text.."[spec:2] hide; ";
+		end
