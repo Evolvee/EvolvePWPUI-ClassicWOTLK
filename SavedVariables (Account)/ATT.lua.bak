@@ -22,11 +22,11 @@ ATTDB = {
 		["positions"] = {
 		},
 		["glow"] = true,
-		["IconRows"] = 1,
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
 		["alertCDtext"] = {
 		},
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["IconRows"] = 1,
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
@@ -55,11 +55,11 @@ ATTDB = {
 		["positions"] = {
 		},
 		["glow"] = true,
-		["IconRows"] = 1,
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
 		["alertCDtext"] = {
 		},
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["IconRows"] = 1,
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
@@ -88,11 +88,11 @@ ATTDB = {
 		["positions"] = {
 		},
 		["glow"] = true,
-		["IconRows"] = 1,
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
 		["alertCDtext"] = {
 		},
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["IconRows"] = 1,
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
@@ -122,11 +122,11 @@ ATTDB = {
 		["positions"] = {
 		},
 		["glow"] = true,
-		["IconRows"] = 1,
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
 		["alertCDtext"] = {
 		},
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["IconRows"] = 1,
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
@@ -190,14 +190,14 @@ ATTDB = {
 			["HUNTER"] = {
 			},
 		},
-		["attach"] = 0,
+		["showIconBorders"] = true,
 		["horizontal"] = false,
 		["hidden"] = true,
 		["isEnabledRacial"] = {
 			[59752] = true,
 		},
 		["iconOffsetY"] = 0,
-		["showIconBorders"] = true,
+		["attach"] = 0,
 		["isEnabledSpell"] = {
 			["DEATHKNIGHT"] = {
 				[48707] = true,
@@ -250,8 +250,27 @@ ATTDB = {
 				[49012] = true,
 			},
 		},
-		["isEnabledVisibility"] = {
-			["arena"] = true,
+		["alertCD"] = {
+			["DEATHKNIGHT"] = {
+			},
+			["WARRIOR"] = {
+			},
+			["SHAMAN"] = {
+			},
+			["MAGE"] = {
+			},
+			["PRIEST"] = {
+			},
+			["WARLOCK"] = {
+			},
+			["ROGUE"] = {
+			},
+			["DRUID"] = {
+			},
+			["PALADIN"] = {
+			},
+			["HUNTER"] = {
+			},
 		},
 		["IconRows"] = 2,
 		["positions"] = {
@@ -442,27 +461,8 @@ ATTDB = {
 		},
 		["iconOffsetX"] = 0,
 		["offsetY"] = 0,
-		["alertCD"] = {
-			["DEATHKNIGHT"] = {
-			},
-			["WARRIOR"] = {
-			},
-			["SHAMAN"] = {
-			},
-			["MAGE"] = {
-			},
-			["PRIEST"] = {
-			},
-			["WARLOCK"] = {
-			},
-			["ROGUE"] = {
-			},
-			["DRUID"] = {
-			},
-			["PALADIN"] = {
-			},
-			["HUNTER"] = {
-			},
+		["isEnabledVisibility"] = {
+			["arena"] = true,
 		},
 		["classSelected"] = "WARRIOR",
 	},
@@ -488,11 +488,11 @@ ATTDB = {
 		["positions"] = {
 		},
 		["glow"] = true,
-		["IconRows"] = 1,
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
 		["alertCDtext"] = {
 		},
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["IconRows"] = 1,
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,

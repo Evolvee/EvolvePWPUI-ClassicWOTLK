@@ -1329,6 +1329,8 @@ function OmniBar_StartCooldown(self, icon, start)
 	icon.cooldown.finish = start + icon.duration
 	icon.cooldown:SetSwipeColor(0, 0, 0, self.settings.swipeAlpha or 0.65)
 	icon:SetAlpha(1)
+	-- hackfix to have a round texture, replace when upgrading to new omnibar version in the future!
+	icon.cooldown:SetSwipeTexture("Interface\\AddOns\\TextureScript\\Swipe")
 end
 
 function OmniBar_AddIcon(self, info)

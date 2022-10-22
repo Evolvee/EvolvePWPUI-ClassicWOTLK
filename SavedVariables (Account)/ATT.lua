@@ -24,9 +24,9 @@ ATTDB = {
 			["arena"] = true,
 			["dungeons"] = true,
 		},
+		["IconRows"] = 1,
 		["alertCDtext"] = {
 		},
-		["IconRows"] = 1,
 		["iconOffsetX"] = 5,
 		["offsetY"] = 0,
 		["glow"] = true,
@@ -57,9 +57,9 @@ ATTDB = {
 			["arena"] = true,
 			["dungeons"] = true,
 		},
+		["IconRows"] = 1,
 		["alertCDtext"] = {
 		},
-		["IconRows"] = 1,
 		["iconOffsetX"] = 5,
 		["offsetY"] = 0,
 		["glow"] = true,
@@ -90,9 +90,9 @@ ATTDB = {
 			["arena"] = true,
 			["dungeons"] = true,
 		},
+		["IconRows"] = 1,
 		["alertCDtext"] = {
 		},
-		["IconRows"] = 1,
 		["iconOffsetX"] = 5,
 		["offsetY"] = 0,
 		["glow"] = true,
@@ -124,9 +124,9 @@ ATTDB = {
 			["arena"] = true,
 			["dungeons"] = true,
 		},
+		["IconRows"] = 1,
 		["alertCDtext"] = {
 		},
-		["IconRows"] = 1,
 		["iconOffsetX"] = 5,
 		["offsetY"] = 0,
 		["glow"] = true,
@@ -190,6 +190,10 @@ ATTDB = {
 			["ROGUE"] = {
 			},
 		},
+		["isEnabledVisibility"] = {
+			["arena"] = true,
+		},
+		["offsetY"] = 0,
 		["alertCD"] = {
 			["DEATHKNIGHT"] = {
 			},
@@ -212,15 +216,11 @@ ATTDB = {
 			["ROGUE"] = {
 			},
 		},
-		["offsetY"] = 0,
-		["isEnabledVisibility"] = {
-			["arena"] = true,
-		},
 		["isEnabledRacial"] = {
 			[59752] = true,
 		},
 		["iconOffsetY"] = 0,
-		["attach"] = 0,
+		["showIconBorders"] = true,
 		["isEnabledSpell"] = {
 			["DEATHKNIGHT"] = {
 				[48707] = true,
@@ -463,7 +463,7 @@ ATTDB = {
 		["IconRows"] = 2,
 		["iconOffsetX"] = 0,
 		["horizontal"] = false,
-		["showIconBorders"] = true,
+		["attach"] = 0,
 		["showTooltip"] = false,
 	},
 	["HEALER"] = {
@@ -490,9 +490,9 @@ ATTDB = {
 			["arena"] = true,
 			["dungeons"] = true,
 		},
+		["IconRows"] = 1,
 		["alertCDtext"] = {
 		},
-		["IconRows"] = 1,
 		["iconOffsetX"] = 5,
 		["offsetY"] = 0,
 		["glow"] = true,

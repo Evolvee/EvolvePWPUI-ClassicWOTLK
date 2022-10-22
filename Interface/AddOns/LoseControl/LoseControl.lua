@@ -683,7 +683,6 @@ local spellIds = {
 		[32752]  = "CC",			-- Summoning Disorientation
 		[24259]  = "Silence",		-- Spell Lock (Felhunter)
 		[6358]   = "CC",			-- Seduction (Succubus)
-		[4511]   = "Immune",		-- Phase Shift (Imp)
 		[19482]  = "CC",			-- War Stomp (Doomguard)
 		[89]     = "Snare",			-- Cripple (Doomguard)
 		[30153]  = "CC",			-- Intercept Stun (rank 1) (Felguard)
@@ -1569,7 +1568,6 @@ local spellIds = {
 	[43489]  = "CC",				-- Grasp of the Lich King
 	[51788]  = "CC",				-- Lost Soul
 	[66490]  = "CC",				-- P3Wx2 Laser Barrage
-	[60778]  = "CC",				-- Serenity
 	[44848]  = "CC",				-- Tumbling
 	[49946]  = "CC",				-- Chaff
 	[51899]  = "CC",				-- Banshee Curse (chance to hit reduced by 40%)
@@ -1770,7 +1768,6 @@ local spellIds = {
 	[50161]  = "Immune",			-- Protection Sphere
 	[50494]  = "Immune",			-- Shroud of Lightning
 	[54434]  = "Immune",			-- Sparksocket AA: Periodic Aura
-	[58729]  = "Immune",			-- Spiritual Immunity
 	[52185]  = "Immune",			-- Bindings of Submission
 	[62336]  = "Immune",			-- Hookshot Aura
 	[48695]  = "Immune",			-- Imbue Power Shield State
@@ -8791,7 +8788,9 @@ function LoseControl:new(unitId)
 	o.parent = op
 
 	o:SetDrawEdge(false)
-
+	-- round texture hackfix, replace when upgrading to new LC in the future!
+	o:SetSwipeTexture("Interface\\AddOns\\TextureScript\\Swipe")
+	
 	-- Init class members
 	if unitId == "player2" then
 		o.unitId = "player" -- ties the object to a unit

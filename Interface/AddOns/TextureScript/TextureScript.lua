@@ -555,7 +555,7 @@ local function OnInit()
     MinimapCluster:SetPoint("BOTTOMLEFT", 1186.333618164063, 595.0001831054688);
 
     -- Removing Stance Bar (Shadowform icon literally the most useless and space-taking thing Lizzard invented in WOTLK)
-    RegisterStateDriver(StanceBarFrame, "visibility", "hide")
+	RegisterStateDriver(StanceBarFrame, "visibility", "hide")
 
     --disable mouseover flashing on buttons
     texture = MultiBarBottomLeftButton1:GetHighlightTexture()
@@ -1121,7 +1121,7 @@ local function Update(frame)
             if (isEnemy and isStealable and debuffType == 'Magic') then
                 frameStealable:Show()
                 if TrackSpells[name] then -- new 
-                     frameStealable:SetVertexColor(0,0,200/255) -- new
+                     frameStealable:SetVertexColor(255, 0, 0) -- new
                 else -- new
                      frameStealable:SetVertexColor(1,1,1) -- new
                 end -- new
@@ -1556,23 +1556,6 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
         sh:ClearAllPoints()
         sh:SetPoint("TOPLEFT", sh:GetParent(), "TOPLEFT", 1, -1)
         sh:SetPoint("BOTTOMRIGHT", sh:GetParent(), "BOTTOMRIGHT", -1, 1)
-        -- this doesnt work for non-interruptable shield castbar when the enemy "spam-chains" such spells
-        local cb = nameplate.UnitFrame.CastBar
-        cb:HookScript("OnShow", function()
-            if not cb:IsShown() then
-                cb:Show()
-            end
-            local _, _, _, _, _, _, _, notInterruptible = UnitCastingInfo(unit)
-            local _, _, _, _, _, _, nonInterruptible = UnitChannelInfo(unit)
-            if notInterruptible or nonInterruptible then
-                cb:ClearAllPoints()
-                cb:SetPoint("TOP", hb, "BOTTOM", 9, -12)
-            else
-                cb:ClearAllPoints()
-                cb:SetPoint("TOP", hb, "BOTTOM", 9, -4)
-            end
-        end)
-
         HandleNewNameplate(nameplate, unit)
         return
     end
@@ -1705,11 +1688,25 @@ hooksecurefunc(widget, "SetPoint", function(self, _, parent)
     end
 end)
 
+local function SpellBarAdjust(self)
+    local parentFrame = self:GetParent()
+    if not string.find(self.unit, "nameplate") then return end
+
+    if self.BorderShield:IsShown() then
+        self:ClearAllPoints()
+        self:SetPoint("TOP", parentFrame.healthBar, "BOTTOM", 9, -12)
+    else
+        self:ClearAllPoints()
+        self:SetPoint("TOP", parentFrame.healthBar, "BOTTOM", 9, -4)
+    end
+end
+hooksecurefunc("CastingBarFrame_OnShow", SpellBarAdjust)
+
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
 
 -- ^^ current value for testing:100, 400 was too cancerous - sometimes prevented the cast with /cqs+cast macro altogether
 
--- Ingame commmand for classcoloured names in chat: /console SET chatClassColorOverride "0"
+-- Ingame commmand for classcoloured names in chat: /console SET chatClassColorOverride "0" //DOESNT WORK AS OF 15/10/2022 ANYMORE, nice one nuBlizzard, yet again//
 -- trying to remove the cancer weather that is not part of the video settings as it used to be in 2.4.3: /console set weatherdensity 0 // /console WeatherDensity 0
 
 -- Disable the ability to scroll chat with mouse wheel (fucks binds with the mouse-wheel-up/down): /console chatMouseScroll 0

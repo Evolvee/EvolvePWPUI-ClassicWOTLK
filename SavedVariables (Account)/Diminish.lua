@@ -1,22 +1,22 @@
 
 DiminishDB = {
 	["profileKeys"] = {
-		["Evolve-Classic Beta PvP"] = "Default",
-		["Wotlkprep-Sulfuron"] = "Default",
+		["Evolvepwp-Firemaw"] = "Default",
+		["Evolve-Classic PTR Realm 1"] = "Default",
 		["Evolvebanned-Firemaw"] = "Default",
 		["Evolvebank-Gehennas"] = "Default",
 		["Dbldogcheck-Firemaw"] = "Default",
-		["Evolve-Classic PTR Realm 1"] = "Default",
-		["Evolvepwp-Firemaw"] = "Default",
+		["Wotlkprep-Sulfuron"] = "Default",
+		["Evolve-Classic Beta PvP"] = "Default",
 		["Evolvebanned-Gehennas"] = "Default",
 	},
 	["profiles"] = {
 		["Default"] = {
 			["categoryTextures"] = {
 			},
-			["trackNPCs"] = false,
-			["timerColors"] = false,
 			["timerText"] = false,
+			["timerSwipe"] = true,
+			["timerColors"] = false,
 			["timerEdge"] = true,
 			["border"] = {
 				["edgeSize"] = 2.5,
@@ -24,6 +24,13 @@ DiminishDB = {
 				["name"] = "Default",
 				["edgeFile"] = "Interface\\BUTTONS\\UI-Quickslot-Depress",
 			},
+			["timerStartAuraEnd"] = true,
+			["categoryTextMaxLines"] = 2,
+			["showCategoryText"] = false,
+			["version"] = "1.10",
+			["timerTextOutline"] = "OUTLINE",
+			["colorBlind"] = false,
+			["trackNPCs"] = false,
 			["unitFrames"] = {
 				["nameplate"] = {
 					["enabled"] = false,
@@ -267,13 +274,6 @@ DiminishDB = {
 					["isEnabledForZone"] = false,
 				},
 			},
-			["categoryTextMaxLines"] = 2,
-			["showCategoryText"] = false,
-			["version"] = "1.10",
-			["timerTextOutline"] = "OUTLINE",
-			["colorBlind"] = false,
-			["timerSwipe"] = true,
-			["timerStartAuraEnd"] = true,
 			["categoryFont"] = {
 				["x"] = 0,
 				["size"] = 9,
