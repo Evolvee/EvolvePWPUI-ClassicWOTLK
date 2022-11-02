@@ -7569,13 +7569,13 @@ LoseControl:RegisterEvent("ADDON_LOADED")
 function LoseControl:CheckNameplateAnchor()
 	local newAnchor = GetNamePlateForUnit(self.unitId, false)
 	if ((newAnchor ~= nil) and not(newAnchor:IsForbidden())) then
-		if (self.anchor ~= newAnchor) then
+		if (self.anchor ~= newAnchor.UnitFrame) then
 			local name = newAnchor:GetName()
 			if not name or not name:match("^NamePlate") then return end
 			anchors.BlizzardNameplates[self.unitId] = name
 			local frame = self.frame or LoseControlDB.frames[self.fakeUnitId or self.unitId]
 			if (frame.anchor == "BlizzardNameplates") then
-				self.anchor = newAnchor
+				self.anchor = newAnchor.UnitFrame
 				self.parent:SetParent(self.anchor)
 				self.defaultFrameStrata = self:GetFrameStrata()
 				self:GetParent():ClearAllPoints()

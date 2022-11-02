@@ -18,6 +18,8 @@ ATTdbs.Defaults = {
    },
    ["isEnabledRacial"] = {
    },
+   ["isEnabledGlyph"] = {
+   },
    ["alertCD"] = {
    },
    ["alertCDtext"] = {

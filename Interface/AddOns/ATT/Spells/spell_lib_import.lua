@@ -1,7 +1,6 @@
 local addon, ATTdbs = ...
 
 ATTdbs.dbImport = {
-
 	["DRUID"] = {
 		{	["ability"] = 29166, ["cooldown"] = 180,}, -- Innervate --
 		{	["ability"] = 22812, ["cooldown"] = 60,},  -- Barkskin -
@@ -252,12 +251,12 @@ ATTdbs.dbImport = {
 }
 
 ATTdbs.dbRacial = {
-    {["ability"] = 59752, ["cooldown"] = 120, ["race"] = 1 },
+    {["ability"] = 59752, ["cooldown"] = 120, ["race"] = 1, ["cdshare"] = true },
     {["ability"] = 20572, ["cooldown"] = 120, ["race"] = 2 },
     {["ability"] = 20594, ["cooldown"] = 180, ["race"] = 3 },
     {["ability"] = 58984, ["cooldown"] = 120, ["race"] = 4 },--changed
-    {["ability"] = 20577, ["cooldown"] = 120, ["race"] = 5 },
-    {["ability"] = 7744,  ["cooldown"] = 120, ["race"] = 5,},
+    {["ability"] = 20577, ["cooldown"] = 120, ["race"] = 5 ,},
+    {["ability"] = 7744,  ["cooldown"] = 120, ["race"] = 5, ["cdshare"] = true},
     {["ability"] = 20549,  ["cooldown"] = 120, ["race"] = 6, },
     {["ability"] = 20589,  ["cooldown"] = 180, ["race"] = 7 }, --to check
     {["ability"] = 26297, ["cooldown"] = 180, ["race"] = 8 },

@@ -1,7 +1,7 @@
 
 BugGrabberDB = {
-	["session"] = 4304,
 	["lastSanitation"] = 3,
+	["session"] = 4467,
 	["errors"] = {
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'WeakAuras' tried to call the protected function 'MultiBarRightButton1:Hide()'.",
@@ -43,28 +43,20 @@ BugGrabberDB = {
 			["counter"] = 1,
 		}, -- [5]
 		{
-			["message"] = "Interface\\AddOns\\LFGBulletinBoard\\RequestList.lua:344: invalid order function for sorting",
-			["time"] = "2022/10/15 10:34:32",
-			["locals"] = "(*temporary) = <table> {\n 1 = <table> {\n }\n 2 = <table> {\n }\n 3 = <table> {\n }\n 4 = <table> {\n }\n 5 = <table> {\n }\n 6 = <table> {\n }\n 7 = <table> {\n }\n 8 = <table> {\n }\n 9 = <table> {\n }\n 10 = <table> {\n }\n 11 = <table> {\n }\n 12 = <table> {\n }\n 13 = <table> {\n }\n 14 = <table> {\n }\n 15 = <table> {\n }\n 16 = <table> {\n }\n 17 = <table> {\n }\n 18 = <table> {\n }\n 19 = <table> {\n }\n 20 = <table> {\n }\n 21 = <table> {\n }\n 22 = <table> {\n }\n 23 = <table> {\n }\n 24 = <table> {\n }\n 25 = <table> {\n }\n 26 = <table> {\n }\n 27 = <table> {\n }\n 28 = <table> {\n }\n 29 = <table> {\n }\n 30 = <table> {\n }\n 31 = <table> {\n }\n 32 = <table> {\n }\n 33 = <table> {\n }\n 34 = <table> {\n }\n 35 = <table> {\n }\n 36 = <table> {\n }\n 37 = <table> {\n }\n 38 = <table> {\n }\n 39 = <table> {\n }\n 40 = <table> {\n }\n 41 = <table> {\n }\n 42 = <table> {\n }\n 43 = <table> {\n }\n 44 = <table> {\n }\n 45 = <table> {\n }\n 46 = <table> {\n }\n 47 = <table> {\n }\n 48 = <table> {\n }\n 49 = <table> {\n }\n 50 = <table> {\n }\n 51 = <table> {\n }\n 52 = <table> {\n }\n 53 = <table> {\n }\n 54 = <table> {\n }\n 55 = <table> {\n }\n 56 = <table> {\n }\n 57 = <table> {\n }\n 58 = <table> {\n }\n 59 = <table> {\n }\n 60 = <table> {\n }\n 61 = <table> {\n }\n 62 = <table> {\n }\n 63 = <table> {\n }\n 64 = <table> {\n }\n 65 = <table> {\n }\n 66 = <table> {\n }\n 67 = <table> {\n }\n 68 = <table> {\n }\n 69 = <table> {\n }\n 70 = <table> {\n }\n 71 = <table> {\n }\n 72 = <table> {\n }\n 73 = <table> {\n }\n 74 = <table> {\n }\n 75 = <table> {\n }\n 76 = <table> {\n }\n 77 = <table> {\n }\n 78 = <table> {\n }\n 79 = <table> {\n }\n 80 = <table> {\n }\n 81 = <table> {\n }\n 82 = <table> {\n }\n 83 = <table> {\n }\n 84 = <table> {\n }\n 85 = <table> {\n }\n 86 = <table> {\n }\n 87 = <table> {\n }\n 88 = <table> {\n }\n 89 = <table> {\n }\n 90 = <table> {\n }\n 91 = <table> {\n }\n 92 = <table> {\n }\n 93 = <table> {\n }\n 94 = <table> {\n }\n 95 = <table> {\n }\n 96 = <table> {\n }\n 97 = <table> {\n }\n 98 = <table> {\n }\n 99 = <table> {\n }\n 100 = <table> {\n }\n 101 = <table> {\n }\n 102 = <table> {\n }\n 103 = <table> {\n }\n 104 = <table> {\n }\n 105 = <table> {\n }\n 106 = <table> {\n }\n 107 = <table> {\n }\n 108 = <table> {\n }\n 109 = <table> {\n }\n 110 = <table> {\n }\n 111 = <table> {\n }\n 112 = <table> {\n }\n 113 = <table> {\n }\n 114 = <table> {\n }\n 115 = <table> {\n }\n 116 = <table> {\n }\n 117 = <table> {\n }\n 118 = <table> {\n }\n 119 = <table> {\n }\n 120 = <table> {\n }\n 121 = <table> {\n }\n 122 = <table> {\n }\n 123 = <table> {\n }\n 124 = <table> {\n }\n 125 = <table> {\n }\n 126 = <table> {\n }\n 127 = <table> {\n }\n 128 = <table> {\n }\n 129 = <table> {\n }\n 130 = <table> {\n }\n 131 = <table> {\n }\n 132 = <table> {\n }\n 133 = <table> {\n }\n 134 = <table> {\n }\n 135 = <table> {\n }\n 136 = <table> {\n }\n 137 = <table> {\n }\n 138 = <table> {\n }\n 139 = <table> {\n }\n 140 = <table> {\n }\n 141 = <table> {\n }\n 142 = <table> {\n }\n 143 = <table> {\n }\n 144 = <table> {\n }\n 145 = <table> {\n }\n 146 = <table> {\n }\n}\n(*temporary) = <function> defined @Interface\\AddOns\\LFGBulletinBoard\\RequestList.lua:23\n(*temporary) = <table> {\n IsFriend = false\n last = 1665822865\n class = \"WARRIOR\"\n IsGuildMember = false\n IsPastPlayer = false\n name = \"Coreki\"\n message = \"LFM Naxx25 r 2xSr> Ms > Os  (Key BoE HR) Need ALL ATM Min 3.7gs Discord Mandatory inspects at Dala \"\n start = 1665821639\n IsHeroic = false\n dungeon = \"NAX\"\n IsRaid = true\n}\n(*temporary) = <table> {\n IsFriend = false\n last = 1665822856\n class = \"DRUID\"\n IsGuildMember = false\n IsPastPlayer = false\n name = \"Tayowl\"\n message = \"LFM TODAY 1PM ST  Naxx25-EoE-OS GDKP 85% equal split startbid 1k need ALL https://discord.gg/TDxNTjSurB or whisper for info.\"\n start = 1665821652\n IsHeroic = false\n dungeon = \"NAX\"\n IsRaid = true\n}\n(*temporary) = <table> {\n IsFriend = false\n last = 1665822868\n class = \"PRIEST\"\n IsGuildMember = false\n IsPastPlayer = false\n name = \"Bloom\"\n message = \"LFM - GDKP - NAXX25/EOE25/OS25 - 19:00 SUNDAY - 85% split - need DPS (Shadow priest, lock, dk, mage, rogue) - startbid 1k /w me for gear/logs\"\n start = 1665821639\n IsHeroic = false\n dungeon = \"NAX\"\n IsRaid = true\n}\n",
-			["stack"] = "[string \"=[C]\"]: in function `sort'\n[string \"@Interface\\AddOns\\LFGBulletinBoard\\RequestList.lua\"]:344: in function `UpdateList'\n[string \"@Interface\\AddOns\\LFGBulletinBoard\\GroupBulletinBoard.lua\"]:739: in function `Entry'\n[string \"@Interface\\AddOns\\LFGBulletinBoard\\LibGPIToolBox.lua\"]:114: in function <Interface\\AddOns\\LFGBulletinBoard\\LibGPIToolBox.lua:112>",
-			["session"] = 4228,
-			["counter"] = 1,
-		}, -- [6]
-		{
 			["message"] = "C stack overflow",
 			["time"] = "2022/10/08 15:18:06",
 			["locals"] = "(*temporary) = <unnamed> {\n 0 = <userdata>\n showTradeSkills = false\n holdTime = 0\n casting = true\n Border = <unnamed> {\n }\n Flash = <unnamed> {\n }\n showShield = true\n unit = \"nameplate1\"\n showCastbar = true\n value = 0.000000\n Icon = <unnamed> {\n }\n startChannelColor = <table> {\n }\n finishedCastColor = <table> {\n }\n Spark = <unnamed> {\n }\n maxValue = 1.444000\n flash = true\n Text = <unnamed> {\n }\n BorderShield = <unnamed> {\n }\n castID = \"Cast-3-4447-2118-15762-49271-001E41788E\"\n startCastColor = <table> {\n }\n flashColorSameAsStart = true\n notInterruptible = false\n failedCastColor = <table> {\n }\n}\n(*temporary) = <function> defined =[C]:-1\n(*temporary) = <unnamed> {\n 0 = <userdata>\n showTradeSkills = false\n holdTime = 0\n casting = true\n Border = <unnamed> {\n }\n Flash = <unnamed> {\n }\n showShield = true\n unit = \"nameplate1\"\n showCastbar = true\n value = 0.000000\n Icon = <unnamed> {\n }\n startChannelColor = <table> {\n }\n finishedCastColor = <table> {\n }\n Spark = <unnamed> {\n }\n maxValue = 1.444000\n flash = true\n Text = <unnamed> {\n }\n BorderShield = <unnamed> {\n }\n castID = \"Cast-3-4447-2118-15762-49271-001E41788E\"\n startCastColor = <table> {\n }\n flashColorSameAsStart = true\n notInterruptible = false\n failedCastColor = <table> {\n }\n}\n = <function> defined =[C]:-1\n = <function> defined @Interface\\AddOns\\TextureScript\\TextureScript.lua:1555\n",
 			["stack"] = "[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n...\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: ?\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface_Wrath\\FrameXML\\CastingBarFrame.lua\"]:198: in function <Interface_Wrath\\FrameXML\\CastingBarFrame.lua:118>",
 			["session"] = 4228,
 			["counter"] = 132,
-		}, -- [7]
+		}, -- [6]
 		{
 			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'Auctionator' tried to call the protected function 'Search()'.",
 			["time"] = "2022/10/08 15:47:09",
 			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:67: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
 			["session"] = 4230,
 			["counter"] = 3,
-		}, -- [8]
+		}, -- [7]
 		{
 			["message"] = "...ns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua:700: attempt to index local 'displayData' (a nil value)",
 			["time"] = "2022/10/15 23:18:42",
@@ -72,7 +64,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:700: in function `LFGBrowseGroupDataDisplayRoleCount_Update'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:656: in function `LFGBrowseGroupDataDisplay_Update'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:328: in function `LFGBrowseSearchEntry_Update'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:346: in function <...ns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua:341>",
 			["session"] = 4237,
 			["counter"] = 1,
-		}, -- [9]
+		}, -- [8]
 		{
 			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:561: unexpected symbol near '`'",
 			["time"] = "2022/10/17 17:31:19",
@@ -80,7 +72,7 @@ BugGrabberDB = {
 			["stack"] = "",
 			["session"] = 4254,
 			["counter"] = 4,
-		}, -- [10]
+		}, -- [9]
 		{
 			["message"] = "Interface\\SharedXML\\AddonList.lua:586: AddOn index must be in the range of 1 to 35",
 			["time"] = "2022/10/12 17:12:18",
@@ -88,28 +80,7 @@ BugGrabberDB = {
 			["stack"] = "[string \"=[C]\"]: in function `GetAddOnInfo'\n[string \"@Interface\\SharedXML\\AddonList.lua\"]:586: in function `AddonTooltip_Update'\n[string \"@Interface\\SharedXML\\AddonList.lua\"]:465: in function `AddonListScrollFrame_OnVerticalScroll'\n[string \"*:OnVerticalScroll\"]:1: in function <[string \"*:OnVerticalScroll\"]:1>\n[string \"=[C]\"]: in function `SetVerticalScroll'\n[string \"@Interface\\SharedXML\\SecureUIPanelTemplates.lua\"]:64: in function <Interface\\SharedXML\\SecureUIPanelTemplates.lua:63>\n[string \"=[C]\"]: in function `SetValue'\n[string \"@Interface\\SharedXML\\AddonList.lua\"]:461: in function `AddonListScrollFrame_OnVerticalScroll'\n[string \"*:OnVerticalScroll\"]:1: in function <[string \"*:OnVerticalScroll\"]:1>\n[string \"=[C]\"]: in function `SetVerticalScroll'\n[string \"@Interface\\SharedXML\\SecureUIPanelTemplates.lua\"]:64: in function <Interface\\SharedXML\\SecureUIPanelTemplates.lua:63>",
 			["session"] = 4285,
 			["counter"] = 34,
-		}, -- [11]
-		{
-			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'LFGBulletinBoard' tried to call the protected function 'Search()'.",
-			["time"] = "2022/10/08 17:08:21",
-			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:67: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
-			["session"] = 4286,
-			["counter"] = 9,
-		}, -- [12]
-		{
-			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'LoseControl' tried to call the protected function 'Search()'.",
-			["time"] = "2022/10/11 21:27:07",
-			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:67: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
-			["session"] = 4287,
-			["counter"] = 3,
-		}, -- [13]
-		{
-			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'HideChatButton' tried to call the protected function 'Search()'.",
-			["time"] = "2022/10/11 20:50:58",
-			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:67: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
-			["session"] = 4297,
-			["counter"] = 8,
-		}, -- [14]
+		}, -- [10]
 		{
 			["message"] = "Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2379: attempt to perform arithmetic on upvalue '_numItems' (a nil value)",
 			["time"] = "2022/10/07 19:46:07",
@@ -117,6 +88,91 @@ BugGrabberDB = {
 			["stack"] = "[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2379: in function `RecalculateGearManagerDialogPopup'\n[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2356: in function <Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2353>\n[string \"=[C]\"]: in function `Show'\n[string \"@Interface_Wrath\\FrameXML\\PaperDollFrame.lua\"]:2272: in function <Interface_Wrath\\FrameXML\\PaperDollFrame.lua:2269>",
 			["session"] = 4302,
 			["counter"] = 17,
+		}, -- [11]
+		{
+			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:1013: ')' expected (to close '(' at line 1005) near 'AnimationTick'",
+			["time"] = "2022/10/22 11:57:21",
+			["locals"] = "",
+			["stack"] = "",
+			["session"] = 4308,
+			["counter"] = 4,
+		}, -- [12]
+		{
+			["message"] = "Interface\\AddOns\\ShowMeBuff\\ShowMeBuff.lua:177: attempt to call global 'LoadUnitBuffs' (a nil value)",
+			["time"] = "2022/10/22 14:45:13",
+			["locals"] = "rules = <table> {\n hideDuration = 600\n hideNames = <table> {\n }\n onlyCastable = false\n hideFiltered = true\n hideMounts = true\n hideNonPlayer = false\n hideInfinite = false\n buffSize = 15\n hideConsolidated = true\n numLines = 18\n numPerLine = 6\n}\npointX = 48\npointY = -32\n(for index) = 1\n(for limit) = 4\n(for step) = 1\ni = 1\nf = PartyMemberFrame1 {\n 0 = <userdata>\n portrait = PartyMemberFrame1Portrait {\n }\n statusSign = -1\n numDebuffs = 0\n notPresentIcon = PartyMemberFrame1NotPresentIcon {\n }\n debuffTotal = 0\n statusCounter = 0\n healthbar = PartyMemberFrame1HealthBar {\n }\n manabar = PartyMemberFrame1ManaBar {\n }\n unitHPPercent = 1\n OnEvent = <function> defined *:OnEvent:1\n state = \"player\"\n noTextPrefix = true\n menu = <function> defined @Interface\\FrameXML\\PartyMemberFrame.lua:115\n debuffCountdown = 30\n unit = \"party1\"\n threatIndicator = PartyMemberFrame1Flash {\n }\n name = PartyMemberFrame1Name {\n }\n}\n(*temporary) = nil\n(*temporary) = <table> {\n hideDuration = 600\n hideNames = <table> {\n }\n onlyCastable = false\n hideFiltered = true\n hideMounts = true\n hideNonPlayer = false\n hideInfinite = false\n buffSize = 15\n hideConsolidated = true\n numLines = 18\n numPerLine = 6\n}\n(*temporary) = 48\n(*temporary) = -32\n(*temporary) = PartyMemberFrame1 {\n 0 = <userdata>\n portrait = PartyMemberFrame1Portrait {\n }\n statusSign = -1\n numDebuffs = 0\n notPresentIcon = PartyMemberFrame1NotPresentIcon {\n }\n debuffTotal = 0\n statusCounter = 0\n healthbar = PartyMemberFrame1HealthBar {\n }\n manabar = PartyMemberFrame1ManaBar {\n }\n unitHPPercent = 1\n OnEvent = <function> defined *:OnEvent:1\n state = \"player\"\n noTextPrefix = true\n menu = <function> defined @Interface\\FrameXML\\PartyMemberFrame.lua:115\n debuffCountdown = 30\n unit = \"party1\"\n threatIndicator = PartyMemberFrame1Flash {\n }\n name = PartyMemberFrame1Name {\n }\n}\n(*temporary) = \"attempt to call global 'LoadUnitBuffs' (a nil value)\"\n",
+			["stack"] = "[string \"@Interface\\AddOns\\ShowMeBuff\\ShowMeBuff.lua\"]:177: in function <Interface\\AddOns\\ShowMeBuff\\ShowMeBuff.lua:174>\n[string \"@Interface\\AddOns\\ShowMeBuff\\ShowMeBuff.lua\"]:205: in function <Interface\\AddOns\\ShowMeBuff\\ShowMeBuff.lua:197>\n[string \"@Interface\\AddOns\\ShowMeBuff\\ShowMeBuff.lua\"]:232: in function <Interface\\AddOns\\ShowMeBuff\\ShowMeBuff.lua:221>",
+			["session"] = 4317,
+			["counter"] = 1,
+		}, -- [13]
+		{
+			["message"] = "Interface\\AddOns\\BindPad\\BindPad-c0.2.lua:1972: attempt to index local 'frameName' (a number value)",
+			["time"] = "2022/10/24 19:06:55",
+			["locals"] = "frameType = \"CheckButton\"\nframeName = 42292\nparentFrame = ATC {\n 0 = <userdata>\n}\ninheritsFrame = \"InterfaceOptionsCheckButtonTemplate\"\nid = nil\n(*temporary) = nil\n(*temporary) = 42292\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = nil\n(*temporary) = \"attempt to index local 'frameName' (a number value)\"\nBindPadCore = <table> {\n SwitchProfile = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1028\n UpdateAllHotkeys = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1907\n GetTabInfo = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2040\n drag = <table> {\n }\n DoRestoreAllKeys = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1662\n GetSlotInfo = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2036\n HotKeyList = <table> {\n }\n PlaceIntoSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:823\n GetBaseForMorphingSpell = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2137\n OverwriteHotKey = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1927\n GameTooltipSetSpellBookItem = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1803\n GameTooltipSetItemByID = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1788\n CreateFrameQueue = <table> {\n }\n GameTooltipSetBagItem = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1792\n ChatEdit_InsertLinkHook = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1259\n PlayerTalentUpdate = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1494\n GameTooltipSetAction = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1807\n InitHotKeyList = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1852\n useBindPadSlot = 0\n UnbindSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1175\n PickupSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1085\n specInfoCache = <table> {\n }\n SaveBindings = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2127\n DoSaveAllKeys = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1622\n UpdateCursor = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1421\n currentkeybindings = <table> {\n }\n GetProfileForSpec = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1005\n profileNum = 1\n CreateBindPadMacroAction = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1436\n CheckCorruptedSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:964\n GetSlotInfoInTab = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2073\n DoList = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1531\n GetMacroIconInfo = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1589\n FindSpellBookIdByName = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1205\n PickupSpellBookItemHook = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1302\n ManuallySetBinding = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1150\n morphingSpellCache = <table> {\n }\n CarryOverKeybinding = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1132\n ShowDialog = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1817\n AllSlotInfoIter = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2101\n SetTriggerOnKeydown = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1519\n ChangingKeyBindings = false\n InnerSetBinding = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1145\n character = \"PROFILE_Firemaw_Evolvepwp\"\n InitProfile = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1321\n initialized = true\n eventProc = <table> {\n }\n GetBindingKeyFromAction = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2172\n WaitForEvent = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2183\n HideSubFrames = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2122\n HidePopup = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:2117\n CreateBindPadSlot = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1988\n GetBindingText = <function> defined @Interface\\AddOns\\BindPad\\BindPad.lua:1214\n NewBindPadMacroName = <function> defined @Interface\\AddOns\\BindPad\\",
+			["stack"] = "[string \"@Interface\\AddOns\\BindPad\\BindPad-c0.2.lua\"]:1972: in function <Interface\\AddOns\\BindPad\\BindPad.lua:1969>\n[string \"=[C]\"]: in function `CreateFrame'\n[string \"@Interface\\AddOns\\ATT\\ATT-4.lua\"]:1786: in function `clickFunc'\n[string \"@Interface\\AddOns\\ATT\\libs\\LibATTSimpleOptions-90005.lua\"]:479: in function <Interface\\AddOns\\ATT\\libs\\LibATTSimpleOptions.lua:478>",
+			["session"] = 4355,
+			["counter"] = 10,
+		}, -- [14]
+		{
+			["message"] = "Interface\\AddOns\\LFGBulletinBoard\\RequestList.lua:344: invalid order function for sorting",
+			["time"] = "2022/10/15 10:34:32",
+			["locals"] = "(*temporary) = <table> {\n 1 = <table> {\n }\n 2 = <table> {\n }\n 3 = <table> {\n }\n 4 = <table> {\n }\n 5 = <table> {\n }\n 6 = <table> {\n }\n 7 = <table> {\n }\n 8 = <table> {\n }\n 9 = <table> {\n }\n 10 = <table> {\n }\n 11 = <table> {\n }\n 12 = <table> {\n }\n 13 = <table> {\n }\n 14 = <table> {\n }\n 15 = <table> {\n }\n 16 = <table> {\n }\n 17 = <table> {\n }\n 18 = <table> {\n }\n 19 = <table> {\n }\n 20 = <table> {\n }\n 21 = <table> {\n }\n 22 = <table> {\n }\n 23 = <table> {\n }\n 24 = <table> {\n }\n 25 = <table> {\n }\n 26 = <table> {\n }\n 27 = <table> {\n }\n 28 = <table> {\n }\n 29 = <table> {\n }\n 30 = <table> {\n }\n 31 = <table> {\n }\n 32 = <table> {\n }\n 33 = <table> {\n }\n 34 = <table> {\n }\n 35 = <table> {\n }\n 36 = <table> {\n }\n 37 = <table> {\n }\n 38 = <table> {\n }\n 39 = <table> {\n }\n 40 = <table> {\n }\n 41 = <table> {\n }\n 42 = <table> {\n }\n 43 = <table> {\n }\n 44 = <table> {\n }\n 45 = <table> {\n }\n 46 = <table> {\n }\n 47 = <table> {\n }\n 48 = <table> {\n }\n 49 = <table> {\n }\n 50 = <table> {\n }\n 51 = <table> {\n }\n 52 = <table> {\n }\n 53 = <table> {\n }\n 54 = <table> {\n }\n 55 = <table> {\n }\n 56 = <table> {\n }\n 57 = <table> {\n }\n 58 = <table> {\n }\n 59 = <table> {\n }\n 60 = <table> {\n }\n 61 = <table> {\n }\n 62 = <table> {\n }\n 63 = <table> {\n }\n 64 = <table> {\n }\n 65 = <table> {\n }\n 66 = <table> {\n }\n 67 = <table> {\n }\n 68 = <table> {\n }\n 69 = <table> {\n }\n 70 = <table> {\n }\n 71 = <table> {\n }\n 72 = <table> {\n }\n 73 = <table> {\n }\n 74 = <table> {\n }\n 75 = <table> {\n }\n 76 = <table> {\n }\n 77 = <table> {\n }\n 78 = <table> {\n }\n 79 = <table> {\n }\n 80 = <table> {\n }\n 81 = <table> {\n }\n 82 = <table> {\n }\n 83 = <table> {\n }\n 84 = <table> {\n }\n 85 = <table> {\n }\n 86 = <table> {\n }\n 87 = <table> {\n }\n 88 = <table> {\n }\n 89 = <table> {\n }\n 90 = <table> {\n }\n 91 = <table> {\n }\n 92 = <table> {\n }\n 93 = <table> {\n }\n 94 = <table> {\n }\n 95 = <table> {\n }\n 96 = <table> {\n }\n 97 = <table> {\n }\n 98 = <table> {\n }\n 99 = <table> {\n }\n 100 = <table> {\n }\n 101 = <table> {\n }\n 102 = <table> {\n }\n 103 = <table> {\n }\n 104 = <table> {\n }\n 105 = <table> {\n }\n 106 = <table> {\n }\n 107 = <table> {\n }\n 108 = <table> {\n }\n 109 = <table> {\n }\n 110 = <table> {\n }\n 111 = <table> {\n }\n 112 = <table> {\n }\n 113 = <table> {\n }\n 114 = <table> {\n }\n 115 = <table> {\n }\n 116 = <table> {\n }\n 117 = <table> {\n }\n 118 = <table> {\n }\n 119 = <table> {\n }\n 120 = <table> {\n }\n 121 = <table> {\n }\n 122 = <table> {\n }\n 123 = <table> {\n }\n 124 = <table> {\n }\n 125 = <table> {\n }\n 126 = <table> {\n }\n 127 = <table> {\n }\n 128 = <table> {\n }\n 129 = <table> {\n }\n 130 = <table> {\n }\n 131 = <table> {\n }\n 132 = <table> {\n }\n 133 = <table> {\n }\n 134 = <table> {\n }\n 135 = <table> {\n }\n 136 = <table> {\n }\n 137 = <table> {\n }\n 138 = <table> {\n }\n 139 = <table> {\n }\n 140 = <table> {\n }\n 141 = <table> {\n }\n 142 = <table> {\n }\n 143 = <table> {\n }\n 144 = <table> {\n }\n 145 = <table> {\n }\n 146 = <table> {\n }\n}\n(*temporary) = <function> defined @Interface\\AddOns\\LFGBulletinBoard\\RequestList.lua:23\n(*temporary) = <table> {\n IsFriend = false\n last = 1665822865\n class = \"WARRIOR\"\n IsGuildMember = false\n IsPastPlayer = false\n name = \"Coreki\"\n message = \"LFM Naxx25 r 2xSr> Ms > Os  (Key BoE HR) Need ALL ATM Min 3.7gs Discord Mandatory inspects at Dala \"\n start = 1665821639\n IsHeroic = false\n dungeon = \"NAX\"\n IsRaid = true\n}\n(*temporary) = <table> {\n IsFriend = false\n last = 1665822856\n class = \"DRUID\"\n IsGuildMember = false\n IsPastPlayer = false\n name = \"Tayowl\"\n message = \"LFM TODAY 1PM ST  Naxx25-EoE-OS GDKP 85% equal split startbid 1k need ALL https://discord.gg/TDxNTjSurB or whisper for info.\"\n start = 1665821652\n IsHeroic = false\n dungeon = \"NAX\"\n IsRaid = true\n}\n(*temporary) = <table> {\n IsFriend = false\n last = 1665822868\n class = \"PRIEST\"\n IsGuildMember = false\n IsPastPlayer = false\n name = \"Bloom\"\n message = \"LFM - GDKP - NAXX25/EOE25/OS25 - 19:00 SUNDAY - 85% split - need DPS (Shadow priest, lock, dk, mage, rogue) - startbid 1k /w me for gear/logs\"\n start = 1665821639\n IsHeroic = false\n dungeon = \"NAX\"\n IsRaid = true\n}\n",
+			["stack"] = "[string \"=[C]\"]: in function `sort'\n[string \"@Interface\\AddOns\\LFGBulletinBoard\\RequestList.lua\"]:344: in function `UpdateList'\n[string \"@Interface\\AddOns\\LFGBulletinBoard\\GroupBulletinBoard.lua\"]:739: in function `Entry'\n[string \"@Interface\\AddOns\\LFGBulletinBoard\\LibGPIToolBox.lua\"]:114: in function <Interface\\AddOns\\LFGBulletinBoard\\LibGPIToolBox.lua:112>",
+			["session"] = 4372,
+			["counter"] = 12,
 		}, -- [15]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'LoseControl' tried to call the protected function 'Search()'.",
+			["time"] = "2022/10/11 21:27:07",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:67: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
+			["session"] = 4394,
+			["counter"] = 5,
+		}, -- [16]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'LFGBulletinBoard' tried to call the protected function 'Search()'.",
+			["time"] = "2022/10/08 17:08:21",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:67: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
+			["session"] = 4396,
+			["counter"] = 17,
+		}, -- [17]
+		{
+			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:1429: '=' expected near 'npcId'",
+			["time"] = "2022/10/29 15:51:47",
+			["locals"] = "",
+			["stack"] = "",
+			["session"] = 4400,
+			["counter"] = 12,
+		}, -- [18]
+		{
+			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:1409: '=' expected near 'npcId'",
+			["time"] = "2022/10/29 15:54:11",
+			["locals"] = "",
+			["stack"] = "",
+			["session"] = 4402,
+			["counter"] = 4,
+		}, -- [19]
+		{
+			["message"] = "Interface\\AddOns\\TextureScript\\TextureScript.lua:1407: '=' expected near 'npcId'",
+			["time"] = "2022/10/29 15:55:16",
+			["locals"] = "",
+			["stack"] = "",
+			["session"] = 4404,
+			["counter"] = 8,
+		}, -- [20]
+		{
+			["message"] = "Interface\\AddOns\\Gladdy\\Gladdy-11.lua:239: bad argument #1 to 'pairs' (table expected, got nil)",
+			["time"] = "2022/10/30 17:15:26",
+			["locals"] = "(*temporary) = nil\n(*temporary) = \"table expected, got nil\"\n = <function> defined =[C]:-1\n",
+			["stack"] = "[string \"=[C]\"]: ?\n[string \"@Interface\\AddOns\\Gladdy\\Gladdy-11.lua\"]:239: in function `DeleteUnknownOptions'\n[string \"@Interface\\AddOns\\Gladdy\\Gladdy-11.lua\"]:115: in function <Interface\\AddOns\\Gladdy\\Gladdy.lua:106>",
+			["session"] = 4438,
+			["counter"] = 1,
+		}, -- [21]
+		{
+			["message"] = "[ADDON_ACTION_BLOCKED] AddOn 'HideChatButton' tried to call the protected function 'Search()'.",
+			["time"] = "2022/10/11 20:50:58",
+			["stack"] = "[string \"@Interface\\AddOns\\!BugGrabber\\BugGrabber.lua\"]:480: in function <Interface\\AddOns\\!BugGrabber\\BugGrabber.lua:480>\n[string \"=[C]\"]: in function `Search'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:225: in function `LFGBrowse_DoSearch'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGBrowse.lua\"]:178: in function `SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGParentFrame.lua\"]:92: in function `LFGParentFrame_SearchActiveEntry'\n[string \"@Interface\\AddOns\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua\"]:67: in function <...s\\Blizzard_LookingForGroupUI\\Blizzard_LFGListing.lua:49>",
+			["session"] = 4459,
+			["counter"] = 14,
+		}, -- [22]
 	},
 }

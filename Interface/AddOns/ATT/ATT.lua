@@ -8,7 +8,6 @@ Description: Track the cooldowns of your party members
 local _G = _G
 local addon, ATTdbs = ...
 local match = string.match
-local GetSpellInfo = GetSpellInfo
 local UnitClass = UnitClass
 local UnitGUID = UnitGUID
 local UnitName = UnitName
@@ -19,15 +18,16 @@ local UnitRace = UnitRace
 local UnitLevel = UnitLevel
 local CooldownFrame_Set = CooldownFrame_Set
 local GetTalentInfo = GetTalentInfo
-local GetInventoryItemID = GetInventoryItemID
+local GetSpellInfo = GetSpellInfo
 local LGlows = LibStub("LibATTButtonGlow")
 local ChatPrefix = "ATT-Check"
-local ATTversion = 3
+local ATTversion = 6
 local ATTnewversion
 local db
 local selectedDB
 local dbModif = ATTdbs.dbModif
 local dbRacial = ATTdbs.dbRacial
+local dbModifGlyph = ATTdbs.dbModifGlyph
 local dbImport = ATTdbs.dbImport
 local ShareCD = ATTdbs.ShareCD
 local dbAuraRemoved = ATTdbs.dbAuraRemoved
@@ -40,7 +40,7 @@ local ATTAnchor = CreateFrame("Frame",nil,UIParent)
 local ATTInspectFrame = CreateFrame("Frame",nil,UIParent)
 local ATTInspectedFrame = CreateFrame("GameTooltip", "ATTInspectedFrame", nil, "GameTooltipTemplate")
 ATTInspectedFrame:SetOwner(UIParent, "ANCHOR_NONE")
-local ATTInspectedCheck = CreateFrame("GameTooltip", "ATTInspectedFrame", nil, "GameTooltipTemplate")
+local ATTInspectedCheck = CreateFrame("GameTooltip", "ATTInspectedCheck", nil, "GameTooltipTemplate")
 ATTInspectedCheck:SetOwner(UIParent, "ANCHOR_NONE")
 local PlayerGUID = UnitGUID("player")
 local insTimes = 0
@@ -51,6 +51,9 @@ local activeGUIDS = {}
 local dbInspect = {}
 local isFWW = {} -- workaround fix
 local insUnitDelay = {}
+
+local PvPTrinketName = GetSpellInfo(42292)
+local EveryMan = GetSpellInfo(59752)
         
 local function print(...)
 	for i=1,select('#',...) do
@@ -151,7 +154,8 @@ function ATT:EnqueueInspect(grupdate)
         end
     end
     if grupdate and #inspect_queue > 0 then self:SendUpdate() end
-    if #inspect_queue > 0 and not ATTInspectFrame:IsShown() then ATT:RegisterEvent("INSPECT_READY") ATTInspectFrame:Show(); end
+
+    if #inspect_queue > 0 and not ATTInspectFrame:IsShown() then ATT:RegisterEvent("INSPECT_READY") ATTInspectFrame:Show();  end
 end
 
 function ATT:ProcessInspectQueue()
@@ -183,7 +187,7 @@ local function InspectTimer(self, elapsed)
     end
 end
 
-function ATT:INSPECT_READY(guid)
+function ATT:INSPECT_READY(guid)   
     if InspectFrame and InspectFrame:IsShown() then return end
     local unit = self:FindUnitByGUID(guid)
     if unit and guid and self.isATTunit and self.isATTunit == guid then
@@ -305,6 +309,7 @@ function ATT:FindFrames()
                     hookedframes[UnitGUID(unit)] = frame
                 end
             end
+         if not hookedframes[PlayerGUID] or (hookedframes[PlayerGUID] and not hookedframes[PlayerGUID]:IsVisible()) then hookedframes[PlayerGUID] = _G["PlayerFrame"]  end
         end
     else
         for i = 1, 40 do
@@ -315,6 +320,7 @@ function ATT:FindFrames()
                 hookedframes[UnitGUID(unit)] = frame
             end
         end
+        if frametype == "PartyMemberFrame%d" and not hookedframes[PlayerGUID] or (hookedframes[PlayerGUID] and not hookedframes[PlayerGUID]:IsVisible()) then hookedframes[PlayerGUID] = _G["PlayerFrame"]  end
     end
 end
 
@@ -328,6 +334,7 @@ function ATT:UpdatePositions()
         local anchorGuid = UnitGUID(anchorUnit)
         local raidFrame = hookedframes[anchorGuid]
         
+        if anchorGuid == PlayerGUID and db.selfAttach then raidFrame = nil end
         if raidFrame and db.attach and db.attach ~= 0 then
             if db.horizontal then
                 anchors[k]:SetPoint(db.growLeft and "BOTTOMLEFT" or "BOTTOMRIGHT", raidFrame, db.growLeft and "BOTTOMRIGHT" or "BOTTOMLEFT", db.offsetX, db.offsetY)
@@ -363,8 +370,8 @@ function ATT:CreateAnchors()
         anchor.HideIcons = function() for k,icon in ipairs(anchor.icons) do icon:ClearAllPoints(); icon:Hide();icon.ability = nil; icon.abilityID = nil; icon.active = nil; icon.inUse = nil; icon.showing = nil; icon.seen = nil; end end
         anchor.StopAllIcons = function(flag) for k,icon in ipairs(anchor.icons) do if flag ~= "raidstop" or (flag == "raidstop" and icon.cooldown and icon.cooldown >= 180) then icon.Stop(); icon.seen = nil  end  end end
         anchor.StopAllGlow = function(flag) for k,icon in ipairs(anchor.icons) do LGlows.HideOverlayGlow2(icon) end end
-        anchor:SetScript("OnMouseDown",function(self,button) if button == "LeftButton" and db.attach == 0 then self:StartMoving(); end end)
-        anchor:SetScript("OnMouseUp",function(self,button) if button == "LeftButton" and db.attach == 0 then self:StopMovingOrSizing(); ATT:SavePositions() end end)
+        anchor:SetScript("OnMouseDown",function(self,button) if button == "LeftButton" and db.attach == 0 or (anchor.GUID == PlayerGUID and db.selfAttach) then self:StartMoving(); end end)
+        anchor:SetScript("OnMouseUp",function(self,button) if button == "LeftButton" and db.attach == 0 or (anchor.GUID == PlayerGUID and db.selfAttach) then self:StopMovingOrSizing(); ATT:SavePositions() end end)
         anchor:Hide()
         anchors[i] = anchor
         index:SetPoint("CENTER")
@@ -420,7 +427,6 @@ local function CreateIcon(anchor)
         icon:Show()
         icon.active = true;
         icon.flashAnim:Play()
-        icon.newitemglowAnim:Play()
         
         activeGUIDS[icon.GUID] = activeGUIDS[icon.GUID] or {}
         activeGUIDS[icon.GUID][icon.abilityID] = activeGUIDS[icon.GUID][icon.abilityID] or {}
@@ -555,7 +561,6 @@ local function CreateIcon(anchor)
     return icon
 end
 
-
 -- adds a new icon
 function ATT:AddIcon(icons,anchor)
 	local newicon = CreateIcon(anchor)
@@ -571,9 +576,12 @@ function ATT:ApplyIconTextureBorder(icon)
 	    icon.texture:SetTexCoord(0.07,0.9,0.07,0.90)
 	end
 end
+
+function ATT:BaseGlyphs(guid,unit,classID)
+end
                               
 function ATT:UpdateAnchorGUID(unit, guid, newInspect)
-    local _,class = UnitClass(unit)
+    local _,class, classID = UnitClass(unit)
     local anchor = self:CheckValidAnchor(unit)
     anchor.GUID = guid
     anchor.class = class
@@ -584,15 +592,16 @@ function ATT:UpdateAnchorGUID(unit, guid, newInspect)
     -- Talent Check / Inspect
     if class and newInspect then
         dbInspect[guid] = {}
+        dbInspect[guid]["isInspected"] = false
         local isInspect = (guid ~= PlayerGUID) and true  --here
-        --  local tabs = GetNumTalentTabs(isInspect)
-        for i = 1, 3 do
-            --  local ntalents = GetNumTalents(i,isInspect)
+        local talentspec = GetActiveTalentGroup(isInspect)
+        for i = 1, 4 do
             for j = 1, 31 do
-                Name, _, _, _, rank, maxRank, _, meetsPrereq = GetTalentInfo(i,j,isInspect,unit)
-                if rank and Name then dbInspect[guid][Name] = rank end
+                local Name, _, _, _, rank = GetTalentInfo(i,j,isInspect,false,talentspec)
+                if Name and rank then dbInspect[guid][Name] = rank end
             end
         end
+        
         for k=12,15 do
             ATTInspectedFrame:ClearLines()
             ATTInspectedFrame:SetInventoryItem(unit, k)
@@ -603,16 +612,22 @@ function ATT:UpdateAnchorGUID(unit, guid, newInspect)
                 if k == 14 then dbInspect[guid]["item2"] = itemID end
             end
         end
-        if not isInspect then
-            for i = 1, 6 do
-                local _,_, glyphSpellID = GetGlyphSocketInfo(i)
-              --  if glyphSpellID then dbInspect[guid][glyphSpellID] = 1   end
-            end
-        end
+        
+        if isInspect then
+              for gspellID, gTable in pairs(dbModifGlyph) do
+               if db.isEnabledSpell[class][gspellID] and classID == gTable.class then dbInspect[guid][gspellID] = 1 end
+              end
+         else
+               for i = 1, 6 do
+                local enabled,_, glyphSpellID = GetGlyphSocketInfo(i)
+                if enabled and glyphSpellID then dbInspect[guid][glyphSpellID] = 1 end
+             end
+       end   
         dbInspect[guid]["isInspected"] = true
     end
 
     dbInspect[guid] = dbInspect[guid] or {}
+    dbInspect[guid]["isInspected"] = dbInspect[guid]["isInspected"] or false
     local item1 = dbInspect[guid]["item1"] or 0
     local item2 = dbInspect[guid]["item2"] or 0
     local dbInspected = dbInspect[guid]
@@ -712,10 +727,19 @@ function ATT:UpdateAnchorGUID(unit, guid, newInspect)
         for abilityIndex, abilityTable in pairs(self:MergeTable(class)) do
             local id, cooldown ,custom, spellrace = abilityTable.ability, abilityTable.cooldown,abilityTable.custom, abilityTable.race
             local ability = GetSpellInfo(id)
+            local modif = dbModif[id]
+            local glyphModif = dbModifGlyph[id]
+            
             if ability and spellrace and (raceID ~= spellrace[1] and raceID ~= spellrace[2] and raceID ~= spellrace[3]) then ability = nil end
-            if ability and dbInspected[ability] == 0 then ability = nil end
-            if ability and (custom and not db.isEnabledSpell[class][id.."custom"]) or (not custom and not db.isEnabledSpell[class][id]) then ability = nil end
-            if ability and dbModif[id] and dbInspected[dbModif[id].mod] then cooldown = cooldown - (dbModif[id].rank[dbInspected[dbModif[id].mod]] or 0) end
+            if ability and (custom and not db.isEnabledSpell[class][id.."custom"]) or (not custom and not db.isEnabledSpell[class][id]) or dbInspected[ability] == 0  then ability = nil end
+                        
+            if ability and modif and dbInspected[modif.mod] and dbInspected[modif.mod] > 0 then
+                local newcd = dbInspected[modif.mod]
+                local cd = cooldown
+                cooldown = cooldown - (modif.rank[newcd] or modif.rank[1])
+             end
+             
+             if ability and glyphModif and dbInspected[glyphModif.mod] then cooldown = cooldown - glyphModif.cd end
 
             if ability and id then
                 local icon = icons[numIcons] or self:AddIcon(icons,anchor)
@@ -943,6 +967,40 @@ function ATT:StartCooldown(spellName, unit, SentID, flag)
 
     if not anchor or not guid or not dbInspect[guid] then return end
     self:TrackCooldown(anchor, spellName, SentID, unit, guid, flag)
+
+    -- trinket racial fix
+    if spellName == PvPTrinketName then
+        local _, _, race = UnitRace(unit)
+        local cooldown
+        for k,icon in ipairs(anchor.icons) do
+            if icon.inUse and icon.ability and icon.race == race and icon.excluded then
+                if (icon.ability == EveryMan) then cooldown = 120
+                else
+                    duration = icon.starttime + icon.cooldown - GetTime()
+                    if duration and duration < 30  then cooldown = 45 end
+                end
+                if cooldown and icon.inUse and icon.race == race and icon.racecdshare then
+                    local starttime = GetTime() - icon.cooldown + cooldown
+                    icon.SetTimer(starttime,icon.cooldown, rate) end
+            end
+        end
+    end
+
+    if ATTdbs.dbRacialShare[SentID] then
+        local cooldown
+        for k,icon in ipairs(anchor.icons) do
+            if icon.inUse and icon.ability == PvPTrinketName then
+                if (spellName == EveryMan) then cooldown = 120
+                else
+                    duration = icon.starttime + icon.cooldown - GetTime()
+                    if duration and duration < 30 then cooldown = 45 end
+                end
+                if cooldown and icon.inUse then
+                    local starttime = GetTime() - icon.cooldown + cooldown
+                    icon.SetTimer(starttime,icon.cooldown, rate) end
+            end
+        end
+    end
 end
 
 function ATT:TrackCooldown(anchor, ability, SentID, unit, guid, flag)
@@ -1131,7 +1189,6 @@ local function ATT_OnLoad(self)
     self:RegisterEvent("CHAT_MSG_BG_SYSTEM_NEUTRAL")
     self:RegisterEvent("LEARNED_SPELL_IN_TAB")
     self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-
     
     if C_ChatInfo.RegisterAddonMessagePrefix(ChatPrefix) then self.useCrossAddonCommunication = true end
     if self.useCrossAddonCommunication then self:RegisterEvent("CHAT_MSG_ADDON") end
@@ -1265,7 +1322,16 @@ function ATT:CreateOptions()
         'getFunc', function() return (db.attach and (tonumber(db.attach) <= #ATT_DropDown1.values / 2)) and tonumber(db.attach) or 0 end,
         'getCurrent', function() return db.attach or 0 end,
         'setFunc', function(value) db.attach = tonumber(value); self:ApplyAnchorSettings(); end)
-    attach:SetPoint("TOPLEFT",panel,"TOPLEFT",5,-85)
+    attach:SetPoint("TOPLEFT",panel,"TOPLEFT",5,-75)
+    
+    local selfAttach = panel:MakeToggle(
+        'name', 'Disable Self Attach',
+        'description', 'Disable self frame hooking',
+        'default', false,
+        'getFunc', function() return db.selfAttach end,
+        'getCurrent', function() return db.selfAttach end,
+        'setFunc', function(value) db.selfAttach = value; self:ApplyAnchorSettings() end)
+    selfAttach:SetPoint("TOPLEFT",attach,"TOPLEFT",15,-32)
 
     local reverseIcons = panel:MakeToggle(
         'name', 'Reverse Icons',
@@ -1307,7 +1373,7 @@ function ATT:CreateOptions()
         'getCurrent', function() return tonumber(db.scale) or 1 end,
         'setFunc', function(value) if value ~= db.scale then db.scale = tonumber(string.format("%.2f",value)); ATTIcons:SetScale(db.scale or 1) end end,
         'currentTextFunc', function(value) return tonumber(string.format("%.2f",value)) end)
-    scale:SetPoint("TOPLEFT",attach,"TOPLEFT", 20, -61)
+    scale:SetPoint("TOPLEFT",attach,"TOPLEFT", 20, -70)
 
     local iconRows = panel:MakeSlider(
         'name', 'Icon Rows',
@@ -1352,7 +1418,7 @@ function ATT:CreateOptions()
         'getCurrent', function() return tonumber(db.offsetX) or 0 end,
         'setFunc', function(value) if value ~= db.offsetX then db.offsetX = tonumber(value); self:UpdatePositions() end end,
         'currentTextFunc', function(value) return tonumber(value); end)
-    offsetX:SetPoint("TOPLEFT",attach,"TOPLEFT", 20, -104)
+    offsetX:SetPoint("TOPLEFT",attach,"TOPLEFT", 20, -115)
 
     local offsetY = panel:MakeSlider(
         'name', 'Anchor Offset Y',
@@ -1464,7 +1530,7 @@ function ATT:CreateOptions()
     cpanel2:SetPoint("TOP",panel,"TOP",0, -469)
 
     local version =  panel:CreateFontString(nil,"ARTWORK","GameFontDisable")
-    version:SetText("|cffffff00Version:|r |cff33ff99v"..ATTversion.." WotLK|r by |cffffff00izy|r (BETA)")
+    version:SetText("|cffffff00Version:|r |cff33ff99v"..ATTversion.." WotLK|r by |cffffff00izy|r")
     version:SetPoint("TOPLEFT",panel,"TOPLEFT",25,-525)
 
     local contact =  panel:CreateFontString(nil,"ARTWORK","GameFontDisable")
@@ -1483,18 +1549,18 @@ function ATT:UpdateScrollBar()
         local id, cooldown, maxcharges, custom = abilityTable.ability, abilityTable.cooldown, abilityTable.maxcharges, abilityTable.custom
         local ability = GetSpellInfo(id)
         local button = btns[line]
-        local spectexture = "Interface\\Icons\\ClassIcon_"..db.classSelected
+        local spectexture =  (db.classSelected == "DEATHKNIGHT" and "Interface\\ICONS\\spell_deathknight_classicon.tga") or "Interface\\Icons\\ClassIcon_"..db.classSelected
         local abilitytexture = self:FindAbilityIcon(ability, id)
 
         if line == 1 then button:SetPoint("TOPLEFT",scrollframe,"TOPLEFT",2,0) end
         if custom then
             button.Text:SetText("|T"..spectexture..":18|t - |cff808080|T"..abilitytexture..":17|t " ..ability:sub(1,20).."|r")
             button:SetChecked(db.isEnabledSpell[db.classSelected][id.."custom"])
-            button:SetScript("OnClick",function(self) db.isEnabledSpell[db.classSelected][id.."custom"] = (button:GetChecked() == true and button:GetChecked()) or nil; ATT:UpdateIcons(); end)
+            button:SetScript("OnClick",function(self) db.isEnabledSpell[db.classSelected][id.."custom"] = (button:GetChecked() == true and button:GetChecked()) or false; ATT:UpdateIcons(); end)
         else
             button.Text:SetText("|T"..spectexture..":18|t - |T"..abilitytexture..":17|t " .. ability:sub(1,20))
             button:SetChecked(db.isEnabledSpell[db.classSelected][id])
-            button:SetScript("OnClick",function(self) db.isEnabledSpell[db.classSelected][id] = (button:GetChecked() == true and button:GetChecked()) or nil; ATT:UpdateIcons(); end)  end
+            button:SetScript("OnClick",function(self) db.isEnabledSpell[db.classSelected][id] = (button:GetChecked() == true and button:GetChecked()) or false; ATT:UpdateIcons(); end)  end
             
         button:SetScript('OnEnter', function() GameTooltip:ClearLines(); GameTooltip:SetOwner(scrollframe, "ANCHOR_CURSOR")
             GameTooltip:SetSpellByID(id) if custom then GameTooltip:AddLine("Spell ID: "..id.. " - Cooldown: " ..cooldown, 1, 1, 1) else
@@ -1578,7 +1644,7 @@ end
 function CreateListFrame(title ,self)
     if iFrame and iFrame:IsShown() then iFrame:Hide() return end
     iFrame = CreateFrame("Frame", "ATI", self, "TooltipBorderedFrameTemplate");
-    iFrame:SetSize(255, 260);
+    iFrame:SetSize(280, 260);
     iFrame:SetPoint('LEFT',220,-70);
     iFrame:SetFrameLevel(iFrame:GetFrameLevel() + 3)
     iFrame:EnableMouse(true);
@@ -1734,15 +1800,16 @@ function ATT:CreateAbilityEditor()
         'func', function()
             local title =  "Trinkets Tab"
             CreateListFrame(title, panel)
-            local isFrame = CreateFrame("ScrollFrame", "ATC", iFrame, "UIPanelScrollFrameTemplate");
-            isFrame:SetSize(210, 180);
+            local isFrame = CreateFrame("ScrollFrame", "showTrinkets", iFrame, "UIPanelScrollFrameTemplate");
+            isFrame:SetSize(235, 180);
             isFrame:SetPoint("TOPLEFT", iFrame, "TOPLEFT", 10, -35)
-            local childiF = CreateFrame("Frame","ATC", isFrame )
+            local childiF = CreateFrame("Frame","showTrinketschildiF", isFrame )
             childiF:SetSize(1,1);
             isFrame:SetScrollChild(childiF)
             self.isFrame = childiF
             local btn = {}
             self.btn = btn
+            
             for abilityIndex, abilityTable in pairs(dbExtraTrinkets) do
                 local ability, id, cooldown, sname = abilityTable.ability, abilityTable.id, abilityTable.cooldown, abilityTable.sname
                 local button = CreateFrame("CheckButton", ability,childiF, "InterfaceOptionsCheckButtonTemplate")
@@ -1752,7 +1819,7 @@ function ATT:CreateAbilityEditor()
                 button.Text:SetText(" |T"..abilitytexture..":18|t " ..itemname)
                 button:SetPoint("TOPLEFT",btn[#btn],"BOTTOMLEFT")
                 button:SetChecked(db.isEnabledTrinkets[sname])
-                button:SetScript("OnClick",function(self) db.isEnabledTrinkets[sname] = (button:GetChecked() == true and button:GetChecked()) or nil; ATT:UpdateIcons() end)
+                button:SetScript("OnClick",function(self) db.isEnabledTrinkets[sname] = (button:GetChecked() == true and button:GetChecked()) or false; ATT:UpdateIcons() end)
                 button:SetScript('OnEnter', function() GameTooltip:ClearLines(); GameTooltip:SetOwner(iFrame, "ANCHOR_TOP")
                     GameTooltip:SetItemByID(id)
                 end)
@@ -1773,10 +1840,10 @@ function ATT:CreateAbilityEditor()
         'func', function()
             local title =  "Racials Tab"
             CreateListFrame(title, panel)
-            local isFrame = CreateFrame("ScrollFrame", "ATC", iFrame, "UIPanelScrollFrameTemplate");
-            isFrame:SetSize(210, 180);
+            local isFrame = CreateFrame("ScrollFrame", "selectRacials", iFrame, "UIPanelScrollFrameTemplate");
+            isFrame:SetSize(235, 180);
             isFrame:SetPoint("TOPLEFT", iFrame, "TOPLEFT", 10, -35)
-            local childiF = CreateFrame("Frame","ATC", isFrame )
+            local childiF = CreateFrame("Frame","selectRacialschildiF", isFrame )
             childiF:SetSize(1,1);
             isFrame:SetScrollChild(childiF)
             self.isFrame = childiF
@@ -1791,7 +1858,7 @@ function ATT:CreateAbilityEditor()
                 button.Text:SetText(" |T"..abilitytexture..":18|t " ..ability)
                 button:SetPoint("TOPLEFT",btn[#btn],"BOTTOMLEFT")
                 button:SetChecked(db.isEnabledRacial[id])
-                button:SetScript("OnClick",function(self) db.isEnabledRacial[id] = (button:GetChecked() == true and button:GetChecked()) or nil; ATT:UpdateIcons() end)
+                button:SetScript("OnClick",function(self) db.isEnabledRacial[id] = (button:GetChecked() == true and button:GetChecked()) or false; ATT:UpdateIcons() end)
                 button:SetScript('OnEnter', function() GameTooltip:ClearLines(); GameTooltip:SetOwner(iFrame, "ANCHOR_TOP")
                     GameTooltip:SetSpellByID(id)
                 end)
@@ -1804,6 +1871,59 @@ function ATT:CreateAbilityEditor()
             end
         end)
     selectRacials:SetPoint("LEFT", showTrinkets, "RIGHT", 20, 0)
+    
+    local selectGlyphs = panel:MakeButton(
+        'name', 'Glyphs Tab',
+        'description', 'Open Glyphs Tab',
+        'extra', true,
+        'func', function()
+       
+        local title =  "Glyphs Tab"
+        CreateListFrame(title, panel)
+        local isFrame = CreateFrame("ScrollFrame", "selectGlyphs", iFrame, "UIPanelScrollFrameTemplate");
+        isFrame:SetSize(235, 150);
+        isFrame:SetPoint("TOPLEFT", iFrame, "TOPLEFT", 10, -55)
+        
+        local desc = iFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+        desc:SetText("Selected Glyphs are permanently active")
+        desc:SetFont(GameFontNormal:GetFont(), 12)
+        desc:SetJustifyH("CENTER")
+        desc:SetPoint("TOP", iFrame, "TOP", 0, -35)
+        
+            local childiF = CreateFrame("Frame","selectGlyphschildiF", isFrame )
+            childiF:SetSize(1,1);
+            isFrame:SetScrollChild(childiF)
+            self.isFrame = childiF
+            local btn = {}
+            self.btn = btn
+
+             for abilityIndex, abilityTable in pairs(ATTdbs.dbModifGlyph) do
+                local id, glyphID, classID = abilityIndex, abilityTable.mod, abilityTable.class
+                local class = select(2, GetClassInfo(classID))
+                local ability = GetSpellInfo(glyphID)
+                local classtexture = (class == "DEATHKNIGHT" and "Interface\\ICONS\\spell_deathknight_classicon.tga") or "Interface\\Icons\\ClassIcon_"..class
+                local abilitytexture = "Interface\\Icons\\INV_Inscription_MajorGlyph00"
+                local button = CreateFrame("CheckButton", ability,childiF, "InterfaceOptionsCheckButtonTemplate")
+                if #btn == 0 then
+                    btn[#btn + 1] = 1
+                    button:SetPoint("LEFT")
+                end
+                button.Text:SetText("|T"..classtexture..":18|t - |T"..abilitytexture..":18|t " ..ability)
+                button:SetPoint("TOPLEFT",btn[#btn],"BOTTOMLEFT")
+                button:SetChecked(db.isEnabledSpell[class][glyphID])
+                button:SetScript("OnClick",function(self) db.isEnabledSpell[class][glyphID] = (button:GetChecked() == true and button:GetChecked()) or false; ATT:UpdateIcons() end)
+                button:SetScript('OnEnter', function() GameTooltip:ClearLines(); GameTooltip:SetOwner(iFrame, "ANCHOR_TOP")
+                    GameTooltip:SetSpellByID(glyphID)
+                end)
+                button:SetScript('OnLeave', function()
+                    GameTooltip:ClearLines()
+                    GameTooltip:Hide()
+                end)
+                button:SetHitRectInsets(0, -_G[button:GetName() .. "Text"]:GetStringWidth() - 1, 0, 0)
+                btn[#btn+1] = button
+              end
+        end)
+    selectGlyphs:SetPoint("LEFT", selectRacials, "RIGHT", 20, 0)
 
     local selectVisibility = panel:MakeButton(
         'name', 'Visibility Tab',
@@ -1812,10 +1932,10 @@ function ATT:CreateAbilityEditor()
         'func', function()
             local title =  "Visibility Options"
             CreateListFrame(title, panel)
-            local isFrame = CreateFrame("ScrollFrame", "ATC", iFrame);
-            isFrame:SetSize(210, 180);
+            local isFrame = CreateFrame("ScrollFrame", "selectVisibility", iFrame);
+            isFrame:SetSize(235, 180);
             isFrame:SetPoint("TOPLEFT", iFrame, "TOPLEFT", 10, -35)
-            local childiF = CreateFrame("Frame","ATC", isFrame )
+            local childiF = CreateFrame("Frame","selectVisibilitychildiF", isFrame )
             childiF:SetSize(1,1);
             isFrame:SetScrollChild(childiF)
             self.isFrame = childiF
@@ -1832,7 +1952,7 @@ function ATT:CreateAbilityEditor()
                 button.text:SetTextColor(1, 1, 1);
                 button:SetPoint("TOPLEFT",btn[#btn],"BOTTOMLEFT")
                 button:SetChecked(db.isEnabledVisibility[ability])
-                button:SetScript("OnClick",function(self) db.isEnabledVisibility[ability] = (button:GetChecked() == true and button:GetChecked()) or nil;  ATT:ApplyAnchorSettings(); end)
+                button:SetScript("OnClick",function(self) db.isEnabledVisibility[ability] = (button:GetChecked() == true and button:GetChecked()) or false;  ATT:ApplyAnchorSettings(); end)
                 button:SetScript('OnEnter', function() GameTooltip:ClearLines(); GameTooltip:SetOwner(iFrame, "ANCHOR_TOP")
                     GameTooltip:SetText(sname)
                     GameTooltip:Show()
@@ -1854,10 +1974,10 @@ function ATT:CreateAbilityEditor()
         'func', function()
             local title =  "Profile Options"
             CreateListFrame(title, panel)
-            local isFrame = CreateFrame("ScrollFrame", "ATC", iFrame);
-            isFrame:SetSize(210, 180);
+            local isFrame = CreateFrame("ScrollFrame", "showProfiles", iFrame);
+            isFrame:SetSize(235, 180);
             isFrame:SetPoint("TOPLEFT", iFrame, "TOPLEFT", 10, -35)
-            local childiF = CreateFrame("Frame","ATC", isFrame )
+            local childiF = CreateFrame("Frame","showProfileschildiF", isFrame )
             childiF:SetSize(1,1);
             isFrame:SetScrollChild(childiF)
             self.isFrame = childiF

@@ -1,5 +1,9 @@
 
 OmniCCDB = {
+	["global"] = {
+		["dbVersion"] = 6,
+		["addonVersion"] = "9.2.1",
+	},
 	["profileKeys"] = {
 		["Evolvexd - Classic Arena - EU"] = "Default",
 		["Evolvebanned - Gehennas"] = "Default",
@@ -18,10 +22,6 @@ OmniCCDB = {
 		["Evolve - Classic PTR Realm 1"] = "Default",
 		["Dbldogcheck - Firemaw"] = "Default",
 		["Evolvebanned - Firemaw"] = "Default",
-	},
-	["global"] = {
-		["dbVersion"] = 6,
-		["addonVersion"] = "9.2.1",
 	},
 	["profiles"] = {
 		["Default"] = {
@@ -64,7 +64,7 @@ OmniCCDB = {
 						"ActionButton10", -- [14]
 						"ActionButton11", -- [15]
 						"ActionButton12", -- [16]
-						"WeakAurasCooldownwotf", -- [17]
+						"WeakAurasCooldown", -- [17]
 						"ContainerFrame", -- [18]
 						"Character", -- [19]
 					},
@@ -78,15 +78,15 @@ OmniCCDB = {
 					["textStyles"] = {
 						["minutes"] = {
 						},
+						["seconds"] = {
+							["r"] = 0.9803921568627451,
+							["g"] = 0.984313725490196,
+							["b"] = 1,
+						},
 						["soon"] = {
 							["b"] = 0,
 							["scale"] = 1,
 							["g"] = 0.8784313725490196,
-						},
-						["seconds"] = {
-							["b"] = 1,
-							["g"] = 0.984313725490196,
-							["r"] = 0.9803921568627451,
 						},
 					},
 					["timerOffset"] = 1400,
@@ -104,12 +104,12 @@ OmniCCDB = {
 							["scale"] = 1,
 							["g"] = 0.8784313725490196,
 						},
-						["minutes"] = {
-						},
 						["seconds"] = {
-							["b"] = 1,
-							["g"] = 0.984313725490196,
 							["r"] = 0.9803921568627451,
+							["g"] = 0.984313725490196,
+							["b"] = 1,
+						},
+						["minutes"] = {
 						},
 					},
 					["timerOffset"] = 1400,

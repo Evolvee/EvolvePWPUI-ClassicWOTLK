@@ -56,7 +56,6 @@ ATTdbs.ShareCD = {
 }
 
 ATTdbs.dbModif = {
-
      [14311] = { ["mod"]= GetSpellInfo(34493), ["rank"] ={2, 4, 6,}, },
      [13809] = { ["mod"]= GetSpellInfo(34493), ["rank"] ={2, 4, 6,}, },
      [34600] = { ["mod"]= GetSpellInfo(34493), ["rank"] ={2, 4, 6,}, },
@@ -117,6 +116,40 @@ ATTdbs.dbModif = {
      [25375] = {["mod"] = GetSpellInfo(15316), ["rank"] = {0.5, 1, 1.5,2,2.5,},}, -- Mind Blast
      [1787] = {["mod"] = GetSpellInfo(14063), ["rank"] = {2,4,6,},}, -- stealth?
      [30330] = {["mod"] = GetSpellInfo(35449), ["rank"] = {0.3, 0.7, 1,},}, -- Mortal Strike
+}
+
+ATTdbs.dbModifGlyph = {
+     [5209] = { ["mod"]= 57858, ["cd"] = 30,  ["class"] = 11, },
+     [33357] = { ["mod"]= 59219, ["cd"] = 36,  ["class"] = 11, },
+     [61384] = { ["mod"]= 63056, ["cd"] = 3,  ["class"] = 11, },
+     [53201] = { ["mod"]= 54828, ["cd"] = 30,  ["class"] = 11, },
+     [19574] = { ["mod"]= 56830, ["cd"] = 30,  ["class"] = 2, },
+     [19263] = { ["mod"]= 56850, ["cd"] = 10,  ["class"] = 2, },
+     [781] = { ["mod"]= 56844, ["cd"] = 5,  ["class"] = 2, },
+     [5384] = { ["mod"]= 57903, ["cd"] = 5,  ["class"] = 2, },
+     [49012] = { ["mod"]= 56848, ["cd"] = 6,  ["class"] = 2, },
+     [31687] = { ["mod"]= 56373, ["cd"] = 30,  ["class"] = 9, },
+     [48817] = { ["mod"]= 56420, ["cd"] = 15,  ["class"] = 2, },
+     [48788] = { ["mod"]= 57955, ["cd"] = 300,  ["class"] = 2, },
+     [47585] = { ["mod"]= 63229, ["cd"] = 45,  ["class"] = 5, },
+     [10890] = { ["mod"]= 55676, ["cd"] = 8,  ["class"] = 5, },
+     [586] = { ["mod"]= 55684, ["cd"] = 9,  ["class"] = 5, },
+     [6346] = { ["mod"]= 55678, ["cd"] = 60,  ["class"] = 5, },
+     [2894] = { ["mod"]= 55678, ["cd"] = 300,  ["class"] = 7, },
+     [59159] = { ["mod"]= 63270, ["cd"] = 10,  ["class"] = 7, },
+     [16166] = { ["mod"]= 55452, ["cd"] = 30,  ["class"] = 7, },
+     [556] = { ["mod"]= 58058, ["cd"] = 450,  ["class"] = 7, },
+     [17928] = { ["mod"]= 56217, ["cd"] = 8,  ["class"] = 9, },
+     [48020] = { ["mod"]= 63309, ["cd"] = 4,  ["class"] = 9, },
+     [12975] = { ["mod"]= 58376, ["cd"] = 60,  ["class"] = 1, },
+     [46968] = { ["mod"]= 63325, ["cd"] = 3,  ["class"] = 1, },
+     [46924] = { ["mod"]= 63324, ["cd"] = 15,  ["class"] = 1, },
+     [871] = { ["mod"]= 63329, ["cd"] = 120,  ["class"] = 1, },
+     [47476] = { ["mod"]= 58618, ["cd"] = 20,  ["class"] = 6, },
+     [14278] = { ["mod"]= 56814, ["cd"] = -10,  ["class"] = 4, },
+     [51690] = { ["mod"]= 63252, ["cd"] = 45,  ["class"] = 4, },
+     --https://www.wowhead.com/wotlk/spell=63231/glyph-of-guardian-spirit
+     --https://www.wowhead.com/wotlk/spell=56819/glyph-of-preparation
  }
 
 ATTdbs.dbAuraRemoved = {
@@ -133,6 +166,11 @@ ATTdbs.dbAuraRemoved = {
 	[GetSpellInfo(1787)]   = true,
 	[GetSpellInfo(9913)]   = true,
 	--[GetSpellInfo(16188)]   = true,
+}
+
+ATTdbs.dbRacialShare = {
+    [59752] = true,
+    [7744] = true,
 }
 
 ATTdbs.dbAuraApplied = {
