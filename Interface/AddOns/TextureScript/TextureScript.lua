@@ -112,7 +112,7 @@ local cvars = {
     ShowClassColorInFriendlyNameplate = "1",
     ShowClassColorInNameplate = "1",
     nameplateMaxDistance = "41",
-    nameplateGlobalScale = "1.2",
+    nameplateGlobalScale = "1.15",
     enableFloatingCombatText = "1",
     threatWarning = "0",
     predictedHealth = "0",
@@ -511,12 +511,6 @@ local function OnInit()
     ActionButton10:RegisterForClicks("AnyDown","AnyUp")
     ActionButton11:RegisterForClicks("AnyDown","AnyUp")
     ActionButton12:RegisterForClicks("AnyDown","AnyUp")
-
-    MainMenuBarBackpackButton:RegisterForClicks("AnyDown","AnyUp")
-    CharacterBag1Slot:RegisterForClicks("AnyDown","AnyUp")
-    CharacterBag0Slot:RegisterForClicks("AnyDown","AnyUp")
-    CharacterBag2Slot:RegisterForClicks("AnyDown","AnyUp")
-    CharacterBag3Slot:RegisterForClicks("AnyDown","AnyUp")
 
     MultiBarLeftButton1:RegisterForClicks("AnyDown","AnyUp")
     MultiBarLeftButton2:RegisterForClicks("AnyDown","AnyUp")
@@ -945,14 +939,6 @@ local barstosmooth = {
 local smoothframe = CreateFrame("Frame")
 local smoothing = {}
 
-local function isPlate(frame)
-    local name = frame:GetName()
-    if name and name:find("NamePlate") then
-        return true
-    end
-
-    return false
-end
 
 local function AnimationTick()
     local limit = 30 / GetFramerate()
@@ -1003,7 +989,6 @@ local function SmoothBar(bar)
 end
 
 smoothframe:SetScript("OnUpdate", function()
-    local frames = { WorldFrame:GetChildren() }
     for _, plate in pairs(C_NamePlate.GetNamePlates(true)) do
         if not plate:IsForbidden() and plate:IsVisible() and plate.UnitFrame:IsShown() then
             SmoothBar(plate.UnitFrame.healthBar)
@@ -1225,12 +1210,27 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(GameTooltip)
     end
 end)
 
+local function PetNames(frame)
+    local _, _, _, _, _, npcId = string_split("-", UnitGUID(frame.unit))
+    -- static pet names for more clarity
+    if string.find(frame.unit, "nameplate") then
+        if npcId == "1863" then
+            frame.name:SetText("Succubus")
+        elseif npcId == "417" then
+            frame.name:SetText("Felhunter")
+        elseif npcId == "185317" then
+            frame.name:SetText("Succubus")
+        end
+    end
+end
+
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN")
 f:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_LOGIN" then
         CustomCvar()
         OnInit()
+        hooksecurefunc("CompactUnitFrame_UpdateName", PetNames)
     end
     self:UnregisterEvent("PLAYER_LOGIN")
     self:SetScript("OnEvent", nil)
@@ -1406,14 +1406,6 @@ local function HandleNewNameplate(nameplate, unit)
     end
 
     local creatureType, _, _, _, _, npcId = string_split("-", UnitGUID(unit))
-	-- static pet names for more clarity
-	if npcId == "1863" then
-	nameplate.UnitFrame.name:SetText("Succubus")
-	elseif npcId == "417" then
-	nameplate.UnitFrame.name:SetText("Felhunter")
-	elseif npcId == "185317" then
-	nameplate.UnitFrame.name:SetText("Succubus")
-	end
 	-- the rest of nameplate stuff
     if (HideNameplateUnits[name] or HideNameplateUnits[npcId])
             or (creatureType == "Pet" and not ShowNameplatePetIds[npcId]) then
@@ -1697,7 +1689,8 @@ end)
 local function SpellBarAdjust(self)
     local parentFrame = self:GetParent()
     if not string.find(self.unit, "nameplate") then return end
-
+	if self:IsForbidden() then return end
+	
     if self.BorderShield:IsShown() then
         self:ClearAllPoints()
         self:SetPoint("TOP", parentFrame.healthBar, "BOTTOM", 9, -12)
