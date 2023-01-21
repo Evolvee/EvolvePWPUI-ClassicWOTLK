@@ -1,15 +1,15 @@
-## Interface: 30400
-## Author - by Izy inspired by the old Party Ability Bars (PAB)
-## Contact/support @ curseforge.com/wow/addons/att
+## Interface: 30401
+## Author: Izy 
+## URL: http://www.curseforge.com/wow/addons/att
+## Contact: mediaizy@gmail.com
 ## Title: Ability Team Tracker WotLK
-## Version: 6
+## Version: 9
 ## Notes: Track cooldowns of your party members.
 ## SavedVariables: ATTDB
 ## SavedVariablesPerCharacter: ATTCharDB
 
 libs\LibStub.lua
 libs\LibATTButtonFlash.xml
-libs\MSA-ATTDropDownMenu.lua
 libs\LibATTButtonGlow.lua
 libs\LibATTSimpleOptions.lua
 

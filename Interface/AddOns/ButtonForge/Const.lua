@@ -10,7 +10,7 @@ local Const = BFConst;
 Const.SUMMON_RANDOM_FAVORITE_MOUNT_SPELL = 150544;
 Const.SUMMON_RANDOM_FAVORITE_MOUNT_ID = 268435455;
 Const.Version				= 1.0;
-Const.VersionMinor			= 0.12;
+Const.VersionMinor			= 0.18;
 Const.MAX_ACCOUNT_MACROS 	= 120;
 Const.ButtonNaming 			= "ButtonForge"
 Const.ButtonSeq 			= 1;					--This value will increment (so not technically a const...)
@@ -136,8 +136,79 @@ Const.SlashCommands["-removemissingmacros"] = {params = "bool", group = "globals
 Const.SlashCommands["-forceoffcastonkeydown"] = {params = "bool", group = "globalsettings"};
 Const.SlashCommands["-usecollectionsfavoritemountbutton"] = {params = "bool", group = "globalsettings"};
 
-
-
 Const.SlashCommands["-globalsettings"] = {params = "^()$", group = "globalsettings"};
 
 
+Const.KeyBindingAbbr = {
+	-- This is the short display version you see on the Button
+	["ALT"] = "a",
+	["CTRL"] = "c",
+	["SHIFT"] = "s",
+	["COMMAND"] = "m", -- Blizzard uses 'm' for the command key (META key)
+	["NUMPAD"] = "n",
+	["NUMPAD0"] = "n0",
+	["NUMPAD1"] = "n1",
+	["NUMPAD2"] = "n2",
+	["NUMPAD3"] = "n3",
+	["NUMPAD4"] = "n4",
+	["NUMPAD5"] = "n5",
+	["NUMPAD6"] = "n6",
+	["NUMPAD7"] = "n7",
+	["NUMPAD8"] = "n8",
+	["NUMPAD9"] = "n9",
+	["NUMPADDIVIDE"] = "n/",
+	["NUMPADMULTIPLY"] = "n*",
+	["NUMPADMINUS"] = "n-",
+	["NUMPADPLUS"] = "n+",
+	["NUMPADDECIMAL"] = "n.",
+	["BACKSPACE"] = "bs",
+	["BUTTON1"] = "B1",
+	["BUTTON2"] = "B2",
+	["BUTTON3"] = "B3",
+	["BUTTON4"] = "B4",
+	["BUTTON5"] = "B5",
+	["BUTTON6"] = "B6",
+	["BUTTON7"] = "B7",
+	["BUTTON8"] = "B8",
+	["BUTTON9"] = "B9",
+	["BUTTON10"] = "B10",
+	["BUTTON11"] = "B11",
+	["BUTTON12"] = "B12",
+	["BUTTON13"] = "B13",
+	["BUTTON14"] = "B14",
+	["BUTTON15"] = "B15",
+	["BUTTON16"] = "B16",
+	["BUTTON17"] = "B17",
+	["BUTTON18"] = "B18",
+	["BUTTON19"] = "B19",
+	["BUTTON20"] = "B20",
+	["BUTTON21"] = "B21",
+	["BUTTON22"] = "B22",
+	["BUTTON23"] = "B23",
+	["BUTTON24"] = "B24",
+	["BUTTON25"] = "B25",
+	["BUTTON26"] = "B26",
+	["BUTTON27"] = "B27",
+	["BUTTON28"] = "B28",
+	["BUTTON29"] = "B29",
+	["BUTTON30"] = "B30",
+	["BUTTON31"] = "B31",
+	["CAPSLOCK"] = "Cp",
+	["CLEAR"] = "Cl",
+	["DELETE"] = "del",
+	["END"] = "end",
+	["HOME"] = "home",
+	["INSERT"] = "ins",
+	["MOUSEWHEELDOWN"] = "WD",
+	["MOUSEWHEELUP"] = "WU",
+	["NUMLOCK"] = "NL",
+	["PAGEDOWN"] = "PD",
+	["PAGEUP"] = "PU",
+	["SCROLLLOCK"] = "SL",
+	["SPACEBAR"] = "Sp",
+	["TAB"] = "Tb",
+	["DOWN"] = "Dn",
+	["LEFT"] = "Lf",
+	["RIGHT"] = "Rt",
+	["UP"] = "Up",
+};

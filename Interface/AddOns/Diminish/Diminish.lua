@@ -186,8 +186,22 @@ function Diminish:InitDB()
 
     -- Reset config if the config version is too old
     if DiminishDB.profiles[profile] then
-        if DiminishDB.profiles[profile].version == "1.0" or not DiminishDB.profiles[profile].version then
-            wipe(DiminishDB.profiles[profile])
+        if not DiminishDB.profiles[profile].version then
+            DiminishDB = {
+                profileKeys = { [playerName] = "Default" },
+                profiles = {},
+            }
+            profile = "Default"
+        else
+            local version = gsub(DiminishDB.profiles[profile].version, "%.", "")
+            version = tonumber(version)
+            if version <= 19 then
+                DiminishDB = {
+                    profileKeys = { [playerName] = "Default" },
+                    profiles = {},
+                }
+                profile = "Default"
+            end
         end
     end
 
@@ -233,7 +247,11 @@ function Diminish:PLAYER_LOGIN()
 
     local Masque = LibStub and LibStub("Masque", true)
     NS.MasqueGroup = Masque and Masque:Group("Diminish")
-    NS.useCompactPartyFrames = GetCVarBool("useCompactPartyFrames")
+    if EditModeManagerFrame then
+        NS.useCompactPartyFrames = EditModeManagerFrame:UseRaidStylePartyFrames()
+    else
+        NS.useCompactPartyFrames = GetCVarBool("useCompactPartyFrames")
+    end
     self.PLAYER_GUID = UnitGUID("player")
     self.PLAYER_CLASS = select(2, UnitClass("player"))
 
@@ -249,6 +267,13 @@ function Diminish:CVAR_UPDATE(name, value)
         Icons:AnchorPartyFrames()
     end
 end
+
+--[====[@retail@
+hooksecurefunc(EditModeManagerFrame, "OnSystemSettingChange", function()
+    NS.useCompactPartyFrames = EditModeManagerFrame:UseRaidStylePartyFrames()
+    Icons:AnchorPartyFrames()
+end)
+--@end-retail@]====]
 
 --[====[@retail@
 function Diminish:PVP_BRAWL_INFO_UPDATED()

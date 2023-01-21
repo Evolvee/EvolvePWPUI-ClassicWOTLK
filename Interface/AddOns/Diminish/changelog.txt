@@ -1,3 +1,32 @@
+v2.5.7:
+- [Retail] Update DRList-1.0 lib. Unleashed Shield removed as it doesn't seem to DR (#32).
+- [Retail] Fix party/raid frame anchoring for Dragonflight. Testmode for these now only work while already in a group due to taint issues (don't got time to research full fix for it sry)
+- [Retail] Fix player frame DRs duplicating to party1 when using anchor to UIParent option. (#31)
+- [Retail] Fix some tooltips not hiding in options panel.
+
+
+v2.5.6:
+- Hotfix for old profile resets, previously profile name used was not reset.
+
+
+v2.5.5:
+- [Retail] Update DRList-1.0 lib.
+- [Retail] Fix arena frame anchoring.
+- [Retail] Fix options not displaying fully first time Blizzard options panel is shown.
+- [Retail] Fix tooltips for checkboxes/sliders not displaying.
+- [All] Fix Lua errors when Masque is enabled.
+- [All] People upgrading from very old versions of Diminish now have their settings reset on first update. Some default configs have now changed too.
+- PS: I'm still not actively maintaining this addon, i just add updates once in a blue moon when i have time.
+
+
+v2.5.4:
+- [Retail] Update DRList-1.0 lib.
+
+
+v2.5.3:
+- [Retail] Updates for Dragonflight Beta, thanks to @jquick.
+
+
 v2.5.2:
 - [Wrath] Add Wotlk PTR/beta support.
 

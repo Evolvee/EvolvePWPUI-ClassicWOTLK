@@ -10,6 +10,8 @@ ATTdbs.Defaults = {
    ["glow"] = true,
    ["IconRows"] = 1,
    ["raidGroupSize"] = 5,
+   ["bgMode"] = false,
+   ["autoselectBG"] = false,
    ["isEnabledSpell"] = {
    },
    ["isEnabledTrinkets"] = {

@@ -65,7 +65,7 @@ local function CreateGUI()
 	textureHeader:SetPoint("TOP", 0, 12)
 	local textHeader = window:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	textHeader:SetPoint("TOP", textureHeader, "TOP", 0, -14)
-	textHeader:SetText("AutoShop 1.2.1")
+	textHeader:SetText("AutoShop 1.2.2")
 
 	--------------------------------------------------
 	-- checkbox options
@@ -338,7 +338,7 @@ local function CreateGUI()
 		input:SetMultiLine(true)
 		input:SetAutoFocus(false)
 		input:EnableMouse(true)
-		input:SetFont("Fonts/ARIALN.ttf", 14)
+		input:SetFont("Fonts/ARIALN.ttf", 14, "")
 		input:SetWidth(container:GetWidth()-20)
 		input:SetHeight(container:GetHeight()-8)
 		input:SetScript("OnEscapePressed", function() input:ClearFocus() end)

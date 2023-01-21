@@ -1,7 +1,7 @@
 --[[
     Author: Alternator (Massiner of Nathrezim)
     Copyright 2010
-	
+
 Notes:
 	- Texture retrieval on Spells will not return different state textures for a spell (e.g. Wisp, when a Hunter Aspect is selected)
 	- Texture retrieval on Macros will however return the different state textures - I do not believe this can be leveraged to fix the above
@@ -180,18 +180,12 @@ function Button:Configure(Parent, ButtonSave, ButtonLocked, TooltipEnabled, Macr
 	--	self:SetCommandExplicitCompanion(ButtonSave["MountID"], "MOUNT");
 
 	elseif (Mode == "mount") then
-    Util.MountSpellID = self.ButtonSave["MountSpellID"]
-    creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo("MOUNT", ButtonSave["MountID"]);
-    if self.ButtonSave["MountSpellID"] == creatureSpellID then
-      Util.CompanionType = "MOUNT"
-      Util.MountName = self.ButtonSave["MountName"]
-      self:SetCommandExplicitCompanion(ButtonSave["MountID"], "MOUNT", ButtonSave["MountSpellID"]);
-    else      
-      Util.MountName = self.ButtonSave["MountName"]
-      Util.CompanionType = "CRITTER"
-      self:SetCommandExplicitCompanion(ButtonSave["MountID"], "CRITTER", ButtonSave["MountSpellID"]);
+    creatureID, creatureName, creatureSpellID, icon, issummoned, MountID, CompanionType = Util.GetMountCritter(self.ButtonSave["MountSpellID"])
+    if MCType ~= "" then
+      self.ButtonSave["MountID"] = MountID -- update index as it may change
+      ButtonSave["MountID"] = MountID -- update index as it may change
+      self:SetCommandExplicitCompanion(MountID, CompanionType, ButtonSave["MountSpellID"]);
     end
-
 
 	elseif (Mode == "equipmentset") then
 		self:SetCommandExplicitEquipmentSet(ButtonSave["EquipmentSetId"], ButtonSave["EquipmentSetName"]);
@@ -310,7 +304,7 @@ end
 function Button:RefreshKeyBindDisplay()
 	local Key = self.ButtonSave["KeyBinding"];
 	if (Key ~= nil and self.KeyBindTextEnabled) then
-		self.WHotKey:SetText(GetBindingText(Key, "KEY_", 1));
+		self.WHotKey:SetText(Util.GetBindingText(Key));
 		--if not self.WHotKey.__LBF_SetPoint then
 			--self.WHotKey:ClearAllPoints();
 			--self.WHotKey:SetPoint("TOPLEFT", self.Widget, "TOPLEFT", -2, -2);
@@ -784,7 +778,7 @@ function Button:SetEnvCompanion(MountID, CompanionType, SpellID)
 	self.MountID		= MountID;
   
 	creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID =  Util.GetCompanionInfo(CompanionType, MountID, SpellID)
- 
+
  	if (not creatureSpellID) then
 		return self:ClearCommand();
 	end
@@ -1298,13 +1292,16 @@ function Button:DisplayActive(TexCoords)
 	local Icon = self.WIcon;
 	
 	Icon:SetTexture(self.Texture);
-	self.Widget:SetNormalTexture("Interface/Buttons/UI-Quickslot2");
+	--self.Widget:SetNormalTexture("Interface/Buttons/UI-Quickslot2");
 	if (TexCoords) then
 		Icon:SetTexCoord(unpack(TexCoords));
 	else
 		Icon:SetTexCoord(0, 1, 0, 1);
 	end
 	Icon:SetVertexColor(1.0, 1.0, 1.0, 1.0);
+	if (Util.LBFMasterGroup) then
+		Util.LBFMasterGroup:ReSkin(self.Widget);
+	end
 	Icon:Show();
 	
 end
@@ -1360,7 +1357,7 @@ function Button:UpdateCheckedMacro()
 	end
 end
 function Button:UpdateCheckedCompanion()
-	local Active = select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, Util.MountSpellID));
+	local Active = select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, self.MountSpellID));
 	local SpellName = UnitCastingInfo("player");
 	if (Active) then
 		self.Widget:SetChecked(true);
@@ -1434,9 +1431,19 @@ function Button:UpdateCooldownSpell()
 		self.WCooldown:Hide();
 	end
 end
+-- 3.4.1 wrath 12/28/2022 fix GetItemCooldown removed
+--function Button:UpdateCooldownItem()
+--  local b, s = Util.LookupItemInvSlot(self.ItemId)
+--  if (b) and (s) then
+--    Util.CooldownFrame_SetTimer(self.WCooldown, C_Container.GetContainerItemCooldown(b, s));
+--  end
+--end
+-- 3.4.1. wrath 01/17/2023 fix, GetItemCooldown added back in as C_Container.GetItemCooldown
 function Button:UpdateCooldownItem()
-	Util.CooldownFrame_SetTimer(self.WCooldown, GetItemCooldown(self.ItemId));
+	Util.CooldownFrame_SetTimer(self.WCooldown, C_Container.GetItemCooldown(self.ItemId));
 end
+
+
 function Button:UpdateCooldownMacro()
 	if (self.MacroMode == "spell") then
 		self:UpdateCooldownSpell();	
@@ -1510,7 +1517,7 @@ function Button:UpdateUsableMacro()
 	end
 end
 function Button:UpdateUsableCompanion()
-	local IsUsable = IsUsableSpell(self.MountSpellID) and not (select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, Util.MountSpellID)));
+	local IsUsable = IsUsableSpell(self.MountSpellID) and not (select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, self.MountSpellID)));
 
 	if (IsUsable) then
 		self.WIcon:SetVertexColor(1.0, 1.0, 1.0);
@@ -1673,7 +1680,7 @@ function Button:UpdateTooltipMacro()
 			end
 		end
 	elseif (self.MacroMode == "companion") then
-		local Id, Name, SpellId =  Util.GetCompanionInfo(self.CompanionType, self.CompanionIndex, Util.MountSpellID);
+		local Id, Name, SpellId =  Util.GetCompanionInfo(self.CompanionType, self.CompanionIndex, self.MountSpellID);
 		GameTooltip:SetHyperlink("spell:"..SpellId);
 	end
 end

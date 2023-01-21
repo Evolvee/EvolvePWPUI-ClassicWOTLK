@@ -159,13 +159,13 @@ autoSellFrame.sellList = nil -- {{id, bag, slot}, ...}
 
 function autoSellFrame:AutoSell()
 	local sold_something
-	local id, _, locked
+	local itemInfo
 	for _,v in ipairs(self.sellList) do
-		_, _, locked, _, _, _, _, _, _, id = GetContainerItemInfo(v[2], v[3])
-		if id then
-			if not locked and id == v[1] then
+		itemInfo = C_Container.GetContainerItemInfo(v[2], v[3])
+		if itemInfo and itemInfo.itemID then
+			if not itemInfo.isLocked and itemInfo.itemID == v[1] then
 				sold_something = true
-				UseContainerItem(v[2], v[3])
+				C_Container.UseContainerItem(v[2], v[3])
 			end
 		end
 	end
@@ -201,7 +201,7 @@ function autoSellFrame:BuildSellList()
 	local link, id
 	local sold_list = {} -- to save how many of each item is sold instead of spamming multiple lines
 	local profit = 0
-	local name, lower_name
+	local name, lower_name, itemInfo
 
 	local personal_sell_list = AutoShopSave.autoSellList
 	local shared_sell_list = AutoShopSharedSave.autoSellList
@@ -210,8 +210,8 @@ function autoSellFrame:BuildSellList()
 	local shared_exclude_list = AutoShopSharedSave.excludeList
 
 	for bag=0,4 do
-		for slot=1,GetContainerNumSlots(bag) do
-			link = GetContainerItemLink(bag, slot)
+		for slot=1,C_Container.GetContainerNumSlots(bag) do
+			link = C_Container.GetContainerItemLink(bag, slot)
 			if link then
 				id = tonumber(link:match(":(%d+)"))
 				name = link:match("%[(.-)]") -- GetItemInfo() doesn't always show full names
@@ -229,8 +229,8 @@ function autoSellFrame:BuildSellList()
 					if not personal_exclude_list[lower_name] and not shared_exclude_list[lower_name]
 					and (not ItemProtectorOrDestroyerSave or not ItemProtectorOrDestroyerSave.protectedItems[lower_name])
 					and FinalSellChecks(bag, slot, name) then
-						local _, amount = GetContainerItemInfo(bag, slot)
-						sold_list[link] = sold_list[link] and sold_list[link] + amount or amount
+						itemInfo = C_Container.GetContainerItemInfo(bag, slot)
+						sold_list[link] = sold_list[link] and sold_list[link] + itemInfo.stackCount or itemInfo.stackCount
 						profit = profit + tooltipMoneyAmount
 						autoSellFrame.sellList[#autoSellFrame.sellList+1] = {id, bag, slot}
 					end
@@ -238,6 +238,7 @@ function autoSellFrame:BuildSellList()
 			end
 		end
 	end
+
 	if next(sold_list) ~= nil then
 		autoSellFrame:Show()
 		if AutoShopSave.showSellActivity then

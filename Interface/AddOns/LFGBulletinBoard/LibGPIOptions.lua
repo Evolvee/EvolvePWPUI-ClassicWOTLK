@@ -424,7 +424,7 @@ function Options.AddDrop(DB,Var,Init,MenuItems)
 	end
 
 	local dropdown_width = 0
-    local dd_title = Options.Btn[ButtonName]:CreateFontString(Options.Btn[ButtonName], 'OVERLAY', 'GameFontNormal')
+    local dd_title = Options.Btn[ButtonName]:CreateFontString(nil, "OVERLAY", "GameFontNormal")
 	for _, item in pairs(MenuItems) do -- Sets the dropdown width to the largest item string width.
         dd_title:SetText(item)
         local text_width = dd_title:GetStringWidth() + 20
@@ -448,12 +448,7 @@ function Options.AddDrop(DB,Var,Init,MenuItems)
 		UIDropDownMenu_AddButton(info)
 	   end
 	end)
-
 end
-
-
-
-
 
 function Options.EditCheckBox(toEdit,DB,Var,Init,Text,width)
 	local ButtonName=toEdit:GetName()
@@ -494,9 +489,7 @@ function Options.AddText(TXT,width,centre)
 	textbox:SetText(TXT)
 	textbox:SetPoint("TOPLEFT",Options.NextRelativ,"BOTTOMLEFT", Options.NextRelativX, Options.NextRelativY-2)
 	textbox:SetScale(Options.scale)
-	
-	
-	
+
 	if width==nil or width==0 then 
 		textbox:SetWidth(textbox:GetStringWidth())
 	elseif width<0 then

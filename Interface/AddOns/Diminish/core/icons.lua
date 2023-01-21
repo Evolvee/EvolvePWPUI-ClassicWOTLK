@@ -116,6 +116,7 @@ end
 -- For blizzard frames, party1 is always equal to PartyFrame1 and so on
 -- but for unitframe addons party1 might be frame3 or some other random frame index
 -- so always just scan through them all, just like with the raid frames
+-- Edit: For Dragonflight this is no longer true.
 function Icons:FindPartyFrameByUnit(unitID)
     local guid = UnitGUID(unitID)
     if not guid then return end
@@ -126,6 +127,14 @@ function Icons:FindPartyFrameByUnit(unitID)
 
         if frame and frame.unit and frame:IsVisible() and UnitGUID(frame.unit) == guid then
             return frame
+        end
+    end
+
+    if PartyFrame and PartyFrame.PartyMemberFramePool then
+        for f in PartyFrame.PartyMemberFramePool:EnumerateActive() do
+            if f.layoutIndex and f:IsVisible() and UnitGUID("party" .. f.layoutIndex) == guid then
+                return f
+            end
         end
     end
 end
@@ -173,7 +182,7 @@ do
     local CreateFrame = _G.CreateFrame
 
     local function MasqueAddFrame(frame)
-        frame:SetNormalTexture(NS.db.borderTexture)
+        frame:SetNormalTexture(NS.db.border.edgeFile)
 
         NS.MasqueGroup:AddButton(frame, {
             Icon = frame.icon,
@@ -258,6 +267,13 @@ do
         local timer = frame.timerRef
 
         if timer and self:GetCooldownDuration() <= 0.2 then
+            if frame.unitFormatted and C_VoiceChat and C_VoiceChat.SpeakText then
+                if DIMINISH_NS.db.announceDRs and not timer.isNotPetOrPlayer then -- FYI: experimental/test at the moment
+                    local text = format("%s %s expired.", UnitName(frame.unitFormatted) or "", timer.category)
+                    C_VoiceChat.SpeakText(0, text, Enum.VoiceTtsDestination.QueuedLocalPlayback, 3, 100)
+                end
+            end
+
             NS.Timers:Remove(timer.unitGUID, timer.category)
         end
 
@@ -394,7 +410,7 @@ do
         end
 
         if NS.MasqueGroup and not isNew then
-            frame:SetNormalTexture(NS.db.borderTexture)
+            frame:SetNormalTexture(NS.db.border.edgeFile)
             NS.MasqueGroup:ReSkin(frame)
         end
 
@@ -441,7 +457,7 @@ do
             frame.border:SetPoint("TOPLEFT", -db.border.edgeSize, db.border.edgeSize)
             frame.border:SetPoint("BOTTOMRIGHT", db.border.edgeSize, -db.border.edgeSize)
         else
-            frame:SetNormalTexture(NS.db.borderTexture)
+            frame:SetNormalTexture(NS.db.border.edgeFile)
             NS.MasqueGroup:ReSkin(frame)
         end
 
@@ -614,6 +630,10 @@ do
     function Icons:StartCooldown(timer, unitID, onAuraEnd)
         local frame = self:GetFrame(unitID, timer.category)
         if not frame then return end
+
+        if unitID == "player-party" then
+            if not DIMINISH_NS.useCompactPartyFrames then return end
+        end
 
         if unitID == "player" then
             if NS.db.unitFrames.player.usePersonalNameplate then

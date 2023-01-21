@@ -1,3 +1,1 @@
-- Track shared cooldowns
-- Update spells
-- Bug fix
+- Spell updates provided by citna

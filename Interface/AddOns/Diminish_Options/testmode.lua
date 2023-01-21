@@ -81,7 +81,7 @@ local function OnEnter(self)
     SetCursor("Interface\\CURSOR\\UI-Cursor-Move")
 end
 
-local function PartyOnHide(self)
+--[[local function PartyOnHide(self)
     if not TestMode:IsTestingOrAnchoring() then return end
 
     -- If you hit Escape or Cancel in InterfaceOptions instead of "Okay" button then for some reason
@@ -91,7 +91,7 @@ local function PartyOnHide(self)
             self:Show()
         end
     end
-end
+end]]
 
 function TestMode:IsTestingOrAnchoring()
     return isTesting or isAnchoring
@@ -124,11 +124,19 @@ function TestMode:ToggleArenaAndPartyFrames(state, forceHide)
         if not DIMINISH_NS.IS_CLASSIC then
             if ArenaEnemyFrames then
                 showFlag = not ArenaEnemyFrames:IsShown()
+            elseif ArenaEnemyFramesContainer then
+                showFlag = not ArenaEnemyFramesContainer.Selection:IsShown()
             end
         end
     end
 
     if not DIMINISH_NS.IS_CLASSIC then
+        if EditModeManagerFrame and EditModeManagerFrame.AccountSettings then -- Dragonflight...
+            showFlag = not ArenaEnemyFramesContainer.Selection:IsShown()
+            EditModeManagerFrame.AccountSettings:SetArenaFramesShown(showFlag)
+            EditModeManagerFrame.AccountSettings:RefreshArenaFrames()
+        end
+
         local isInArena = select(2, IsInInstance()) == "arena"
         if forceHide or settings.arena.enabled and not isInArena then
             if ArenaEnemyFrames then
@@ -148,6 +156,9 @@ function TestMode:ToggleArenaAndPartyFrames(state, forceHide)
     end
 
     local useCompact = GetCVarBool("useCompactPartyFrames")
+    if EditModeManagerFrame then
+        useCompact = EditModeManagerFrame:UseRaidStylePartyFrames()
+    end
     if useCompact and settings.party.enabled and showFlag then
         if not IsInGroup() then
             print("Diminish: " .. L.COMPACTFRAMES_ERROR) -- luacheck: ignore
@@ -189,17 +200,15 @@ function TestMode:ToggleArenaAndPartyFrames(state, forceHide)
             end
         end
 
+        -- EditModeManagerFrame:EnterEditMode()
         if forceHide or not useCompact and settings.party.enabled then
-            if not UnitExists("party"..i) then -- do not toggle if frame belongs to a group member
-                local frame = DIMINISH_NS.Icons:GetAnchor("party"..i, true, true)
-                if frame and frame ~= UIParent then
-                    frame:SetShown(showFlag)
-                    if not frame.Diminish_isHooked then
-                        frame:HookScript("OnHide", PartyOnHide)
-                        frame.Diminish_isHooked = true
-                    end
-                end
-            end
+            --[[if EditModeManagerFrame and EditModeManagerFrame.AccountSettings then
+                EditModeManagerFrame.AccountSettings:SetPartyFramesShown(showFlag)
+                EditModeManagerFrame.AccountSettings:RefreshPartyFrames()
+            end]]
+           -- TODO: idk how to get party frame testing to work in Dragonflight without tainting the whole UI, and dont got time to research it
+                -- so gotta use existing player party members for now.
+            print("Diminish: You'll need to test party frames while in a group.") -- luacheck: ignore
         end
     end
 end

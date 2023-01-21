@@ -1,10 +1,6 @@
 notes for wrath
 
-changed ----------------------------------------------------------------------------
-to ---------------------------------------------------------------------------------
-
 equipment sets are back
-
 
 local activeTalentGroup = GetActiveTalentGroup()  -- active talent spec
 local numTalentGroups = GetNumTalentGroups() -- total talent specs
@@ -15,18 +11,93 @@ update .toc file for Classic Wrath
 
 with
 
-## Interface: 30400
+## Interface: 30401
 ## Title: Button Forge |cff69ccf0(Classic-Wrath)|r
-## Version: 1.0.6-classic-Wrath
+## Version: 1.0.17-classic-Wrath
 
 
 Const.lua -----------------------------------------------------------------
 
 changed ----------------------------------------------------------------------------
-Const.VersionMinor			= 0.5;
+Const.VersionMinor			= 0.16;
 to ---------------------------------------------------------------------------------
-Const.VersionMinor			= 0.6;
+Const.VersionMinor			= 0.17;
 
+added  to end
+
+Const.KeyBindingAbbr = {
+	-- This is the short display version you see on the Button
+	["ALT"] = "a",
+	["CTRL"] = "c",
+	["SHIFT"] = "s",
+	["COMMAND"] = "m", -- Blizzard uses 'm' for the command key (META key)
+	["NUMPAD"] = "n",
+	["NUMPAD0"] = "n0",
+	["NUMPAD1"] = "n1",
+	["NUMPAD2"] = "n2",
+	["NUMPAD3"] = "n3",
+	["NUMPAD4"] = "n4",
+	["NUMPAD5"] = "n5",
+	["NUMPAD6"] = "n6",
+	["NUMPAD7"] = "n7",
+	["NUMPAD8"] = "n8",
+	["NUMPAD9"] = "n9",
+	["NUMPADDIVIDE"] = "n/",
+	["NUMPADMULTIPLY"] = "n*",
+	["NUMPADMINUS"] = "n-",
+	["NUMPADPLUS"] = "n+",
+	["NUMPADDECIMAL"] = "n.",
+	["BACKSPACE"] = "bs",
+	["BUTTON1"] = "B1",
+	["BUTTON2"] = "B2",
+	["BUTTON3"] = "B3",
+	["BUTTON4"] = "B4",
+	["BUTTON5"] = "B5",
+	["BUTTON6"] = "B6",
+	["BUTTON7"] = "B7",
+	["BUTTON8"] = "B8",
+	["BUTTON9"] = "B9",
+	["BUTTON10"] = "B10",
+	["BUTTON11"] = "B11",
+	["BUTTON12"] = "B12",
+	["BUTTON13"] = "B13",
+	["BUTTON14"] = "B14",
+	["BUTTON15"] = "B15",
+	["BUTTON16"] = "B16",
+	["BUTTON17"] = "B17",
+	["BUTTON18"] = "B18",
+	["BUTTON19"] = "B19",
+	["BUTTON20"] = "B20",
+	["BUTTON21"] = "B21",
+	["BUTTON22"] = "B22",
+	["BUTTON23"] = "B23",
+	["BUTTON24"] = "B24",
+	["BUTTON25"] = "B25",
+	["BUTTON26"] = "B26",
+	["BUTTON27"] = "B27",
+	["BUTTON28"] = "B28",
+	["BUTTON29"] = "B29",
+	["BUTTON30"] = "B30",
+	["BUTTON31"] = "B31",
+	["CAPSLOCK"] = "Cp",
+	["CLEAR"] = "Cl",
+	["DELETE"] = "del",
+	["END"] = "end",
+	["HOME"] = "home",
+	["INSERT"] = "ins",
+	["MOUSEWHEELDOWN"] = "WD",
+	["MOUSEWHEELUP"] = "WU",
+	["NUMLOCK"] = "NL",
+	["PAGEDOWN"] = "PD",
+	["PAGEUP"] = "PU",
+	["SCROLLLOCK"] = "SL",
+	["SPACEBAR"] = "Sp",
+	["TAB"] = "Tb",
+	["DOWN"] = "Dn",
+	["LEFT"] = "Lf",
+	["RIGHT"] = "Rt",
+	["UP"] = "Up",
+};
 
 button.lua -----------------------------------------------------------------
 
@@ -38,34 +109,29 @@ local IsUsable, NotEnoughMana = IsUsableSpell(self.SpellName);
 changed ----------------------------------------------------------------------------
   GetCompanionInfo(CompanionType, MountID);
 to ----------------------------------------------------------------------------
-  Util.GetCompanionInfo(CompanionType, MountID, MountName);
+  Util.GetCompanionInfo(CompanionType, MountID, spellID)
 
 changed ----------------------------------------------------------------------------
 	elseif (Mode == "mount") then
 		self:SetCommandExplicitCompanion(ButtonSave["MountID"], "MOUNT");
 to ---------------------------------------------------------------------------------
 	elseif (Mode == "mount") then
-    Util.MountSpellID = self.ButtonSave["MountSpellID"]
-    creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo("MOUNT", ButtonSave["MountID"]);
-    if self.ButtonSave["MountSpellID"] == creatureSpellID then
-      Util.CompanionType = "MOUNT"
-      Util.MountName = self.ButtonSave["MountName"]
-      self:SetCommandExplicitCompanion(ButtonSave["MountID"], "MOUNT", ButtonSave["MountSpellID"]);
-    else      
-      Util.MountName = self.ButtonSave["MountName"]
-      Util.CompanionType = "CRITTER"
-      self:SetCommandExplicitCompanion(ButtonSave["MountID"], "CRITTER", ButtonSave["MountSpellID"]);
+    creatureID, creatureName, creatureSpellID, icon, issummoned, MountID, CompanionType = Util.GetMountCritter(self.ButtonSave["MountSpellID"])
+    if MCType ~= "" then
+      self.ButtonSave["MountID"] = MountID -- update index as it may change
+      ButtonSave["MountID"] = MountID -- update index as it may change
+      self:SetCommandExplicitCompanion(MountID, CompanionType, ButtonSave["MountSpellID"]);
     end
 
 changed ----------------------------------------------------------------------------
 	local Active = select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID));
 to ---------------------------------------------------------------------------------
-	local Active = select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, Util.MountSpellID));
+	local Active = select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, self.MountSpellID));
 
 changed ----------------------------------------------------------------------------
 local IsUsable = IsUsableSpell(self.MountSpellID) and not (select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID)));
 to ---------------------------------------------------------------------------------
-local IsUsable = IsUsableSpell(self.MountSpellID) and not (select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, Util.MountSpellID)));
+local IsUsable = IsUsableSpell(self.MountSpellID) and not (select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, self.MountSpellID)));
 
 changed ----------------------------------------------------------------------------
 function Button:SetCommandCompanion(MountID, Type)
@@ -97,6 +163,55 @@ to -----------------------------------------------------------------------------
 function Button:GetCursorCompanion()
 	return self.Mode, self.MountSpellID
 end
+
+per xfsbill 11/06/2022	
+changed ----------------------------------------------------------------------------
+function Button:RefreshKeyBindDisplay()
+	local Key = self.ButtonSave["KeyBinding"];
+	if (Key ~= nil and self.KeyBindTextEnabled) then
+to ---------------------------------------------------------------------------------
+function Button:RefreshKeyBindDisplay()
+	local Key = self.ButtonSave["KeyBinding"];
+	if (Key ~= nil and self.KeyBindTextEnabled) then
+		self.WHotKey:SetText(Util.GetBindingText(Key));
+
+per xfsbill 11/19/2022	
+changed ----------------------------------------------------------------------------
+function Button:DisplayActive(TexCoords)
+	local Icon = self.WIcon;
+	
+	Icon:SetTexture(self.Texture);
+	self.Widget:SetNormalTexture("Interface/Buttons/UI-Quickslot2");
+	if (TexCoords) then
+		Icon:SetTexCoord(unpack(TexCoords));
+	else
+		Icon:SetTexCoord(0, 1, 0, 1);
+	end
+	Icon:SetVertexColor(1.0, 1.0, 1.0, 1.0);
+	Icon:Show();
+	
+end
+to ---------------------------------------------------------------------------------
+function Button:DisplayActive(TexCoords)
+	local Icon = self.WIcon;
+	
+	Icon:SetTexture(self.Texture);
+	--self.Widget:SetNormalTexture("Interface/Buttons/UI-Quickslot2");
+	if (TexCoords) then
+		Icon:SetTexCoord(unpack(TexCoords));
+	else
+		Icon:SetTexCoord(0, 1, 0, 1);
+	end
+	Icon:SetVertexColor(1.0, 1.0, 1.0, 1.0);
+	if (Util.LBFMasterGroup) then
+		Util.LBFMasterGroup:ReSkin(self.Widget);
+	end
+	Icon:Show();
+	
+end
+
+
+
 
 Bar.lua -----------------------------------------------------------------
 
@@ -165,15 +280,84 @@ to -----------------------------------------------------------------------------
 		Util.VDriverOverride(); -- refreshes bars after talent group change, so don't need to hit buttonforge config to refresh.
 		self:SetScript("OnUpdate", self.OnUpdate);		
 
-
-
-EventManager.lua -----------------------------------------------------------------
-
-
 changed ----------------------------------------------------------------------------
   Misc:RegisterEvent("CURSOR_UPDATE");	
 to ---------------------------------------------------------------------------------
   Misc:RegisterEvent("CURSOR_CHANGED");	
+
+
+changed 12/17/2022 -----------------------------------------------------------------------
+
+added 
+Misc:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+
+after
+Misc:RegisterEvent("MODIFIER_STATE_CHANGED");
+
+added 
+	elseif (Event == "ZONE_CHANGED_NEW_AREA") then
+		Util.CacheCompanions();
+		Util.RefreshCompanions();
+
+after
+	elseif (Event == "EDITBOX_MESSAGE") then
+		self.EditBoxMessage, self.EditBox = ...;
+		self:SetScript("OnUpdate", self.OnUpdate);
+
+changed ----------------------------------------------------------------------------
+		
+	if (self.AddonLoaded and self.MacrosLoaded and self.SpellsCached) then
+		self:SetScript("OnEvent", nil);	--Swap to our standard event processor
+		if (LibStub) then
+			Util.LBF = LibStub("Masque", true);
+			if (Util.LBF) then
+				Util.LBFMasterGroup = Util.LBF:Group("Button Forge");
+				--Util.LBF:RegisterSkinCallback("Button Forge", Util.ButtonFacadeCallback, Util);
+			end
+		end
+		
+		Util.UpdateSavedData();
+		Util.Load();
+		Util.RefreshCompanions();
+		Util.RefreshMacros();
+		Util.RefreshEquipmentSets();
+		Util.RefreshSpells();
+		Util.CreateBlizzardBarWrappers();
+
+
+		--self:SetScript("OnUpdate", self.OnUpdate);
+	end
+
+to ---------------------------------------------------------------------------------
+
+	if (self.AddonLoaded and self.MacrosLoaded and self.SpellsCached) then
+		self:SetScript("OnEvent", nil);	--Swap to our standard event processor
+		if (LibStub) then
+			Util.LBF = LibStub("Masque", true);
+			if (Util.LBF) then
+				Util.LBFMasterGroup = Util.LBF:Group("Button Forge");
+				--Util.LBF:RegisterSkinCallback("Button Forge", Util.ButtonFacadeCallback, Util);
+			end
+		end
+		
+		Util.UpdateSavedData();
+		Util.Load();
+		Util.CacheCompanions() -- added 12/17/2022
+		Util.RefreshCompanions();
+		Util.RefreshMacros();
+		Util.RefreshEquipmentSets();
+		Util.RefreshSpells();
+		Util.CreateBlizzardBarWrappers();
+
+
+		--self:SetScript("OnUpdate", self.OnUpdate);
+	end
+
+
+
+
+
+
 
 
 
@@ -205,13 +389,6 @@ to ----------------------------------------------------------------------------
   Util.GetCompanionInfo(CompanionType, MountID, spellID);
 
 changed ----------------------------------------------------------------------------
-Util.MountUselessIndexToIndex = {};
-to ----------------------------------------------------------------------------
-Util.MountUselessIndexToIndex = {};
-Util.MountName = "";
-
-
-changed ----------------------------------------------------------------------------
 function Util.CacheCompanions()
 	Util.Critters = {};
     --[[
@@ -237,21 +414,24 @@ end
 to ---------------------------------------------------------------------------------
 function Util.CacheCompanions()
     Util.Critters = {};
+    Util.CrittersSPID = {};
     for i = 1, GetNumCompanions("CRITTER") do
-        local Id, Name = GetCompanionInfo("CRITTER", i);
-		if (not Name) then
-			return;
-		end
-        Util.Critters[Name] = i;
-    end
-	
+      local creatureID, creatureName, creatureSpellID, icon, isSummoned = GetCompanionInfo("CRITTER", i)
+      local spellName, rank, icon, castTime, minRange, maxRange, spellID = GetSpellInfo(creatureSpellID)
+      if spellName ~= nil then
+        Util.Critters[spellName] = i;
+        Util.CrittersSPID[spellID] = spellName;
+      end
+	  end
     Util.Mounts = {};
+    Util.MountsSPID = {};
     for i = 1, GetNumCompanions("MOUNT") do
-        local Id, Name = GetCompanionInfo("MOUNT", i);
-		if (not Name) then
-			return;
-		end
-        Util.Mounts[Name] = i;
+      local creatureID, creatureName, creatureSpellID, icon, isSummoned = GetCompanionInfo("MOUNT", i)
+      local spellName, rank, icon, castTime, minRange, maxRange, spellID = GetSpellInfo(creatureSpellID)
+      if spellName ~= nil then
+        Util.Mounts[spellName] = i;
+        Util.MountsSPID[spellID] = spellName;
+      end
     end
 	Util.CompanionsCached = true;
 end
@@ -278,24 +458,15 @@ function Util.LookupCompanion(Name)
     end
 end
 to ---------------------------------------------------------------------------------
-function Util.CacheCompanions()
-    Util.Critters = {};
-    for i = 1, GetNumCompanions("CRITTER") do
-      local creatureID, creatureName, creatureSpellID, icon, isSummoned = GetCompanionInfo("CRITTER", i)
-      local spellName, rank, icon, castTime, minRange, maxRange, spellID = GetSpellInfo(creatureSpellID)
-      if spellName ~= nil then
-        Util.Critters[spellName] = i;
-      end
-	  end
-    Util.Mounts = {};
-    for i = 1, GetNumCompanions("MOUNT") do
-      local creatureID, creatureName, creatureSpellID, icon, isSummoned = GetCompanionInfo("MOUNT", i)
-      local spellName, rank, icon, castTime, minRange, maxRange, spellID = GetSpellInfo(creatureSpellID)
-      if spellName ~= nil then
-        Util.Mounts[spellName] = i;
-      end
-    end
-	Util.CompanionsCached = true;
+function Util.LookupCompanion(Name)
+  Util.CacheCompanions()
+  if (Util.Critters[Name]) then
+    return "CRITTER", Util.Critters[Name]; 
+  elseif (Util.Mounts[Name]) then
+    return "MOUNT", Util.Mounts[Name];
+  else
+    return nil, nil;
+  end
 end
 
 	
@@ -303,30 +474,42 @@ added to end of Util.lua
 
 function Util.GetCompanionInfo(CompanionType, MountID, spellID)
 
+  Util.CacheCompanions()
   if spellID ~= nil then
-    if Util.Critters == nil or Util.Mounts == nil then
-      Util.CacheCompanions()
+    if Util.CrittersSPID[spellID] ~= nil then
+      CritterName = Util.CrittersSPID[spellID]
+      CompanionType = "CRITTER"
+      MountID = Util.Critters[CritterName]
     end
-    Util.MountSpellID = spellID
-    if Util.Critters[MountName] ~= nil then
-      if Util.Critters[MountName] == MountID then
-        CompanionType = "CRITTER"
-      end
-    end
-    if Util.Mounts[MountName] ~= nil then
-      if Util.Mounts[MountName] == MountID then
-        CompanionType = "MOUNT"
-      end
+    if Util.MountsSPID[spellID] ~= nil then
+      MountName = Util.MountsSPID[spellID]
+      CompanionType = "MOUNT"
+      MountID = Util.Mounts[MountName]
     end
   end
   
 	creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo(CompanionType, MountID);
-  Util.MountSpellID = creatureSpellID
-  Util.CompanionType = CompanionType
-  Util.MountName = creatureName
   
   return creatureID,creatureName,creatureSpellID,icon,issummoned,mountTypeID
 end
+
+-- added 12/16/2022
+function Util.GetMountCritter(name, spellID)
+  for i = 1, GetNumCompanions("MOUNT") do
+    local creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo("MOUNT", i); 
+    if creatureName == name and  creatureSpellID == spellID then
+      return creatureID,creatureName,creatureSpellID,icon,issummoned,i,"MOUNT"
+    end
+  end
+  for i = 1, GetNumCompanions("CRITTER") do
+    local creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo("CRITTER", i); 
+    if creatureName == name and  creatureSpellID == spellID then
+      return creatureID,creatureName,creatureSpellID,icon,issummoned,i,"CRITTER"
+    end
+  end
+  return nil,nil,nil,nil,nil,nil,""
+end
+
 
 function Util_GetCurspec()
   local curspec = 1
@@ -336,6 +519,26 @@ function Util_GetCurspec()
   return(curspec)
 end
 
+added to end 11/06/2022 -----------------------------------------------------------------------------------
+added fix for "-" dash -----------------------------------------------------------------------------------
+
+function Util.GetBindingText(Key)
+	local s = {};
+	for v in string.gmatch(Key, "([^-]+)") do
+		if (Const.KeyBindingAbbr[v] ~= nil) then
+			table.insert(s, Const.KeyBindingAbbr[v]);
+		else
+			table.insert(s, GetBindingText(v, 1));
+		end
+	end
+
+	local lastChar = string.sub(Key, -1);
+	if (lastChar == "-") then
+		table.insert(s, GetBindingText(lastChar, 1));
+	end
+
+	return table.concat(s, "-");
+end
 
 -- 10/02/2022 spec macro conditionals added to wrath classic
 Bar.lua -----------------------------------------------------------------
@@ -370,3 +573,4 @@ back to -----------------------------------------------------------------
 		if (self.BarSave["HSpec2"]) then
  			Text = Text.."[spec:2] hide; ";
 		end
+

@@ -69,9 +69,7 @@ Util.UpdateMacroEventCount = 0;
 Util.MacroCheckDelayComplete = false;
 Util.ForceOffCastOnKeyDown = false;
 Util.MountUselessIndexToIndex = {};
-Util.MountSpellID = nil;
-Util.CompanionType = ""
-Util.MountName = ""
+
 
 --One quick override function
 local G_PickupSpellBookItem = PickupSpellBookItem;
@@ -247,11 +245,18 @@ function Util.UpdateSavedData()
 	
 
 	--Bring v up to the latest version
-	if (ButtonForgeSave["Version"] < Const.Version) then
+	-- if (ButtonForgeSave["Version"] < Const.Version) then
+	--	ButtonForgeSave["Version"] = Const.Version;
+	--	ButtonForgeSave["VersionMinor"] = Const.VersionMinor;
+	--	DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v"..Const.Version.."."..Const.VersionMinor, .5, 1, 0, 1);
+	-- elseif (ButtonForgeSave["Version"] == Const.Version and ButtonForgeSave["VersionMinor"] < Const.VersionMinor) then
+	--	ButtonForgeSave["VersionMinor"] = Const.VersionMinor;
+	--	DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v"..Const.Version.."."..Const.VersionMinor, .5, 1, 0, 1);
+	--end
+
+	--Bring ButtonForgeSave up to the latest version
+	 if (ButtonForgeSave["Version"] ~= Const.Version) or (ButtonForgeSave["VersionMinor"] ~= Const.VersionMinor) then
 		ButtonForgeSave["Version"] = Const.Version;
-		ButtonForgeSave["VersionMinor"] = Const.VersionMinor;
-		DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v"..Const.Version.."."..Const.VersionMinor, .5, 1, 0, 1);
-	elseif (ButtonForgeSave["Version"] == Const.Version and ButtonForgeSave["VersionMinor"] < Const.VersionMinor) then
 		ButtonForgeSave["VersionMinor"] = Const.VersionMinor;
 		DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v"..Const.Version.."."..Const.VersionMinor, .5, 1, 0, 1);
 	end
@@ -331,17 +336,20 @@ function Util.UpdateSavedData()
 		end
 	end
 	
-	
-
-
-	
 	--Bring the global settings up to the latest version
-	if (ButtonForgeGlobalSettings["Version"] < Const.Version) then
+	--if (ButtonForgeGlobalSettings["Version"] < Const.Version) then
+	--	ButtonForgeGlobalSettings["Version"] = Const.Version;
+	--	ButtonForgeGlobalSettings["VersionMinor"] = Const.VersionMinor;
+	--elseif (ButtonForgeGlobalSettings["Version"] == Const.Version and ButtonForgeGlobalSettings["VersionMinor"] < Const.VersionMinor) then
+	--	ButtonForgeGlobalSettings["VersionMinor"] = Const.VersionMinor;
+	--end
+
+	--Bring the global settings up to the latest version
+	if (ButtonForgeGlobalSettings["Version"] ~= Const.Version) or (ButtonForgeGlobalSettings["VersionMinor"] ~= Const.VersionMinor) then
 		ButtonForgeGlobalSettings["Version"] = Const.Version;
 		ButtonForgeGlobalSettings["VersionMinor"] = Const.VersionMinor;
-	elseif (ButtonForgeGlobalSettings["Version"] == Const.Version and ButtonForgeGlobalSettings["VersionMinor"] < Const.VersionMinor) then
-		ButtonForgeGlobalSettings["VersionMinor"] = Const.VersionMinor;
 	end
+
 end
 
 
@@ -1899,28 +1907,30 @@ end
 -------------------------------------------]]
 function Util.CacheCompanions()
     Util.Critters = {};
+    Util.CrittersSPID = {};
     for i = 1, GetNumCompanions("CRITTER") do
       local creatureID, creatureName, creatureSpellID, icon, isSummoned = GetCompanionInfo("CRITTER", i)
       local spellName, rank, icon, castTime, minRange, maxRange, spellID = GetSpellInfo(creatureSpellID)
       if spellName ~= nil then
         Util.Critters[spellName] = i;
+        Util.CrittersSPID[spellID] = spellName;
       end
 	  end
     Util.Mounts = {};
+    Util.MountsSPID = {};
     for i = 1, GetNumCompanions("MOUNT") do
       local creatureID, creatureName, creatureSpellID, icon, isSummoned = GetCompanionInfo("MOUNT", i)
       local spellName, rank, icon, castTime, minRange, maxRange, spellID = GetSpellInfo(creatureSpellID)
       if spellName ~= nil then
         Util.Mounts[spellName] = i;
+        Util.MountsSPID[spellID] = spellName;
       end
     end
 	Util.CompanionsCached = true;
 end
 
 function Util.LookupCompanion(Name)
-  if Util.Critters == nil or Util.Mounts == nil then
-    Util.CacheCompanions()
-  end
+  Util.CacheCompanions()
   if (Util.Critters[Name]) then
     return "CRITTER", Util.Critters[Name]; 
   elseif (Util.Mounts[Name]) then
@@ -1959,8 +1969,8 @@ function Util.CacheBagItems()
 	local ItemId;
 	local ItemName;
 	for b = 4, 0, -1 do
-		for s = GetContainerNumSlots(b), 1, -1 do
-			ItemId = GetContainerItemID(b, s);
+		for s =  C_Container.GetContainerNumSlots(b), 1, -1 do
+			ItemId =  C_Container.GetContainerItemID(b, s);
 			ItemName = GetItemInfo(ItemId or "");
 			if (ItemName ~= nil and ItemName ~= "") then
 				BagItemNameIndexes[ItemName] = {b, s};
@@ -2046,8 +2056,8 @@ function Util.LookupItemInvSlot(ItemId)
 	local Id;
 	local Name = "";
 	for b = 0, 4 do
-		for s = 1, GetContainerNumSlots(b) do
-			Id = GetContainerItemID(b, s);
+		for s = 1,  C_Container.GetContainerNumSlots(b) do
+			Id =  C_Container.GetContainerItemID(b, s);
 			if (Id) then
 				Name = GetItemInfo(Id);
 				if (ItemId == Id) then
@@ -2802,29 +2812,43 @@ end
 
 function Util.GetCompanionInfo(CompanionType, MountID, spellID)
 
+  Util.CacheCompanions()
+
   if spellID ~= nil then
-    if Util.Critters == nil or Util.Mounts == nil then
-      Util.CacheCompanions()
+    if Util.CrittersSPID[spellID] ~= nil then
+      CritterName = Util.CrittersSPID[spellID]
+      CompanionType = "CRITTER"
+      MountID = Util.Critters[CritterName]
     end
-    Util.MountSpellID = spellID
-    if Util.Critters[MountName] ~= nil then
-      if Util.Critters[MountName] == MountID then
-        CompanionType = "CRITTER"
-      end
-    end
-    if Util.Mounts[MountName] ~= nil then
-      if Util.Mounts[MountName] == MountID then
-        CompanionType = "MOUNT"
-      end
+
+    if Util.MountsSPID[spellID] ~= nil then
+      MountName = Util.MountsSPID[spellID]
+      CompanionType = "MOUNT"
+      MountID = Util.Mounts[MountName]
     end
   end
   
 	creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo(CompanionType, MountID);
-  Util.MountSpellID = creatureSpellID
-  Util.CompanionType = CompanionType
-  Util.MountName = creatureName
-  
+
   return creatureID,creatureName,creatureSpellID,icon,issummoned,mountTypeID
+end
+
+-- added 12/16/2022
+function Util.GetMountCritter(spellID)
+  Util.CacheCompanions()
+  for i = 1, GetNumCompanions("MOUNT") do
+    local creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo("MOUNT", i); 
+    if creatureSpellID == spellID then
+      return creatureID,creatureName,creatureSpellID,icon,issummoned,i,"MOUNT"
+    end
+  end
+  for i = 1, GetNumCompanions("CRITTER") do
+    local creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo("CRITTER", i); 
+    if creatureSpellID == spellID then
+      return creatureID,creatureName,creatureSpellID,icon,issummoned,i,"CRITTER"
+    end
+  end
+  return nil,nil,nil,nil,nil,nil,""
 end
 
 function Util_GetCurspec()
@@ -2835,3 +2859,20 @@ function Util_GetCurspec()
   return(curspec)
 end
 
+function Util.GetBindingText(Key)
+	local s = {};
+	for v in string.gmatch(Key, "([^-]+)") do
+		if (Const.KeyBindingAbbr[v] ~= nil) then
+			table.insert(s, Const.KeyBindingAbbr[v]);
+		else
+			table.insert(s, GetBindingText(v, 1));
+		end
+	end
+
+	local lastChar = string.sub(Key, -1);
+	if (lastChar == "-") then
+		table.insert(s, GetBindingText(lastChar, 1));
+	end
+
+	return table.concat(s, "-");
+end

@@ -112,7 +112,7 @@ local cvars = {
     ShowClassColorInFriendlyNameplate = "1",
     ShowClassColorInNameplate = "1",
     nameplateMaxDistance = "41",
-    nameplateGlobalScale = "1.15",
+    nameplateGlobalScale = "1.13",
     enableFloatingCombatText = "1",
     threatWarning = "0",
     predictedHealth = "0",
@@ -1572,39 +1572,40 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
 end)
 
 -- Skip certain gossip_menu windows for vendors and especially arena/bg NPCs --> can be bypassed by pressing ctrl/alt/shift
+-- To see the icon number of gossip options, use: /dump C_GossipInfo.GetOptions()
 
-local gossipSkipType = {
-    ["banker"] = 1,
-    ["taxi"] = 1,
-    ["trainer"] = 1,
-    ["vendor"] = 1,
-    ["battlemaster"] = 1,
-	["auctioneer"] = 1, -- eng AH in Dalaran...
+local gossipSkipIcon = {
+    -- ["banker"] = 1,
+    [132051] = 1, -- battlemaster
+    [132057] = 1, -- taxi
+    [132058] = 1, -- trainer
+    [132060] = 1, -- vendor
+    [528409] = 1, -- Dalaran auction house
 }
 
 local IsShiftKeyDown, IsAltKeyDown, IsControlKeyDown = IsShiftKeyDown, IsAltKeyDown, IsControlKeyDown
-local GetNumGossipOptions, GetNumGossipActiveQuests, GetNumGossipAvailableQuests = GetNumGossipOptions, GetNumGossipActiveQuests, GetNumGossipAvailableQuests
-local GetGossipOptions = GetGossipOptions
-local SelectGossipOption, Dismount = SelectGossipOption, Dismount
+local GetNumGossipActiveQuests, GetNumGossipAvailableQuests = C_GossipInfo.GetNumActiveQuests, C_GossipInfo.GetNumAvailableQuests
+local SelectGossipOption, Dismount = C_GossipInfo.SelectOption, Dismount
 
 local skipEventFrame = CreateFrame("frame")
 skipEventFrame:RegisterEvent("GOSSIP_SHOW")
 skipEventFrame:SetScript("OnEvent", function()
-    if not IsShiftKeyDown() and GetNumGossipOptions() == 1 and GetNumGossipActiveQuests() == 0 and GetNumGossipAvailableQuests() == 0 then
-        local _, gossipType = GetGossipOptions()
-        if gossipSkipType[gossipType] then
-            SelectGossipOption(1)
-            if gossipType == "taxi" then
+    local options = C_GossipInfo.GetOptions()
+    local numOptions = #options
+
+    if not IsShiftKeyDown() and numOptions == 1 and GetNumGossipActiveQuests() == 0 and GetNumGossipAvailableQuests() == 0 then
+        if gossipSkipIcon[options[1].icon] then
+            SelectGossipOption(options[1].gossipOptionID)
+            if options[1].icon == 132057 then -- taxi
                 Dismount()
             end
             return
         end
     end
-    if GetNumGossipOptions() > 0 and not IsShiftKeyDown() and not IsAltKeyDown() and not IsControlKeyDown() then
-        local options = { GetGossipOptions() }
-        for i = 1, GetNumGossipOptions() do
-            if options[(i - 1) * 2 + 2] == "vendor" then
-                SelectGossipOption(i)
+    if numOptions > 0 and not IsShiftKeyDown() and not IsAltKeyDown() and not IsControlKeyDown() then
+        for _,v in ipairs(options) do
+            if v.icon == 132060 then -- vendor
+                SelectGossipOption(v.gossipOptionID)
                 return
             end
         end

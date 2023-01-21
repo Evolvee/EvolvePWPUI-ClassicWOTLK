@@ -93,6 +93,7 @@ Misc:RegisterEvent("UNIT_INVENTORY_CHANGED");			--Refresh the inv (equipped) ite
 --Misc:RegisterEvent("SPELL_FLYOUT_UPDATE");			--Refresh the spell_flyouts (mainly due to default blizz code that forces my custom flyout border off)
 Misc:RegisterEvent("UI_SCALE_CHANGED");
 Misc:RegisterEvent("MODIFIER_STATE_CHANGED");
+Misc:RegisterEvent("ZONE_CHANGED_NEW_AREA");
 
 
 
@@ -264,6 +265,7 @@ function Full:InitialOnEvent(Event, Arg1)
 		
 		Util.UpdateSavedData();
 		Util.Load();
+		Util.CacheCompanions()  -- added 12/17/2022
 		Util.RefreshCompanions();
 		Util.RefreshMacros();
 		Util.RefreshEquipmentSets();
@@ -496,7 +498,15 @@ function Misc:OnEvent(Event, ...)
 	elseif (Event == "EDITBOX_MESSAGE") then
 		self.EditBoxMessage, self.EditBox = ...;
 		self:SetScript("OnUpdate", self.OnUpdate);
+
+	elseif (Event == "ZONE_CHANGED_NEW_AREA") then
+		Util.CacheCompanions(); 
+		Util.RefreshCompanions();
+
 	end
+
+
+
 end
 function Misc:OnUpdate(Elapsed)
 	if (self.RefreshSpells) then

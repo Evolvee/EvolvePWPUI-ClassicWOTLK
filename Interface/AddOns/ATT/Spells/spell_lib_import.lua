@@ -250,7 +250,7 @@ ATTdbs.dbImport = {
 
 }
 
-ATTdbs.dbRacial = {
+ATTdbs.dbRacials = {
     {["ability"] = 59752, ["cooldown"] = 120, ["race"] = 1, ["cdshare"] = true },
     {["ability"] = 20572, ["cooldown"] = 120, ["race"] = 2 },
     {["ability"] = 20594, ["cooldown"] = 180, ["race"] = 3 },
@@ -297,18 +297,38 @@ ATTdbs.PvPTrinkets = {
    [50354] = 50354
 }
 
- ATTdbs.dbExtraTrinkets = {
-  {["ability"] = 42292, ["id"] = 37864, ["cooldown"] = 120, ["sname"] = 37864, ["pvptrinket"] = true,}, --ally
-  {["ability"] = 42292, ["id"] = 37865, ["cooldown"] = 120, ["sname"] = 37865, ["pvptrinket"] = true,}, -- horde
+ ATTdbs.dbTrinkets = {
+  {["ability"] = 42292, ["trinketId"] = 37864, ["cooldown"] = 120, ["isPvPtrinket"] = true,}, --ally
+  {["ability"] = 42292, ["trinketId"] = 37865, ["cooldown"] = 120, ["isPvPtrinket"] = true,}, -- horde
   
-  {["ability"] = 42292, ["id"] = 46083, ["cooldown"] = 120, ["sname"] = 46083}, 
-  {["ability"] = 42292, ["id"] = 46085, ["cooldown"] = 120, ["sname"] = 46085}, 
-  {["ability"] = 42292, ["id"] = 46081, ["cooldown"] = 120, ["sname"] = 46081}, 
-  {["ability"] = 42292, ["id"] = 46084, ["cooldown"] = 120, ["sname"] = 46084}, 
-  {["ability"] = 42292, ["id"] = 46082, ["cooldown"] = 120, ["sname"] = 46082}, 
+  {["ability"] = 42292, ["trinketId"] = 46083, ["cooldown"] = 120,}, 
+  {["ability"] = 42292, ["trinketId"] = 46085, ["cooldown"] = 120,}, 
+  {["ability"] = 42292, ["trinketId"] = 46081, ["cooldown"] = 120,}, 
+  {["ability"] = 42292, ["trinketId"] = 46084, ["cooldown"] = 120,}, 
+  {["ability"] = 42292, ["trinketId"] = 46082, ["cooldown"] = 120,}, 
+  ---
   
-  {["ability"] = 35165, ["id"] = 29376, ["cooldown"] = 120, ["sname"] = 29376},
-  {["ability"] = 35163, ["id"] = 29370, ["cooldown"] = 120, ["sname"] = 29370},
-  {["ability"] = 35169, ["id"] = 29387, ["cooldown"] = 120, ["sname"] = 29387}, 
-  {["ability"] = 71607, ["id"] = 50354, ["cooldown"] = 120, ["sname"] = 50354}, 
+  {["ability"] = 35165, ["trinketId"] = 29376, ["cooldown"] = 120,},
+  {["ability"] = 35163, ["trinketId"] = 29370, ["cooldown"] = 120,},
+  {["ability"] = 35169, ["trinketId"] = 29387, ["cooldown"] = 120,}, 
+  {["ability"] = 71607, ["trinketId"] = 50354, ["cooldown"] = 120,}, 
+  
+  {["ability"] = 60319, ["trinketId"] = 40531, ["cooldown"] = 120,}, 
+
+}
+
+ATTdbs.validPartyUnits = { 
+    ["player"] = 5, ["party1"] = 1, ["party2"] = 2, ["party3"] = 3, ["party4"] = 4,	["pet"] = 5, ["partypet1"] = 1, ["partypet2"] = 2, ["partypet3"] = 3, ["partypet4"] = 4,
+}
+
+ATTdbs.validRaidUnits = {
+    ["raid1"] = 1, ["raid2"] = 2, ["raid3"] = 3, ["raid4"] = 4, ["raid5"] = 5, ["raid6"] = 6, ["raid7"] = 7, ["raid8"] = 8, ["raid9"] = 9,["raid10"] = 10,
+    ["raid11"] = 11, ["raid12"] = 12, ["raid13"] = 13, ["raid14"] = 14, ["raid15"] = 15, ["raid16"] = 16, ["raid17"] = 17, ["raid18"] = 18, ["raid19"] = 19,["raid20"] = 20,
+    ["raid21"] = 21, ["raid22"] = 22, ["raid23"] = 23, ["raid24"] = 24, ["raid25"] = 25, ["raid26"] = 26, ["raid27"] = 27, ["raid28"] = 28, ["raid29"] = 29,["raid30"] = 30,
+    ["raid31"] = 31, ["raid32"] = 32, ["raid33"] = 33, ["raid34"] = 34, ["raid35"] = 35, ["raid36"] = 36, ["raid37"] = 37, ["raid38"] = 38, ["raid39"] = 39,["raid40"] = 40,
+
+	["raidpet1"] = 1, ["raidpet2"] = 2, ["raidpet3"] = 3, ["raidpet4"] = 4, ["raidpet5"] = 5, ["raidpet6"] = 6, ["raidpet7"] = 7, ["raidpet8"] = 8,["raidpet9"] = 9,["raidpet10"] = 10,
+	["raidpet11"] = 11, ["raidpet12"] = 12, ["raidpet13"] = 13, ["raidpet14"] = 14, ["raidpet15"] = 15, ["raidpet16"] = 16, ["raidpet17"] = 17, ["raidpet18"] = 18, ["raidpet19"] = 19,["raidpet20"] = 20,
+    ["raidpet21"] = 21, ["raidpet22"] = 22, ["raidpet23"] = 23, ["raidpet24"] = 24, ["raidpet25"] = 25, ["raidpet26"] = 26, ["raidpet27"] = 27, ["raidpet28"] = 28, ["raidpet29"] = 29,["raidpet30"] = 30,
+    ["raidpet31"] = 31, ["raidpet32"] = 32, ["raidpet33"] = 33, ["raidpet34"] = 34, ["raidpet35"] = 35, ["raidpet36"] = 36, ["raidpet37"] = 37, ["raidpet38"] = 38, ["raidpet39"] = 39,["raidpet40"] = 40,
 }
