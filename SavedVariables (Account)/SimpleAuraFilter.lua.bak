@@ -3,6 +3,7 @@ SimpleAuraFilterDB = {
 	["profileKeys"] = {
 		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvebanned - Gehennas"] = "Default",
+		["Evolvepwe - Firemaw"] = "Evolvepwe - Firemaw",
 	},
 	["profiles"] = {
 		["Evolvepwp - Firemaw"] = {
@@ -54,6 +55,10 @@ SimpleAuraFilterDB = {
 				["Trueshot Aura"] = 1,
 				["Frost Resistance Aura"] = 1,
 				["Stormpike's Salvation"] = "Stormpike's Salvation",
+			},
+		},
+		["Evolvepwe - Firemaw"] = {
+			["filters"] = {
 			},
 		},
 	},

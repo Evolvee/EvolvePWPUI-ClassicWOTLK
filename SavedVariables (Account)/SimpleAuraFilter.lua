@@ -3,6 +3,7 @@ SimpleAuraFilterDB = {
 	["profileKeys"] = {
 		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvebanned - Gehennas"] = "Default",
+		["Evolvepwe - Firemaw"] = "Evolvepwe - Firemaw",
 	},
 	["profiles"] = {
 		["Evolvepwp - Firemaw"] = {
@@ -54,6 +55,10 @@ SimpleAuraFilterDB = {
 				["Wrath of Air Totem"] = 1,
 				["Elemental Oath"] = 1,
 				["Haunted"] = "Haunted",
+			},
+		},
+		["Evolvepwe - Firemaw"] = {
+			["filters"] = {
 			},
 		},
 	},

@@ -1,2 +1,2 @@
 
-BEAConfirmToggle = nil
+BEAConfirmToggle = true

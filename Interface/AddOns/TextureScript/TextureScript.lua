@@ -115,7 +115,7 @@ local cvars = {
     nameplateGlobalScale = "1.13",
     enableFloatingCombatText = "1",
     threatWarning = "0",
-    predictedHealth = "0",
+    predictedHealth = "1",
     Sound_EnableDSPEffects = "0",
     countdownForCooldowns = "1"
 }
@@ -1575,7 +1575,7 @@ end)
 -- To see the icon number of gossip options, use: /dump C_GossipInfo.GetOptions()
 
 local gossipSkipIcon = {
-    -- ["banker"] = 1,
+	[132050] = 1, -- banker
     [132051] = 1, -- battlemaster
     [132057] = 1, -- taxi
     [132058] = 1, -- trainer
@@ -1701,6 +1701,37 @@ local function SpellBarAdjust(self)
     end
 end
 hooksecurefunc("CastingBarFrame_OnShow", SpellBarAdjust)
+
+
+-- Only actual retards play this dogshit broken class that has nothing to do with World of Warcraft design
+
+local function RetardDK(frame, unit)
+    if not string.find(unit, "nameplate") or frame:IsForbidden() then
+        return
+    end
+
+    if UnitExists(unit) and UnitIsEnemy("player", unit) and UnitPlayerControlled(unit) then
+        local _, _, class = UnitClass(unit)
+        if (class == 6) then
+            frame.name:SetText("Retard")
+        end
+    end
+end
+
+local RE = CreateFrame("Frame")
+RE:RegisterEvent("ADDON_LOADED")
+RE:SetScript("OnEvent", function(self, event, ...)
+    if event == "ADDON_LOADED" then
+        hooksecurefunc("CompactUnitFrame_UpdateName", function(frame)
+            local unit = frame.unit
+            RetardDK(frame, unit)
+        end)
+    end
+    self:UnregisterEvent("ADDON_LOADED")
+    self:SetScript("OnEvent", nil)
+end)
+
+
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
 

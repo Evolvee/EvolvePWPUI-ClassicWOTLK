@@ -1,1 +1,1 @@
-- Spell updates provided by citna
+- Spell updates from citna
