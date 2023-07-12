@@ -18,7 +18,6 @@ members = GetNumGroupMembers;
         7 = Red "X" Cross; Warrior, (Death Knight on Retail)
         8 = White Skull; Priest
 --]]
-
 --------------------------------------
 -- AM functions
 --------------------------------------
@@ -41,17 +40,17 @@ end
 
 function AM:SetRaidTargetByClass(unit, ...)
     if not unit or GetRaidTargetIndex(unit) then return end
-    local _, englishClass, _ = UnitClass(unit);
+    local _, class, _ = UnitClass(unit);
     for k, v in pairs(core.relatives) do
-        if k == englishClass then
-            if core.unused_markers[v] then
-                AM:SetMarkerAndRemove(unit, v);
-            else
-                AM:FindUsableMark(unit);
+        if k == class then
+            for _, val in pairs(v) do
+                if core.unused_markers[val] then
+                    return AM:SetMarkerAndRemove(unit, val);
+                end
             end
-            break;
         end
     end
+    return AM:FindUsableMark(unit);
 end
 
 function AM:MarkPlayers()
@@ -108,6 +107,30 @@ function AM:RepopulateUnusedMarkers()
     end
 end
 
+function AM:RemarkShadowmeld(self, ...)
+    local unit, _, spellID = ...;
+    if not unit or not spellID then return end
+    if string.sub(unit, 1, string.len("nameplate")) == "nameplate" then return end
+    if string.sub(unit, 1, string.len("raid")) == "raid" then return end
+
+    local shadowmeldSpellID = 58984;
+
+    if spellID == shadowmeldSpellID and UnitInParty(unit) then
+        C_Timer.After(1.6, function()
+            AM:CheckExistingMarks();
+            AM:SetRaidTargetByClass(unit);
+        end);
+    end
+end
+
+function AM:HandleUnitSpellCastSucceeded(self, ...)
+    if not UnitIsGroupLeader("player") and not UnitIsGroupAssistant("player") then return end
+    local _, instanceType = IsInInstance();
+    if instanceType ~= "arena" then return end
+    AM:PetCastEventHandler(self, ...);
+    AM:RemarkShadowmeld(self, ...);
+end
+
 function AM:UnmarkPets()
     if members() > 5 then return end
     if UnitExists("pet") then
@@ -145,16 +168,13 @@ function AM:UnmarkPlayers()
     AM:RepopulateUnusedMarkers();
 end
 
-function AM:PetCastEventHandler(self, caster, ...)
-    local _, instanceType = IsInInstance();
-    if instanceType ~= "arena" then return end
-    if not UnitIsGroupLeader("player") and not UnitIsGroupAssistant("player") then return end
+function AM:PetCastEventHandler(self, ...)
+    local unit, _, spellID = ...;
     if not ArenaMarkerDB.markSummonedPets then return end
-    if string.sub(caster, 1, 4) == "raid" then return end
-    local _, spellID = ...;
+    if string.sub(unit, 1, 4) == "raid" then return end
     for key, val in pairs(core.summons) do
         if spellID == key and val then
-            C_Timer.After(0.5, function() AM:MarkPetWithPriority(caster) end);
+            C_Timer.After(0.5, function() AM:MarkPetWithPriority(unit) end);
         end
     end
 end
@@ -164,18 +184,18 @@ function AM:CheckExistingMarks()
     for i = 1, #core.marker_strings do
         core.unused_markers[core.marker_strings[i]] = i;
     end
-    local function Remove(unit)
+    local function removeMarkerFromTable(unit)
         if not GetRaidTargetIndex(unit) then return end
         if not core.unused_markers[core.marker_strings[GetRaidTargetIndex(unit)]] then return end
         removeValue(core.unused_markers, core.marker_strings[GetRaidTargetIndex(unit)]);
     end
 
     -- update which marks are currently being used on players and pets
-    Remove("player");
-    Remove("pet");
+    removeMarkerFromTable("player");
+    removeMarkerFromTable("pet");
     for i = 1, members() - 1 do
-        Remove("party" .. i);
-        Remove("party" .. i .. "pet");
+        removeMarkerFromTable("party" .. i);
+        removeMarkerFromTable("party" .. i .. "pet");
     end
 end
 

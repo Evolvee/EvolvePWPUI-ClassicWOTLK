@@ -4,11 +4,11 @@
     for Classic/TBC/WOTLK
 
     Requires: LibStub, CallbackHandler-1.0, LibDetours-1.0
-    Version: 12 (2023-02-25)
+    Version: 15 (2023-06-22)
 
 --]]
 
-local LCI_VERSION = 12
+local LCI_VERSION = 15
 
 local clientVersionString = GetBuildInfo()
 local clientBuildMajor = string.byte(clientVersionString, 1)
@@ -220,7 +220,7 @@ end
 -- TODO: talent IDs
 -- TODO: localization
 if (isWotlk) then
-if (oldminor < 12) then
+if (oldminor < 13) then
   lib.glyphs_table = nil
   lib.glyph_r_tbl = nil
 end
@@ -263,7 +263,8 @@ lib.glyphs_table = lib.glyphs_table or {
       [4] = 58098,  -- Glyph of Thunder Clap
       [5] = 58099,  -- Glyph of Mocking Blow
       [6] = 58104,  -- Glyph of Enduring Victory
-      [7] = 68164   -- Glyph of Command
+      [7] = 68164,  -- Glyph of Command
+      [8] = 414812  -- Glyph of Shattering Throw
     },
   },
   ["PALADIN"] = {
@@ -275,7 +276,7 @@ lib.glyphs_table = lib.glyphs_table or {
       [5] = 54926,  -- Glyph of Hammer of Wrath
       [6] = 54927,  -- Glyph of Crusader Strike
       [7] = 54928,  -- Glyph of Consecration
-      [8] = 55115,  -- Glyph of Righteous Defense
+      [8] = 54929,  -- Glyph of Righteous Defense
       [9] = 54930,  -- Glyph of Avenger's Shield
       [10] = 54931, -- Glyph of Turn Evil
       [11] = 54934, -- Glyph of Exorcism
@@ -621,7 +622,8 @@ lib.glyphs_table = lib.glyphs_table or {
       [28] = 63057, -- Glyph of Barkskin
       [29] = 65243, -- Glyph of Survival Instincts
       [30] = 67598, -- Glyph of Claw
-      [31] = 71013  -- Glyph of Rapid Rejuvenation
+      [31] = 71013, -- Glyph of Rapid Rejuvenation
+      [32] = 413895 -- Glyph of Omen of Clarity
     },
     [2] = {
       [1] = 57855,  -- Glyph of the Wild
@@ -3101,6 +3103,7 @@ local function sendInfo()
                 for i = 1, 6 do
                     local z = select(3, GetGlyphSocketInfo(i, x))
                     if (z) then
+                        if (z == 55115) then z = 54929 end
                         s = s..string.char(glyph_r_tbl[z]+48)
                     else
                         s = s.."0"
@@ -4055,8 +4058,11 @@ function lib:HasGlyph(unitorguid, glyphSpellID, _group)
     if (guid == UnitGUID("player")) then
         for i=1,6 do
             local enabled, _, id = GetGlyphSocketInfo(i, group)
-            if (enabled and id == glyphSpellID) then
-                return true
+            if (enabled and id) then
+                if (id == 55115) then id = 54929 end
+                if (id == glyphSpellID) then
+                    return true
+                end
             end
         end
         return false
@@ -4124,6 +4130,7 @@ function lib:GetGlyphs(unitorguid, _group)
         for i=1,6 do
             local enabled, _, id = GetGlyphSocketInfo(i, group)
             if (enabled and id) then
+                if (id == 55115) then id = 54929 end
                 glyphs[i] = id
             else
                 glyphs[i] = 0

@@ -1,6 +1,6 @@
 if not WeakAuras.IsLibsOK() then return end
 
-if GetLocale() ~= "ruRU" then
+if (GAME_LOCALE or GetLocale()) ~= "ruRU" then
   return
 end
 
@@ -75,6 +75,8 @@ local L = WeakAuras.L
 	L["|cFFFF0000default|r texture"] = "Текстура по умолчанию"
 	L["|cFFFF0000desaturated|r "] = "обесцвеченная "
 	L["|cFFFF0000Note:|r The unit '%s' is not a trackable unit."] = "|cFFFFCC00Предупреждение.|r Единица |cFFE6CC80%s|r не поддерживается."
+	--[[Translation missing --]]
+	L["|cFFFF0000Note:|r The unit '%s' requires soft target cvars to be enabled."] = "|cFFFF0000Note:|r The unit '%s' requires soft target cvars to be enabled."
 	L["|cFFffcc00Anchors:|r Anchored |cFFFF0000%s|r to frame's |cFFFF0000%s|r"] = "|cFFFFCC00Крепление.|r Элемент с точкой крепления |cFFE6CC80%s|r привязан к кадру в точке |cFFE6CC80%s|r"
 	L["|cFFffcc00Anchors:|r Anchored |cFFFF0000%s|r to frame's |cFFFF0000%s|r with offset |cFFFF0000%s/%s|r"] = "|cFFFFCC00Крепление.|r Элемент с точкой крепления |cFFE6CC80%s|r привязан к кадру в точке |cFFE6CC80%s|r со смещением (%s, %s)"
 	L["|cFFffcc00Anchors:|r Anchored to frame's |cFFFF0000%s|r"] = "|cFFFFCC00Крепление.|r Элемент привязан к кадру в точке |cFFE6CC80%s|r"
@@ -254,6 +256,8 @@ Off Screen]=] ] = [=[Индикация за
 	L["Column Height"] = "Высота столбца"
 	L["Column Space"] = "Отступ между столбцами"
 	L["Columns"] = "Столбцы"
+	--[[Translation missing --]]
+	L["COMBAT_LOG_EVENT_UNFILTERED with no filter can trigger frame drops in raid environment."] = "COMBAT_LOG_EVENT_UNFILTERED with no filter can trigger frame drops in raid environment."
 	L["Combinations"] = "Комбинации"
 	L["Combine Matches Per Unit"] = "Объединить совпадения для каждой единицы"
 	L["Common Text"] = "Общие параметры текста"
@@ -311,10 +315,11 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Custom Untrigger"] = "Свой детриггер"
 	L["Custom Variables"] = "Свои переменные"
 	L["Debuff Type"] = "Тип дебаффа"
-	L["Debug Console"] = "Консоль отладки"
+	L["Debug Log"] = "Журнал отладки"
 	L["Debug Log:"] = "Журнал отладки:"
 	L["Default"] = "По умолчанию"
 	L["Default Color"] = "Цвет по умолчанию"
+	L["Delay"] = "Задержка"
 	L["Delete"] = "Удалить"
 	L["Delete all"] = "Удалить всё"
 	L["Delete children and group"] = "Удалить индикации и группу"
@@ -333,7 +338,10 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Distribute Horizontally"] = "Распределить по горизонтали"
 	L["Distribute Vertically"] = "Распределить по вертикали"
 	L["Do not group this display"] = "Не группировать эту индикацию"
-	L["Do you want to ignore all future updates for this aura"] = "Вы хотите игнорировать все дальнейшие обновления для этой индикации?"
+	--[[Translation missing --]]
+	L["Do you want to enable updates for this aura"] = "Do you want to enable updates for this aura"
+	--[[Translation missing --]]
+	L["Do you want to ignore updates for this aura"] = "Do you want to ignore updates for this aura"
 	L["Documentation"] = "Документация"
 	L["Done"] = "Выполнено"
 	L["Drag to move"] = "Перетащите для перемещения"
@@ -376,7 +384,8 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["End Angle"] = "Конечный угол"
 	L["End of %s"] = "Конец группы \"%s\""
 	L["Enemy nameplate(s) found"] = "Индикаторы здоровья противников"
-	L["Enter a Spell ID"] = "Введите ID заклинания"
+	--[[Translation missing --]]
+	L["Enter a Spell ID. You can use the addon idTip to determine spell ids."] = "Enter a Spell ID. You can use the addon idTip to determine spell ids."
 	L["Enter an Aura Name, partial Aura Name, or Spell ID. A Spell ID will match any spells with the same name."] = [=[Введите название эффекта, часть его имени или ID заклинания.
 
 Указание ID не обеспечивает нахождение (или исключение) единственного результата, поскольку сопоставление эффектов всё равно происходит по названию заклинания, заданного этим ID.
@@ -392,6 +401,8 @@ UNIT_POWER  UNIT_AURA, PLAYER_TARGET_CHANGED]=]
 	L["Event Type"] = "Тип триггера"
 	L["Event(s)"] = "События"
 	L["Everything"] = "Всех вкладок"
+	--[[Translation missing --]]
+	L["Exact Item Match"] = "Exact Item Match"
 	L["Exact Spell ID(s)"] = "ID заклинания"
 	L["Exact Spell Match"] = "Точное совпадение"
 	L["Expand"] = "Развернуть"
@@ -453,7 +464,6 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Frame Width"] = "Ширина кадра"
 	L["Frequency"] = "Частота"
 	L["Full Circle"] = "Полный круг"
-	L["Get Help"] = "Получить помощь"
 	L["Global Conditions"] = "Универсальные условия"
 	L["Glow %s"] = "Свечение %s"
 	L["Glow Action"] = "Действие"
@@ -521,6 +531,7 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Icon"] = "Иконка"
 	L["Icon Info"] = "Информация об иконке"
 	L["Icon Inset"] = "Вставка иконки"
+	L["Icon Picker"] = "Выбор иконки"
 	L["Icon Position"] = "Расположение иконки"
 	L["Icon Settings"] = "Настройки иконки"
 	L["Icon Source"] = "Источник иконки"
@@ -540,12 +551,14 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Ignore out of checking range"] = "Не учитывать единицы вне зоны видимости"
 	L["Ignore Self"] = "Не учитывать себя"
 	L["Ignore updates"] = "Игнорировать обновления"
+	L["Ignore Wago updates"] = "Игнорировать обновления Wago"
 	L["Ignored"] = "Не использован"
 	L["Ignored Aura Name"] = "Исключаемое название эффекта"
 	L["Ignored Exact Spell ID(s)"] = "Исключить ID заклинания"
 	L["Ignored Name(s)"] = "Исключить название"
 	L["Ignored Spell ID"] = "Исключаемый ID заклинания"
 	L["Import"] = "Импорт"
+	L["Import / Export"] = "Импорт / Экспорт"
 	L["Import a display from an encoded string"] = "Импортировать индикацию из закодированной строки"
 	L["Import as Copy"] = "Копировать"
 	L["Import has no UID, cannot be matched to existing auras."] = "У импорта нет уникального идентификатора (UID). Его нельзя сопоставить с существующими индикациями."
@@ -560,6 +573,8 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Indent Size"] = "Размер отступа"
 	L["Information"] = "Информация"
 	L["Inner"] = "Внутри"
+	--[[Translation missing --]]
+	L["Invalid Item ID"] = "Invalid Item ID"
 	L["Invalid Item Name/ID/Link"] = "Неверное название, ссылка или ID"
 	L["Invalid Spell ID"] = "Неверный ID"
 	L["Invalid Spell Name/ID/Link"] = "Неверное название, ссылка или ID"
@@ -572,6 +587,7 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Is Boss Debuff"] = "Применён боссом"
 	L["Is Stealable"] = "Может быть украден"
 	L["Is Unit"] = "Использовать как единицу"
+	L["Join Discord"] = "Присоединяйтесь к Discord"
 	L["Justify"] = "Выравнивание"
 	L["Keep Aspect Ratio"] = "Сохранять пропорции"
 	L["Keep your Wago imports up to date with the Companion App."] = "Поддерживайте ваши индикации с Wago в актуальном состоянии при помощи приложения Companion."
@@ -583,6 +599,8 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Length"] = "Длина"
 	L["Length of |cFFFF0000%s|r"] = "Длина %s"
 	L["Limit"] = "Лимит"
+	--[[Translation missing --]]
+	L["Line"] = "Line"
 	L["Lines & Particles"] = "Линии или частицы"
 	L["Linked aura: "] = "Связанная индикация: "
 	L["Load"] = "Загрузка"
@@ -608,6 +626,8 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Mirror"] = "Отразить"
 	L["Model"] = "Модель"
 	L["Model %s"] = "Модель %s"
+	--[[Translation missing --]]
+	L["Model Picker"] = "Model Picker"
 	L["Model Settings"] = "Настройки модели"
 	L["ModelPaths could not be loaded, the addon is %s"] = "Не удалось загрузить WeakAuras Model Paths. Причина - %s"
 	L["Move Above Group"] = "Переместить выше группы"
@@ -639,6 +659,8 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Nameplates"] = "Индикаторы здоровья"
 	L["Negator"] = "Не"
 	L["New Aura"] = "Новая индикация"
+	--[[Translation missing --]]
+	L["New Template"] = "New Template"
 	L["New Value"] = "Новое значение"
 	L["No Children"] = "Нет индикаций"
 	L["No Logs saved."] = "Нет записей"
@@ -649,6 +671,26 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Note: Automated Messages to SAY and YELL are blocked outside of Instances."] = "|cFFFFCC00Примечание.|r Вне подземелий (instances) автоматизированная отправка сообщений в чат заблокирована для Сказать и Крик."
 	L["Npc ID"] = "ID NPC"
 	L["Number of Entries"] = "Число записей"
+	--[[Translation missing --]]
+	L[ [=[Occurrence of the event, reset when aura is unloaded
+Can be a range of values
+Can have multiple values separated by a comma or a space
+
+Examples:
+2nd 5th and 6th events: 2, 5, 6
+2nd to 6th: 2-6
+every 2 events: /2
+every 3 events starting from 2nd: 2/3
+every 3 events starting from 2nd and ending at 11th: 2-11/3]=] ] = [=[Occurrence of the event, reset when aura is unloaded
+Can be a range of values
+Can have multiple values separated by a comma or a space
+
+Examples:
+2nd 5th and 6th events: 2, 5, 6
+2nd to 6th: 2-6
+every 2 events: /2
+every 3 events starting from 2nd: 2/3
+every 3 events starting from 2nd and ending at 11th: 2-11/3]=]
 	L["Offer a guided way to create auras for your character"] = "Предлагаем пошаговый способ создания индикаций для вашего персонажа"
 	L["Offset by |cFFFF0000%s|r/|cFFFF0000%s|r"] = "; Смещение (%.4g, %.4g)"
 	L["Offset by 1px"] = "Смещение на 1 пиксель"
@@ -657,8 +699,10 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["On Init"] = "При инициализации"
 	L["On Show"] = "При появлении"
 	L["Only Match auras cast by a player (not an npc)"] = "Эффект применён каким-либо игроком, а не NPC"
-	L["Only match auras cast by people other than the player or his pet"] = "Эффекты, применённые другими людьми, но не игроком или его питомцем"
-	L["Only match auras cast by the player or his pet"] = "Эффекты, применённые только игроком или его питомцем"
+	--[[Translation missing --]]
+	L["Only match auras cast by people other than the player or their pet"] = "Only match auras cast by people other than the player or their pet"
+	--[[Translation missing --]]
+	L["Only match auras cast by the player or their pet"] = "Only match auras cast by the player or their pet"
 	L["Operator"] = "Оператор"
 	L["Option %i"] = "Параметр %i"
 	L["Option key"] = "Ключ параметра"
@@ -748,7 +792,6 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Same texture as Foreground"] = "Такая же текстура, что и на переднем плане"
 	L["Saved Data"] = "Сохраненные данные"
 	L["Scale"] = "Масштаб"
-	L["Search"] = "Поиск"
 	L["Select Talent"] = "Выбрать талант"
 	L["Select the auras you always want to be listed first"] = "Выберите индикации для гибридной позиции"
 	L["Selected Frame"] = "Выбранный кадр"
@@ -843,8 +886,8 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Text Settings"] = "Настройки текста"
 	L["Texture"] = "Текстура"
 	L["Texture Info"] = "Информация о текстуре"
-	--[[Translation missing --]]
-	L["Texture Rotation"] = "Texture Rotation"
+	L["Texture Picker"] = "Выбор текстуры"
+	L["Texture Rotation"] = "Поворот текстуры"
 	L["Texture Settings"] = "Настройки текстуры"
 	L["Texture Wrap"] = "Обтекание текстурой"
 	L["Texture X Offset"] = "Смещение текстуры X"
@@ -861,7 +904,8 @@ Can use \ to escape -.]=] ] = [=[Формат записи: Имя, Имя-Иг�
 	L["Thickness"] = "Толщина"
 	L["This adds %raidMark as text replacements."] = "Добавляет строку %raidMark в качестве шаблона замены текста."
 	L["This adds %role, %roleIcon as text replacements. Does nothing if the unit is not a group member."] = "Добавляет строки %role, %roleIcon в качестве шаблонов замены текста. Не содержит данных, если единица не является участником группы или рейда."
-	L["This adds %tooltip, %tooltip1, %tooltip2, %tooltip3 as text replacements and also allows filtering based on the tooltip content/values."] = "Добавляет строки %tooltip, %tooltip1, %tooltip2 и %tooltip3 в качестве шаблонов замены текста. Также позволяет выполнять фильтрацию на основе содержимого и значений подсказки."
+	--[[Translation missing --]]
+	L["This adds %tooltip, %tooltip1, %tooltip2, %tooltip3 and %tooltip4 as text replacements and also allows filtering based on the tooltip content/values."] = "This adds %tooltip, %tooltip1, %tooltip2, %tooltip3 and %tooltip4 as text replacements and also allows filtering based on the tooltip content/values."
 	L[ [=[This aura contains custom Lua code.
 Make sure you can trust the person who sent it!]=] ] = [=[Индикация содержит пользовательский код Lua.
 Убедитесь, что вы можете доверять человеку, который ее отправил!]=]
@@ -956,9 +1000,8 @@ It might not work correctly with your version!]=] ] = [=[Индикация бы
 	L["Y Rotation"] = "Поворот по Y"
 	L["Y Scale"] = "Масштаб по Y"
 	L["Yellow Rune"] = "Жёлтая руна"
-	L["Yes"] = "Да"
-	L["y-Offset"] = "Смещение по Y"
 	L["Y-Offset"] = "Смещение по Y"
+	L["y-Offset"] = "Смещение по Y"
 	L["You already have this group/aura. Importing will create a duplicate."] = "У вас уже есть эта индикация. При импорте будет создана копия."
 	L["You are about to delete %d aura(s). |cFFFF0000This cannot be undone!|r Would you like to continue?"] = [=[Вы собираетесь удалить %d |4индикацию:индикации:индикаций;.
 |cFFFF0000Это действие необратимо!|r Продолжить?]=]

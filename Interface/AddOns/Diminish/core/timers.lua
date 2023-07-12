@@ -23,20 +23,10 @@ local function TimerIsFinished(timer, timestamp)
     return (timestamp or GetTime()) >= (timer.expiration or 0)
 end
 
-function Timers:Insert(unitGUID, srcGUID, category, spellID, isFriendly, isNotPetOrPlayer, isApplied, testMode, ranFromUpdate)
+function Timers:Insert(unitGUID, srcGUID, category, spellID, isFriendly, isNotPetOrPlayer, isApplied, testMode)
     if isApplied then -- SPELL_AURA_APPLIED
         if NS.db.timerStartAuraEnd and not testMode then
             -- on timerStartAuraEnd=true mode we start timer on SPELL_AURA_REMOVED instead of SPELL_AURA_APPLIED.
-            if activeTimers[unitGUID] and activeTimers[unitGUID][category] then
-                local timer = activeTimers[unitGUID][category]
-                local duration = timer.expiration - GetTime()
-                if duration <= 5 and duration > 0.3 then
-                    -- if SPELL_AURA_APPLIED is triggered in this mode and current DR timer is less than new aura duration (assuming 5s+) then
-                    -- update timer immediately to ensure timer.applied is still correct when SPELL_AURA_REMOVED is called (would reset to 1 without this)
-                    self:Update(unitGUID, srcGUID, category, spellID, isFriendly, isNotPetOrPlayer, nil, isApplied)
-                end
-            end
-
             return
         end
     else -- SPELL_AURA_REMOVED
@@ -72,12 +62,6 @@ function Timers:Insert(unitGUID, srcGUID, category, spellID, isFriendly, isNotPe
 
     local _, englishClass = GetPlayerInfoByGUID(unitGUID)
     timer.unitClass = englishClass
-
-    if ranFromUpdate and not NS.db.timerStartAuraEnd then
-        -- SPELL_AURA_APPLIED/BROKEN didn't detect new DR, but REFRESH did
-        -- and also since the aura was refreshed it means we're atleast 2 on applied
-        timer.applied = 2
-    end
 
     activeTimers[unitGUID][category] = timer
     StartTimers(timer, isApplied, nil, nil, nil, not isApplied)
@@ -287,39 +271,26 @@ do
         if settings.disabledCategories[timer.category] then return end
 
         -- Show root/taunt/incap/disorients DR only for special mobs
-        --[====[@retail@
-        if timer.isNotPetOrPlayer and (timer.category == CATEGORY_ROOT or timer.category == CATEGORY_TAUNT or timer.category == CATEGORY_INCAP or timer.category == CATEGORY_DISORIENT) then
-            local classification = UnitClassification(unitID)
-            if classification == "normal" or classification == "trivial" or classification == "minus" then
-                if not UnitIsQuestBoss(unitID) then
-                    -- No need to keep tracking it, just delete timer and return
-                    return Timers:Remove(timer.unitGUID, timer.category, true)
+        if NS.IS_RETAIL then
+            if timer.isNotPetOrPlayer and (timer.category == CATEGORY_ROOT or timer.category == CATEGORY_TAUNT or timer.category == CATEGORY_INCAP or timer.category == CATEGORY_DISORIENT) then
+                local classification = UnitClassification(unitID)
+                if classification == "normal" or classification == "trivial" or classification == "minus" then
+                    if not UnitIsQuestBoss(unitID) then
+                        -- No need to keep tracking it, just delete timer and return
+                        return Timers:Remove(timer.unitGUID, timer.category, true)
+                    end
                 end
             end
         end
-        --@end-retail@]====]
 
         -- Add aura duration to DR timer(18s) if using display mode on aura start
         if not NS.IS_CLASSIC then
             if isApplied and not NS.db.timerStartAuraEnd then
                 if not timer.testMode --[[and not isRefresh]] then
-                    local duration, expirationTime = GetAuraDuration(origUnitID or unitID, timer.spellID)
+                    local _, expirationTime = GetAuraDuration(origUnitID or unitID, timer.spellID)
 
                     if expirationTime and expirationTime > 0 then
                         timer.expiration = (expirationTime or GetTime()) + (timer.isNotPetOrPlayer and 23 or DR_TIME)
-
-                        if not timer.isNotPetOrPlayer then
-                            if timer.applied >= 2 and duration >= (NS.IS_NOT_RETAIL and 6 or 5) then
-                                -- is no DR but timer shows immune/75%
-                                -- may happen if server reset DR before our timer did & new CC got applied
-                                timer.applied = 1
-                            elseif timer.applied > 3 and duration > 0 then
-                                -- Timer shows immune but aura duration was found, so reset
-                                if timer.category ~= CATEGORY_TAUNT then
-                                    timer.applied = 1
-                                end
-                            end
-                        end
                     end
                 end
             end

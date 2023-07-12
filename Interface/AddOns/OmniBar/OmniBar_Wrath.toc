@@ -1,7 +1,7 @@
 ## Interface: 30401
 ## Title: OmniBar
 ## Notes: Tracks enemy cooldowns
-## Version: v14.8
+## Version: v14.12
 ## Author: Jordon
 ## SavedVariables: OmniBarDB
 ## X-Curse-Project-ID: 85814

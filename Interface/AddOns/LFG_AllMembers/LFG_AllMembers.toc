@@ -1,0 +1,8 @@
+## Interface: 30401
+## Title: LFG|cff33ffffA|r|cff33ffaal|r|cff66ff66l|r|cffaaff33M|r|cffffff33e|r|cffffaa33m|r|cffff6666b|r|cffff33aae|r|cffff33ffr|r|cffaa33ffs|r
+## Notes: Marks locked dungeons and raids in the Group Finder.
+## Author: Serengir
+## Version: 1.0.2
+## DefaultState: enabled
+
+LFG_AllMembers.lua

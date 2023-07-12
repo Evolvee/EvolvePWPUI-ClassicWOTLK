@@ -222,6 +222,15 @@ local sounds = {
     565772, -- DalaranSewer_ArenaWaterFall_Closed
     569506, -- DalaranSewer_ArenaWaterFall_Close
     598178, -- Orgrimmar_Arena_PillarWarning
+	545431, -- sound/creature/brann/ur_brann_dalaran01.ogg (dalaran cancer)
+    559130, -- sound/creature/rhonin/ur_rhonin_event01.ogg
+    559131, -- sound/creature/rhonin/ur_rhonin_event02.ogg
+    559126, -- sound/creature/rhonin/ur_rhonin_event03.ogg
+    559128, -- sound/creature/rhonin/ur_rhonin_event04.ogg
+    559133, -- sound/creature/rhonin/ur_rhonin_event05.ogg
+    559129, -- sound/creature/rhonin/ur_rhonin_event06.ogg
+    559132, -- sound/creature/rhonin/ur_rhonin_event07.ogg
+    559127, -- sound/creature/rhonin/ur_rhonin_event08.ogg
 
 }
 
@@ -442,18 +451,19 @@ local function OnInit()
     FocusFrameSpellBar:SetScale(1.1)
 
     -- Rework Main Cast-Bar texture (castbar is now going to be round) - this is kinda "idk kev"... not sure if I rly like it, yet...
-    CastingBarFrame:SetScale(1)
-    CastingBarFrame.Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
-    CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
-    CastingBarFrame.Spark:SetHeight(50)
-    CastingBarFrame.Text:ClearAllPoints()
-    CastingBarFrame.Text:SetPoint("CENTER", 0, 1)
-    CastingBarFrame.Border:SetWidth(CastingBarFrame.Border:GetWidth() + 4)
-    CastingBarFrame.Flash:SetWidth(CastingBarFrame.Flash:GetWidth() + 4)
-    CastingBarFrame.BorderShield:SetWidth(CastingBarFrame.BorderShield:GetWidth() + 4)
-    CastingBarFrame.Border:SetPoint("TOP", 0, 26)
-    CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
-    CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
+	-- Commented out - currently temporarily replaced by the DragonflightUI castbar (testing it out and shit)
+    --CastingBarFrame:SetScale(1)
+    --CastingBarFrame.Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
+    --CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
+    --CastingBarFrame.Spark:SetHeight(50)
+   -- CastingBarFrame.Text:ClearAllPoints()
+    --CastingBarFrame.Text:SetPoint("CENTER", 0, 1)
+   -- CastingBarFrame.Border:SetWidth(CastingBarFrame.Border:GetWidth() + 4)
+   -- CastingBarFrame.Flash:SetWidth(CastingBarFrame.Flash:GetWidth() + 4)
+    --CastingBarFrame.BorderShield:SetWidth(CastingBarFrame.BorderShield:GetWidth() + 4)
+   -- CastingBarFrame.Border:SetPoint("TOP", 0, 26)
+   -- CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
+    --CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
 
     --removing character "C" button image
     MicroButtonPortrait:Hide()
@@ -1713,7 +1723,7 @@ local function RetardDK(frame, unit)
     if UnitExists(unit) and UnitIsEnemy("player", unit) and UnitPlayerControlled(unit) then
         local _, _, class = UnitClass(unit)
         if (class == 6) then
-            frame.name:SetText("Retard")
+            frame.name:SetText("Retarded Dog")
         end
     end
 end

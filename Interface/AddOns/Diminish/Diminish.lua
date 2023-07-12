@@ -47,22 +47,22 @@ function Diminish:ToggleForZone(dontRunEnable)
     self.currInstanceType = select(2, IsInInstance())
     local registeredOnce = false
 
-    --[====[@retail@
-    if self.currInstanceType == "arena" then
-        -- HACK: check if inside arena brawl, C_PvP.IsInBrawl() doesn't
-        -- always work on PLAYER_ENTERING_WORLD so delay it with this event.
-        -- Once event is fired it'll call ToggleForZone again
-        self:RegisterEvent("PVP_BRAWL_INFO_UPDATED")
-    else
-        self:UnregisterEvent("PVP_BRAWL_INFO_UPDATED")
-    end
+    if NS.IS_RETAIL then
+        if self.currInstanceType == "arena" then
+            -- HACK: check if inside arena brawl, C_PvP.IsInBrawl() doesn't
+            -- always work on PLAYER_ENTERING_WORLD so delay it with this event.
+            -- Once event is fired it'll call ToggleForZone again
+            self:RegisterEvent("PVP_BRAWL_INFO_UPDATED")
+        else
+            self:UnregisterEvent("PVP_BRAWL_INFO_UPDATED")
+        end
 
-    -- PVP_BRAWL_INFO_UPDATED triggered ToggleForZone
-    if self.currInstanceType == "arena" and IsInBrawl() then
-        self.currInstanceType = "pvp" -- treat arena brawl as a battleground
-        self:UnregisterEvent("PVP_BRAWL_INFO_UPDATED")
+        -- PVP_BRAWL_INFO_UPDATED triggered ToggleForZone
+        if self.currInstanceType == "arena" and IsInBrawl() then
+            self.currInstanceType = "pvp" -- treat arena brawl as a battleground
+            self:UnregisterEvent("PVP_BRAWL_INFO_UPDATED")
+        end
     end
-    --@end-retail@]====]
 
     -- (Un)register unit events for current zone depending on user settings
     for unit, settings in pairs(NS.db.unitFrames) do -- DR tracking for focus/target etc each have their own seperate settings
@@ -220,6 +220,11 @@ function Diminish:InitDB()
     if NS.IS_NOT_RETAIL and NS.db.unitFrames.player.usePersonalNameplate then
         NS.db.unitFrames.player.usePersonalNameplate = false
     end
+    if NS.IS_CLASSIC then
+        NS.db.timerStartAuraEnd = true
+        NS.db.unitFrames.focus.enabled = false
+        NS.db.unitFrames.arena.enabled = false
+    end
 
     -- Remove table values no longer found in default settings
     NS.CleanupDB(DiminishDB.profiles[profile], NS.DEFAULT_SETTINGS)
@@ -247,7 +252,7 @@ function Diminish:PLAYER_LOGIN()
 
     local Masque = LibStub and LibStub("Masque", true)
     NS.MasqueGroup = Masque and Masque:Group("Diminish")
-    if EditModeManagerFrame then
+    if EditModeManagerFrame and EditModeManagerFrame.UseRaidStylePartyFrames then
         NS.useCompactPartyFrames = EditModeManagerFrame:UseRaidStylePartyFrames()
     else
         NS.useCompactPartyFrames = GetCVarBool("useCompactPartyFrames")
@@ -268,24 +273,22 @@ function Diminish:CVAR_UPDATE(name, value)
     end
 end
 
---[====[@retail@
-hooksecurefunc(EditModeManagerFrame, "OnSystemSettingChange", function()
-    NS.useCompactPartyFrames = EditModeManagerFrame:UseRaidStylePartyFrames()
-    if next(NS.db or {}) then -- is initialized
-        Icons:AnchorPartyFrames()
-    end
-end)
---@end-retail@]====]
+if NS.IS_RETAIL then
+    hooksecurefunc(EditModeManagerFrame, "OnSystemSettingChange", function()
+        NS.useCompactPartyFrames = EditModeManagerFrame:UseRaidStylePartyFrames()
+        if next(NS.db or {}) then -- is initialized
+            Icons:AnchorPartyFrames()
+        end
+    end)
 
---[====[@retail@
-function Diminish:PVP_BRAWL_INFO_UPDATED()
-    if not IsInBrawl() then
-        self:UnregisterEvent("PVP_BRAWL_INFO_UPDATED")
-    else
-        self:ToggleForZone(true)
+    function Diminish:PVP_BRAWL_INFO_UPDATED()
+        if not IsInBrawl() then
+            self:UnregisterEvent("PVP_BRAWL_INFO_UPDATED")
+        else
+            self:ToggleForZone(true)
+        end
     end
 end
---@end-retail@]====]
 
 function Diminish:PLAYER_ENTERING_WORLD()
     self:ToggleForZone()

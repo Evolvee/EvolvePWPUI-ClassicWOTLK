@@ -1,6 +1,6 @@
 if not WeakAuras.IsLibsOK() then return end
 
-if GetLocale() ~= "zhTW" then
+if (GAME_LOCALE or GetLocale()) ~= "zhTW" then
   return
 end
 
@@ -75,6 +75,7 @@ local L = WeakAuras.L
 	L["|cFFFF0000default|r texture"] = "|cFFFF0000預設|r材質"
 	L["|cFFFF0000desaturated|r "] = "|cFFFF0000去色|r "
 	L["|cFFFF0000Note:|r The unit '%s' is not a trackable unit."] = "|cFFFF0000注意:|r 單位 '%s' 不是可以監控的單位。"
+	L["|cFFFF0000Note:|r The unit '%s' requires soft target cvars to be enabled."] = "|cFFFF0000注意:|r 單位 '%s' 需要啟用軟目標 CVar 遊戲參數。"
 	L["|cFFffcc00Anchors:|r Anchored |cFFFF0000%s|r to frame's |cFFFF0000%s|r"] = "|cFFffcc00對齊:|r |cFFFF0000%s|r對齊到框架的|cFFFF0000%s|r"
 	L["|cFFffcc00Anchors:|r Anchored |cFFFF0000%s|r to frame's |cFFFF0000%s|r with offset |cFFFF0000%s/%s|r"] = "|cFFffcc00對齊:|r |cFFFF0000%s|r對齊到框架的|cFFFF0000%s|r，偏移|cFFFF0000%s/%s|r"
 	L["|cFFffcc00Anchors:|r Anchored to frame's |cFFFF0000%s|r"] = "|cFFffcc00對齊:|r 對齊到框架的|cFFFF0000%s|r"
@@ -237,6 +238,7 @@ Off Screen]=] ] = [=[提醒效果
 	L["Column Height"] = "行高度"
 	L["Column Space"] = "行間距"
 	L["Columns"] = "行"
+	L["COMBAT_LOG_EVENT_UNFILTERED with no filter can trigger frame drops in raid environment."] = "沒有過濾程式的 COMBAT_LOG_EVENT_UNFILTERED 在團隊環境會造成掉偵。"
 	L["Combinations"] = "組合"
 	L["Combine Matches Per Unit"] = "合併每個單位符合的"
 	L["Common Text"] = "普通文字"
@@ -293,10 +295,11 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Custom Untrigger"] = "自訂取消觸發"
 	L["Custom Variables"] = "自訂變數"
 	L["Debuff Type"] = "減益類型"
-	L["Debug Console"] = "偵錯控制台"
+	L["Debug Log"] = "偵錯紀錄"
 	L["Debug Log:"] = "偵錯紀錄："
 	L["Default"] = "預設"
 	L["Default Color"] = "減益顏色"
+	L["Delay"] = "延遲"
 	L["Delete"] = "刪除"
 	L["Delete all"] = "全部刪除"
 	L["Delete children and group"] = "刪除子項目和群組"
@@ -315,7 +318,8 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Distribute Horizontally"] = "水平分佈"
 	L["Distribute Vertically"] = "垂直分佈"
 	L["Do not group this display"] = "不要群組這個提醒效果"
-	L["Do you want to ignore all future updates for this aura"] = "是否要忽略此提醒效果未來的所有更新"
+	L["Do you want to enable updates for this aura"] = "你想為此光環啟用更新嗎"
+	L["Do you want to ignore updates for this aura"] = "您想忽略此光環的更新嗎"
 	L["Documentation"] = "文件"
 	L["Done"] = "完成"
 	L["Drag to move"] = "滑鼠拖曳來移動"
@@ -354,7 +358,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["End Angle"] = "結束角度"
 	L["End of %s"] = "%s 的結尾"
 	L["Enemy nameplate(s) found"] = "找到敵對名條"
-	L["Enter a Spell ID"] = "輸入法術 ID"
+	L["Enter a Spell ID. You can use the addon idTip to determine spell ids."] = "輸入一個法術ID。您可以使用插件 idTip 來確定法術ID。"
 	L["Enter an Aura Name, partial Aura Name, or Spell ID. A Spell ID will match any spells with the same name."] = "輸入光環名稱、光環部分名稱，或是法術 ID。法術 ID 會找出名稱相同的任何法術。"
 	L["Enter Author Mode"] = "進入作者模式"
 	L["Enter in a value for the tick's placement."] = "輸入每次進度指示位置的數值。"
@@ -366,6 +370,7 @@ UNIT_POWER, UNIT_AURA PLAYER_TARGET_CHANGED]=]
 	L["Event Type"] = "事件類型"
 	L["Event(s)"] = "事件"
 	L["Everything"] = "全部"
+	L["Exact Item Match"] = "完全符合物品"
 	L["Exact Spell ID(s)"] = "正確的法術 ID"
 	L["Exact Spell Match"] = "完全符合法術"
 	L["Expand"] = "展開"
@@ -425,7 +430,6 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Frame Width"] = "框架寬度"
 	L["Frequency"] = "頻率"
 	L["Full Circle"] = "完整循環"
-	L["Get Help"] = "取得說明"
 	L["Global Conditions"] = "整體條件"
 	L["Glow %s"] = "發光 %s"
 	L["Glow Action"] = "發光動作"
@@ -488,6 +492,7 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Icon"] = "圖示"
 	L["Icon Info"] = "圖示訊息"
 	L["Icon Inset"] = "圖示內縮"
+	L["Icon Picker"] = "圖示挑選器"
 	L["Icon Position"] = "圖示位置"
 	L["Icon Settings"] = "圖示設定"
 	L["Icon Source"] = "圖示來源"
@@ -507,12 +512,14 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Ignore out of checking range"] = "忽略超出檢查範圍"
 	L["Ignore Self"] = "忽略自己"
 	L["Ignore updates"] = "忽略更新"
+	L["Ignore Wago updates"] = "忽略Wago更新"
 	L["Ignored"] = "忽略"
 	L["Ignored Aura Name"] = "忽略的光環名稱"
 	L["Ignored Exact Spell ID(s)"] = "忽略的正確法術 ID"
 	L["Ignored Name(s)"] = "忽略的名稱"
 	L["Ignored Spell ID"] = "忽略的法術 ID"
 	L["Import"] = "匯入"
+	L["Import / Export"] = "匯入 / 匯出"
 	L["Import a display from an encoded string"] = "從編碼字串匯入提醒效果"
 	L["Import as Copy"] = "匯入為副本"
 	L["Import has no UID, cannot be matched to existing auras."] = "匯入無UID，無法匹配現有的光環。"
@@ -527,6 +534,7 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Indent Size"] = "內縮大小"
 	L["Information"] = "資訊"
 	L["Inner"] = "內部"
+	L["Invalid Item ID"] = "無效的物品 ID"
 	L["Invalid Item Name/ID/Link"] = "無效的物品名稱/ID/連結"
 	L["Invalid Spell ID"] = "無效的法術 ID"
 	L["Invalid Spell Name/ID/Link"] = "無效的法術名稱/ID/連結"
@@ -539,6 +547,7 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Is Boss Debuff"] = "首領的減益"
 	L["Is Stealable"] = "可偷取"
 	L["Is Unit"] = "是單位"
+	L["Join Discord"] = "加入Discord"
 	L["Justify"] = "左右對齊"
 	L["Keep Aspect Ratio"] = "保持長寬比例"
 	L["Keep your Wago imports up to date with the Companion App."] = "使用 Companion App 讓從 Wago 匯入的字串保持更新。"
@@ -550,6 +559,7 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Length"] = "長度"
 	L["Length of |cFFFF0000%s|r"] = "|cFFFF0000%s|r的長度"
 	L["Limit"] = "限制"
+	L["Line"] = "線"
 	L["Lines & Particles"] = "直線 & 粒子"
 	L["Linked aura: "] = "已連結光環: "
 	L["Load"] = "載入"
@@ -574,6 +584,7 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Mirror"] = "鏡像"
 	L["Model"] = "模組"
 	L["Model %s"] = "模組 %s"
+	L["Model Picker"] = "模型挑選器"
 	L["Model Settings"] = "模組設定"
 	L["ModelPaths could not be loaded, the addon is %s"] = "模組路徑無法載入，此插件為 %s"
 	L["Move Above Group"] = "移至群組上方"
@@ -602,6 +613,7 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Nameplates"] = "血條/名條"
 	L["Negator"] = "不"
 	L["New Aura"] = "新增提醒效果"
+	L["New Template"] = "新範本"
 	L["New Value"] = "新的值"
 	L["No Children"] = "沒有子項目"
 	L["No Logs saved."] = "無紀錄儲存。"
@@ -612,6 +624,25 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Note: Automated Messages to SAY and YELL are blocked outside of Instances."] = "注意: 副本外面無法在 '說' 和 '大喊' 頻道自動發送訊息，會被阻擋。"
 	L["Npc ID"] = "NPC ID"
 	L["Number of Entries"] = "項目數量"
+	L[ [=[Occurrence of the event, reset when aura is unloaded
+Can be a range of values
+Can have multiple values separated by a comma or a space
+
+Examples:
+2nd 5th and 6th events: 2, 5, 6
+2nd to 6th: 2-6
+every 2 events: /2
+every 3 events starting from 2nd: 2/3
+every 3 events starting from 2nd and ending at 11th: 2-11/3]=] ] = [=[事件發生的次數，光環不再加載時重置
+可以為值的範圍
+可以有多個條目，由英文逗號或空格分隔
+
+例如：
+第二、第五和第六次事件：2, 5, 6
+第二到第六次事件：2-6
+每兩次事件：/2
+從第二次開始每三次事件：2/3
+從第二到第十一次事件開始每三次事件：2-11/3]=]
 	L["Offer a guided way to create auras for your character"] = "用步驟導引的方式替角色建立提醒效果"
 	L["Offset by |cFFFF0000%s|r/|cFFFF0000%s|r"] = "偏移 |cFFFF0000%s|r/|cFFFF0000%s|r"
 	L["Offset by 1px"] = "偏移 1px"
@@ -620,8 +651,8 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["On Init"] = "初始化時"
 	L["On Show"] = "出現時"
 	L["Only Match auras cast by a player (not an npc)"] = "只符合玩家 (非 NPC) 施放的光環"
-	L["Only match auras cast by people other than the player or his pet"] = "只符合其他玩家施放的光環"
-	L["Only match auras cast by the player or his pet"] = "只符合玩家自己或寵物施放的光環"
+	L["Only match auras cast by people other than the player or their pet"] = "只符合玩家或他們的寵物以外的人施放的光環"
+	L["Only match auras cast by the player or their pet"] = "只符合玩家或他們的寵物施放的光環"
 	L["Operator"] = "運算符"
 	L["Option %i"] = "選項 %i"
 	L["Option key"] = "選項 key"
@@ -707,7 +738,6 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Same texture as Foreground"] = "與前景相同的材質"
 	L["Saved Data"] = "已儲存的資料"
 	L["Scale"] = "縮放大小"
-	L["Search"] = "搜尋"
 	L["Select Talent"] = "選擇天賦"
 	L["Select the auras you always want to be listed first"] = "選擇永遠要排列在前面的提醒效果"
 	L["Selected Frame"] = "已選框架"
@@ -781,7 +811,7 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Spell Selection Filters"] = "法術選擇過濾器"
 	L["Stack Count"] = "堆疊層數"
 	L["Stack Info"] = "堆疊層數資訊"
-	L["Stagger"] = "交錯"
+	L["Stagger"] = "醉仙緩勁"
 	L["Star"] = "星星"
 	L["Start"] = "開始"
 	L["Start Angle"] = "開始時的角度"
@@ -802,6 +832,7 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Text Settings"] = "文字設定"
 	L["Texture"] = "材質"
 	L["Texture Info"] = "材質資訊"
+	L["Texture Picker"] = "材質挑選器"
 	L["Texture Rotation"] = "材質旋轉"
 	L["Texture Settings"] = "材質設定"
 	L["Texture Wrap"] = "材質包覆"
@@ -816,7 +847,7 @@ Can use \ to escape -.]=] ] = "過濾器格式：'名字'，'名字-伺服器'�
 	L["Thickness"] = "粗細"
 	L["This adds %raidMark as text replacements."] = "這會加入 %raidMark 作為替換用的文字。"
 	L["This adds %role, %roleIcon as text replacements. Does nothing if the unit is not a group member."] = "這會加入%role、%roleIcon作為文字替換。如果該單位不是隊伍成員，則不執行任何操作。"
-	L["This adds %tooltip, %tooltip1, %tooltip2, %tooltip3 as text replacements and also allows filtering based on the tooltip content/values."] = "這會加入%tooltip、%tooltip1、%tooltip2、%tooltip3作為文字替換。並且還允許基於工具提示內容/值進行過濾。"
+	L["This adds %tooltip, %tooltip1, %tooltip2, %tooltip3 and %tooltip4 as text replacements and also allows filtering based on the tooltip content/values."] = "這加入了 %tooltip, %tooltip1, %tooltip2, %tooltip3 以及 %tooltip4 作為文本替換，還允許根據工具提示內容/值進行過濾。"
 	L[ [=[This aura contains custom Lua code.
 Make sure you can trust the person who sent it!]=] ] = "這個提醒效果包含自訂的 Lua 程式碼，請務必確定你能夠信任傳送給你的人!"
 	L[ [=[This aura was created with a different version (%s) of World of Warcraft.
@@ -907,9 +938,8 @@ It might not work correctly with your version!]=] ] = "這個提醒效果是用�
 	L["Y Rotation"] = "垂直旋轉"
 	L["Y Scale"] = "垂直縮放"
 	L["Yellow Rune"] = "黃色符文"
-	L["Yes"] = "是"
-	L["y-Offset"] = "垂直位置偏移"
 	L["Y-Offset"] = "垂直位置"
+	L["y-Offset"] = "垂直位置偏移"
 	L["You already have this group/aura. Importing will create a duplicate."] = "你已經有了這個群組/提醒效果。匯入後將會建立另一個複製版本。"
 	L["You are about to delete %d aura(s). |cFFFF0000This cannot be undone!|r Would you like to continue?"] = "你正準備要刪除 %d 個提醒效果，刪除後將|cFFFF0000無法還原!|r 請問是否要繼續?"
 	L["You are about to delete a trigger. |cFFFF0000This cannot be undone!|r Would you like to continue?"] = "你正要刪除觸發。 |cFFFF0000刪除後將無法還原!|r 是否確定要繼續?"
