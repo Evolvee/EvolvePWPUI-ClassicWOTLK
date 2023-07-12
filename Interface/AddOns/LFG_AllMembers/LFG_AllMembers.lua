@@ -1,9 +1,8 @@
-local LFG_AllMembersMainFrame = CreateFrame("Frame", "LFG_AllMembersMainFrame")
-LFG_AllMembersMainFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-LFG_AllMembersMainFrame:SetScript("OnEvent", function(self, event, ...) LFG_AllMembersMainFrame:onEvent(self, event, ...) end)
-
-function LFG_AllMembersMainFrame:onEvent(self, event, ...)
-	hooksecurefunc("LFGBrowseSearchEntryTooltip_UpdateAndShow", function(self, resultID)
+local LFG_AllMembersMainFrame = CreateFrame("Frame")
+LFG_AllMembersMainFrame:RegisterEvent("ADDON_LOADED")
+LFG_AllMembersMainFrame:SetScript("OnEvent", function(self, event, addon, ...)
+	if addon == "Blizzard_LookingForGroupUI" then
+			hooksecurefunc("LFGBrowseSearchEntryTooltip_UpdateAndShow", function(self, resultID)
 		local searchResultInfo = C_LFGList.GetSearchResultInfo(resultID);
 		local numMembers = searchResultInfo.numMembers;
 		local maxNameWidth = 0;
@@ -17,15 +16,15 @@ function LFG_AllMembersMainFrame:onEvent(self, event, ...)
 		local membersToSort = {};
 		for i=1, numMembers do
 			local name, role, classFileName, _, level, isLeader = C_LFGList.GetSearchResultMemberInfo(resultID, i);
-			if (name and not isLeader) then 
+			if (name and not isLeader) then
 				table.insert(membersToSort, {name = name, role = role, classFileName = classFileName, level = level});
 			end
 		end
-		table.sort(membersToSort, function (v1, v2) 
-			if v1.role == v2.role then 
-				return v1.name < v2.name 
+		table.sort(membersToSort, function (v1, v2)
+			if v1.role == v2.role then
+				return v1.name < v2.name
 			end
-			return v1.role > v2.role 
+			return v1.role > v2.role
 		end);
 		for i,v in ipairs(membersToSort) do
 			local frame = self.memberPool:Acquire();
@@ -39,7 +38,7 @@ function LFG_AllMembersMainFrame:onEvent(self, event, ...)
 			lastMemberFrame = frame;
 			frame:Show();
 			maxNameWidth = math.max(maxNameWidth, frame.Name:GetWidth());
-		end	
+		end
 		self.Comment:SetPoint("TOP", lastMemberFrame, "BOTTOM", 0, -8);
 		local contentHeight = 40;
 		if ( self.Delisted:IsShown() ) then
@@ -64,4 +63,5 @@ function LFG_AllMembersMainFrame:onEvent(self, event, ...)
 		end
 		self:SetHeight(contentHeight);
 	end);
-end
+	end
+end)
