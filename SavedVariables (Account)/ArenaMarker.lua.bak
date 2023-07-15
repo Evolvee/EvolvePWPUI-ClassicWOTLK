@@ -1,11 +1,17 @@
 
 ArenaMarkerDB = {
-	["petDropDownThreeMarkerID"] = -1,
-	["petDropDownTwoClickID"] = -1,
-	["allowPets"] = false,
-	["petDropDownThreeClickID"] = -1,
-	["markSummonedPets"] = true,
-	["petDropDownTwoMarkerID"] = -1,
-	["petDropDownMarkerID"] = 3,
 	["petDropDownClickID"] = 6,
+	["classMarkers"] = {
+	},
+	["classMarkerDropDownClickID"] = -1,
+	["petDropDownTwoMarkerID"] = 7,
+	["petDropDownMarkerID"] = 3,
+	["petDropDownThreeMarkerID"] = -1,
+	["classString"] = "none",
+	["allowPets"] = true,
+	["petDropDownThreeClickID"] = -1,
+	["petDropDownTwoClickID"] = 2,
+	["classMarkerDropDownMarkerID"] = -1,
+	["markSummonedPets"] = true,
+	["classDropDownClickID"] = -1,
 }

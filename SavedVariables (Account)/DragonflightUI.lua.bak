@@ -1,0 +1,23 @@
+
+DragonflightUIDB = {
+	["namespaces"] = {
+		["Unitframe"] = {
+		},
+		["Actionbar"] = {
+		},
+		["Chat"] = {
+		},
+		["Castbar"] = {
+		},
+		["Minimap"] = {
+		},
+	},
+	["profileKeys"] = {
+		["Evolvepwp - Gehennas"] = "Default",
+		["Evolvepwp - Firemaw"] = "Default",
+	},
+	["profiles"] = {
+		["Default"] = {
+		},
+	},
+}

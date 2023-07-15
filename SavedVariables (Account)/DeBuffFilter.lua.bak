@@ -1,0 +1,65 @@
+
+DeBuffFilterDB = {
+	["profileKeys"] = {
+		["Evolvepwp - Firemaw"] = "Default",
+		["Evolvepwp - Gehennas"] = "Default",
+	},
+	["profiles"] = {
+		["Default"] = {
+			["hiddenBuffs"] = {
+				"Haunted", -- [1]
+				"Inner Fire", -- [2]
+				"Vampiric Embrace", -- [3]
+				"Heroic Presence", -- [4]
+				"Misery", -- [5]
+				"Retribution Aura", -- [6]
+				"Elemental Oath", -- [7]
+				"Horn of Winter", -- [8]
+				"Blood Presence", -- [9]
+				"Frost Presence", -- [10]
+				"Unholy Presence", -- [11]
+				"Devotion Aura", -- [12]
+				"Fel Intelligence", -- [13]
+				"Master Shapeshifter", -- [14]
+				"Master Demonologist", -- [15]
+				"Demonic Knowledge", -- [16]
+				"Seal of Vengeance", -- [17]
+				"Seal of Command", -- [18]
+				"Seal of Righteousness", -- [19]
+				"Seal of Justice", -- [20]
+				"Seal of the Martyr", -- [21]
+				"Seal of Light", -- [22]
+				"Seal of Wisdom", -- [23]
+				"Bone Shield", -- [24]
+				"Frost Resistance Aura", -- [25]
+				"Arcane Empowerment", -- [26]
+				"Totem of Wrath", -- [27]
+				"Trueshot Aura", -- [28]
+				"Renewed Hope", -- [29]
+				"Wrath of Air Totem", -- [30]
+				"Path of Frost", -- [31]
+				"Seal of Corruption", -- [32]
+				"Mana Spring", -- [33]
+				"Windfury Totem", -- [34]
+				"Unleashed Rage", -- [35]
+				"Fel Armor", -- [36]
+				"Improved Icy Talons", -- [37]
+				"Abomination's Might", -- [38]
+				"Greatness", -- [39]
+				"Battle Shout", -- [40]
+				"Enrage", -- [41]
+				"Replenishment", -- [42]
+				"Aspect of the Dragonhawk", -- [43]
+				"Blood Pact", -- [44]
+				"Rampage", -- [45]
+				"Stoneskin", -- [46]
+				"Fire Resistance Aura", -- [47]
+				"Strength of Earth", -- [48]
+				"Ferocious Inspiration", -- [49]
+				"Flametongue Totem", -- [50]
+				"Trauma", -- [51]
+				"Fire Resistance", -- [52]
+			},
+		},
+	},
+}

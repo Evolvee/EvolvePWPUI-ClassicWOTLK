@@ -547,6 +547,7 @@ local function OnInit()
     MultiBarRightButton10:RegisterForClicks("AnyDown","AnyUp")
     MultiBarRightButton11:RegisterForClicks("AnyDown","AnyUp")
     MultiBarRightButton12:RegisterForClicks("AnyDown","AnyUp")
+	
 
     -- move target of target to the right in order to allow clear vision of buffs/debuffs on a target, this will also be prolly mandatory when I try to resize the debuff scale to match 2.4.3
     TargetFrameToT:ClearAllPoints();

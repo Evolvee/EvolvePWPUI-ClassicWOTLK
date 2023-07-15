@@ -1,0 +1,10 @@
+## Interface: 30402
+## Title: DeBuffFilter
+## Version: v1.4
+## Notes: discord.gg/CtxPasSQnQ
+## Author: Xyz, Asuri, Jax (GUI)
+## SavedVariables: DeBuffFilterDB
+
+Embeds.xml
+DeBuffFilter.lua
+Options.lua

@@ -21,7 +21,7 @@ ButtonForgeSave = {
 			["GridAlwaysOn"] = true,
 			["Buttons"] = {
 				{
-					["MacroBody"] = ".race 5\n.gender\n.face 3\n.hair 5\n.haircolor 10\n.skin 3\n.item 3 35086\n.item 5 35087\n.item 19 35221\n.item 10 35053\n.item 6 35153\n.item 16 1728\n.item 1 19984\n.enchant 1 1\n.mount 25335\n",
+					["MacroBody"] = ".race 5\n.face 2\n.hairstyle 4\n.haircolor 9\n.skincolor 3\n.features 5\n.item 3 35086\n.item 5 35087\n.item 19 35221\n.item 10 35053\n.item 6 35153\n.item 16 1728\n.item 1 19984\n.enchant 1 1\n.mount 25335\n",
 					["Mode"] = "macro",
 					["MacroName"] = "imorph",
 					["MacroIndex"] = 129,
@@ -30,14 +30,14 @@ ButtonForgeSave = {
 			["BonusBar"] = false,
 			["Alpha"] = 1,
 			["HSpec4"] = false,
-			["HSpec2"] = false,
+			["TooltipsOn"] = false,
 			["GUI"] = true,
 			["Enabled"] = true,
 			["MacroText"] = true,
 			["Top"] = 34.98926544189453,
 			["Order"] = 0,
 			["ButtonGap"] = 6,
-			["TooltipsOn"] = false,
+			["HSpec2"] = false,
 		}, -- [1]
 	},
 	["Version"] = 1,

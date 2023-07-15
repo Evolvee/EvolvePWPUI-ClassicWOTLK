@@ -3,13 +3,10 @@ SimpleAuraFilterDB = {
 	["profileKeys"] = {
 		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvebanned - Gehennas"] = "Default",
-		["Evolvepwe - Firemaw"] = "Evolvepwe - Firemaw",
+		["Evolvepwp - Gehennas"] = "Default",
+		["Evolvepwe - Firemaw"] = "Default",
 	},
 	["profiles"] = {
-		["Evolvepwp - Firemaw"] = {
-			["filters"] = {
-			},
-		},
 		["Evolvebanned - Gehennas"] = {
 			["filters"] = {
 			},
@@ -58,6 +55,14 @@ SimpleAuraFilterDB = {
 			},
 		},
 		["Evolvepwe - Firemaw"] = {
+			["filters"] = {
+			},
+		},
+		["Evolvepwp - Gehennas"] = {
+			["filters"] = {
+			},
+		},
+		["Evolvepwp - Firemaw"] = {
 			["filters"] = {
 			},
 		},

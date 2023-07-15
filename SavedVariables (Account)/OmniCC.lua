@@ -1,13 +1,10 @@
 
 OmniCCDB = {
-	["global"] = {
-		["dbVersion"] = 6,
-		["addonVersion"] = "10.0.4",
-	},
 	["profileKeys"] = {
 		["Evolvexd - Classic Arena - EU"] = "Default",
 		["Evolvebanned - Gehennas"] = "Default",
 		["Magetest - Classic Arena - EU"] = "Default",
+		["Evolvepwp - Gehennas"] = "Default",
 		["Evolvepwp - Earthshaker"] = "Default",
 		["Evolvepwe - Classic Arena - EU"] = "Default",
 		["Evolve - Classic Beta PvP"] = "Default",
@@ -20,9 +17,13 @@ OmniCCDB = {
 		["Qwdqwdw - Badge of Justice"] = "Default",
 		["Wotlkprep - Sulfuron"] = "Default",
 		["Evolve - Classic PTR Realm 1"] = "Default",
-		["Evolvebanned - Firemaw"] = "Default",
-		["Dbldogcheck - Firemaw"] = "Default",
 		["Evolvepwe - Firemaw"] = "Default",
+		["Dbldogcheck - Firemaw"] = "Default",
+		["Evolvebanned - Firemaw"] = "Default",
+	},
+	["global"] = {
+		["dbVersion"] = 6,
+		["addonVersion"] = "10.0.4",
 	},
 	["profiles"] = {
 		["Default"] = {
@@ -77,20 +78,19 @@ OmniCCDB = {
 			["themes"] = {
 				["Default"] = {
 					["textStyles"] = {
+						["seconds"] = {
+							["r"] = 0.9803921568627451,
+							["g"] = 0.984313725490196,
+							["b"] = 1,
+						},
+						["minutes"] = {
+						},
 						["soon"] = {
 							["b"] = 0,
 							["scale"] = 1,
 							["g"] = 0.8784313725490196,
 						},
-						["minutes"] = {
-						},
-						["seconds"] = {
-							["b"] = 1,
-							["g"] = 0.984313725490196,
-							["r"] = 0.9803921568627451,
-						},
 					},
-					["timerOffset"] = 1400,
 					["minDuration"] = 3,
 					["tenthsDuration"] = 1,
 					["fontOutline"] = "THICKOUTLINE",
@@ -100,17 +100,17 @@ OmniCCDB = {
 				},
 				["HIDDEN"] = {
 					["textStyles"] = {
-						["minutes"] = {
+						["seconds"] = {
+							["r"] = 0.9803921568627451,
+							["g"] = 0.984313725490196,
+							["b"] = 1,
 						},
 						["soon"] = {
 							["b"] = 0,
 							["scale"] = 1,
 							["g"] = 0.8784313725490196,
 						},
-						["seconds"] = {
-							["b"] = 1,
-							["g"] = 0.984313725490196,
-							["r"] = 0.9803921568627451,
+						["minutes"] = {
 						},
 					},
 					["timerOffset"] = 1400,
