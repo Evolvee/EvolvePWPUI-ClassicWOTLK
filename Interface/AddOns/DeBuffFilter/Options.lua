@@ -24,12 +24,22 @@ function DeBuffFilter:SetupOptions()
 				 buffNameInput = {
 				  order = 1,
 				  width = 1.5,
-				  name = "Add Buff By Name",
-				  desc = "Type the name of a buff to hide",
+				  name = "Add (De)Buff By Name / Spell Id",
+				  desc = "Type the name or spell id of a (de)buff to hide",
 				  type = "input",
 				  set = function(info,val)
+					  if tonumber(val) then
+						  val = select(1, GetSpellInfo(val))
+					  end
+
+					  for _, value in ipairs(self.db.profile.hiddenBuffs) do
+						  if value == val then
+							  return
+						  end
+					  end
 							table.insert(self.db.profile.hiddenBuffs, val);
-							TargetFrame_UpdateAuras(TargetFrame);
+					  		table.sort(self.db.profile.hiddenBuffs)
+					  TargetFrame_UpdateAuras(TargetFrame);
 							TargetFrame_UpdateAuras(FocusFrame);
 						end,
 				},

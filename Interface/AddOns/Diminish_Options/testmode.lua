@@ -124,19 +124,11 @@ function TestMode:ToggleArenaAndPartyFrames(state, forceHide)
         if not DIMINISH_NS.IS_CLASSIC then
             if ArenaEnemyFrames then
                 showFlag = not ArenaEnemyFrames:IsShown()
-            elseif ArenaEnemyFramesContainer then
-                showFlag = not ArenaEnemyFramesContainer.Selection:IsShown()
             end
         end
     end
 
     if not DIMINISH_NS.IS_CLASSIC then
-        if EditModeManagerFrame and EditModeManagerFrame.AccountSettings then -- Dragonflight...
-            showFlag = not ArenaEnemyFramesContainer.Selection:IsShown()
-            EditModeManagerFrame.AccountSettings:SetArenaFramesShown(showFlag)
-            EditModeManagerFrame.AccountSettings:RefreshArenaFrames()
-        end
-
         local isInArena = select(2, IsInInstance()) == "arena"
         if forceHide or settings.arena.enabled and not isInArena then
             if ArenaEnemyFrames then
@@ -222,6 +214,9 @@ function TestMode:HideAnchors()
         self:UnregisterEvent("PLAYER_TARGET_CHANGED")
     end
     self:ToggleArenaAndPartyFrames(false)
+    if EditModeManagerFrame and EditModeManagerFrame.AccountSettings then -- Dragonflight...
+        HideUIPanel(EditModeManagerFrame)
+    end
 end
 
 local function OnMouseDown(self)
@@ -262,10 +257,9 @@ function TestMode:CreateDummyAnchor(parent, unit, unitID)
         frame:SetScript("OnMouseUp", OnDragStop)
         frame:EnableMouse(true)
         frame:SetMovable(true)
-        frame:SetFrameLevel(1)
+        frame:SetFrameLevel(9999)
         frame:SetBackdrop(backdrop)
         frame:SetBackdropColor(1, 0, 0, 1)
-        frame:SetFrameLevel(1)
         frame:SetFrameStrata("HIGH")
 
         frame:SetScript("OnEnter", OnEnter)
@@ -351,6 +345,10 @@ function TestMode:ShowAnchors()
             TestMode:CreateDummyAnchor(anchor, unitID)
         end
     end
+
+    if EditModeManagerFrame and EditModeManagerFrame.AccountSettings then
+        ShowUIPanel(EditModeManagerFrame)
+    end
 end
 
 function TestMode:Test(hide)
@@ -370,6 +368,9 @@ function TestMode:Test(hide)
             SetCVar("NameplatePersonalShowAlways", self.personalNameplateCfg)
             self.personalNameplateCfg = nil
         end
+        if EditModeManagerFrame and EditModeManagerFrame.AccountSettings then -- Dragonflight...
+            HideUIPanel(EditModeManagerFrame)
+        end
         return
     end
 
@@ -383,6 +384,10 @@ function TestMode:Test(hide)
         C_Timer.After(0.15, function()
             DIMINISH_NS.Timers:Refresh("player")
         end)
+    end
+
+    if EditModeManagerFrame and EditModeManagerFrame.AccountSettings then -- Dragonflight...
+        ShowUIPanel(EditModeManagerFrame)
     end
 
     local DNS = DIMINISH_NS

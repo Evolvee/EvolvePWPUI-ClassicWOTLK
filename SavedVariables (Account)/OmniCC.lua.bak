@@ -69,6 +69,18 @@ OmniCCDB = {
 						"WeakAurasCooldown", -- [17]
 						"ContainerFrame", -- [18]
 						"Character", -- [19]
+						"OmniBar4Icon", -- [20]
+						"OmniBar5Icon", -- [21]
+						"OmniBar6Icon", -- [22]
+						"OmniBar7Icon", -- [23]
+						"OmniBar8Icon", -- [24]
+						"OmniBar9Icon", -- [25]
+						"OmniBar10Icon", -- [26]
+						"OmniBar11Icon", -- [27]
+						"OmniBar12Icon", -- [28]
+						"OmniBar13Icon", -- [29]
+						"OmniBar14Icon", -- [30]
+						"OmniBar15Icon", -- [31]
 					},
 					["id"] = "Action Bars",
 					["priority"] = 3,

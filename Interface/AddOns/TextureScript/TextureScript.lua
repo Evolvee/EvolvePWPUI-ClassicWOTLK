@@ -231,7 +231,26 @@ local sounds = {
     559129, -- sound/creature/rhonin/ur_rhonin_event06.ogg
     559132, -- sound/creature/rhonin/ur_rhonin_event07.ogg
     559127, -- sound/creature/rhonin/ur_rhonin_event08.ogg
-
+	538978, -- Greenslime
+    538976, -- Greenslime
+	1229, -- crab sounds (Blizzard is too dogshit to fix this themselves, as usual)
+    1230,
+    1228,
+    1227,
+    1226,
+    1225,
+    567231, --RiverA
+    567250,
+    567272,
+    567251,
+    567253,
+    567266,
+    567230, -- RiverB
+    567271,
+    567234,
+    567246,
+    567244,
+    567261,
 }
 
 local tooltipOwnerBlacklist = {
@@ -548,6 +567,9 @@ local function OnInit()
     MultiBarRightButton11:RegisterForClicks("AnyDown","AnyUp")
     MultiBarRightButton12:RegisterForClicks("AnyDown","AnyUp")
 	
+	-- SpeedyActions level: Pro Gaymer = Handled in "WAHK" addon
+	
+
 
     -- move target of target to the right in order to allow clear vision of buffs/debuffs on a target, this will also be prolly mandatory when I try to resize the debuff scale to match 2.4.3
     TargetFrameToT:ClearAllPoints();
@@ -560,6 +582,7 @@ local function OnInit()
     MinimapCluster:SetPoint("BOTTOMLEFT", 1186.333618164063, 595.0001831054688);
 
     -- Removing Stance Bar (Shadowform icon literally the most useless and space-taking thing Lizzard invented in WOTLK)
+	StanceBarFrame:SetAlpha(0)
 	RegisterStateDriver(StanceBarFrame, "visibility", "hide")
 
     --disable mouseover flashing on buttons
@@ -1195,9 +1218,33 @@ hooksecurefunc("CompactUnitFrame_UpdateName", function(frame)
     end
 end)
 
--- Hide HealthBar under unit tooltips
-GameTooltip:HookScript("OnTooltipSetUnit", function()
+-- Hide HealthBar under unit tooltips + Hide Titles, PVP flag and Guild Names from Player tooltips
+GameTooltip:HookScript("OnTooltipSetUnit", function(self)
     GameTooltipStatusBar:Hide()
+
+    local _, unit = self:GetUnit()
+    if not unit then return end
+
+    if UnitIsPlayer(unit) then
+        local name, realm = UnitName(unit)
+        GameTooltipTextLeft1:SetFormattedText("%s", name)
+
+        local guild = GetGuildInfo(unit)
+        if guild and string.find(GameTooltipTextLeft2:GetText(), guild) then
+            GameTooltipTextLeft2:SetFormattedText("")
+        end
+		
+		for i = 2, self:NumLines() do
+            local lines = _G["GameTooltipTextLeft" .. i]
+            if i > 2 then
+                if lines:GetText() == PVP_ENABLED then
+                    lines:SetText("")
+                end
+            end
+        end
+
+    end
+    self:Show()
 end)
 
 -- Change BuffFrame position
@@ -1224,7 +1271,7 @@ end)
 local function PetNames(frame)
     local _, _, _, _, _, npcId = string_split("-", UnitGUID(frame.unit))
     -- static pet names for more clarity
-    if string.find(frame.unit, "nameplate") then
+    if frame.unit and UnitExists(frame.unit) and string.find(frame.unit, "nameplate") then
         if npcId == "1863" then
             frame.name:SetText("Succubus")
         elseif npcId == "417" then
@@ -1467,6 +1514,7 @@ local eventRegistered = {
     ["SWING_DAMAGE"] = true,
     ["RANGE_DAMAGE"] = true,
     ["SPELL_DAMAGE"] = true,
+	["SPELL_HEAL"] = true,
 }
 
 plateEventFrame:SetScript("OnEvent", function(_, event, unit)
@@ -1486,12 +1534,23 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
             PlaySound(12889)
         end
 
-        if action == "SPELL_PERIODIC_HEAL" and ex1 == 15290 then
-            COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = nil
-            SetCVar("floatingCombatTextCombatHealing", 0)
-        else
-            COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = 1
-            SetCVar("floatingCombatTextCombatHealing", 1)
+        if action == "SPELL_PERIODIC_HEAL" then
+            if ex1 == 15290 then
+                COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = nil
+                SetCVar("floatingCombatTextCombatHealing", 0)
+            else
+                COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = 1
+                SetCVar("floatingCombatTextCombatHealing", 1)
+            end
+            return
+        end
+        if action == "SPELL_HEAL" then
+            if ex1 == 48300 or ex1 == 75999 then
+                COMBAT_TEXT_TYPE_INFO.HEAL.show = nil
+            else
+                COMBAT_TEXT_TYPE_INFO.HEAL.show = 1
+            end
+            return
         end
 
         if destName == "Tremor Totem" then
@@ -1699,10 +1758,9 @@ hooksecurefunc(widget, "SetPoint", function(self, _, parent)
 end)
 
 local function SpellBarAdjust(self)
+    if not self or not string.find(self.unit, "nameplate") or self:IsForbidden() then return end
     local parentFrame = self:GetParent()
-    if not string.find(self.unit, "nameplate") then return end
-	if self:IsForbidden() then return end
-	
+    
     if self.BorderShield:IsShown() then
         self:ClearAllPoints()
         self:SetPoint("TOP", parentFrame.healthBar, "BOTTOM", 9, -12)
@@ -1741,7 +1799,6 @@ RE:SetScript("OnEvent", function(self, event, ...)
     self:UnregisterEvent("ADDON_LOADED")
     self:SetScript("OnEvent", nil)
 end)
-
 
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0

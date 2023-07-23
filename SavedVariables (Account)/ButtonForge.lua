@@ -43,7 +43,7 @@ ButtonForgeGlobalBackup = {
 				["ButtonGap"] = 6,
 				["Buttons"] = {
 					{
-						["MacroBody"] = ".race 5\n.face 2\n.hairstyle 4\n.haircolor 9\n.skincolor 3\n.features 5\n.item 3 35086\n.item 5 35087\n.item 19 35221\n.item 10 35053\n.item 6 35153\n.item 16 1728\n.item 1 19984\n.enchant 1 1\n.mount 25335\n",
+						["MacroBody"] = ".race 5\n.face 2\n.hairstyle 4\n.haircolor 9\n.skincolor 3\n.features 5\n.item 3 35086\n.item 5 35087\n.item 19 35221\n.item 10 35053\n.item 6 35153\n.item 16 1728\n.item 1 19984\n.enchant 1 1\n.mount 25335\n.spell 48156 46562\n",
 						["Mode"] = "macro",
 						["MacroName"] = "imorph",
 						["MacroIndex"] = 129,
@@ -196,7 +196,7 @@ ButtonForgeGlobalBackup = {
 						["MacroIndex"] = 122,
 						["Mode"] = "macro",
 						["MacroName"] = "     ",
-						["MacroBody"] = ".gender\n.race 5\n.hairstyle 4\n.haircolor 9\n.item 3 35086\n.item 5 35087\n.item 19 35221\n.item 10 35053\n.item 6 35153\n.item 16 1728\n.item 1 19984\n.enchant 1 1\n.mount 25335\n",
+						["MacroBody"] = ".gender\n.race 5\n.hairstyle 4\n.haircolor 9\n.item 3 35086\n.item 5 35087\n.item 19 35221\n.item 10 35053\n.item 6 35153\n.item 16 1728\n.item 1 19984\n.enchant 1 1\n.mount 25335\n.spell 48156 46562\n",
 					}, -- [1]
 				},
 			}, -- [1]

@@ -3,6 +3,8 @@ local _G = getfenv(0)
 local UnitIsUnit, UnitIsOwnerOrControllerOfUnit, pairs = _G.UnitIsUnit, _G.UnitIsOwnerOrControllerOfUnit, _G.pairs
 local MAX_TARGET_DEBUFFS = 16;
 local MAX_TARGET_BUFFS = 32;
+local UnitBuff, UnitDebuff = _G.UnitBuff, _G.UnitDebuff
+local mceil = math.ceil
 
 local defaults = {
     profile = {
@@ -25,13 +27,13 @@ function DeBuffFilter:IsBuffNameBlocked(name)
     return found;
 end
 
-function DeBuffFilter.Target_Spellbar_AdjustPosition(self)
+local function New_Target_Spellbar_AdjustPosition(self)
     local parentFrame = self:GetParent();
     if (self.boss) then
         self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, 10);
     elseif (parentFrame.haveToT) then
         if (parentFrame.buffsOnTop or parentFrame.auraRows <= 1) then
-            self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, -25);
+            self:SetPoint("TOPLEFT", parentFrame, "BOTTOMLEFT", 25, -21);
         else
             self:SetPoint("TOPLEFT", parentFrame.spellbarAnchor, "BOTTOMLEFT", 20, -15);
         end
@@ -71,37 +73,53 @@ local function ShouldAuraBeLarge(caster)
     end
 end
 
-function DeBuffFilter.Filterino(frame)
+local function ToTegrity(frame)
+    if not (frame == TargetFrameToT or frame == FocusFrameToT) then
+        return
+    end
+
+    local _, _, a, b, c = frame:GetPoint()
+
+    if (a == "BOTTOMRIGHT") and (mceil(b) == -35) and (mceil(c) == -10) then
+        return true
+    else
+        return false
+    end
+end
+
+local function maxRows(self, width, mirror)
+    local haveTargetofTarget
+
+    if self.totFrame ~= nil then
+        haveTargetofTarget = self.totFrame:IsShown();
+    end
+
+    if (haveTargetofTarget and self.auraRows <= 2) and not mirror and ToTegrity(self.totFrame) then
+        return self.TOT_AURA_ROW_WIDTH
+    else
+        return width
+    end
+end
+local function Filterino(frame)
     if not frame then
         return
     end
 
-    local buffFrame, frameName
     local selfName = frame:GetName()
     local isFriend = UnitIsFriend("player", frame.unit);
     local SMALL_AURA_SIZE = RougeUI and RougeUI.OtherBuffSize or 17
     local LARGE_AURA_SIZE = RougeUI and RougeUI.SelfSize or 21
+    local maxRowWidth = RougeUI and RougeUI.AuraRow or 122
     local AURA_START_Y = frame.buffsOnTop and -SMALL_AURA_SIZE or 32;
     local rowWidth = 0;
-    local offsetX = 3;
+    local offsetX, offsetY = 3, AURA_OFFSET_Y
     local lastBuffIndex = 1
-    local lastDebuffIndex = 1
-    local point, relativePoint;
-    local anchorFrame, x, y;
-    local maxRowWidth = frame.TOT_AURA_ROW_WIDTH
+    local Buffpoint, BuffrelativePoint;
+    local anchorFrame, Buffx, Buffy;
     local numBuffs, numDebuffs = 0, 0
-    local offsetY = AURA_OFFSET_Y
-    local haveTargetofTarget
 
-    if frame.totFrame ~= nil then
-        haveTargetofTarget = frame.totFrame:IsShown();
-    end
-
-    if (haveTargetofTarget and frame.auraRows <= 6 and not frame.buffsOnTop) then
-        maxRowWidth = frame.TOT_AURA_ROW_WIDTH
-    else
-        maxRowWidth = RougeUI and RougeUI.AuraRow or 122
-    end
+    frame.auraRows = 0
+    frame.spellbarAnchor = nil
 
     for i = 1, MAX_TARGET_DEBUFFS do
         local debuffName = UnitDebuff(frame.unit, i, "HARMFUL")
@@ -113,105 +131,104 @@ function DeBuffFilter.Filterino(frame)
     for i = 1, MAX_TARGET_BUFFS do
         local name, _, _, _, _, _, caster = UnitBuff(frame.unit, i, "HELPFUL");
         if (name) then
-            frameName = selfName .. "Buff" .. i
-            buffFrame = _G[frameName]
+            local frameName = selfName .. "Buff" .. i
+            local buffFrame = _G[frameName]
 
             if buffFrame then
                 if not DeBuffFilter:IsBuffNameBlocked(name) then
-
-                    local buffSize;
-                    if ShouldAuraBeLarge(caster) then
-                        buffSize = LARGE_AURA_SIZE
-                        offsetY = AURA_OFFSET_Y + AURA_OFFSET_Y;
-                    else
-                        buffSize = SMALL_AURA_SIZE
-                    end
+                    local buffSize = ShouldAuraBeLarge(caster) and LARGE_AURA_SIZE or SMALL_AURA_SIZE
+                    offsetY = ShouldAuraBeLarge(caster) and (AURA_OFFSET_Y + AURA_OFFSET_Y) or AURA_OFFSET_Y
 
                     if i == 1 or anchorFrame == nil then
-                        point = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
-                        relativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
+                        Buffpoint = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
+                        BuffrelativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
                         if isFriend or numDebuffs == 0 then
-                            anchorFrame = _G[selfName];
-                            x = AURA_START_X;
-                            y = frame.buffsOnTop and -15 or AURA_START_Y;
+                            anchorFrame = frame;
+                            Buffx = AURA_START_X;
+                            Buffy = frame.buffsOnTop and -15 or AURA_START_Y;
                         else
-                            anchorFrame = _G[selfName].debuffs;
-                            x = 0;
-                            y = frame.buffsOnTop and offsetY or -offsetY;
+                            anchorFrame = frame.debuffs;
+                            Buffx = 0;
+                            Buffy = frame.buffsOnTop and offsetY or -offsetY;
                         end
-                        _G[selfName].buffs:SetPoint(point, buffFrame, point, 0, 0);
-                        local yx = frame.buffsOnTop and -AURA_OFFSET_Y or AURA_OFFSET_Y
-                        _G[selfName].buffs:SetPoint(relativePoint, buffFrame, relativePoint, 0, -yx);
+                        if frame.buffs ~= buffFrame then
+                            frame.buffs:SetPoint(Buffpoint, buffFrame, Buffpoint, 0, 0);
+                            local yx = frame.buffsOnTop and -AURA_OFFSET_Y or AURA_OFFSET_Y
+                            frame.buffs:SetPoint(BuffrelativePoint, buffFrame, BuffrelativePoint, 0, -yx);
+                        end
                         lastBuffIndex = i;
                         frame.spellbarAnchor = buffFrame
                         rowWidth = buffSize
                         frame.auraRows = frame.auraRows + 1;
                     else
                         rowWidth = rowWidth + buffSize + offsetX
-                        relativePoint = frame.buffsOnTop and "BOTTOMRIGHT" or "TOPRIGHT";
-                        x = offsetX;
-                        y = 0;
+                        BuffrelativePoint = frame.buffsOnTop and "BOTTOMRIGHT" or "TOPRIGHT";
+                        Buffx = offsetX;
+                        Buffy = 0;
                     end
 
-                    if rowWidth > maxRowWidth then
+                    if rowWidth > maxRows(frame, maxRowWidth, frame.buffsOnTop) then
                         rowWidth = buffSize
-                        point = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
+                        Buffpoint = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
                         anchorFrame = _G[selfName .. "Buff" .. lastBuffIndex];
-                        relativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
-                        x = 0;
-                        y = frame.buffsOnTop and offsetY or -offsetY;
+                        BuffrelativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
+                        Buffx = 0;
+                        Buffy = frame.buffsOnTop and offsetY or -offsetY;
                         frame.auraRows = frame.auraRows + 1;
                         lastBuffIndex = i;
-                        _G[selfName].buffs:SetPoint(relativePoint, buffFrame, relativePoint, 0, -AURA_OFFSET_Y);
+                        if frame.buffs ~= buffFrame then
+                            frame.buffs:SetPoint(BuffrelativePoint, buffFrame, BuffrelativePoint, 0, -AURA_OFFSET_Y);
+                        end
                         frame.spellbarAnchor = buffFrame
                     end
 
-                    buffFrame:ClearAllPoints()
-                    buffFrame:SetPoint(point, anchorFrame, relativePoint, x, y);
-                    buffFrame:Show()
-                    anchorFrame = buffFrame;
-                    numBuffs = numBuffs + 1
-                    buffFrame:SetWidth(buffSize)
-                    buffFrame:SetHeight(buffSize)
+                    if buffFrame ~= anchorFrame then
+                        buffFrame:ClearAllPoints()
+                        buffFrame:SetPoint(Buffpoint, anchorFrame, BuffrelativePoint, Buffx, Buffy);
+                        buffFrame:SetAlpha(1)
+                        anchorFrame = buffFrame;
+                        numBuffs = numBuffs + 1
+                        buffFrame:SetWidth(buffSize)
+                        buffFrame:SetHeight(buffSize)
+                    end
                 else
-                    buffFrame:Hide()
+                    buffFrame:SetAlpha(0)
                 end
             end
         end
     end
 
-    local DfFrame
-    local drowWidth = 0
+    local DfFrame, drowWidth = nil, 0
+    local offsetX, offsetY = 3, AURA_OFFSET_Y
+    local dbfx, dbfy = nil, nil
+    local dbfpoint, dbfrelativePoint
+    local lastDebuffIndex = 1
 
     for i = 1, MAX_TARGET_DEBUFFS do
         local dbf = _G[selfName .. "Debuff" .. i]
         local debuffName, _, _, _, _, _, caster = UnitDebuff(frame.unit, i, "HARMFUL")
         if dbf and debuffName then
             if not DeBuffFilter:IsBuffNameBlocked(debuffName) then
-
-                local DebuffSize;
-                if ShouldAuraBeLarge(caster) then
-                    DebuffSize = LARGE_AURA_SIZE
-                    offsetY = AURA_OFFSET_Y + AURA_OFFSET_Y;
-                else
-                    DebuffSize = SMALL_AURA_SIZE
-                end
+                local DebuffSize = ShouldAuraBeLarge(caster) and LARGE_AURA_SIZE or SMALL_AURA_SIZE
+                offsetY = ShouldAuraBeLarge(caster) and (AURA_OFFSET_Y + AURA_OFFSET_Y) or AURA_OFFSET_Y
 
                 if i == 1 or DfFrame == nil then
                     if isFriend and (numBuffs > 0) then
-                        DfFrame = _G[selfName].buffs;
-                        x = 0
-                        y = frame.buffsOnTop and offsetY or -offsetY;
+                        DfFrame = frame.buffs;
+                        dbfx = 0
+                        dbfy = frame.buffsOnTop and offsetY or -offsetY;
                     else
-                        DfFrame = _G[selfName];
-                        x = AURA_START_X;
-                        y = AURA_START_Y;
+                        DfFrame = frame;
+                        dbfx = AURA_START_X;
+                        dbfy = AURA_START_Y;
                     end
-                    point = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
-                    relativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
+                    dbfpoint = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
+                    dbfrelativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
                     lastDebuffIndex = i;
-                    _G[selfName].debuffs:SetPoint(point, dbf, point, 0, 0);
-                    _G[selfName].debuffs:SetPoint(relativePoint, dbf, relativePoint, 0, -AURA_OFFSET_Y);
+                    if frame.debuffs ~= dbf then
+                        frame.debuffs:SetPoint(dbfpoint, dbf, dbfpoint, 0, 0);
+                        frame.debuffs:SetPoint(dbfrelativePoint, dbf, dbfrelativePoint, 0, -AURA_OFFSET_Y);
+                    end
                     if ((isFriend) or (not isFriend and numBuffs == 0)) then
                         frame.spellbarAnchor = dbf;
                     end
@@ -219,47 +236,49 @@ function DeBuffFilter.Filterino(frame)
                     frame.auraRows = frame.auraRows + 1;
                 else
                     drowWidth = drowWidth + DebuffSize + offsetX
-                    relativePoint = frame.buffsOnTop and "BOTTOMRIGHT" or "TOPLEFT";
-                    x = DebuffSize + offsetX;
-                    y = 0;
+                    dbfrelativePoint = frame.buffsOnTop and "BOTTOMRIGHT" or "TOPLEFT";
+                    dbfx = DebuffSize + offsetX;
+                    dbfy = 0;
                 end
 
-                if drowWidth > maxRowWidth then
+                if drowWidth > maxRows(frame, maxRowWidth, frame.buffsOnTop) then
                     drowWidth = DebuffSize;
-                    point = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
+                    dbfpoint = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
                     DfFrame = _G[selfName .. "Debuff" .. lastDebuffIndex];
-                    relativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
-                    x = 0;
-                    y = frame.buffsOnTop and offsetY or -offsetY;
+                    dbfrelativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
+                    dbfx = 0;
+                    dbfy = frame.buffsOnTop and offsetY or -offsetY;
                     frame.auraRows = frame.auraRows + 1;
                     lastDebuffIndex = i;
-                    _G[selfName].debuffs:SetPoint(relativePoint, dbf, relativePoint, 0, -AURA_OFFSET_Y);
+                    if frame.debuffs ~= dbf then
+                        frame.debuffs:SetPoint(dbfrelativePoint, dbf, dbfrelativePoint, 0, -AURA_OFFSET_Y);
+                    end
                     if ((isFriend) or (not isFriend and numBuffs == 0)) then
                         frame.spellbarAnchor = dbf;
                     end
                 end
 
-                dbf:ClearAllPoints()
-                dbf:SetPoint(point, DfFrame, relativePoint, x, y);
-                dbf:Show()
-                DfFrame = dbf;
-                dbf:SetWidth(DebuffSize)
-                dbf:SetHeight(DebuffSize)
-                local debuffFrame =_G[selfName .. "Debuff" .. i .."Border"];
-                debuffFrame:SetWidth(DebuffSize+2);
-                debuffFrame:SetHeight(DebuffSize+2);
+                if dbf ~= DfFrame then
+                    dbf:ClearAllPoints()
+                    dbf:SetPoint(dbfpoint, DfFrame, dbfrelativePoint, dbfx, dbfy);
+                    dbf:SetAlpha(1)
+                    DfFrame = dbf;
+                    dbf:SetWidth(DebuffSize)
+                    dbf:SetHeight(DebuffSize)
+                    local debuffFrame = _G[selfName .. "Debuff" .. i .. "Border"];
+                    debuffFrame:SetWidth(DebuffSize + 2);
+                    debuffFrame:SetHeight(DebuffSize + 2);
+                end
             else
-                dbf:Hide()
+                dbf:SetAlpha(0)
             end
         end
     end
 
-    --frame.auraRows = 0
-
     if (frame.spellbar) then
-        DeBuffFilter.Target_Spellbar_AdjustPosition(frame.spellbar);
+        New_Target_Spellbar_AdjustPosition(frame.spellbar);
     end
 end
 
-hooksecurefunc("Target_Spellbar_AdjustPosition", DeBuffFilter.Target_Spellbar_AdjustPosition)
-hooksecurefunc("TargetFrame_UpdateAuras", DeBuffFilter.Filterino)
+hooksecurefunc("Target_Spellbar_AdjustPosition", New_Target_Spellbar_AdjustPosition)
+hooksecurefunc("TargetFrame_UpdateAuras", Filterino)

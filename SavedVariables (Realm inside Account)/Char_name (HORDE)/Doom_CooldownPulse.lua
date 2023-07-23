@@ -1,5 +1,5 @@
 
 DCP_SavedPerCharacter = {
-	["ignoredSpells"] = "",
+	["ignoredSpells"] = "Power Word: Shield",
 	["invertIgnored"] = false,
 }

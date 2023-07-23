@@ -100,9 +100,9 @@ ATTDB = {
 			[37864] = true,
 		},
 		["specSelected"] = "71",
-		["showTooltip"] = false,
+		["category"] = "abilities",
 		["offsetX"] = 0,
-		["lock"] = true,
+		["showTooltip"] = false,
 		["offsetY"] = 0,
 		["showIconBorders"] = true,
 		["customSpells"] = {
@@ -150,13 +150,27 @@ ATTDB = {
 			},
 		},
 		["iconAlpha"] = 1,
-		["isEnabledVisibility"] = {
-			["scenarios"] = false,
-			["inbg"] = false,
-			["inraid"] = false,
-			["arena"] = true,
-			["outside"] = false,
-			["dungeons"] = false,
+		["alertCD"] = {
+			["DEATHKNIGHT"] = {
+			},
+			["WARRIOR"] = {
+			},
+			["SHAMAN"] = {
+			},
+			["MAGE"] = {
+			},
+			["PRIEST"] = {
+			},
+			["WARLOCK"] = {
+			},
+			["HUNTER"] = {
+			},
+			["DRUID"] = {
+			},
+			["PALADIN"] = {
+			},
+			["ROGUE"] = {
+			},
 		},
 		["isEnabledRacial"] = {
 			[59752] = true,
@@ -169,12 +183,12 @@ ATTDB = {
 				[46082] = true,
 				[47528] = false,
 				[49576] = true,
-				[49039] = false,
+				[46084] = true,
 				[48707] = true,
-				[37864] = true,
+				[49039] = false,
 				[46083] = true,
 				[46085] = true,
-				[46084] = true,
+				[37864] = true,
 				[48792] = false,
 				[37865] = true,
 				[46081] = true,
@@ -231,15 +245,15 @@ ATTDB = {
 				[46081] = true,
 				[64044] = true,
 				[46082] = true,
-				[63229] = true,
+				[46084] = true,
 				[46083] = true,
 				[33206] = true,
-				[37864] = true,
+				[63229] = true,
 				[15487] = true,
 				[37865] = true,
 				[47585] = true,
 				[46085] = true,
-				[46084] = true,
+				[37864] = true,
 			},
 			["WARLOCK"] = {
 				[59752] = true,
@@ -261,31 +275,31 @@ ATTDB = {
 				[46082] = true,
 				[37864] = true,
 				[46083] = true,
-				[34490] = true,
+				[46085] = true,
 				[46084] = true,
 				[19263] = true,
-				[37865] = true,
+				[34490] = true,
 				[19503] = true,
-				[46085] = true,
+				[37865] = true,
 				[59752] = true,
 			},
 			["DRUID"] = {
-				[46081] = true,
+				[22812] = true,
 				[59752] = true,
 				[17116] = true,
 				[7744] = true,
-				[61336] = true,
+				[46081] = true,
 				[50334] = true,
 				[46082] = true,
-				[37864] = true,
+				[46084] = true,
 				[46083] = true,
 				[53201] = true,
-				[29166] = true,
+				[37864] = true,
 				[46085] = true,
 				[37865] = true,
-				[46084] = true,
+				[29166] = true,
 				[8983] = false,
-				[22812] = true,
+				[61336] = true,
 			},
 			["PALADIN"] = {
 				[59752] = true,
@@ -317,7 +331,14 @@ ATTDB = {
 				[7744] = true,
 			},
 		},
-		["hidden"] = true,
+		["isEnabledVisibility"] = {
+			["scenarios"] = false,
+			["inbg"] = false,
+			["inraid"] = false,
+			["arena"] = true,
+			["outside"] = false,
+			["dungeons"] = false,
+		},
 		["reverseIcons"] = false,
 		["glow"] = true,
 		["positions"] = {
@@ -482,32 +503,11 @@ ATTDB = {
 				["x"] = 675.1666870117188,
 			}, -- [40]
 		},
-		["alertCD"] = {
-			["DEATHKNIGHT"] = {
-			},
-			["WARRIOR"] = {
-			},
-			["SHAMAN"] = {
-			},
-			["MAGE"] = {
-			},
-			["PRIEST"] = {
-			},
-			["WARLOCK"] = {
-			},
-			["HUNTER"] = {
-			},
-			["DRUID"] = {
-			},
-			["PALADIN"] = {
-			},
-			["ROGUE"] = {
-			},
-		},
+		["hidden"] = true,
 		["IconRows"] = 2,
 		["iconOffsetX"] = 0,
 		["horizontal"] = false,
-		["category"] = "abilities",
+		["lock"] = true,
 		["globalSelections"] = true,
 	},
 	["BG"] = {

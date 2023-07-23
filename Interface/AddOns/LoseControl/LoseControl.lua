@@ -1,7 +1,7 @@
 --[[
 -------------------------------------------
 -- Addon: LoseControl WotLK
--- Version: 3.01
+-- Version: 3.03
 -- Authors: millanzarreta, Kouri
 -------------------------------------------
 
@@ -63,6 +63,8 @@ local LCUnitPendingUnitWatchFrames = {}
 local LCCombatLockdownDelayFrame = CreateFrame("Frame")
 local RefreshPendingUnitWatchState = function() end
 local delayFunc_RefreshPendingUnitWatchState = false
+local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+
 LCCombatLockdownDelayFrame:SetScript("OnEvent", function(self,event)
 	if event=="PLAYER_REGEN_ENABLED" then
 		self:UnregisterEvent("PLAYER_REGEN_ENABLED")
@@ -3887,6 +3889,48 @@ local anchors = {
 		raid40       = "CompactRaidFrame40"
 	},
 	BlizzardNameplates = {
+		nameplate1   = "NamePlate1",
+		nameplate2   = "NamePlate2",
+		nameplate3   = "NamePlate3",
+		nameplate4   = "NamePlate4",
+		nameplate5   = "NamePlate5",
+		nameplate6   = "NamePlate6",
+		nameplate7   = "NamePlate7",
+		nameplate8   = "NamePlate8",
+		nameplate9   = "NamePlate9",
+		nameplate10  = "NamePlate10",
+		nameplate11  = "NamePlate11",
+		nameplate12  = "NamePlate12",
+		nameplate13  = "NamePlate13",
+		nameplate14  = "NamePlate14",
+		nameplate15  = "NamePlate15",
+		nameplate16  = "NamePlate16",
+		nameplate17  = "NamePlate17",
+		nameplate18  = "NamePlate18",
+		nameplate19  = "NamePlate19",
+		nameplate20  = "NamePlate20",
+		nameplate21  = "NamePlate21",
+		nameplate22  = "NamePlate22",
+		nameplate23  = "NamePlate23",
+		nameplate24  = "NamePlate24",
+		nameplate25  = "NamePlate25",
+		nameplate26  = "NamePlate26",
+		nameplate27  = "NamePlate27",
+		nameplate28  = "NamePlate28",
+		nameplate29  = "NamePlate29",
+		nameplate30  = "NamePlate30",
+		nameplate31  = "NamePlate31",
+		nameplate32  = "NamePlate32",
+		nameplate33  = "NamePlate33",
+		nameplate34  = "NamePlate34",
+		nameplate35  = "NamePlate35",
+		nameplate36  = "NamePlate36",
+		nameplate37  = "NamePlate37",
+		nameplate38  = "NamePlate38",
+		nameplate39  = "NamePlate39",
+		nameplate40  = "NamePlate40"
+	},
+	BlizzardNameplatesUnitFrame = {
 		nameplate1   = "NamePlate1.UnitFrame",
 		nameplate2   = "NamePlate2.UnitFrame",
 		nameplate3   = "NamePlate3.UnitFrame",
@@ -7067,6 +7111,22 @@ function LoseControl:RegisterUnitEvents(enabled)
 	end
 end
 
+-- Function to get the final scale value of icon frame relative to UIParent
+function LoseControl:GetAbsoluteScaleRelativeToUIParent()
+	local resScale = 1
+	local fr = self.parent
+	local limit = 30
+	local climit = 0
+	while(fr ~= nil and fr ~= UIParent and fr ~= WorldFrame and climit < limit) do
+		if (fr.GetScale and type(fr:GetScale()) == "number") then
+			resScale = resScale * fr:GetScale()
+		end
+		fr = fr:GetParent()
+		climit = climit + 1
+	end
+	return (climit < limit) and resScale or 1
+end
+
 -- Function to update spellIds table with customSpellIds from user
 function LoseControl:UpdateSpellIdsTableWithCustomSpellIds()
 	for oSpellId, oPriority  in pairs(origSpellIdsChanged) do
@@ -7485,7 +7545,7 @@ function LoseControl:ADDON_LOADED(arg1)
 			_G.LoseControlDB.version = DBdefaults.version
 		end
 		LoseControlDB = _G.LoseControlDB
-		self.VERSION = "3.01"
+		self.VERSION = "3.03"
 		self.noCooldownCount = LoseControlDB.noCooldownCount
 		self.noBlizzardCooldownCount = LoseControlDB.noBlizzardCooldownCount
 		if (LoseControlDB.duplicatePlayerPortrait and LoseControlDB.frames.player.anchor == "Blizzard") then
@@ -7568,17 +7628,19 @@ LoseControl:RegisterEvent("ADDON_LOADED")
 
 function LoseControl:CheckNameplateAnchor()
 	local newAnchor = GetNamePlateForUnit(self.unitId, false)
-	if ((newAnchor ~= nil) and not(newAnchor:IsForbidden()) and (newAnchor.UnitFrame ~= nil)) then
-		local newAnchorUF = newAnchor.UnitFrame
+	local frame = self.frame or LoseControlDB.frames[self.fakeUnitId or self.unitId]
+	local usingNameplateMainFrame = (frame.anchor == "BlizzardNameplates")
+	if ((newAnchor ~= nil) and not(newAnchor:IsForbidden()) and (usingNameplateMainFrame or newAnchor.UnitFrame ~= nil)) then
+		local newAnchorUF = usingNameplateMainFrame and newAnchor or newAnchor.UnitFrame
 		if (self.anchor ~= newAnchorUF) then
-			local name = newAnchor:GetName()..".UnitFrame"
+			local name = newAnchor:GetName()
 			if not name or not name:match("^NamePlate") then return end
 			anchors.BlizzardNameplates[self.unitId] = name
-			local frame = self.frame or LoseControlDB.frames[self.fakeUnitId or self.unitId]
-			if (frame.anchor == "BlizzardNameplates") then
+			anchors.BlizzardNameplatesUnitFrame[self.unitId] = name..".UnitFrame"
+			if (frame.anchor == "BlizzardNameplates" or frame.anchor == "BlizzardNameplatesUnitFrame") then
 				local oldAnchor = self.anchor
-				if ((oldAnchor ~= nil) and (oldAnchor ~= UIParent) and not(oldAnchor:IsForbidden()) and (oldAnchor.UnitFrame ~= nil)) then
-					local oldAnchorUF = oldAnchor.UnitFrame
+				if ((oldAnchor ~= nil) and (oldAnchor ~= UIParent) and not(oldAnchor:IsForbidden()) and (usingNameplateMainFrame or oldAnchor.UnitFrame ~= nil)) then
+					local oldAnchorUF = usingNameplateMainFrame and oldAnchor or oldAnchor.UnitFrame
 					if (oldAnchorUF.lcicon == self) then
 						oldAnchorUF.lcicon = nil
 					end
@@ -7599,11 +7661,11 @@ function LoseControl:CheckNameplateAnchor()
 		end
 	else
 		anchors.BlizzardNameplates[self.unitId] = "UIParent"
-		local frame = self.frame or LoseControlDB.frames[self.fakeUnitId or self.unitId]
-		if (frame.anchor == "BlizzardNameplates") then
+		anchors.BlizzardNameplatesUnitFrame[self.unitId] = "UIParent"
+		if (frame.anchor == "BlizzardNameplates" or frame.anchor == "BlizzardNameplatesUnitFrame") then
 			local oldAnchor = self.anchor
-			if ((oldAnchor ~= nil) and (oldAnchor ~= UIParent) and not(oldAnchor:IsForbidden()) and (oldAnchor.UnitFrame ~= nil)) then
-				local oldAnchorUF = oldAnchor.UnitFrame
+			if ((oldAnchor ~= nil) and (oldAnchor ~= UIParent) and not(oldAnchor:IsForbidden()) and (usingNameplateMainFrame or oldAnchor.UnitFrame ~= nil)) then
+				local oldAnchorUF = usingNameplateMainFrame and oldAnchor or oldAnchor.UnitFrame
 				if (oldAnchorUF.lcicon == self) then
 					oldAnchorUF.lcicon = nil
 				end
@@ -7659,24 +7721,27 @@ function LoseControl:CheckAnchor(forceCheck)
 					frame.x or 0,
 					frame.y or 0
 				)
-				local PositionXEditBox, PositionYEditBox, FrameLevelEditBox
+				local PositionXEditBox, PositionYEditBox, FrameLevelEditBox, AnchorPositionDropDownAnchorLabel
 				if strfind(self.fakeUnitId or self.unitId, "party") then
-					if ((self.fakeUnitId or self.unitId) == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown'])) then
+					if ((self.fakeUnitId or self.unitId) == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown'])) then
 						PositionXEditBox = _G['LoseControlOptionsPanelpartyPositionXEditBox']
 						PositionYEditBox = _G['LoseControlOptionsPanelpartyPositionYEditBox']
 						FrameLevelEditBox = _G['LoseControlOptionsPanelpartyFrameLevelEditBox']
+						AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanelpartyAnchorPositionDropDownAnchorLabel']
 					end
 				elseif strfind(self.fakeUnitId or self.unitId, "arena") then
-					if ((self.fakeUnitId or self.unitId) == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelarenaAnchorPositionArenaDropDown'])) then
+					if ((self.fakeUnitId or self.unitId) == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelarenaAnchorPositionArenaDropDown'])) then
 						PositionXEditBox = _G['LoseControlOptionsPanelarenaPositionXEditBox']
 						PositionYEditBox = _G['LoseControlOptionsPanelarenaPositionYEditBox']
 						FrameLevelEditBox = _G['LoseControlOptionsPanelarenaFrameLevelEditBox']
+						AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanelarenaAnchorPositionDropDownAnchorLabel']
 					end
 				elseif strfind(self.fakeUnitId or self.unitId, "raid") then
-					if ((self.fakeUnitId or self.unitId) == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelraidAnchorPositionRaidDropDown'])) then
+					if ((self.fakeUnitId or self.unitId) == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelraidAnchorPositionRaidDropDown'])) then
 						PositionXEditBox = _G['LoseControlOptionsPanelraidPositionXEditBox']
 						PositionYEditBox = _G['LoseControlOptionsPanelraidPositionYEditBox']
 						FrameLevelEditBox = _G['LoseControlOptionsPanelraidFrameLevelEditBox']
+						AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanelraidAnchorPositionDropDownAnchorLabel']
 					end
 				elseif strfind(self.fakeUnitId or self.unitId, "nameplate") then
 					PositionXEditBox = _G['LoseControlOptionsPanelnameplatePositionXEditBox']
@@ -7688,6 +7753,9 @@ function LoseControl:CheckAnchor(forceCheck)
 					FrameLevelEditBox = _G['LoseControlOptionsPanel'..self.unitId..'FrameLevelEditBox']
 				end
 				if (PositionXEditBox and PositionYEditBox and FrameLevelEditBox) then
+					if (AnchorPositionDropDownAnchorLabel) then
+						AnchorPositionDropDownAnchorLabel:SetText("("..L["AnchorPositionDropDownAnchorLabel"]..(type(frame.anchor)=="string" and frame.anchor or ("["..type(frame.anchor).."]"))..")")
+					end
 					PositionXEditBox:SetText(mathfloor((frame.x or 0)+0.5))
 					PositionYEditBox:SetText(mathfloor((frame.y or 0)+0.5))
 					FrameLevelEditBox:SetText(mathfloor((frame.frameLevel or 0)+0.5))
@@ -7746,24 +7814,27 @@ function LoseControl:PLAYER_ENTERING_WORLD() -- this correctly anchors enemy are
 		frame.x or 0,
 		frame.y or 0
 	)
-	local PositionXEditBox, PositionYEditBox, FrameLevelEditBox
+	local PositionXEditBox, PositionYEditBox, FrameLevelEditBox, AnchorPositionDropDownAnchorLabel
 	if strfind((self.fakeUnitId or unitId), "party") then
-		if ((self.fakeUnitId or unitId) == ((_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown'] ~= nil) and UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown']) or "party1")) then
+		if ((self.fakeUnitId or unitId) == ((_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown'] ~= nil) and LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown']) or "party1")) then
 			PositionXEditBox = _G['LoseControlOptionsPanelpartyPositionXEditBox']
 			PositionYEditBox = _G['LoseControlOptionsPanelpartyPositionYEditBox']
 			FrameLevelEditBox = _G['LoseControlOptionsPanelpartyFrameLevelEditBox']
+			AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanelpartyAnchorPositionDropDownAnchorLabel']
 		end
 	elseif strfind((self.fakeUnitId or unitId), "arena") then
-		if ((self.fakeUnitId or unitId) == ((_G['LoseControlOptionsPanelarenaAnchorPositionArenaDropDown'] ~= nil) and UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelarenaAnchorPositionArenaDropDown']) or "arena1")) then
+		if ((self.fakeUnitId or unitId) == ((_G['LoseControlOptionsPanelarenaAnchorPositionArenaDropDown'] ~= nil) and LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelarenaAnchorPositionArenaDropDown']) or "arena1")) then
 			PositionXEditBox = _G['LoseControlOptionsPanelarenaPositionXEditBox']
 			PositionYEditBox = _G['LoseControlOptionsPanelarenaPositionYEditBox']
 			FrameLevelEditBox = _G['LoseControlOptionsPanelarenaFrameLevelEditBox']
+			AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanelarenaAnchorPositionDropDownAnchorLabel']
 		end
 	elseif strfind((self.fakeUnitId or unitId), "raid") then
-		if ((self.fakeUnitId or unitId) == ((_G['LoseControlOptionsPanelraidAnchorPositionRaidDropDown'] ~= nil) and UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelraidAnchorPositionRaidDropDown']) or "raid1")) then
+		if ((self.fakeUnitId or unitId) == ((_G['LoseControlOptionsPanelraidAnchorPositionRaidDropDown'] ~= nil) and LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelraidAnchorPositionRaidDropDown']) or "raid1")) then
 			PositionXEditBox = _G['LoseControlOptionsPanelraidPositionXEditBox']
 			PositionYEditBox = _G['LoseControlOptionsPanelraidPositionYEditBox']
 			FrameLevelEditBox = _G['LoseControlOptionsPanelraidFrameLevelEditBox']
+			AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanelraidAnchorPositionDropDownAnchorLabel']
 		end
 	elseif strfind((self.fakeUnitId or unitId), "nameplate") then
 		PositionXEditBox = _G['LoseControlOptionsPanelnameplatePositionXEditBox']
@@ -7775,6 +7846,9 @@ function LoseControl:PLAYER_ENTERING_WORLD() -- this correctly anchors enemy are
 		FrameLevelEditBox = _G['LoseControlOptionsPanel'..(self.fakeUnitId or unitId)..'FrameLevelEditBox']
 	end
 	if (PositionXEditBox and PositionYEditBox and FrameLevelEditBox) then
+		if (AnchorPositionDropDownAnchorLabel) then
+			AnchorPositionDropDownAnchorLabel:SetText("("..L["AnchorPositionDropDownAnchorLabel"]..(type(frame.anchor)=="string" and frame.anchor or ("["..type(frame.anchor).."]"))..")")
+		end
 		PositionXEditBox:SetText(mathfloor((frame.x or 0)+0.5))
 		PositionYEditBox:SetText(mathfloor((frame.y or 0)+0.5))
 		FrameLevelEditBox:SetText(mathfloor((frame.frameLevel or 0)+0.5))
@@ -7959,6 +8033,8 @@ function LoseControl:CheckStatusPartyFrameChange(value)
 		self.useCompactPartyFrames = value
 		if (value) then
 			anchors.Blizzard[unitId] = nil
+			MainHookCompactRaidFrames()
+			UpdateAllRaidIconsAnchorCompactRaidFrame()
 		else
 			local numId = -1
 			if (unitId == "party1") then
@@ -7981,8 +8057,6 @@ function LoseControl:CheckStatusPartyFrameChange(value)
 		local frame = self.frame or LoseControlDB.frames[unitId]
 		if (frame.anchor == "Blizzard") or (unitId == "partyplayer") then
 			if (value) then
-				MainHookCompactRaidFrames()
-				UpdateAllRaidIconsAnchorCompactRaidFrame()
 				if not(frame.noCompactFrame) then
 					frame.noCompactFrame = {
 						["point"] = frame.point,
@@ -8100,11 +8174,15 @@ function LoseControl:CheckStatusPartyFrameChange(value)
 					SizeSlider.editbox:SetCursorPosition(0)
 				end
 			end
-			if (_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown'] ~= nil and unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown'])) then
+			if (_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown'] ~= nil and unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown'])) then
 				local PositionXEditBox = _G['LoseControlOptionsPanelpartyPositionXEditBox']
 				local PositionYEditBox = _G['LoseControlOptionsPanelpartyPositionYEditBox']
 				local FrameLevelEditBox = _G['LoseControlOptionsPanelpartyFrameLevelEditBox']
+				local AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanelpartyAnchorPositionDropDownAnchorLabel']
 				if (PositionXEditBox and PositionYEditBox and FrameLevelEditBox) then
+					if (AnchorPositionDropDownAnchorLabel) then
+						AnchorPositionDropDownAnchorLabel:SetText("("..L["AnchorPositionDropDownAnchorLabel"]..(type(frame.anchor)=="string" and frame.anchor or ("["..type(frame.anchor).."]"))..")")
+					end
 					PositionXEditBox:SetText(mathfloor((frame.x or 0)+0.5))
 					PositionYEditBox:SetText(mathfloor((frame.y or 0)+0.5))
 					FrameLevelEditBox:SetText(mathfloor((frame.frameLevel or 0)+0.5))
@@ -8124,28 +8202,28 @@ function LoseControl:CheckStatusPartyFrameChange(value)
 				end
 				local AnchorPointDropDown = _G['LoseControlOptionsPanelpartyAnchorPointDropDown']
 				if (AnchorPointDropDown) then
-					UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
-					UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
+					LibDD:UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
+					LibDD:UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
 					if (frame.anchor ~= "Blizzard" or self.useCompactPartyFrames) then
-						UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
+						LibDD:UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
 					else
-						UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
+						LibDD:UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
 					end
 				end
 				local AnchorIconPointDropDown = _G['LoseControlOptionsPanelpartyAnchorIconPointDropDown']
 				if (AnchorIconPointDropDown) then
-					UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
-					UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
+					LibDD:UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
+					LibDD:UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
 					if (frame.anchor ~= "Blizzard" or self.useCompactPartyFrames) then
-						UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
+						LibDD:UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
 					else
-						UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
+						LibDD:UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
 					end
 				end
 				local AnchorFrameStrataDropDown = _G['LoseControlOptionsPanelpartyAnchorFrameStrataDropDown']
 				if (AnchorFrameStrataDropDown) then
-					UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
-					UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
+					LibDD:UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
+					LibDD:UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
 				end
 			end
 		end
@@ -8276,7 +8354,7 @@ function LoseControl:UNIT_AURA(unitId, updatedAuras, typeUpdate) -- fired when a
 	local forceEventUnitAuraAtEnd = false
 	self.lastTimeUnitAuraEvent = GetTime()
 
-	if ((self.anchor ~= nil and self.anchor:IsVisible() and (self.anchor ~= UIParent or self.frame.anchor == "None")) or (self.frame.anchor ~= "None" and self.frame.anchor ~= "Blizzard" and self.frame.anchor ~= "BlizzardRaidFrames" and self.frame.anchor ~= "BlizzardNameplates" and self.anchor ~= UIParent)) and UnitExists(self.unitId) and ((self.unitId ~= "targettarget") or (not(LoseControlDB.disablePlayerTargetPlayerTargetTarget) or not(UnitIsUnit("player", "target")))) and ((self.unitId ~= "targettarget") or (not(LoseControlDB.disablePlayerTargetTarget) or not(UnitIsUnit("targettarget", "player")))) and ((self.unitId ~= "targettarget") or (not(LoseControlDB.disableTargetTargetTarget) or not(UnitIsUnit("targettarget", "target")))) and ((self.unitId ~= "targettarget") or (not(LoseControlDB.disableTargetDeadTargetTarget) or (UnitHealth("target") > 0))) and ((self.unitId ~= "focustarget") or (not(LoseControlDB.disablePlayerFocusPlayerFocusTarget) or not(UnitIsUnit("player", "focus") and UnitIsUnit("player", "focustarget")))) and ((self.unitId ~= "focustarget") or (not(LoseControlDB.disablePlayerFocusTarget) or not(UnitIsUnit("focustarget", "player")))) and ((self.unitId ~= "focustarget") or (not(LoseControlDB.disableFocusFocusTarget) or not(UnitIsUnit("focustarget", "focus")))) and ((self.unitId ~= "focustarget") or (not(LoseControlDB.disableFocusDeadFocusTarget) or (UnitHealth("focus") > 0))) then
+	if ((self.anchor ~= nil and self.anchor:IsVisible() and (self.anchor ~= UIParent or self.frame.anchor == "None")) or (self.frame.anchor ~= "None" and self.frame.anchor ~= "Blizzard" and self.frame.anchor ~= "BlizzardRaidFrames" and self.frame.anchor ~= "BlizzardNameplates" and self.frame.anchor ~= "BlizzardNameplatesUnitFrame" and self.anchor ~= UIParent)) and UnitExists(self.unitId) and ((self.unitId ~= "targettarget") or (not(LoseControlDB.disablePlayerTargetPlayerTargetTarget) or not(UnitIsUnit("player", "target")))) and ((self.unitId ~= "targettarget") or (not(LoseControlDB.disablePlayerTargetTarget) or not(UnitIsUnit("targettarget", "player")))) and ((self.unitId ~= "targettarget") or (not(LoseControlDB.disableTargetTargetTarget) or not(UnitIsUnit("targettarget", "target")))) and ((self.unitId ~= "targettarget") or (not(LoseControlDB.disableTargetDeadTargetTarget) or (UnitHealth("target") > 0))) and ((self.unitId ~= "focustarget") or (not(LoseControlDB.disablePlayerFocusPlayerFocusTarget) or not(UnitIsUnit("player", "focus") and UnitIsUnit("player", "focustarget")))) and ((self.unitId ~= "focustarget") or (not(LoseControlDB.disablePlayerFocusTarget) or not(UnitIsUnit("focustarget", "player")))) and ((self.unitId ~= "focustarget") or (not(LoseControlDB.disableFocusFocusTarget) or not(UnitIsUnit("focustarget", "focus")))) and ((self.unitId ~= "focustarget") or (not(LoseControlDB.disableFocusDeadFocusTarget) or (UnitHealth("focus") > 0))) then
 		local reactionToPlayer = (strfind(self.unitId, "arena") or ((self.unitId == "target" or self.unitId == "focus" or self.unitId == "targettarget" or self.unitId == "focustarget" or strfind(self.unitId, "nameplate")) and UnitCanAttack("player", unitId))) and "enemy" or "friendly"
 		-- Check debuffs
 		for i = 1, 120 do
@@ -8298,13 +8376,13 @@ function LoseControl:UNIT_AURA(unitId, updatedAuras, typeUpdate) -- fired when a
 					if Priority == maxPriority and expirationTime > maxExpirationTime then
 						maxExpirationTime = expirationTime
 						Duration = duration
-						Icon = icon
+						Icon = icon ~= 237567 and icon or 236295
 						forceEventUnitAuraAtEnd = localForceEventUnitAuraAtEnd
 					elseif Priority > maxPriority then
 						maxPriority = Priority
 						maxExpirationTime = expirationTime
 						Duration = duration
-						Icon = icon
+						Icon = icon ~= 237567 and icon or 236295
 						forceEventUnitAuraAtEnd = localForceEventUnitAuraAtEnd
 					end
 				end
@@ -8343,13 +8421,13 @@ function LoseControl:UNIT_AURA(unitId, updatedAuras, typeUpdate) -- fired when a
 					if Priority == maxPriority and expirationTime > maxExpirationTime then
 						maxExpirationTime = expirationTime
 						Duration = duration
-						Icon = icon
+						Icon = icon ~= 237567 and icon or 236295
 						forceEventUnitAuraAtEnd = localForceEventUnitAuraAtEnd
 					elseif Priority > maxPriority then
 						maxPriority = Priority
 						maxExpirationTime = expirationTime
 						Duration = duration
-						Icon = icon
+						Icon = icon ~= 237567 and icon or 236295
 						forceEventUnitAuraAtEnd = localForceEventUnitAuraAtEnd
 					end
 				end
@@ -8664,8 +8742,8 @@ function LoseControl:StopMoving()
 		frame.anchor = "None"
 		local AnchorDropDown = _G['LoseControlOptionsPanel'..(self.fakeUnitId or self.unitId)..'AnchorDropDown']
 		if (AnchorDropDown) then
-			UIDropDownMenu_Initialize(AnchorDropDown, AnchorDropDown.initialize)
-			UIDropDownMenu_SetSelectedValue(AnchorDropDown, frame.anchor)
+			LibDD:UIDropDownMenu_Initialize(AnchorDropDown, AnchorDropDown.initialize)
+			LibDD:UIDropDownMenu_SetSelectedValue(AnchorDropDown, frame.anchor)
 		end
 		if self.MasqueGroup then
 			self.MasqueGroup:RemoveButton(self:GetParent())
@@ -8703,33 +8781,36 @@ function LoseControl:StopMoving()
 		frame.x or 0,
 		frame.y or 0
 	)
-	local PositionXEditBox, PositionYEditBox, FrameLevelEditBox, AnchorPointDropDown, AnchorIconPointDropDown, AnchorFrameStrataDropDown
+	local PositionXEditBox, PositionYEditBox, FrameLevelEditBox, AnchorPointDropDown, AnchorIconPointDropDown, AnchorFrameStrataDropDown, AnchorPositionDropDownAnchorLabel
 	if strfind((self.fakeUnitId or self.unitId), "party") then
-		if ((self.fakeUnitId or self.unitId) == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown'])) then
+		if ((self.fakeUnitId or self.unitId) == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelpartyAnchorPositionPartyDropDown'])) then
 			PositionXEditBox = _G['LoseControlOptionsPanelpartyPositionXEditBox']
 			PositionYEditBox = _G['LoseControlOptionsPanelpartyPositionYEditBox']
 			FrameLevelEditBox = _G['LoseControlOptionsPanelpartyFrameLevelEditBox']
 			AnchorPointDropDown = _G['LoseControlOptionsPanelpartyAnchorPointDropDown']
 			AnchorIconPointDropDown = _G['LoseControlOptionsPanelpartyAnchorIconPointDropDown']
 			AnchorFrameStrataDropDown = _G['LoseControlOptionsPanelpartyAnchorFrameStrataDropDown']
+			AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanelpartyAnchorPositionDropDownAnchorLabel']
 		end
 	elseif strfind((self.fakeUnitId or self.unitId), "arena") then
-		if ((self.fakeUnitId or self.unitId) == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelarenaAnchorPositionArenaDropDown'])) then
+		if ((self.fakeUnitId or self.unitId) == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelarenaAnchorPositionArenaDropDown'])) then
 			PositionXEditBox = _G['LoseControlOptionsPanelarenaPositionXEditBox']
 			PositionYEditBox = _G['LoseControlOptionsPanelarenaPositionYEditBox']
 			FrameLevelEditBox = _G['LoseControlOptionsPanelarenaFrameLevelEditBox']
 			AnchorPointDropDown = _G['LoseControlOptionsPanelarenaAnchorPointDropDown']
 			AnchorIconPointDropDown = _G['LoseControlOptionsPanelarenaAnchorIconPointDropDown']
 			AnchorFrameStrataDropDown = _G['LoseControlOptionsPanelarenaAnchorFrameStrataDropDown']
+			AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanelarenaAnchorPositionDropDownAnchorLabel']
 		end
 	elseif strfind((self.fakeUnitId or self.unitId), "raid") then
-		if ((self.fakeUnitId or self.unitId) == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelraidAnchorPositionRaidDropDown'])) then
+		if ((self.fakeUnitId or self.unitId) == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanelraidAnchorPositionRaidDropDown'])) then
 			PositionXEditBox = _G['LoseControlOptionsPanelraidPositionXEditBox']
 			PositionYEditBox = _G['LoseControlOptionsPanelraidPositionYEditBox']
 			FrameLevelEditBox = _G['LoseControlOptionsPanelraidFrameLevelEditBox']
 			AnchorPointDropDown = _G['LoseControlOptionsPanelraidAnchorPointDropDown']
 			AnchorIconPointDropDown = _G['LoseControlOptionsPanelraidAnchorIconPointDropDown']
 			AnchorFrameStrataDropDown = _G['LoseControlOptionsPanelraidAnchorFrameStrataDropDown']
+			AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanelraidAnchorPositionDropDownAnchorLabel']
 		end
 	elseif strfind((self.fakeUnitId or self.unitId), "nameplate") then
 		PositionXEditBox = _G['LoseControlOptionsPanelnameplatePositionXEditBox']
@@ -8747,6 +8828,9 @@ function LoseControl:StopMoving()
 		AnchorFrameStrataDropDown = _G['LoseControlOptionsPanel'..(self.fakeUnitId or self.unitId)..'AnchorFrameStrataDropDown']
 	end
 	if (PositionXEditBox and PositionYEditBox and FrameLevelEditBox) then
+		if (AnchorPositionDropDownAnchorLabel) then
+			AnchorPositionDropDownAnchorLabel:SetText("("..L["AnchorPositionDropDownAnchorLabel"]..(type(frame.anchor)=="string" and frame.anchor or ("["..type(frame.anchor).."]"))..")")
+		end
 		PositionXEditBox:SetText(mathfloor((frame.x or 0)+0.5))
 		PositionYEditBox:SetText(mathfloor((frame.y or 0)+0.5))
 		FrameLevelEditBox:SetText(mathfloor((frame.frameLevel or 0)+0.5))
@@ -8759,22 +8843,22 @@ function LoseControl:StopMoving()
 		FrameLevelEditBox:SetCursorPosition(0)
 	end
 	if (AnchorPointDropDown) then
-		UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
-		UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
+		LibDD:UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
 		if (frame.anchor ~= "Blizzard" or self.useCompactPartyFrames) then
-			UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
+			LibDD:UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
 		end
 	end
 	if (AnchorIconPointDropDown) then
-		UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
-		UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
+		LibDD:UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
 		if (frame.anchor ~= "Blizzard" or self.useCompactPartyFrames) then
-			UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
+			LibDD:UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
 		end
 	end
 	if (AnchorFrameStrataDropDown) then
-		UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
-		UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
+		LibDD:UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
 	end
 	if self.MasqueGroup then
 		self.MasqueGroup:ReSkin()
@@ -8989,13 +9073,13 @@ end
 -------------------------------------------------------------------------------
 -- DropDownMenu helper function
 local function AddItem(owner, text, value)
-	local info = UIDropDownMenu_CreateInfo()
+	local info = LibDD:UIDropDownMenu_CreateInfo()
 	info.owner = owner
 	info.func = owner.OnClick
 	info.text = text
 	info.value = value
 	info.checked = nil -- initially set the menu item to being unchecked
-	UIDropDownMenu_AddButton(info)
+	LibDD:UIDropDownMenu_AddButton(info)
 end
 
 -------------------------------------------------------------------------------
@@ -9071,11 +9155,14 @@ function Unlock:OnClick()
 				if frame.enabled and ((anchors[frame.anchor]~=nil and _G[anchors[frame.anchor][k]]) or ((anchors[frame.anchor]~=nil and type(anchors[frame.anchor][k])=="string") and _GF(anchors[frame.anchor][k]) or ((anchors[frame.anchor]~=nil and type(anchors[frame.anchor][k])=="table") and anchors[frame.anchor][k] or frame.anchor == "None"))) then -- only unlock frames whose anchor exists
 					v:RegisterUnitEvents(false)
 					v.textureicon = select(3, GetSpellInfo(keys[random(#keys)]))
+					v.textureicon = v.textureicon ~= 237567 and v.textureicon or 236295
 					if frame.anchor == "Blizzard" and not(v.useCompactPartyFrames) then
 						SetPortraitToTexture(v.texture, v.textureicon) -- Sets the texture to be displayed from a file applying a circular opacity mask making it look round like portraits
 						v:SetSwipeTexture("Interface\\CHARACTERFRAME\\TempPortraitAlphaMaskSmall")
 						v:SetSwipeColor(0, 0, 0, frame.swipeAlpha*0.75)
 						v.iconInterruptBackground:SetTexture("Interface\\AddOns\\LoseControl\\Textures\\lc_interrupt_background_portrait.blp")
+						local ulscale = v:GetAbsoluteScaleRelativeToUIParent()
+						v.parent:SetScale(ulscale)
 					else
 						v.texture:SetTexture(v.textureicon)
 						v:SetSwipeColor(0, 0, 0, frame.swipeAlpha)
@@ -9105,6 +9192,7 @@ function Unlock:OnClick()
 					v:RegisterForDrag("LeftButton")
 					v:EnableMouse(true)
 				else
+					v.parent:SetScale(1)
 					v:EnableMouse(false)
 					v:RegisterForDrag()
 					v:SetMovable(false)
@@ -9119,11 +9207,14 @@ function Unlock:OnClick()
 		if frame.enabled and ((anchors[frame.anchor]~=nil and _G[anchors[frame.anchor][LCframeplayer2.fakeUnitId or LCframeplayer2.unitId]]) or ((anchors[frame.anchor]~=nil and type(anchors[frame.anchor][LCframeplayer2.fakeUnitId or LCframeplayer2.unitId])=="string") and _GF(anchors[frame.anchor][LCframeplayer2.fakeUnitId or LCframeplayer2.unitId]) or ((anchors[frame.anchor]~=nil and type(anchors[frame.anchor][LCframeplayer2.fakeUnitId or LCframeplayer2.unitId])=="table") and anchors[frame.anchor][LCframeplayer2.fakeUnitId or LCframeplayer2.unitId] or frame.anchor == "None"))) then -- only unlock frames whose anchor exists
 			LCframeplayer2:RegisterUnitEvents(false)
 			LCframeplayer2.textureicon = select(3, GetSpellInfo(keys[random(#keys)]))
+			LCframeplayer2.textureicon = LCframeplayer2.textureicon ~= 237567 and LCframeplayer2.textureicon or 236295
 			if frame.anchor == "Blizzard" and not(LCframeplayer2.useCompactPartyFrames) then
 				SetPortraitToTexture(LCframeplayer2.texture, LCframeplayer2.textureicon) -- Sets the texture to be displayed from a file applying a circular opacity mask making it look round like portraits
 				LCframeplayer2:SetSwipeTexture("Interface\\CHARACTERFRAME\\TempPortraitAlphaMaskSmall")
 				LCframeplayer2:SetSwipeColor(0, 0, 0, frame.swipeAlpha*0.75)
 				LCframeplayer2.iconInterruptBackground:SetTexture("Interface\\AddOns\\LoseControl\\Textures\\lc_interrupt_background_portrait.blp")
+				local ulscale = LCframeplayer2:GetAbsoluteScaleRelativeToUIParent()
+				LCframeplayer2.parent:SetScale(ulscale)
 			else
 				LCframeplayer2.texture:SetTexture(LCframeplayer2.textureicon)
 				LCframeplayer2:SetSwipeColor(0, 0, 0, frame.swipeAlpha)
@@ -9145,6 +9236,7 @@ function Unlock:OnClick()
 			LCframeplayer2:SetCooldown( GetTime(), 30 )
 			LCframeplayer2:GetParent():SetAlpha(frame.alpha) -- hack to apply the alpha to the cooldown timer
 		else
+			LCframeplayer2.parent:SetScale(1)
 			LCframeplayer2.text:Hide()
 			LCframeplayer2:PLAYER_ENTERING_WORLD()
 		end
@@ -9153,6 +9245,7 @@ function Unlock:OnClick()
 		for k, v in pairs(LCframes) do
 			if not(strfind(k, "nameplate")) then
 				v.unlockMode = false
+				v.parent:SetScale(1)
 				v:EnableMouse(false)
 				v:RegisterForDrag()
 				v:SetMovable(false)
@@ -9161,6 +9254,7 @@ function Unlock:OnClick()
 			end
 		end
 		LCframeplayer2.unlockMode = false
+		LCframeplayer2.parent:SetScale(1)
 		LCframeplayer2.text:Hide()
 		LCframeplayer2:PLAYER_ENTERING_WORLD()
 	end
@@ -9373,9 +9467,9 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		["Other"] = CategoryEnabledOtherLabel
 	}
 
-	local AnchorDropDown = CreateFrame("Frame", O..v.."AnchorDropDown", OptionsPanelFrame.container, "UIDropDownMenuTemplate")
+	local AnchorDropDown = LibDD:Create_UIDropDownMenu(O..v.."AnchorDropDown", OptionsPanelFrame.container)
 	function AnchorDropDown:OnClick()
-		UIDropDownMenu_SetSelectedValue(AnchorDropDown, self.value)
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorDropDown, self.value)
 		local frames = { v }
 		if v == "party" then
 			frames = { "party1", "party2", "party3", "party4", "partyplayer" }
@@ -9402,12 +9496,12 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			icon.parent:SetParent(icon.anchor:GetParent() or UIParent or nil)
 			icon.defaultFrameStrata = icon:GetFrameStrata()
 			if frame.anchor ~= "None" then -- reset the frame position so it centers on the anchor frame
-				frame.point = (DBdefaults.frames[unitId] and frame.anchor == DBdefaults.frames[unitId].anchor and DBdefaults.frames[unitId].point) or nil
-				frame.relativePoint = (DBdefaults.frames[unitId] and frame.anchor == DBdefaults.frames[unitId].anchor and DBdefaults.frames[unitId].relativePoint) or nil
-				frame.frameStrata = (DBdefaults.frames[unitId] and frame.anchor == DBdefaults.frames[unitId].anchor and DBdefaults.frames[unitId].frameStrata) or nil
-				frame.frameLevel = (DBdefaults.frames[unitId] and frame.anchor == DBdefaults.frames[unitId].anchor and DBdefaults.frames[unitId].frameLevel) or 0
-				frame.x = (DBdefaults.frames[unitId] and frame.anchor == DBdefaults.frames[unitId].anchor and DBdefaults.frames[unitId].x) or nil
-				frame.y = (DBdefaults.frames[unitId] and frame.anchor == DBdefaults.frames[unitId].anchor and DBdefaults.frames[unitId].y) or nil
+				frame.point = (DBdefaults.frames[unitId] and (frame.anchor == DBdefaults.frames[unitId].anchor or v == "nameplate") and DBdefaults.frames[unitId].point) or nil
+				frame.relativePoint = (DBdefaults.frames[unitId] and (frame.anchor == DBdefaults.frames[unitId].anchor or v == "nameplate") and DBdefaults.frames[unitId].relativePoint) or nil
+				frame.frameStrata = (DBdefaults.frames[unitId] and (frame.anchor == DBdefaults.frames[unitId].anchor or v == "nameplate") and DBdefaults.frames[unitId].frameStrata) or nil
+				frame.frameLevel = (DBdefaults.frames[unitId] and (frame.anchor == DBdefaults.frames[unitId].anchor or v == "nameplate") and DBdefaults.frames[unitId].frameLevel) or 0
+				frame.x = (DBdefaults.frames[unitId] and (frame.anchor == DBdefaults.frames[unitId].anchor or v == "nameplate") and DBdefaults.frames[unitId].x) or nil
+				frame.y = (DBdefaults.frames[unitId] and (frame.anchor == DBdefaults.frames[unitId].anchor or v == "nameplate") and DBdefaults.frames[unitId].y) or nil
 			end
 			if frame.anchor == "Blizzard" and not(icon.useCompactPartyFrames) then
 				local portrSizeValue = 36
@@ -9477,33 +9571,36 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 				frame.x or 0,
 				frame.y or 0
 			)
-			local PositionXEditBox, PositionYEditBox, FrameLevelEditBox, AnchorPointDropDown, AnchorIconPointDropDown, AnchorFrameStrataDropDown
+			local PositionXEditBox, PositionYEditBox, FrameLevelEditBox, AnchorPointDropDown, AnchorIconPointDropDown, AnchorFrameStrataDropDown, AnchorPositionDropDownAnchorLabel
 			if v == "party" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown'])) then
 					PositionXEditBox = _G['LoseControlOptionsPanel'..v..'PositionXEditBox']
 					PositionYEditBox = _G['LoseControlOptionsPanel'..v..'PositionYEditBox']
 					FrameLevelEditBox = _G['LoseControlOptionsPanel'..v..'FrameLevelEditBox']
 					AnchorPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorPointDropDown']
 					AnchorIconPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorIconPointDropDown']
 					AnchorFrameStrataDropDown = _G['LoseControlOptionsPanel'..v..'AnchorFrameStrataDropDown']
+					AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanel'..v..'AnchorPositionDropDownAnchorLabel']
 				end
 			elseif v == "arena" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown'])) then
 					PositionXEditBox = _G['LoseControlOptionsPanel'..v..'PositionXEditBox']
 					PositionYEditBox = _G['LoseControlOptionsPanel'..v..'PositionYEditBox']
 					FrameLevelEditBox = _G['LoseControlOptionsPanel'..v..'FrameLevelEditBox']
 					AnchorPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorPointDropDown']
 					AnchorIconPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorIconPointDropDown']
 					AnchorFrameStrataDropDown = _G['LoseControlOptionsPanel'..v..'AnchorFrameStrataDropDown']
+					AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanel'..v..'AnchorPositionDropDownAnchorLabel']
 				end
 			elseif v == "raid" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown'])) then
 					PositionXEditBox = _G['LoseControlOptionsPanel'..v..'PositionXEditBox']
 					PositionYEditBox = _G['LoseControlOptionsPanel'..v..'PositionYEditBox']
 					FrameLevelEditBox = _G['LoseControlOptionsPanel'..v..'FrameLevelEditBox']
 					AnchorPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorPointDropDown']
 					AnchorIconPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorIconPointDropDown']
 					AnchorFrameStrataDropDown = _G['LoseControlOptionsPanel'..v..'AnchorFrameStrataDropDown']
+					AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanel'..v..'AnchorPositionDropDownAnchorLabel']
 				end
 			elseif v == "nameplate" then
 				PositionXEditBox = _G['LoseControlOptionsPanelnameplatePositionXEditBox']
@@ -9521,6 +9618,9 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 				AnchorFrameStrataDropDown = _G['LoseControlOptionsPanel'..v..'AnchorFrameStrataDropDown']
 			end
 			if (PositionXEditBox and PositionYEditBox and FrameLevelEditBox) then
+				if (AnchorPositionDropDownAnchorLabel) then
+					AnchorPositionDropDownAnchorLabel:SetText("("..L["AnchorPositionDropDownAnchorLabel"]..(type(frame.anchor)=="string" and frame.anchor or ("["..type(frame.anchor).."]"))..")")
+				end
 				PositionXEditBox:SetText(mathfloor((frame.x or 0)+0.5))
 				PositionYEditBox:SetText(mathfloor((frame.y or 0)+0.5))
 				FrameLevelEditBox:SetText(mathfloor((frame.frameLevel or 0)+0.5))
@@ -9539,29 +9639,29 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 				FrameLevelEditBox:ClearFocus()
 			end
 			if (AnchorPointDropDown) then
-				UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
+				LibDD:UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
 				if (frame.anchor ~= "Blizzard" or icon.useCompactPartyFrames) then
-					UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
+					LibDD:UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
 				else
-					UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
+					LibDD:UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
 				end
-				UIDropDownMenu_Initialize(AnchorDropDown, AnchorDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorDropDown, AnchorDropDown.initialize)
 			end
 			if (AnchorIconPointDropDown) then
-				UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
+				LibDD:UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
 				if (frame.anchor ~= "Blizzard" or icon.useCompactPartyFrames) then
-					UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
+					LibDD:UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
 				else
-					UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
+					LibDD:UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
 				end
-				UIDropDownMenu_Initialize(AnchorDropDown, AnchorDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorDropDown, AnchorDropDown.initialize)
 			end
 			if (AnchorFrameStrataDropDown) then
-				UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
-				UIDropDownMenu_Initialize(AnchorDropDown, AnchorDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
+				LibDD:UIDropDownMenu_Initialize(AnchorDropDown, AnchorDropDown.initialize)
 			end
 			if (frame.frameStrata ~= nil) then
 				icon:GetParent():SetFrameStrata(frame.frameStrata)
@@ -9588,9 +9688,9 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 
 	local AnchorDropDown2
 	if v == "player" then
-		AnchorDropDown2	= CreateFrame("Frame", O..v.."AnchorDropDown2", OptionsPanelFrame.container, "UIDropDownMenuTemplate")
+		AnchorDropDown2	= LibDD:Create_UIDropDownMenu(O..v.."AnchorDropDown2", OptionsPanelFrame.container)
 		function AnchorDropDown2:OnClick()
-			UIDropDownMenu_SetSelectedValue(AnchorDropDown2, self.value)
+			LibDD:UIDropDownMenu_SetSelectedValue(AnchorDropDown2, self.value)
 			local frame = LoseControlDB.frames.player2
 			local icon = LCframeplayer2
 			frame.anchor = self.value
@@ -9677,19 +9777,31 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		end
 	end
 
+	local AnchorPositionDropDownAnchorLabel
+	if v == "party" or v == "arena" or v == "raid" then
+		AnchorPositionDropDownAnchorLabel = OptionsPanelFrame.container:CreateFontString(O..v.."AnchorPositionDropDownAnchorLabel", "ARTWORK", "GameFontHighlightSmall")
+		AnchorPositionDropDownAnchorLabel:SetText("("..L["AnchorPositionDropDownAnchorLabel"]..")")
+		AnchorPositionDropDownAnchorLabel:SetJustifyH("LEFT")
+	end
+
 	local AnchorPositionPartyDropDown
 	if v == "party" then
-		AnchorPositionPartyDropDown	= CreateFrame("Frame", O..v.."AnchorPositionPartyDropDown", OptionsPanelFrame.container, "UIDropDownMenuTemplate")
+		AnchorPositionPartyDropDown = LibDD:Create_UIDropDownMenu(O..v.."AnchorPositionPartyDropDown", OptionsPanelFrame.container)
+
 		function AnchorPositionPartyDropDown:OnClick()
-			local value = self.value or UIDropDownMenu_GetSelectedValue(AnchorPositionPartyDropDown)
-			UIDropDownMenu_SetSelectedValue(AnchorPositionPartyDropDown, value)
+			local value = self.value or LibDD:UIDropDownMenu_GetSelectedValue(AnchorPositionPartyDropDown)
+			LibDD:UIDropDownMenu_SetSelectedValue(AnchorPositionPartyDropDown, value)
 			local unitId = value
 			local frame = LoseControlDB.frames[unitId]
 			local icon = LCframes[unitId]
 			local PositionXEditBox = _G['LoseControlOptionsPanel'..v..'PositionXEditBox']
 			local PositionYEditBox = _G['LoseControlOptionsPanel'..v..'PositionYEditBox']
 			local FrameLevelEditBox = _G['LoseControlOptionsPanel'..v..'FrameLevelEditBox']
+			local AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanel'..v..'AnchorPositionDropDownAnchorLabel']
 			if (PositionXEditBox and PositionYEditBox and FrameLevelEditBox) then
+				if (AnchorPositionDropDownAnchorLabel) then
+					AnchorPositionDropDownAnchorLabel:SetText("("..L["AnchorPositionDropDownAnchorLabel"]..(type(frame.anchor)=="string" and frame.anchor or ("["..type(frame.anchor).."]"))..")")
+				end
 				PositionXEditBox:SetText(mathfloor((frame.x or 0)+0.5))
 				PositionYEditBox:SetText(mathfloor((frame.y or 0)+0.5))
 				FrameLevelEditBox:SetText(mathfloor((frame.frameLevel or 0)+0.5))
@@ -9709,46 +9821,50 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			end
 			local AnchorPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorPointDropDown']
 			if (AnchorPointDropDown) then
-				UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
+				LibDD:UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
 				if (frame.anchor ~= "Blizzard" or icon.useCompactPartyFrames) then
-					UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
+					LibDD:UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
 				else
-					UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
+					LibDD:UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
 				end
-				UIDropDownMenu_Initialize(AnchorPositionPartyDropDown, AnchorPositionPartyDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorPositionPartyDropDown, AnchorPositionPartyDropDown.initialize)
 			end
 			local AnchorIconPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorIconPointDropDown']
 			if (AnchorIconPointDropDown) then
-				UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
+				LibDD:UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
 				if (frame.anchor ~= "Blizzard" or icon.useCompactPartyFrames) then
-					UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
+					LibDD:UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
 				else
-					UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
+					LibDD:UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
 				end
-				UIDropDownMenu_Initialize(AnchorPositionPartyDropDown, AnchorPositionPartyDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorPositionPartyDropDown, AnchorPositionPartyDropDown.initialize)
 			end
 			local AnchorFrameStrataDropDown = _G['LoseControlOptionsPanel'..v..'AnchorFrameStrataDropDown']
 			if (AnchorFrameStrataDropDown) then
-				UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
-				UIDropDownMenu_Initialize(AnchorPositionPartyDropDown, AnchorPositionPartyDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
+				LibDD:UIDropDownMenu_Initialize(AnchorPositionPartyDropDown, AnchorPositionPartyDropDown.initialize)
 			end
 		end
 	end
 
 	local AnchorPositionArenaDropDown
 	if v == "arena" then
-		AnchorPositionArenaDropDown	= CreateFrame("Frame", O..v.."AnchorPositionArenaDropDown", OptionsPanelFrame.container, "UIDropDownMenuTemplate")
+		AnchorPositionArenaDropDown	= LibDD:Create_UIDropDownMenu(O..v.."AnchorPositionArenaDropDown", OptionsPanelFrame.container)
 		function AnchorPositionArenaDropDown:OnClick()
-			UIDropDownMenu_SetSelectedValue(AnchorPositionArenaDropDown, self.value)
+			LibDD:UIDropDownMenu_SetSelectedValue(AnchorPositionArenaDropDown, self.value)
 			local unitId = self.value
 			local frame = LoseControlDB.frames[unitId]
 			local PositionXEditBox = _G['LoseControlOptionsPanel'..v..'PositionXEditBox']
 			local PositionYEditBox = _G['LoseControlOptionsPanel'..v..'PositionYEditBox']
 			local FrameLevelEditBox = _G['LoseControlOptionsPanel'..v..'FrameLevelEditBox']
+			local AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanel'..v..'AnchorPositionDropDownAnchorLabel']
 			if (PositionXEditBox and PositionYEditBox and FrameLevelEditBox) then
+				if (AnchorPositionDropDownAnchorLabel) then
+					AnchorPositionDropDownAnchorLabel:SetText("("..L["AnchorPositionDropDownAnchorLabel"]..(type(frame.anchor)=="string" and frame.anchor or ("["..type(frame.anchor).."]"))..")")
+				end
 				PositionXEditBox:SetText(mathfloor((frame.x or 0)+0.5))
 				PositionYEditBox:SetText(mathfloor((frame.y or 0)+0.5))
 				FrameLevelEditBox:SetText(mathfloor((frame.frameLevel or 0)+0.5))
@@ -9768,46 +9884,50 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			end
 			local AnchorPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorPointDropDown']
 			if (AnchorPointDropDown) then
-				UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
+				LibDD:UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
 				if (frame.anchor ~= "Blizzard") then
-					UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
+					LibDD:UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
 				else
-					UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
+					LibDD:UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
 				end
-				UIDropDownMenu_Initialize(AnchorPositionArenaDropDown, AnchorPositionArenaDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorPositionArenaDropDown, AnchorPositionArenaDropDown.initialize)
 			end
 			local AnchorIconPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorIconPointDropDown']
 			if (AnchorIconPointDropDown) then
-				UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
+				LibDD:UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
 				if (frame.anchor ~= "Blizzard") then
-					UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
+					LibDD:UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
 				else
-					UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
+					LibDD:UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
 				end
-				UIDropDownMenu_Initialize(AnchorPositionArenaDropDown, AnchorPositionArenaDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorPositionArenaDropDown, AnchorPositionArenaDropDown.initialize)
 			end
 			local AnchorFrameStrataDropDown = _G['LoseControlOptionsPanel'..v..'AnchorFrameStrataDropDown']
 			if (AnchorFrameStrataDropDown) then
-				UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
-				UIDropDownMenu_Initialize(AnchorPositionArenaDropDown, AnchorPositionArenaDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
+				LibDD:UIDropDownMenu_Initialize(AnchorPositionArenaDropDown, AnchorPositionArenaDropDown.initialize)
 			end
 		end
 	end
 
 	local AnchorPositionRaidDropDown
 	if v == "raid" then
-		AnchorPositionRaidDropDown = CreateFrame("Frame", O..v.."AnchorPositionRaidDropDown", OptionsPanelFrame.container, "UIDropDownMenuTemplate")
+		AnchorPositionRaidDropDown = LibDD:Create_UIDropDownMenu(O..v.."AnchorPositionRaidDropDown", OptionsPanelFrame.container)
 		function AnchorPositionRaidDropDown:OnClick()
-			UIDropDownMenu_SetSelectedValue(AnchorPositionRaidDropDown, self.value)
+			LibDD:UIDropDownMenu_SetSelectedValue(AnchorPositionRaidDropDown, self.value)
 			local unitId = self.value
 			local frame = LoseControlDB.frames[unitId]
 			local PositionXEditBox = _G['LoseControlOptionsPanel'..v..'PositionXEditBox']
 			local PositionYEditBox = _G['LoseControlOptionsPanel'..v..'PositionYEditBox']
 			local FrameLevelEditBox = _G['LoseControlOptionsPanel'..v..'FrameLevelEditBox']
+			local AnchorPositionDropDownAnchorLabel = _G['LoseControlOptionsPanel'..v..'AnchorPositionDropDownAnchorLabel']
 			if (PositionXEditBox and PositionYEditBox and FrameLevelEditBox) then
+				if (AnchorPositionDropDownAnchorLabel) then
+					AnchorPositionDropDownAnchorLabel:SetText("("..L["AnchorPositionDropDownAnchorLabel"]..(type(frame.anchor)=="string" and frame.anchor or ("["..type(frame.anchor).."]"))..")")
+				end
 				PositionXEditBox:SetText(mathfloor((frame.x or 0)+0.5))
 				PositionYEditBox:SetText(mathfloor((frame.y or 0)+0.5))
 				FrameLevelEditBox:SetText(mathfloor((frame.frameLevel or 0)+0.5))
@@ -9827,31 +9947,31 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			end
 			local AnchorPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorPointDropDown']
 			if (AnchorPointDropDown) then
-				UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
+				LibDD:UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
 				if (frame.anchor ~= "Blizzard") then
-					UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
+					LibDD:UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
 				else
-					UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
+					LibDD:UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
 				end
-				UIDropDownMenu_Initialize(AnchorPositionRaidDropDown, AnchorPositionRaidDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorPositionRaidDropDown, AnchorPositionRaidDropDown.initialize)
 			end
 			local AnchorIconPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorIconPointDropDown']
 			if (AnchorIconPointDropDown) then
-				UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
+				LibDD:UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
 				if (frame.anchor ~= "Blizzard") then
-					UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
+					LibDD:UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
 				else
-					UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
+					LibDD:UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
 				end
-				UIDropDownMenu_Initialize(AnchorPositionRaidDropDown, AnchorPositionRaidDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorPositionRaidDropDown, AnchorPositionRaidDropDown.initialize)
 			end
 			local AnchorFrameStrataDropDown = _G['LoseControlOptionsPanel'..v..'AnchorFrameStrataDropDown']
 			if (AnchorFrameStrataDropDown) then
-				UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
-				UIDropDownMenu_Initialize(AnchorPositionRaidDropDown, AnchorPositionRaidDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
+				LibDD:UIDropDownMenu_Initialize(AnchorPositionRaidDropDown, AnchorPositionRaidDropDown.initialize)
 			end
 		end
 	end
@@ -9862,11 +9982,11 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		local val = self:GetText()
 		local frames = { v }
 		if v == "party" then
-			frames = { UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown']) }
+			frames = { LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown']) }
 		elseif v == "arena" then
-			frames = { UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown']) }
+			frames = { LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown']) }
 		elseif v == "raid" then
-			frames = { UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown']) }
+			frames = { LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown']) }
 		elseif v == "nameplate" then
 			frames = { "nameplate1", "nameplate2", "nameplate3", "nameplate4", "nameplate5", "nameplate6", "nameplate7", "nameplate8", "nameplate9", "nameplate10", "nameplate11", "nameplate12", "nameplate13", "nameplate14", "nameplate15", "nameplate16", "nameplate17", "nameplate18", "nameplate19", "nameplate20", "nameplate21", "nameplate22", "nameplate23", "nameplate24", "nameplate25", "nameplate26", "nameplate27", "nameplate28", "nameplate29", "nameplate30", "nameplate31", "nameplate32", "nameplate33", "nameplate34", "nameplate35", "nameplate36", "nameplate37", "nameplate38", "nameplate39", "nameplate40" }
 		end
@@ -9910,11 +10030,11 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		local val = self:GetText()
 		local frames = { v }
 		if v == "party" then
-			frames = { UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown']) }
+			frames = { LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown']) }
 		elseif v == "arena" then
-			frames = { UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown']) }
+			frames = { LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown']) }
 		elseif v == "raid" then
-			frames = { UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown']) }
+			frames = { LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown']) }
 		elseif v == "nameplate" then
 			frames = { "nameplate1", "nameplate2", "nameplate3", "nameplate4", "nameplate5", "nameplate6", "nameplate7", "nameplate8", "nameplate9", "nameplate10", "nameplate11", "nameplate12", "nameplate13", "nameplate14", "nameplate15", "nameplate16", "nameplate17", "nameplate18", "nameplate19", "nameplate20", "nameplate21", "nameplate22", "nameplate23", "nameplate24", "nameplate25", "nameplate26", "nameplate27", "nameplate28", "nameplate29", "nameplate30", "nameplate31", "nameplate32", "nameplate33", "nameplate34", "nameplate35", "nameplate36", "nameplate37", "nameplate38", "nameplate39", "nameplate40" }
 		end
@@ -9952,9 +10072,9 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		self.labelObj:SetTextColor(NORMAL_FONT_COLOR:GetRGB())
 	end)
 
-	local AnchorPointDropDown = CreateFrame("Frame", O..v.."AnchorPointDropDown", OptionsPanelFrame.container, "UIDropDownMenuTemplate")
+	local AnchorPointDropDown = LibDD:Create_UIDropDownMenu(O..v.."AnchorPointDropDown", OptionsPanelFrame.container)
 	function AnchorPointDropDown:OnClick()
-		UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, self.value)
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, self.value)
 		local frames = { v }
 		if v == "party" then
 			frames = { "party1", "party2", "party3", "party4", "partyplayer" }
@@ -9969,17 +10089,17 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			local frame = LoseControlDB.frames[unitId]
 			local icon, AnchorIconPointDropDown
 			if v == "party" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown'])) then
 					icon = LCframes[unitId]
 					AnchorIconPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorIconPointDropDown']
 				end
 			elseif v == "arena" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown'])) then
 					icon = LCframes[unitId]
 					AnchorIconPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorIconPointDropDown']
 				end
 			elseif v == "raid" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown'])) then
 					icon = LCframes[unitId]
 					AnchorIconPointDropDown = _G['LoseControlOptionsPanel'..v..'AnchorIconPointDropDown']
 				end
@@ -10002,16 +10122,16 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 				)
 			end
 			if (AnchorIconPointDropDown and frame) then
-				UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
-				UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
+				LibDD:UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
+				LibDD:UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
 			end
 		end
 	end
 
-	local AnchorIconPointDropDown = CreateFrame("Frame", O..v.."AnchorIconPointDropDown", OptionsPanelFrame.container, "UIDropDownMenuTemplate")
+	local AnchorIconPointDropDown = LibDD:Create_UIDropDownMenu(O..v.."AnchorIconPointDropDown", OptionsPanelFrame.container)
 	function AnchorIconPointDropDown:OnClick()
-		UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, self.value)
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, self.value)
 		local frames = { v }
 		if v == "party" then
 			frames = { "party1", "party2", "party3", "party4", "partyplayer" }
@@ -10026,15 +10146,15 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			local frame = LoseControlDB.frames[unitId]
 			local icon
 			if v == "party" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown'])) then
 					icon = LCframes[unitId]
 				end
 			elseif v == "arena" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown'])) then
 					icon = LCframes[unitId]
 				end
 			elseif v == "raid" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown'])) then
 					icon = LCframes[unitId]
 				end
 			else
@@ -10054,9 +10174,9 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		end
 	end
 
-	local AnchorFrameStrataDropDown = CreateFrame("Frame", O..v.."AnchorFrameStrataDropDown", OptionsPanelFrame.container, "UIDropDownMenuTemplate")
+	local AnchorFrameStrataDropDown = LibDD:Create_UIDropDownMenu(O..v.."AnchorFrameStrataDropDown", OptionsPanelFrame.container)
 	function AnchorFrameStrataDropDown:OnClick()
-		UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, self.value)
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, self.value)
 		local frames = { v }
 		if v == "party" then
 			frames = { "party1", "party2", "party3", "party4", "partyplayer" }
@@ -10071,15 +10191,15 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			local frame = LoseControlDB.frames[unitId]
 			local icon
 			if v == "party" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown'])) then
 					icon = LCframes[unitId]
 				end
 			elseif v == "arena" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown'])) then
 					icon = LCframes[unitId]
 				end
 			elseif v == "raid" then
-				if (unitId == UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown'])) then
+				if (unitId == LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown'])) then
 					icon = LCframes[unitId]
 				end
 			else
@@ -10108,11 +10228,11 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		local val = self:GetText()
 		local frames = { v }
 		if v == "party" then
-			frames = { UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown']) }
+			frames = { LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionPartyDropDown']) }
 		elseif v == "arena" then
-			frames = { UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown']) }
+			frames = { LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionArenaDropDown']) }
 		elseif v == "raid" then
-			frames = { UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown']) }
+			frames = { LibDD:UIDropDownMenu_GetSelectedValue(_G['LoseControlOptionsPanel'..v..'AnchorPositionRaidDropDown']) }
 		elseif v == "nameplate" then
 			frames = { "nameplate1", "nameplate2", "nameplate3", "nameplate4", "nameplate5", "nameplate6", "nameplate7", "nameplate8", "nameplate9", "nameplate10", "nameplate11", "nameplate12", "nameplate13", "nameplate14", "nameplate15", "nameplate16", "nameplate17", "nameplate18", "nameplate19", "nameplate20", "nameplate21", "nameplate22", "nameplate23", "nameplate24", "nameplate25", "nameplate26", "nameplate27", "nameplate28", "nameplate29", "nameplate30", "nameplate31", "nameplate32", "nameplate33", "nameplate34", "nameplate35", "nameplate36", "nameplate37", "nameplate38", "nameplate39", "nameplate40" }
 		end
@@ -11137,9 +11257,9 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			end
 			if AnchorDropDown2 then
 				if enable then
-					UIDropDownMenu_EnableDropDown(AnchorDropDown2)
+					LibDD:UIDropDownMenu_EnableDropDown(AnchorDropDown2)
 				else
-					UIDropDownMenu_DisableDropDown(AnchorDropDown2)
+					LibDD:UIDropDownMenu_DisableDropDown(AnchorDropDown2)
 				end
 			end
 			if CategoriesCheckButtonsPlayer2 then
@@ -11161,8 +11281,8 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 				frame.anchor = "None"
 				local AnchorDropDown = _G['LoseControlOptionsPanel'..LCframes.player.unitId..'AnchorDropDown']
 				if (AnchorDropDown) then
-					UIDropDownMenu_Initialize(AnchorDropDown, AnchorDropDown.initialize)
-					UIDropDownMenu_SetSelectedValue(AnchorDropDown, frame.anchor)
+					LibDD:UIDropDownMenu_Initialize(AnchorDropDown, AnchorDropDown.initialize)
+					LibDD:UIDropDownMenu_SetSelectedValue(AnchorDropDown, frame.anchor)
 				end
 				LCframes.player.texture:SetTexture(LCframes.player.textureicon)
 				LCframes.player:SetSwipeColor(0, 0, 0, frame.swipeAlpha)
@@ -11217,24 +11337,24 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 				end
 				local AnchorPointDropDown = _G['LoseControlOptionsPanel'..LCframes.player.unitId..'AnchorPointDropDown']
 				if (AnchorPointDropDown) then
-					UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
-					UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, "CENTER")
+					LibDD:UIDropDownMenu_Initialize(AnchorPointDropDown, AnchorPointDropDown.initialize)
+					LibDD:UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, "CENTER")
 					if (frame.anchor ~= "Blizzard") then
-						UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
+						LibDD:UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
 					end
 				end
 				local AnchorIconPointDropDown = _G['LoseControlOptionsPanel'..LCframes.player.unitId..'AnchorIconPointDropDown']
 				if (AnchorIconPointDropDown) then
-					UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
-					UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, "CENTER")
+					LibDD:UIDropDownMenu_Initialize(AnchorIconPointDropDown, AnchorIconPointDropDown.initialize)
+					LibDD:UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, "CENTER")
 					if (frame.anchor ~= "Blizzard") then
-						UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
+						LibDD:UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
 					end
 				end
 				local AnchorFrameStrataDropDown = _G['LoseControlOptionsPanel'..LCframes.player.unitId..'AnchorFrameStrataDropDown']
 				if (AnchorFrameStrataDropDown) then
-					UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
-					UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, "AUTO")
+					LibDD:UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, AnchorFrameStrataDropDown.initialize)
+					LibDD:UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, "AUTO")
 				end
 				if (frame.frameStrata ~= nil) then
 					LCframes.player:GetParent():SetFrameStrata(frame.frameStrata)
@@ -11270,9 +11390,9 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			local enable = enabled and LCframes.partyplayer:GetEnabled()
 			LCframes.partyplayer.maxExpirationTime = 0
 			LCframes.partyplayer:RegisterUnitEvents(enable)
-			if ((AnchorPositionPartyDropDown ~= nil) and (UIDropDownMenu_GetSelectedValue(AnchorPositionPartyDropDown)==LCframes.partyplayer.fakeUnitId)) then
-				UIDropDownMenu_Initialize(AnchorPositionPartyDropDown, AnchorPositionPartyDropDown.initialize)
-				UIDropDownMenu_SetSelectedValue(AnchorPositionPartyDropDown, "party1")
+			if ((AnchorPositionPartyDropDown ~= nil) and (LibDD:UIDropDownMenu_GetSelectedValue(AnchorPositionPartyDropDown)==LCframes.partyplayer.fakeUnitId)) then
+				LibDD:UIDropDownMenu_Initialize(AnchorPositionPartyDropDown, AnchorPositionPartyDropDown.initialize)
+				LibDD:UIDropDownMenu_SetSelectedValue(AnchorPositionPartyDropDown, "party1")
 				AnchorPositionPartyDropDown:OnClick()
 			end
 			if enable and not LCframes.partyplayer.unlockMode then
@@ -11330,6 +11450,7 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		PositionEditBoxLabel:SetVertexColor(NORMAL_FONT_COLOR:GetRGB())
 		AdditionalOptionsLabel:SetVertexColor(NORMAL_FONT_COLOR:GetRGB())
 		InterruptBackgroundColorLabel:SetVertexColor(NORMAL_FONT_COLOR:GetRGB())
+		if AnchorPositionDropDownAnchorLabel then AnchorPositionDropDownAnchorLabel:SetVertexColor(WHITE_FONT_COLOR:GetRGB()) end
 		BlizzardOptionsPanel_Slider_Enable(SizeSlider)
 		BlizzardOptionsPanel_Slider_Enable(AlphaSlider)
 		BlizzardOptionsPanel_Slider_Enable(AlphaSliderBackgroundInterrupt)
@@ -11344,7 +11465,7 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		AlphaSliderBackgroundInterrupt.editbox:Enable()
 		AlphaSliderInterruptMiniIcons.editbox:Enable()
 		AlphaSliderSwipeCooldown.editbox:Enable()
-		UIDropDownMenu_EnableDropDown(AnchorDropDown)
+		LibDD:UIDropDownMenu_EnableDropDown(AnchorDropDown)
 		if LoseControlDB.duplicatePlayerPortrait then
 			if AlphaSlider2 then
 				BlizzardOptionsPanel_Slider_Enable(AlphaSlider2)
@@ -11354,7 +11475,7 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 				BlizzardOptionsPanel_Slider_Enable(SizeSlider2)
 				if SizeSlider2.editbox then SizeSlider2.editbox:Enable() end
 			end
-			if AnchorDropDown2 then UIDropDownMenu_EnableDropDown(AnchorDropDown2) end
+			if AnchorDropDown2 then LibDD:UIDropDownMenu_EnableDropDown(AnchorDropDown2) end
 		else
 			if AlphaSlider2 then
 				BlizzardOptionsPanel_Slider_Disable(AlphaSlider2)
@@ -11364,11 +11485,11 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 				BlizzardOptionsPanel_Slider_Disable(SizeSlider2)
 				if SizeSlider2.editbox then SizeSlider2.editbox:Disable() end
 			end
-			if AnchorDropDown2 then UIDropDownMenu_DisableDropDown(AnchorDropDown2) end
+			if AnchorDropDown2 then LibDD:UIDropDownMenu_DisableDropDown(AnchorDropDown2) end
 		end
-		if AnchorPositionPartyDropDown then UIDropDownMenu_EnableDropDown(AnchorPositionPartyDropDown) end
-		if AnchorPositionArenaDropDown then UIDropDownMenu_EnableDropDown(AnchorPositionArenaDropDown) end
-		if AnchorPositionRaidDropDown then UIDropDownMenu_EnableDropDown(AnchorPositionRaidDropDown) end
+		if AnchorPositionPartyDropDown then LibDD:UIDropDownMenu_EnableDropDown(AnchorPositionPartyDropDown) end
+		if AnchorPositionArenaDropDown then LibDD:UIDropDownMenu_EnableDropDown(AnchorPositionArenaDropDown) end
+		if AnchorPositionRaidDropDown then LibDD:UIDropDownMenu_EnableDropDown(AnchorPositionRaidDropDown) end
 		if (PositionXEditBox and PositionYEditBox and FrameLevelEditBox) then
 			if (frame.anchor ~= "Blizzard" or icon.useCompactPartyFrames) then
 				PositionXEditBox:Enable()
@@ -11381,19 +11502,19 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		end
 		if (AnchorPointDropDown) then
 			if (frame.anchor ~= "Blizzard" or icon.useCompactPartyFrames) then
-				UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
+				LibDD:UIDropDownMenu_EnableDropDown(AnchorPointDropDown)
 			else
-				UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
+				LibDD:UIDropDownMenu_DisableDropDown(AnchorPointDropDown)
 			end
 		end
 		if (AnchorIconPointDropDown) then
 			if (frame.anchor ~= "Blizzard" or icon.useCompactPartyFrames) then
-				UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
+				LibDD:UIDropDownMenu_EnableDropDown(AnchorIconPointDropDown)
 			else
-				UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
+				LibDD:UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown)
 			end
 		end
-		if AnchorFrameStrataDropDown then UIDropDownMenu_EnableDropDown(AnchorFrameStrataDropDown) end
+		if AnchorFrameStrataDropDown then LibDD:UIDropDownMenu_EnableDropDown(AnchorFrameStrataDropDown) end
 	end
 
 	local function DisableInterfaceFrames()
@@ -11434,6 +11555,7 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		PositionEditBoxLabel:SetVertexColor(GRAY_FONT_COLOR:GetRGB())
 		AdditionalOptionsLabel:SetVertexColor(GRAY_FONT_COLOR:GetRGB())
 		InterruptBackgroundColorLabel:SetVertexColor(GRAY_FONT_COLOR:GetRGB())
+		if AnchorPositionDropDownAnchorLabel then AnchorPositionDropDownAnchorLabel:SetVertexColor(GRAY_FONT_COLOR:GetRGB()) end
 		BlizzardOptionsPanel_Slider_Disable(SizeSlider)
 		BlizzardOptionsPanel_Slider_Disable(AlphaSlider)
 		BlizzardOptionsPanel_Slider_Disable(AlphaSliderBackgroundInterrupt)
@@ -11449,7 +11571,7 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		AlphaSliderBackgroundInterrupt.editbox:Disable()
 		AlphaSliderInterruptMiniIcons.editbox:Disable()
 		AlphaSliderSwipeCooldown.editbox:Disable()
-		UIDropDownMenu_DisableDropDown(AnchorDropDown)
+		LibDD:UIDropDownMenu_DisableDropDown(AnchorDropDown)
 		if AlphaSlider2 then
 			BlizzardOptionsPanel_Slider_Disable(AlphaSlider2)
 			if AlphaSlider2.editbox then AlphaSlider2.editbox:Disable() end
@@ -11458,10 +11580,10 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			BlizzardOptionsPanel_Slider_Disable(SizeSlider2)
 			if SizeSlider2.editbox then SizeSlider2.editbox:Disable() end
 		end
-		if AnchorDropDown2 then UIDropDownMenu_DisableDropDown(AnchorDropDown2) end
-		if AnchorPositionPartyDropDown then UIDropDownMenu_DisableDropDown(AnchorPositionPartyDropDown) end
-		if AnchorPositionArenaDropDown then UIDropDownMenu_DisableDropDown(AnchorPositionArenaDropDown) end
-		if AnchorPositionRaidDropDown then UIDropDownMenu_DisableDropDown(AnchorPositionRaidDropDown) end
+		if AnchorDropDown2 then LibDD:UIDropDownMenu_DisableDropDown(AnchorDropDown2) end
+		if AnchorPositionPartyDropDown then LibDD:UIDropDownMenu_DisableDropDown(AnchorPositionPartyDropDown) end
+		if AnchorPositionArenaDropDown then LibDD:UIDropDownMenu_DisableDropDown(AnchorPositionArenaDropDown) end
+		if AnchorPositionRaidDropDown then LibDD:UIDropDownMenu_DisableDropDown(AnchorPositionRaidDropDown) end
 		if PositionXEditBox then
 			PositionXEditBox:Disable()
 		end
@@ -11471,9 +11593,9 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		if FrameLevelEditBox then
 			FrameLevelEditBox:Disable()
 		end
-		if AnchorPointDropDown then UIDropDownMenu_DisableDropDown(AnchorPointDropDown) end
-		if AnchorIconPointDropDown then UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown) end
-		if AnchorFrameStrataDropDown then UIDropDownMenu_DisableDropDown(AnchorFrameStrataDropDown) end
+		if AnchorPointDropDown then LibDD:UIDropDownMenu_DisableDropDown(AnchorPointDropDown) end
+		if AnchorIconPointDropDown then LibDD:UIDropDownMenu_DisableDropDown(AnchorIconPointDropDown) end
+		if AnchorFrameStrataDropDown then LibDD:UIDropDownMenu_DisableDropDown(AnchorFrameStrataDropDown) end
 	end
 
 	local Enabled = CreateFrame("CheckButton", O..v.."Enabled", OptionsPanelFrame.container, "OptionsCheckButtonTemplate")
@@ -11483,11 +11605,11 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		if enabled then
 			local unitIdSel = v
 			if (v == "party") then
-				unitIdSel = (AnchorPositionPartyDropDown ~= nil) and UIDropDownMenu_GetSelectedValue(AnchorPositionPartyDropDown) or "party1"
+				unitIdSel = (AnchorPositionPartyDropDown ~= nil) and LibDD:UIDropDownMenu_GetSelectedValue(AnchorPositionPartyDropDown) or "party1"
 			elseif (v == "arena") then
-				unitIdSel = (AnchorPositionArenaDropDown ~= nil) and UIDropDownMenu_GetSelectedValue(AnchorPositionArenaDropDown) or "arena1"
+				unitIdSel = (AnchorPositionArenaDropDown ~= nil) and LibDD:UIDropDownMenu_GetSelectedValue(AnchorPositionArenaDropDown) or "arena1"
 			elseif (v == "raid") then
-				unitIdSel = (AnchorPositionRaidDropDown ~= nil) and UIDropDownMenu_GetSelectedValue(AnchorPositionRaidDropDown) or "raid1"
+				unitIdSel = (AnchorPositionRaidDropDown ~= nil) and LibDD:UIDropDownMenu_GetSelectedValue(AnchorPositionRaidDropDown) or "raid1"
 			elseif (v == "nameplate") then
 				unitIdSel = "nameplate1"
 			end
@@ -11557,6 +11679,15 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 	PositionXEditBox:SetPoint("TOPLEFT", PositionEditBoxLabel, "BOTTOMLEFT", 27, -3)
 	PositionYEditBoxLabel:SetPoint("TOPLEFT", PositionEditBoxLabel, "BOTTOMLEFT", 90, -9)
 	PositionYEditBox:SetPoint("TOPLEFT", PositionEditBoxLabel, "BOTTOMLEFT", 107, -3)
+	if AnchorPositionDropDownAnchorLabel then
+		if (v == "party" and AnchorPositionPartyDropDown) then
+			AnchorPositionDropDownAnchorLabel:SetPoint("LEFT", AnchorPositionPartyDropDown, "RIGHT", 113, 3)
+		elseif (v == "arena" and AnchorPositionArenaDropDown) then
+			AnchorPositionDropDownAnchorLabel:SetPoint("LEFT", AnchorPositionArenaDropDown, "RIGHT", 113, 3)
+		elseif (v == "raid" and AnchorPositionRaidDropDown) then
+			AnchorPositionDropDownAnchorLabel:SetPoint("LEFT", AnchorPositionRaidDropDown, "RIGHT", 113, 3)
+		end
+	end
 	if AnchorPositionPartyDropDown then AnchorPositionPartyDropDown:SetPoint("RIGHT", PositionYEditBox, "RIGHT", 30, 0) end
 	if AnchorPositionArenaDropDown then AnchorPositionArenaDropDown:SetPoint("RIGHT", PositionYEditBox, "RIGHT", 30, 0) end
 	if AnchorPositionRaidDropDown then AnchorPositionRaidDropDown:SetPoint("RIGHT", PositionYEditBox, "RIGHT", 30, 0) end
@@ -11696,6 +11827,9 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 		AlphaSliderSwipeCooldown.editbox:SetCursorPosition(0)
 		ColorPickerBackgroundInterrupt.texture:UpdateColor(frame)
 		if (PositionXEditBox and PositionYEditBox and FrameLevelEditBox) then
+			if (AnchorPositionDropDownAnchorLabel) then
+				AnchorPositionDropDownAnchorLabel:SetText("("..L["AnchorPositionDropDownAnchorLabel"]..(type(frame.anchor)=="string" and frame.anchor or ("["..type(frame.anchor).."]"))..")")
+			end
 			PositionXEditBox:SetText(mathfloor((frame.x or 0)+0.5))
 			PositionYEditBox:SetText(mathfloor((frame.y or 0)+0.5))
 			FrameLevelEditBox:SetText(mathfloor((frame.frameLevel or 0)+0.5))
@@ -11706,12 +11840,13 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			PositionYEditBox:ClearFocus()
 			FrameLevelEditBox:ClearFocus()
 		end
-		UIDropDownMenu_Initialize(AnchorDropDown, function() -- called on refresh and also every time the drop down menu is opened
+		LibDD:UIDropDownMenu_Initialize(AnchorDropDown, function() -- called on refresh and also every time the drop down menu is opened
 			if strfind(unitId, "raid") then
 				AddItem(AnchorDropDown, L["None"], "None")
 				AddItem(AnchorDropDown, "Blizzard", "BlizzardRaidFrames")
 			elseif strfind(unitId, "nameplate") then
-				AddItem(AnchorDropDown, "Blizzard", "BlizzardNameplates")
+				AddItem(AnchorDropDown, "BlizzardNP", "BlizzardNameplates")
+				AddItem(AnchorDropDown, "BlizzardNP_UF", "BlizzardNameplatesUnitFrame")
 			else
 				AddItem(AnchorDropDown, L["None"], "None")
 				AddItem(AnchorDropDown, "Blizzard", "Blizzard")
@@ -11785,9 +11920,9 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			if _G[anchors["GladiusEx"][unitId]] or (type(anchors["GladiusEx"][unitId])=="table" and anchors["GladiusEx"][unitId]) or (type(anchors["GladiusEx"][unitId])=="string" and _GF(anchors["GladiusEx"][unitId])) then AddItem(AnchorDropDown, "GladiusEx", "GladiusEx") end
 			if _G[anchors["SyncFrames"][unitId]] or (type(anchors["SyncFrames"][unitId])=="table" and anchors["SyncFrames"][unitId]) or (type(anchors["SyncFrames"][unitId])=="string" and _GF(anchors["SyncFrames"][unitId])) then AddItem(AnchorDropDown, "SyncFrames", "SyncFrames") end
 		end)
-		UIDropDownMenu_SetSelectedValue(AnchorDropDown, frame.anchor)
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorDropDown, frame.anchor)
 		if AnchorDropDown2 then
-			UIDropDownMenu_Initialize(AnchorDropDown2, function() -- called on refresh and also every time the drop down menu is opened
+			LibDD:UIDropDownMenu_Initialize(AnchorDropDown2, function() -- called on refresh and also every time the drop down menu is opened
 				AddItem(AnchorDropDown2, "Blizzard", "Blizzard")
 				if _G[anchors["Perl"][unitId]] or (type(anchors["Perl"][unitId])=="table" and anchors["Perl"][unitId]) or (type(anchors["Perl"][unitId])=="string" and _GF(anchors["Perl"][unitId])) then AddItem(AnchorDropDown2, "Perl", "Perl") end
 				if _G[anchors["Perl_CF"][unitId]] or (type(anchors["Perl_CF"][unitId])=="table" and anchors["Perl_CF"][unitId]) or (type(anchors["Perl_CF"][unitId])=="string" and _GF(anchors["Perl_CF"][unitId])) then AddItem(AnchorDropDown2, "Perl_CF", "Perl_CF") end
@@ -11855,37 +11990,37 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 				if _G[anchors["ElvUI_CF_PlayerInParty"][unitId]] or (type(anchors["ElvUI_CF_PlayerInParty"][unitId])=="table" and anchors["ElvUI_CF_PlayerInParty"][unitId]) or (type(anchors["ElvUI_CF_PlayerInParty"][unitId])=="string" and _GF(anchors["ElvUI_CF_PlayerInParty"][unitId])) then AddItem(AnchorDropDown2, "ElvUI_CF_PlayerInParty", "ElvUI_CF_PlayerInParty") end
 				if _G[anchors["ElvUI_CF_NoPlayerInParty"][unitId]] or (type(anchors["ElvUI_CF_NoPlayerInParty"][unitId])=="table" and anchors["ElvUI_CF_NoPlayerInParty"][unitId]) or (type(anchors["ElvUI_CF_NoPlayerInParty"][unitId])=="string" and _GF(anchors["ElvUI_CF_NoPlayerInParty"][unitId])) then AddItem(AnchorDropDown2, "ElvUI_CF_NoPlayerInParty", "ElvUI_CF_NoPlayerInParty") end
 			end)
-			UIDropDownMenu_SetSelectedValue(AnchorDropDown2, LoseControlDB.frames.player2.anchor)
+			LibDD:UIDropDownMenu_SetSelectedValue(AnchorDropDown2, LoseControlDB.frames.player2.anchor)
 		end
 		if AnchorPositionPartyDropDown then
-			UIDropDownMenu_Initialize(AnchorPositionPartyDropDown, function() -- called on refresh and also every time the drop down menu is opened
+			LibDD:UIDropDownMenu_Initialize(AnchorPositionPartyDropDown, function() -- called on refresh and also every time the drop down menu is opened
 				AddItem(AnchorPositionPartyDropDown, "party1", "party1")
 				AddItem(AnchorPositionPartyDropDown, "party2", "party2")
 				AddItem(AnchorPositionPartyDropDown, "party3", "party3")
 				AddItem(AnchorPositionPartyDropDown, "party4", "party4")
 				if (LoseControlDB.frames.partyplayer.enabled) then AddItem(AnchorPositionPartyDropDown, "partyplayer", "partyplayer") end
 			end)
-			UIDropDownMenu_SetSelectedValue(AnchorPositionPartyDropDown, "party1")
+			LibDD:UIDropDownMenu_SetSelectedValue(AnchorPositionPartyDropDown, "party1")
 		end
 		if AnchorPositionArenaDropDown then
-			UIDropDownMenu_Initialize(AnchorPositionArenaDropDown, function() -- called on refresh and also every time the drop down menu is opened
+			LibDD:UIDropDownMenu_Initialize(AnchorPositionArenaDropDown, function() -- called on refresh and also every time the drop down menu is opened
 				AddItem(AnchorPositionArenaDropDown, "arena1", "arena1")
 				AddItem(AnchorPositionArenaDropDown, "arena2", "arena2")
 				AddItem(AnchorPositionArenaDropDown, "arena3", "arena3")
 				AddItem(AnchorPositionArenaDropDown, "arena4", "arena4")
 				AddItem(AnchorPositionArenaDropDown, "arena5", "arena5")
 			end)
-			UIDropDownMenu_SetSelectedValue(AnchorPositionArenaDropDown, "arena1")
+			LibDD:UIDropDownMenu_SetSelectedValue(AnchorPositionArenaDropDown, "arena1")
 		end
 		if AnchorPositionRaidDropDown then
-			UIDropDownMenu_Initialize(AnchorPositionRaidDropDown, function() -- called on refresh and also every time the drop down menu is opened
+			LibDD:UIDropDownMenu_Initialize(AnchorPositionRaidDropDown, function() -- called on refresh and also every time the drop down menu is opened
 				for i = 1, 40 do
 					AddItem(AnchorPositionRaidDropDown, "raid"..i, "raid"..i)
 				end
 			end)
-			UIDropDownMenu_SetSelectedValue(AnchorPositionRaidDropDown, "raid1")
+			LibDD:UIDropDownMenu_SetSelectedValue(AnchorPositionRaidDropDown, "raid1")
 		end
-		UIDropDownMenu_Initialize(AnchorPointDropDown, function() -- called on refresh and also every time the drop down menu is opened
+		LibDD:UIDropDownMenu_Initialize(AnchorPointDropDown, function() -- called on refresh and also every time the drop down menu is opened
 			AddItem(AnchorPointDropDown, "TOP", "TOP")
 			AddItem(AnchorPointDropDown, "TOPLEFT", "TOPLEFT")
 			AddItem(AnchorPointDropDown, "TOPRIGHT", "TOPRIGHT")
@@ -11896,8 +12031,8 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			AddItem(AnchorPointDropDown, "BOTTOMLEFT", "BOTTOMLEFT")
 			AddItem(AnchorPointDropDown, "BOTTOMRIGHT", "BOTTOMRIGHT")
 		end)
-		UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
-		UIDropDownMenu_Initialize(AnchorIconPointDropDown, function() -- called on refresh and also every time the drop down menu is opened
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorPointDropDown, frame.relativePoint or "CENTER")
+		LibDD:UIDropDownMenu_Initialize(AnchorIconPointDropDown, function() -- called on refresh and also every time the drop down menu is opened
 			AddItem(AnchorIconPointDropDown, "TOP", "TOP")
 			AddItem(AnchorIconPointDropDown, "TOPLEFT", "TOPLEFT")
 			AddItem(AnchorIconPointDropDown, "TOPRIGHT", "TOPRIGHT")
@@ -11908,8 +12043,8 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			AddItem(AnchorIconPointDropDown, "BOTTOMLEFT", "BOTTOMLEFT")
 			AddItem(AnchorIconPointDropDown, "BOTTOMRIGHT", "BOTTOMRIGHT")
 		end)
-		UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
-		UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, function() -- called on refresh and also every time the drop down menu is opened
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorIconPointDropDown, frame.point or "CENTER")
+		LibDD:UIDropDownMenu_Initialize(AnchorFrameStrataDropDown, function() -- called on refresh and also every time the drop down menu is opened
 			AddItem(AnchorFrameStrataDropDown, "AUTO", "AUTO")
 			AddItem(AnchorFrameStrataDropDown, "BACKGROUND", "BACKGROUND")
 			AddItem(AnchorFrameStrataDropDown, "LOW", "LOW")
@@ -11920,8 +12055,8 @@ for _, v in ipairs({ "player", "pet", "target", "targettarget", "focus", "focust
 			AddItem(AnchorFrameStrataDropDown, "FULLSCREEN_DIALOG", "FULLSCREEN_DIALOG")
 			AddItem(AnchorFrameStrataDropDown, "TOOLTIP", "TOOLTIP")
 		end)
-		UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
-		UIDropDownMenu_SetWidth(AnchorFrameStrataDropDown, 140)
+		LibDD:UIDropDownMenu_SetSelectedValue(AnchorFrameStrataDropDown, frame.frameStrata or "AUTO")
+		LibDD:UIDropDownMenu_SetWidth(AnchorFrameStrataDropDown, 140)
 	end
 
 	InterfaceOptions_AddCategory(OptionsPanelFrame)

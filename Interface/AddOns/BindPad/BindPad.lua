@@ -1517,15 +1517,10 @@ function BindPadCore.GetSpecTexture(specIndex)
 end
 
 function BindPadCore.SetTriggerOnKeydown()
-    if GetCVarBool("ActionButtonUseKeyDown") then
-        -- Triggered on pressing a key instead of releasing.
-        BindPadMacro:RegisterForClicks("AnyDown");
-        BindPadKey:RegisterForClicks("AnyDown");
-    else
-        -- Triggered on releasing a key.
-        BindPadMacro:RegisterForClicks("AnyUp");
-        BindPadKey:RegisterForClicks("AnyUp");
-    end
+
+	BindPadMacro:RegisterForClicks("AnyUp", "AnyDown");
+    BindPadKey:RegisterForClicks("AnyUp", "AnyDown");
+
 end
 
 function BindPadCore.DoList(arg)
