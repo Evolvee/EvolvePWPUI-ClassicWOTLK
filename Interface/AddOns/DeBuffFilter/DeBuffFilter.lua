@@ -114,12 +114,29 @@ local function Filterino(frame)
     local rowWidth = 0;
     local offsetX, offsetY = 3, AURA_OFFSET_Y
     local lastBuffIndex = 1
-    local Buffpoint, BuffrelativePoint;
-    local anchorFrame, Buffx, Buffy;
+    local anchorFrame
     local numBuffs, numDebuffs = 0, 0
+    local point, relativePoint;
+    local startY, auraOffsetY;
 
     frame.auraRows = 0
     frame.spellbarAnchor = nil
+
+    if frame.buffsOnTop then
+        point = "BOTTOM";
+        relativePoint = "TOP";
+        startY = -15;
+        if ( frame.threatNumericIndicator:IsShown() ) then
+            startY = startY + frame.threatNumericIndicator:GetHeight();
+        end
+        offsetY = -offsetY;
+        auraOffsetY = -AURA_OFFSET_Y;
+    else
+        point = "TOP";
+        relativePoint="BOTTOM";
+        startY = AURA_START_Y;
+        auraOffsetY = AURA_OFFSET_Y;
+    end
 
     for i = 1, MAX_TARGET_DEBUFFS do
         local debuffName = UnitDebuff(frame.unit, i, "HARMFUL")
@@ -140,57 +157,47 @@ local function Filterino(frame)
                     offsetY = ShouldAuraBeLarge(caster) and (AURA_OFFSET_Y + AURA_OFFSET_Y) or AURA_OFFSET_Y
 
                     if i == 1 or anchorFrame == nil then
-                        Buffpoint = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
-                        BuffrelativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
-                        if isFriend or numDebuffs == 0 then
+                        if isFriend or (numDebuffs == 0) then
                             anchorFrame = frame;
-                            Buffx = AURA_START_X;
-                            Buffy = frame.buffsOnTop and -15 or AURA_START_Y;
+                            buffFrame:ClearAllPoints()
+                            buffFrame:SetPoint(point.."LEFT", frame, relativePoint.."LEFT", AURA_START_X, startY);
                         else
                             anchorFrame = frame.debuffs;
-                            Buffx = 0;
-                            Buffy = frame.buffsOnTop and offsetY or -offsetY;
+                            buffFrame:ClearAllPoints()
+                            buffFrame:SetPoint(point.."LEFT", frame.debuffs, relativePoint.."LEFT", 0, -offsetY);
                         end
-                        if frame.buffs ~= buffFrame then
-                            frame.buffs:SetPoint(Buffpoint, buffFrame, Buffpoint, 0, 0);
-                            local yx = frame.buffsOnTop and -AURA_OFFSET_Y or AURA_OFFSET_Y
-                            frame.buffs:SetPoint(BuffrelativePoint, buffFrame, BuffrelativePoint, 0, -yx);
-                        end
+                        frame.buffs:ClearAllPoints()
+                        frame.buffs:SetPoint(point.."LEFT", buffFrame, point.."LEFT", 0, 0);
+                        frame.buffs:SetPoint(relativePoint.."LEFT", buffFrame, relativePoint.."LEFT", 0, -auraOffsetY);
                         lastBuffIndex = i;
                         frame.spellbarAnchor = buffFrame
                         rowWidth = buffSize
                         frame.auraRows = frame.auraRows + 1;
                     else
                         rowWidth = rowWidth + buffSize + offsetX
-                        BuffrelativePoint = frame.buffsOnTop and "BOTTOMRIGHT" or "TOPRIGHT";
-                        Buffx = offsetX;
-                        Buffy = 0;
+                        if anchorFrame ~= buffFrame then
+                            buffFrame:ClearAllPoints()
+                            buffFrame:SetPoint(point.."LEFT", anchorFrame, point.."RIGHT", offsetX, 0);
+                        end
                     end
 
                     if rowWidth > maxRows(frame, maxRowWidth, frame.buffsOnTop) then
                         rowWidth = buffSize
-                        Buffpoint = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
                         anchorFrame = _G[selfName .. "Buff" .. lastBuffIndex];
-                        BuffrelativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
-                        Buffx = 0;
-                        Buffy = frame.buffsOnTop and offsetY or -offsetY;
+                        buffFrame:ClearAllPoints()
+                        buffFrame:SetPoint(point.."LEFT", _G[selfName .. "Buff" .. lastBuffIndex], relativePoint.."LEFT", 0, -offsetY);
+                        frame.buffs:ClearAllPoints()
+                        frame.buffs:SetPoint(relativePoint.."LEFT", buffFrame, relativePoint.."LEFT", 0, -auraOffsetY);
                         frame.auraRows = frame.auraRows + 1;
                         lastBuffIndex = i;
-                        if frame.buffs ~= buffFrame then
-                            frame.buffs:SetPoint(BuffrelativePoint, buffFrame, BuffrelativePoint, 0, -AURA_OFFSET_Y);
-                        end
                         frame.spellbarAnchor = buffFrame
                     end
 
-                    if buffFrame ~= anchorFrame then
-                        buffFrame:ClearAllPoints()
-                        buffFrame:SetPoint(Buffpoint, anchorFrame, BuffrelativePoint, Buffx, Buffy);
-                        buffFrame:SetAlpha(1)
-                        anchorFrame = buffFrame;
-                        numBuffs = numBuffs + 1
-                        buffFrame:SetWidth(buffSize)
-                        buffFrame:SetHeight(buffSize)
-                    end
+                    buffFrame:SetAlpha(1)
+                    anchorFrame = buffFrame;
+                    numBuffs = numBuffs + 1
+                    buffFrame:SetWidth(buffSize)
+                    buffFrame:SetHeight(buffSize)
                 else
                     buffFrame:SetAlpha(0)
                 end
@@ -199,9 +206,6 @@ local function Filterino(frame)
     end
 
     local DfFrame, drowWidth = nil, 0
-    local offsetX, offsetY = 3, AURA_OFFSET_Y
-    local dbfx, dbfy = nil, nil
-    local dbfpoint, dbfrelativePoint
     local lastDebuffIndex = 1
 
     for i = 1, MAX_TARGET_DEBUFFS do
@@ -213,22 +217,19 @@ local function Filterino(frame)
                 offsetY = ShouldAuraBeLarge(caster) and (AURA_OFFSET_Y + AURA_OFFSET_Y) or AURA_OFFSET_Y
 
                 if i == 1 or DfFrame == nil then
-                    if isFriend and (numBuffs > 0) then
+                    if (isFriend and numBuffs > 0) then
                         DfFrame = frame.buffs;
-                        dbfx = 0
-                        dbfy = frame.buffsOnTop and offsetY or -offsetY;
+                        dbf:ClearAllPoints()
+                        dbf:SetPoint(point.."LEFT", frame.buffs, relativePoint.."LEFT", 0, -offsetY);
                     else
                         DfFrame = frame;
-                        dbfx = AURA_START_X;
-                        dbfy = AURA_START_Y;
+                        dbf:ClearAllPoints()
+                        dbf:SetPoint(point.."LEFT", frame, relativePoint.."LEFT", AURA_START_X, startY);
                     end
-                    dbfpoint = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
-                    dbfrelativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
                     lastDebuffIndex = i;
-                    if frame.debuffs ~= dbf then
-                        frame.debuffs:SetPoint(dbfpoint, dbf, dbfpoint, 0, 0);
-                        frame.debuffs:SetPoint(dbfrelativePoint, dbf, dbfrelativePoint, 0, -AURA_OFFSET_Y);
-                    end
+                    frame.debuffs:ClearAllPoints()
+                    frame.debuffs:SetPoint(point.."LEFT", dbf, point.."LEFT", 0, 0);
+                    frame.debuffs:SetPoint(relativePoint.."LEFT", dbf, relativePoint.."LEFT", 0, -auraOffsetY);
                     if ((isFriend) or (not isFriend and numBuffs == 0)) then
                         frame.spellbarAnchor = dbf;
                     end
@@ -236,39 +237,33 @@ local function Filterino(frame)
                     frame.auraRows = frame.auraRows + 1;
                 else
                     drowWidth = drowWidth + DebuffSize + offsetX
-                    dbfrelativePoint = frame.buffsOnTop and "BOTTOMRIGHT" or "TOPLEFT";
-                    dbfx = DebuffSize + offsetX;
-                    dbfy = 0;
+                    if DfFrame ~= dbf then
+                        dbf:ClearAllPoints()
+                        dbf:SetPoint(point.."LEFT", DfFrame, point.."RIGHT", offsetX, 0);
+                    end
                 end
 
                 if drowWidth > maxRows(frame, maxRowWidth, frame.buffsOnTop) then
                     drowWidth = DebuffSize;
-                    dbfpoint = frame.buffsOnTop and "BOTTOMLEFT" or "TOPLEFT";
                     DfFrame = _G[selfName .. "Debuff" .. lastDebuffIndex];
-                    dbfrelativePoint = frame.buffsOnTop and "TOPLEFT" or "BOTTOMLEFT";
-                    dbfx = 0;
-                    dbfy = frame.buffsOnTop and offsetY or -offsetY;
+                    dbf:ClearAllPoints()
+                    dbf:SetPoint(point.."LEFT", _G[selfName .. "Debuff" .. lastDebuffIndex], relativePoint.."LEFT", 0, -offsetY);
+                    frame.debuffs:ClearAllPoints()
+                    frame.debuffs:SetPoint(relativePoint.."LEFT", dbf, relativePoint.."LEFT", 0, -auraOffsetY);
                     frame.auraRows = frame.auraRows + 1;
                     lastDebuffIndex = i;
-                    if frame.debuffs ~= dbf then
-                        frame.debuffs:SetPoint(dbfrelativePoint, dbf, dbfrelativePoint, 0, -AURA_OFFSET_Y);
-                    end
                     if ((isFriend) or (not isFriend and numBuffs == 0)) then
                         frame.spellbarAnchor = dbf;
                     end
                 end
 
-                if dbf ~= DfFrame then
-                    dbf:ClearAllPoints()
-                    dbf:SetPoint(dbfpoint, DfFrame, dbfrelativePoint, dbfx, dbfy);
-                    dbf:SetAlpha(1)
-                    DfFrame = dbf;
-                    dbf:SetWidth(DebuffSize)
-                    dbf:SetHeight(DebuffSize)
-                    local debuffFrame = _G[selfName .. "Debuff" .. i .. "Border"];
-                    debuffFrame:SetWidth(DebuffSize + 2);
-                    debuffFrame:SetHeight(DebuffSize + 2);
-                end
+                dbf:SetAlpha(1)
+                DfFrame = dbf;
+                dbf:SetWidth(DebuffSize)
+                dbf:SetHeight(DebuffSize)
+                local debuffFrame = _G[selfName .. "Debuff" .. i .. "Border"];
+                debuffFrame:SetWidth(DebuffSize + 2);
+                debuffFrame:SetHeight(DebuffSize + 2);
             else
                 dbf:SetAlpha(0)
             end
@@ -281,4 +276,4 @@ local function Filterino(frame)
 end
 
 hooksecurefunc("Target_Spellbar_AdjustPosition", New_Target_Spellbar_AdjustPosition)
-hooksecurefunc("TargetFrame_UpdateAuras", Filterino)
+hooksecurefunc("TargetFrame_UpdateAuraPositions", Filterino)

@@ -8878,7 +8878,9 @@ function LoseControl:new(unitId)
 	o:SetParent(op)
 	o.parent = op
 
-	o:SetDrawEdge(false)
+	--custom line, replace when upgrading to new LC!
+	o:SetDrawEdge(true)
+	o:SetEdgeScale(0.98)
 	-- round texture hackfix, replace when upgrading to new LC in the future!
 	o:SetSwipeTexture("Interface\\AddOns\\TextureScript\\Swipe")
 	

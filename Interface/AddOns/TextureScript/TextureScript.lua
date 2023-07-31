@@ -1735,15 +1735,16 @@ local function SetPosition(frame, ...)
     if type(frame) == "string" then
         frame = _G[frame]
     end
+    
+    if UIPARENT_MANAGED_FRAME_POSITIONS and UIPARENT_MANAGED_FRAME_POSITIONS[frame] then
+        UIPARENT_MANAGED_FRAME_POSITIONS[frame] = nil
+    end
+    
     if type(frame) == "table" and type(frame.IsObjectType) == "function" and frame:IsObjectType("Frame") then
-        frame:SetMovable(true)
-        frame:SetUserPlaced(true)
-        frame:SetDontSavePosition(true)
         if ... then
             frame:ClearAllPoints()
             frame:SetPoint(...)
         end
-        frame:SetMovable(false)
     end
 end
 SetPosition(MultiBarRight, "TOPRIGHT", VerticalMultiBarsContainer, "TOPRIGHT", 2, 3)
