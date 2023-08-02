@@ -484,6 +484,12 @@ local function OnInit()
    -- CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
     --CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
 
+
+
+	-- removing the "interrupted" red delay bar from nameplate castbars
+	--^^ handled in JaxPartyCastBars addon!
+	
+
     --removing character "C" button image
     MicroButtonPortrait:Hide()
     CharacterMicroButton:SetNormalTexture("Interface/BUTTONS/Custom Evo C panel");
@@ -1269,10 +1275,10 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(GameTooltip)
 end)
 
 local function PetNames(frame)
-    local _, _, _, _, _, npcId = string_split("-", UnitGUID(frame.unit))
     -- static pet names for more clarity
     if frame.unit and UnitExists(frame.unit) and string.find(frame.unit, "nameplate") then
-        if npcId == "1863" then
+	local _, _, _, _, _, npcId = string_split("-", UnitGUID(frame.unit))    
+    if npcId == "1863" then
             frame.name:SetText("Succubus")
         elseif npcId == "417" then
             frame.name:SetText("Felhunter")
@@ -1759,7 +1765,7 @@ hooksecurefunc(widget, "SetPoint", function(self, _, parent)
 end)
 
 local function SpellBarAdjust(self)
-    if not self or not string.find(self.unit, "nameplate") or self:IsForbidden() then return end
+    if not self or not self.unit or not string.find(self.unit, "nameplate") or self:IsForbidden() then return end
     local parentFrame = self:GetParent()
     
     if self.BorderShield:IsShown() then
@@ -1771,6 +1777,7 @@ local function SpellBarAdjust(self)
     end
 end
 hooksecurefunc("CastingBarFrame_OnShow", SpellBarAdjust)
+
 
 
 -- Only actual retards play this dogshit broken class that has nothing to do with World of Warcraft design
@@ -1799,6 +1806,57 @@ RE:SetScript("OnEvent", function(self, event, ...)
     end
     self:UnregisterEvent("ADDON_LOADED")
     self:SetScript("OnEvent", nil)
+end)
+
+-- Testing new method of displaying partners in arena (Raid Icon Markers)
+-- ^^ requires /run SetCVar("nameplateOccludedAlphaMult", 0.99)
+local UnitExists, UnitClass, UnitIsPlayer, UnitIsFriend = UnitExists, UnitClass, UnitIsPlayer, UnitIsFriend
+local strfind = string.find
+
+local classmarkers = {
+        ["ROGUE"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_1", -- Star
+        ["PRIEST"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_5", -- Moon
+        ["WARRIOR"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8", -- Skull
+        ["PALADIN"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_1", -- Star
+        ["DEATHKNIGHT"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_3", -- Diamond
+        ["HUNTER"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_7", -- Cross
+        ["DRUID"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_4", -- Triangle
+        ["MAGE"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_6", -- Square
+        ["SHAMAN"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_2", -- Circle
+        ["WARLOCK"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_3", -- Diamond
+}
+
+hooksecurefunc("CompactUnitFrame_OnUpdate", function(frame)
+    if not IsActiveBattlefieldArena() then return end
+    if not frame or not frame.unit or not strfind(frame.unit, "nameplate") or frame:IsForbidden() then
+        return
+    end
+
+    if UnitExists(frame.unit) then
+        local _, unitClass = UnitClass(frame.unit)
+        local namePlateFrameBase = C_NamePlate.GetNamePlateForUnit(frame.unit);
+
+        if UnitIsPlayer(frame.unit) and UnitIsFriend("player", frame.unit) and unitClass and (namePlateFrameBase:GetAlpha() < 1) then
+            if not frame.texture then
+                frame.texture = frame:CreateTexture(nil, "OVERLAY")
+                frame.texture:SetSize(40, 40)
+                frame.texture:SetPoint("CENTER", frame, "CENTER", 0, 20)
+                frame.texture:Hide()
+            end
+            frame.texture:SetTexture(classmarkers[unitClass])
+            frame.texture:Show()
+            frame.name:SetAlpha(0)
+            frame.healthBar:SetAlpha(0)
+            frame.LevelFrame:SetAlpha(0)
+        else
+            if frame.texture then
+                frame.texture:Hide()
+                frame.name:SetAlpha(1)
+                frame.healthBar:SetAlpha(1)
+                frame.LevelFrame:SetAlpha(1)
+            end
+        end
+    end
 end)
 
 
