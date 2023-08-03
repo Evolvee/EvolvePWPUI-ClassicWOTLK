@@ -5,7 +5,7 @@ local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo
 local UnitGUID, UnitIsPlayer, UnitIsConnected, UnitClass, UnitClassification = UnitGUID, UnitIsPlayer, UnitIsConnected, UnitClass, UnitClassification
 local UnitIsEnemy, UnitBuff, UnitName = UnitIsEnemy, UnitBuff, UnitName
 local IsActiveBattlefieldArena, GetBattlefieldTeamInfo = IsActiveBattlefieldArena, GetBattlefieldTeamInfo
-local SetCVar = SetCVar
+local SetCVar, GetCVar = SetCVar, GetCVar
 local pairs = pairs
 local ipairs = ipairs
 local tostring = tostring
@@ -21,8 +21,12 @@ local GUILDMEMBERS_TO_DISPLAY = GUILDMEMBERS_TO_DISPLAY
 local RAID_CLASS_COLORS = RAID_CLASS_COLORS
 local mmin, mmax = math.min, math.max
 local mabs = math.abs
-local floor = math.floor
+local floor, mceil = math.floor, math.ceil
+local strfind = string.find
 local GetFramerate = GetFramerate
+local UnitExists, UnitIsFriend = UnitExists, UnitIsFriend
+local UnitPowerType = UnitPowerType
+local IsInInstance, PlaySound = IsInInstance, PlaySound
 
 --dark theme
 local frame2 = CreateFrame("Frame")
@@ -117,7 +121,8 @@ local cvars = {
     threatWarning = "0",
     predictedHealth = "1",
     Sound_EnableDSPEffects = "0",
-    countdownForCooldowns = "1"
+    countdownForCooldowns = "1",
+    nameplateShowFriendlyNPCs = "0"
 }
 
 local function CustomCvar()
@@ -222,7 +227,7 @@ local sounds = {
     565772, -- DalaranSewer_ArenaWaterFall_Closed
     569506, -- DalaranSewer_ArenaWaterFall_Close
     598178, -- Orgrimmar_Arena_PillarWarning
-	545431, -- sound/creature/brann/ur_brann_dalaran01.ogg (dalaran cancer)
+    545431, -- sound/creature/brann/ur_brann_dalaran01.ogg (dalaran cancer)
     559130, -- sound/creature/rhonin/ur_rhonin_event01.ogg
     559131, -- sound/creature/rhonin/ur_rhonin_event02.ogg
     559126, -- sound/creature/rhonin/ur_rhonin_event03.ogg
@@ -231,9 +236,9 @@ local sounds = {
     559129, -- sound/creature/rhonin/ur_rhonin_event06.ogg
     559132, -- sound/creature/rhonin/ur_rhonin_event07.ogg
     559127, -- sound/creature/rhonin/ur_rhonin_event08.ogg
-	538978, -- Greenslime
+    538978, -- Greenslime
     538976, -- Greenslime
-	1229, -- crab sounds (Blizzard is too dogshit to fix this themselves, as usual)
+    1229, -- crab sounds (Blizzard is too dogshit to fix this themselves, as usual)
     1230,
     1228,
     1227,
@@ -460,8 +465,8 @@ local function OnInit()
     TargetFrameTextureFrameLevelText:SetAlpha(0)
     TargetFrameTextureFrameLeaderIcon:SetAlpha(0)
 
-    ChatFrameMenuButton:Hide()
-    ChatFrameChannelButton:Hide()
+    ChatFrameMenuButton:SetAlpha(0)
+    ChatFrameChannelButton:SetAlpha(0)
 
     -- TargetFrame castbar slight up-scaling
     TargetFrameSpellBar:SetScale(1.1)
@@ -470,25 +475,24 @@ local function OnInit()
     FocusFrameSpellBar:SetScale(1.1)
 
     -- Rework Main Cast-Bar texture (castbar is now going to be round) - this is kinda "idk kev"... not sure if I rly like it, yet...
-	-- Commented out - currently temporarily replaced by the DragonflightUI castbar (testing it out and shit)
+    -- Commented out - currently temporarily replaced by the DragonflightUI castbar (testing it out and shit)
     --CastingBarFrame:SetScale(1)
     --CastingBarFrame.Border:SetTexture("Interface\\CastingBar\\UI-CastingBar-Border-Small")
     --CastingBarFrame.Flash:SetTexture("Interface\\CastingBar\\UI-CastingBar-Flash-Small")
     --CastingBarFrame.Spark:SetHeight(50)
-   -- CastingBarFrame.Text:ClearAllPoints()
+    -- CastingBarFrame.Text:ClearAllPoints()
     --CastingBarFrame.Text:SetPoint("CENTER", 0, 1)
-   -- CastingBarFrame.Border:SetWidth(CastingBarFrame.Border:GetWidth() + 4)
-   -- CastingBarFrame.Flash:SetWidth(CastingBarFrame.Flash:GetWidth() + 4)
+    -- CastingBarFrame.Border:SetWidth(CastingBarFrame.Border:GetWidth() + 4)
+    -- CastingBarFrame.Flash:SetWidth(CastingBarFrame.Flash:GetWidth() + 4)
     --CastingBarFrame.BorderShield:SetWidth(CastingBarFrame.BorderShield:GetWidth() + 4)
-   -- CastingBarFrame.Border:SetPoint("TOP", 0, 26)
-   -- CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
+    -- CastingBarFrame.Border:SetPoint("TOP", 0, 26)
+    -- CastingBarFrame.Flash:SetPoint("TOP", 0, 26)
     --CastingBarFrame.BorderShield:SetPoint("TOP", 0, 26)
 
 
 
-	-- removing the "interrupted" red delay bar from nameplate castbars
-	--^^ handled in JaxPartyCastBars addon!
-	
+    -- removing the "interrupted" red delay bar from nameplate castbars
+    --^^ handled in JaxPartyCastBars addon!
 
     --removing character "C" button image
     MicroButtonPortrait:Hide()
@@ -500,82 +504,77 @@ local function OnInit()
     -- removing the new "latency" bar unfortunately introduced in wotlk
     MainMenuBarPerformanceBar:SetAlpha(0)
 
-    -- Remove the "highlight" dark texture when mouse-overing chat frame
-    DEFAULT_CHATFRAME_ALPHA = 0
-
     -- COMBAT_TEXT_RESIST = "FUCK BLIZZARD"
     COMBAT_TEXT_RESIST = "SHIT EXPANSION"
     COMBAT_TEXT_MISS = "SHIT EXPANSION"
 
     -- SpeedyActions level: Garage clicker
-    MultiBarBottomLeftButton1:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton2:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton3:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton4:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton5:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton6:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton7:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton8:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton9:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton10:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton11:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomLeftButton12:RegisterForClicks("AnyDown","AnyUp")
+    MultiBarBottomLeftButton1:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton2:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton3:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton4:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton5:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton6:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton7:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton8:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton9:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton10:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton11:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomLeftButton12:RegisterForClicks("AnyDown", "AnyUp")
 
-    MultiBarBottomRightButton1:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton2:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton3:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton4:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton5:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton6:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton7:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton8:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton9:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton10:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton11:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarBottomRightButton12:RegisterForClicks("AnyDown","AnyUp")
+    MultiBarBottomRightButton1:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton2:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton3:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton4:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton5:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton6:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton7:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton8:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton9:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton10:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton11:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarBottomRightButton12:RegisterForClicks("AnyDown", "AnyUp")
 
-    ActionButton1:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton2:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton3:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton4:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton5:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton6:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton7:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton8:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton9:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton10:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton11:RegisterForClicks("AnyDown","AnyUp")
-    ActionButton12:RegisterForClicks("AnyDown","AnyUp")
+    ActionButton1:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton2:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton3:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton4:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton5:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton6:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton7:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton8:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton9:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton10:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton11:RegisterForClicks("AnyDown", "AnyUp")
+    ActionButton12:RegisterForClicks("AnyDown", "AnyUp")
 
-    MultiBarLeftButton1:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton2:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton3:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton4:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton5:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton6:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton7:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton8:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton9:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton10:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton11:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarLeftButton12:RegisterForClicks("AnyDown","AnyUp")
+    MultiBarLeftButton1:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton2:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton3:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton4:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton5:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton6:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton7:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton8:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton9:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton10:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton11:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarLeftButton12:RegisterForClicks("AnyDown", "AnyUp")
 
-    MultiBarRightButton1:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton2:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton3:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton4:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton5:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton6:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton7:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton8:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton9:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton10:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton11:RegisterForClicks("AnyDown","AnyUp")
-    MultiBarRightButton12:RegisterForClicks("AnyDown","AnyUp")
-	
-	-- SpeedyActions level: Pro Gaymer = Handled in "WAHK" addon
-	
+    MultiBarRightButton1:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton2:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton3:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton4:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton5:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton6:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton7:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton8:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton9:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton10:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton11:RegisterForClicks("AnyDown", "AnyUp")
+    MultiBarRightButton12:RegisterForClicks("AnyDown", "AnyUp")
 
+    -- SpeedyActions level: Pro Gaymer = Handled in "WAHK" addon
 
     -- move target of target to the right in order to allow clear vision of buffs/debuffs on a target, this will also be prolly mandatory when I try to resize the debuff scale to match 2.4.3
     TargetFrameToT:ClearAllPoints();
@@ -588,8 +587,8 @@ local function OnInit()
     MinimapCluster:SetPoint("BOTTOMLEFT", 1186.333618164063, 595.0001831054688);
 
     -- Removing Stance Bar (Shadowform icon literally the most useless and space-taking thing Lizzard invented in WOTLK)
-	StanceBarFrame:SetAlpha(0)
-	RegisterStateDriver(StanceBarFrame, "visibility", "hide")
+    StanceBarFrame:SetAlpha(0)
+    RegisterStateDriver(StanceBarFrame, "visibility", "hide")
 
     --disable mouseover flashing on buttons
     texture = MultiBarBottomLeftButton1:GetHighlightTexture()
@@ -893,18 +892,18 @@ local function TextStatusBar_UpdateTextString(statusFrame, textString, value, va
             elseif (textDisplay == "BOTH" and not statusFrame.showPercentage) then
                 if (statusFrame.LeftText and statusFrame.RightText) then
                     if (not statusFrame.powerToken or statusFrame.powerToken == "MANA") then
-                        statusFrame.LeftText:SetText(math.ceil((value / valueMax) * 100) .. "%");
+                        statusFrame.LeftText:SetText(mceil((value / valueMax) * 100) .. "%");
                         statusFrame.LeftText:Show();
                     end
                     statusFrame.RightText:SetText(valueDisplay);
                     statusFrame.RightText:Show();
                     textString:Hide();
                 else
-                    valueDisplay = "(" .. math.ceil((value / valueMax) * 100) .. "%) " .. valueDisplay .. " / " .. valueMaxDisplay;
+                    valueDisplay = "(" .. mceil((value / valueMax) * 100) .. "%) " .. valueDisplay .. " / " .. valueMaxDisplay;
                 end
                 textString:SetText(valueDisplay);
             else
-                valueDisplay = math.ceil((value / valueMax) * 100) .. "%";
+                valueDisplay = mceil((value / valueMax) * 100) .. "%";
                 if (statusFrame.prefix and (statusFrame.alwaysPrefix or not (statusFrame.cvar and GetCVar(statusFrame.cvar) == "1" and statusFrame.textLockable))) then
                     textString:SetText(statusFrame.prefix .. " " .. valueDisplay);
                 else
@@ -978,7 +977,6 @@ local barstosmooth = {
 
 local smoothframe = CreateFrame("Frame")
 local smoothing = {}
-
 
 local function AnimationTick()
     local limit = 30 / GetFramerate()
@@ -1142,10 +1140,12 @@ local function Update(frame)
             frameStealable = _G[frameName .. 'Stealable']
             if (isEnemy and isStealable and debuffType == 'Magic') then
                 frameStealable:Show()
-                if TrackSpells[name] then -- new 
-                     frameStealable:SetVertexColor(255, 0, 0) -- new
-                else -- new
-                     frameStealable:SetVertexColor(1,1,1) -- new
+                if TrackSpells[name] then
+                    -- new
+                    frameStealable:SetVertexColor(255, 0, 0) -- new
+                else
+                    -- new
+                    frameStealable:SetVertexColor(1, 1, 1) -- new
                 end -- new
             else
                 frameStealable:Hide()
@@ -1217,30 +1217,25 @@ end)
 manager.container:SetIgnoreParentAlpha(true)
 manager.containerResizeFrame:SetIgnoreParentAlpha(true)
 
--- Prevent displaying the server name in player nameplates
-hooksecurefunc("CompactUnitFrame_UpdateName", function(frame)
-    if frame.unit:find("^nameplate") and UnitIsPlayer(frame.unit) then
-        frame.name:SetText((UnitName(frame.unit)):gsub("%-.*", "")) -- not sure if UnitName() adds the realm so :gsub() might not be needed
-    end
-end)
-
 -- Hide HealthBar under unit tooltips + Hide Titles, PVP flag and Guild Names from Player tooltips
 GameTooltip:HookScript("OnTooltipSetUnit", function(self)
     GameTooltipStatusBar:Hide()
 
     local _, unit = self:GetUnit()
-    if not unit then return end
+    if not unit then
+        return
+    end
 
     if UnitIsPlayer(unit) then
-        local name, realm = UnitName(unit)
+        local name = UnitName(unit)
         GameTooltipTextLeft1:SetFormattedText("%s", name)
 
         local guild = GetGuildInfo(unit)
-        if guild and string.find(GameTooltipTextLeft2:GetText(), guild) then
+        if guild and strfind(GameTooltipTextLeft2:GetText(), guild) then
             GameTooltipTextLeft2:SetFormattedText("")
         end
-		
-		for i = 2, self:NumLines() do
+
+        for i = 2, self:NumLines() do
             local lines = _G["GameTooltipTextLeft" .. i]
             if i > 2 then
                 if lines:GetText() == PVP_ENABLED then
@@ -1249,6 +1244,13 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
             end
         end
 
+        -- Add class-coloured names on mouseover tooltips
+        local _, class = UnitClass(unit)
+        local color = class and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
+        if color then
+            local text = GameTooltipTextLeft1:GetText()
+            GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
+        end
     end
     self:Show()
 end)
@@ -1259,31 +1261,31 @@ hooksecurefunc("UIParent_UpdateTopFramePositions", function()
     BuffFrame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", -180, -13)
 end)
 
--- Add class-coloured names on mouseover tooltips
-
-GameTooltip:HookScript("OnTooltipSetUnit", function(GameTooltip)
-    local _, unit = GameTooltip:GetUnit()
-
-    if UnitIsPlayer(unit) then
-        local _, class = UnitClass(unit)
-        local color = class and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
-        if color then
-            local text = GameTooltipTextLeft1:GetText()
-            GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
-        end
+local function PlateNames(frame)
+    if not frame or frame:IsForbidden() then
+        return
     end
-end)
 
-local function PetNames(frame)
-    -- static pet names for more clarity
-    if frame.unit and UnitExists(frame.unit) and string.find(frame.unit, "nameplate") then
-	local _, _, _, _, _, npcId = string_split("-", UnitGUID(frame.unit))    
-    if npcId == "1863" then
+    if frame.unit and UnitExists(frame.unit) and strfind(frame.unit, "nameplate") then
+        -- static pet names for more clarity
+        local _, _, _, _, _, npcId = string_split("-", UnitGUID(frame.unit))
+        if npcId == "1863" then
             frame.name:SetText("Succubus")
         elseif npcId == "417" then
             frame.name:SetText("Felhunter")
         elseif npcId == "185317" then
             frame.name:SetText("Succubus")
+        end
+
+        if UnitIsPlayer(frame.unit) then
+            frame.name:SetText((UnitName(frame.unit)):gsub("%-.*", "")) -- not sure if UnitName() adds the realm so :gsub() might not be needed
+            if UnitIsEnemy("player", frame.unit) then
+                local _, _, class = UnitClass(frame.unit)
+                if (class == 6) then
+                    -- Only actual retards play this dogshit broken class that has nothing to do with World of Warcraft design
+                    frame.name:SetText("Retarded Dog")
+                end
+            end
         end
     end
 end
@@ -1294,7 +1296,7 @@ f:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_LOGIN" then
         CustomCvar()
         OnInit()
-        hooksecurefunc("CompactUnitFrame_UpdateName", PetNames)
+        hooksecurefunc("CompactUnitFrame_UpdateName", PlateNames)
     end
     self:UnregisterEvent("PLAYER_LOGIN")
     self:SetScript("OnEvent", nil)
@@ -1470,7 +1472,7 @@ local function HandleNewNameplate(nameplate, unit)
     end
 
     local creatureType, _, _, _, _, npcId = string_split("-", UnitGUID(unit))
-	-- the rest of nameplate stuff
+    -- the rest of nameplate stuff
     if (HideNameplateUnits[name] or HideNameplateUnits[npcId])
             or (creatureType == "Pet" and not ShowNameplatePetIds[npcId]) then
         HideNameplate(nameplate)
@@ -1493,10 +1495,7 @@ local function HandleNewNameplate(nameplate, unit)
     end
 end
 
-local plateUpdateElapsed = 0
-plateEventFrame:SetScript("OnUpdate", function(self, elapsed)
-    -- self and elapsed unused. Are you going to throttle it?
-
+local function plateOnUpdateFrame()
     for guid, nameplate in pairs(nameplatesToRecheck) do
         nameplatesToRecheck[guid] = nil
         if nameplate.recheckGuid == guid and nameplate.UnitFrame then
@@ -1507,12 +1506,13 @@ plateEventFrame:SetScript("OnUpdate", function(self, elapsed)
     if next(nameplatesToRecheck) == nil then
         plateEventFrame:Hide()
     end
-end)
+end
 
 -- Filter out the Vampiric Embrace spam healing combat text due to Blizzard being retarded as usual (thx Xyz)
 -- PlaySound whenever an enemy casts Tremor Totem in arena (previously handled in a standalone addon "EvolveAlert" - https://github.com/Evolvee/EvolvePWPUI-ClassicTBC/tree/main/Interface/AddOns/EvolveAlert)
 
 local COMBATLOG_FILTER_HOSTILE_PLAYERS = COMBATLOG_FILTER_HOSTILE_PLAYERS;
+local CombatLog_Object_IsA = CombatLog_Object_IsA
 local eventRegistered = {
     ["SPELL_PERIODIC_HEAL"] = true,
     ["SPELL_CAST_SUCCESS"] = true,
@@ -1520,7 +1520,7 @@ local eventRegistered = {
     ["SWING_DAMAGE"] = true,
     ["RANGE_DAMAGE"] = true,
     ["SPELL_DAMAGE"] = true,
-	["SPELL_HEAL"] = true,
+    ["SPELL_HEAL"] = true,
 }
 
 plateEventFrame:SetScript("OnEvent", function(_, event, unit)
@@ -1596,25 +1596,25 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
             end
         end
         return
-    end
-
-    ----------------------------------------
-    -- clear the totems on loading screens
-    ----------------------------------------
-    if event == "PLAYER_ENTERING_WORLD" then
+    elseif event == "PLAYER_ENTERING_WORLD" then
+        -- clear the totems on loading screens
         tremorTotems = {}
-        return
+        local _, type = IsInInstance()
+        if type == "arena" or type == "pvp" then
+            plateEventFrame:SetScript("OnUpdate", plateOnUpdateFrame)
+        else
+            plateEventFrame:SetScript("OnUpdate", nil)
+        end
     end
-
     ----------------------------------------
     -- nameplates being added or removed
     ----------------------------------------
-    local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
-    if not nameplate then
-        return
-    end
 
     if event == "NAME_PLATE_UNIT_ADDED" then
+        local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
+        if not nameplate or nameplate:IsForbidden() then
+            return
+        end
         local texture = (nameplate.UnitFrame.healthBar.border:GetRegions())
         texture:SetTexture("Interface/Addons/TextureScript/Nameplate-Border.blp")
 
@@ -1632,9 +1632,11 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
         sh:SetPoint("BOTTOMRIGHT", sh:GetParent(), "BOTTOMRIGHT", -1, 1)
         HandleNewNameplate(nameplate, unit)
         return
-    end
-
-    if event == "NAME_PLATE_UNIT_REMOVED" then
+    elseif event == "NAME_PLATE_UNIT_REMOVED" then
+        local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
+        if not nameplate or nameplate:IsForbidden() then
+            return
+        end
         nameplate.tremorTotemGuid = nil
         tremorTotems[UnitGUID(unit) or ""] = nil
         if nameplate.UnitFrame then
@@ -1651,7 +1653,7 @@ end)
 -- To see the icon number of gossip options, use: /dump C_GossipInfo.GetOptions()
 
 local gossipSkipIcon = {
-	[132050] = 1, -- banker
+    [132050] = 1, -- banker
     [132051] = 1, -- battlemaster
     [132057] = 1, -- taxi
     [132058] = 1, -- trainer
@@ -1672,15 +1674,17 @@ skipEventFrame:SetScript("OnEvent", function()
     if not IsShiftKeyDown() and numOptions == 1 and GetNumGossipActiveQuests() == 0 and GetNumGossipAvailableQuests() == 0 then
         if gossipSkipIcon[options[1].icon] then
             SelectGossipOption(options[1].gossipOptionID)
-            if options[1].icon == 132057 then -- taxi
+            if options[1].icon == 132057 then
+                -- taxi
                 Dismount()
             end
             return
         end
     end
     if numOptions > 0 and not IsShiftKeyDown() and not IsAltKeyDown() and not IsControlKeyDown() then
-        for _,v in ipairs(options) do
-            if v.icon == 132060 then -- vendor
+        for _, v in ipairs(options) do
+            if v.icon == 132060 then
+                -- vendor
                 SelectGossipOption(v.gossipOptionID)
                 return
             end
@@ -1741,11 +1745,11 @@ local function SetPosition(frame, ...)
     if type(frame) == "string" then
         frame = _G[frame]
     end
-    
+
     if UIPARENT_MANAGED_FRAME_POSITIONS and UIPARENT_MANAGED_FRAME_POSITIONS[frame] then
         UIPARENT_MANAGED_FRAME_POSITIONS[frame] = nil
     end
-    
+
     if type(frame) == "table" and type(frame.IsObjectType) == "function" and frame:IsObjectType("Frame") then
         if ... then
             frame:ClearAllPoints()
@@ -1765,9 +1769,11 @@ hooksecurefunc(widget, "SetPoint", function(self, _, parent)
 end)
 
 local function SpellBarAdjust(self)
-    if not self or not self.unit or not string.find(self.unit, "nameplate") or self:IsForbidden() then return end
+    if not self or not self.unit or not strfind(self.unit, "nameplate") or self:IsForbidden() then
+        return
+    end
     local parentFrame = self:GetParent()
-    
+
     if self.BorderShield:IsShown() then
         self:ClearAllPoints()
         self:SetPoint("TOP", parentFrame.healthBar, "BOTTOM", 9, -12)
@@ -1779,81 +1785,90 @@ end
 hooksecurefunc("CastingBarFrame_OnShow", SpellBarAdjust)
 
 
-
--- Only actual retards play this dogshit broken class that has nothing to do with World of Warcraft design
-
-local function RetardDK(frame, unit)
-    if not string.find(unit, "nameplate") or frame:IsForbidden() then
-        return
-    end
-
-    if UnitExists(unit) and UnitIsEnemy("player", unit) and UnitPlayerControlled(unit) then
-        local _, _, class = UnitClass(unit)
-        if (class == 6) then
-            frame.name:SetText("Retarded Dog")
+-- Remove debuffs from Target of Target frame
+hooksecurefunc("TargetofTarget_UpdateDebuffs", function(self)
+    local parent = self:GetParent();
+    if GetCVarBool("showTargetOfTarget") and UnitExists(parent.unit) and UnitExists(self.unit) then
+        for i = 1, 4 do
+            local dbf = _G["TargetFrameToTDebuff" .. i]
+            if dbf:GetAlpha() > 0 then
+                dbf:SetAlpha(0)
+            end
         end
     end
-end
-
-local RE = CreateFrame("Frame")
-RE:RegisterEvent("ADDON_LOADED")
-RE:SetScript("OnEvent", function(self, event, ...)
-    if event == "ADDON_LOADED" then
-        hooksecurefunc("CompactUnitFrame_UpdateName", function(frame)
-            local unit = frame.unit
-            RetardDK(frame, unit)
-        end)
-    end
-    self:UnregisterEvent("ADDON_LOADED")
-    self:SetScript("OnEvent", nil)
 end)
 
 -- Testing new method of displaying partners in arena (Raid Icon Markers)
--- ^^ requires /run SetCVar("nameplateOccludedAlphaMult", 0.99)
-local UnitExists, UnitClass, UnitIsPlayer, UnitIsFriend = UnitExists, UnitClass, UnitIsPlayer, UnitIsFriend
-local strfind = string.find
+-- ^^ remove cvar "nameplateShowFriendlyNPCs" + friendly nameplates from UI options later (when deleted)
 
 local classmarkers = {
-        ["ROGUE"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_1", -- Star
-        ["PRIEST"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_5", -- Moon
-        ["WARRIOR"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8", -- Skull
-        ["PALADIN"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_1", -- Star
-        ["DEATHKNIGHT"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_3", -- Diamond
-        ["HUNTER"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_7", -- Cross
-        ["DRUID"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_4", -- Triangle
-        ["MAGE"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_6", -- Square
-        ["SHAMAN"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_2", -- Circle
-        ["WARLOCK"] = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_3", -- Diamond
+    ["ROGUE"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Rogue",
+    ["PRIEST"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Priest",
+    ["WARRIOR"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Warrior",
+    ["PALADIN"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Paladin",
+    ["DEATHKNIGHT"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\RetardedDog",
+    ["HUNTER"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Hunter",
+    ["DRUID"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Druid",
+    ["MAGE"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Mage",
+    ["SHAMAN"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Shaman",
+    ["WARLOCK"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Warlock",
 }
 
 hooksecurefunc("CompactUnitFrame_OnUpdate", function(frame)
-    if not IsActiveBattlefieldArena() then return end
     if not frame or not frame.unit or not strfind(frame.unit, "nameplate") or frame:IsForbidden() then
         return
+    end
+
+    if not InCombatLockdown() then
+        if not IsActiveBattlefieldArena() then
+            if GetCVar("nameplateShowFriends") == "1" then
+                SetCVar("nameplateShowFriends", 0)
+            end
+        else
+            if GetCVar("nameplateShowFriends") == "0" then
+                SetCVar("nameplateShowFriends", 1)
+            end
+        end
     end
 
     if UnitExists(frame.unit) then
         local _, unitClass = UnitClass(frame.unit)
         local namePlateFrameBase = C_NamePlate.GetNamePlateForUnit(frame.unit);
+        local _, _, _, _, _, npcId = string_split("-", UnitGUID(frame.unit))
 
-        if UnitIsPlayer(frame.unit) and UnitIsFriend("player", frame.unit) and unitClass and (namePlateFrameBase:GetAlpha() < 1) then
+        if (UnitIsPlayer(frame.unit) or npcId == "19668") and UnitIsFriend("player", frame.unit) and IsActiveBattlefieldArena() then
             if not frame.texture then
                 frame.texture = frame:CreateTexture(nil, "OVERLAY")
-                frame.texture:SetSize(40, 40)
+                frame.texture:SetSize(41, 41)
                 frame.texture:SetPoint("CENTER", frame, "CENTER", 0, 20)
                 frame.texture:Hide()
             end
-            frame.texture:SetTexture(classmarkers[unitClass])
-            frame.texture:Show()
+            if npcId == "19668" then
+                frame.texture:SetTexture("Interface\\AddOns\\TextureScript\\PartyIcons\\Fiend")
+                frame.texture:Show()
+            elseif unitClass then
+                frame.texture:SetTexture(classmarkers[unitClass])
+                frame.texture:Show()
+            end
             frame.name:SetAlpha(0)
             frame.healthBar:SetAlpha(0)
             frame.LevelFrame:SetAlpha(0)
+            frame.selectionHighlight:SetAlpha(0)
         else
             if frame.texture then
                 frame.texture:Hide()
+            end
+            if frame.name:GetAlpha() < 1 then
                 frame.name:SetAlpha(1)
+            end
+            if frame.healthBar:GetAlpha() < 1 then
                 frame.healthBar:SetAlpha(1)
+            end
+            if frame.LevelFrame:GetAlpha() < 1 then
                 frame.LevelFrame:SetAlpha(1)
+            end
+            if frame.selectionHighlight:GetAlpha() == 0 then
+                frame.selectionHighlight:SetAlpha(0.25)
             end
         end
     end
