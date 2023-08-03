@@ -19,18 +19,18 @@ ATTDB = {
 		},
 		["alertCD"] = {
 		},
+		["positions"] = {
+		},
+		["glow"] = true,
+		["IconRows"] = 1,
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["alertCDtext"] = {
+		},
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
 			["dungeons"] = true,
-		},
-		["IconRows"] = 1,
-		["alertCDtext"] = {
-		},
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
-		["glow"] = true,
-		["positions"] = {
 		},
 	},
 	["ProfileSelected"] = "DEFAULT",
@@ -53,18 +53,18 @@ ATTDB = {
 		},
 		["alertCD"] = {
 		},
+		["positions"] = {
+		},
+		["glow"] = true,
+		["IconRows"] = 1,
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["alertCDtext"] = {
+		},
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
 			["dungeons"] = true,
-		},
-		["IconRows"] = 1,
-		["alertCDtext"] = {
-		},
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
-		["glow"] = true,
-		["positions"] = {
 		},
 	},
 	["DEFAULT"] = {
@@ -81,17 +81,17 @@ ATTDB = {
 			},
 			["WARLOCK"] = {
 			},
-			["HUNTER"] = {
+			["ROGUE"] = {
 			},
 			["DRUID"] = {
 			},
 			["PALADIN"] = {
 			},
-			["ROGUE"] = {
+			["HUNTER"] = {
 			},
 		},
 		["growLeft"] = false,
-		["classSelected"] = "WARRIOR",
+		["globalSelections"] = true,
 		["scale"] = 0.75,
 		["showSelf"] = false,
 		["raidGroupSize"] = 2,
@@ -103,8 +103,8 @@ ATTDB = {
 		["category"] = "abilities",
 		["offsetX"] = 0,
 		["showTooltip"] = false,
-		["offsetY"] = 0,
-		["showIconBorders"] = true,
+		["horizontal"] = false,
+		["attach"] = 0,
 		["customSpells"] = {
 			["DEATHKNIGHT"] = {
 			},
@@ -118,37 +118,16 @@ ATTDB = {
 			},
 			["WARLOCK"] = {
 			},
-			["HUNTER"] = {
+			["ROGUE"] = {
 			},
 			["DRUID"] = {
 			},
 			["PALADIN"] = {
 			},
-			["ROGUE"] = {
-			},
-		},
-		["alertCDtext"] = {
-			["DEATHKNIGHT"] = {
-			},
-			["WARRIOR"] = {
-			},
-			["SHAMAN"] = {
-			},
-			["MAGE"] = {
-			},
-			["PRIEST"] = {
-			},
-			["WARLOCK"] = {
-			},
 			["HUNTER"] = {
 			},
-			["DRUID"] = {
-			},
-			["PALADIN"] = {
-			},
-			["ROGUE"] = {
-			},
 		},
+		["IconRows"] = 2,
 		["iconAlpha"] = 1,
 		["alertCD"] = {
 			["DEATHKNIGHT"] = {
@@ -163,37 +142,37 @@ ATTDB = {
 			},
 			["WARLOCK"] = {
 			},
-			["HUNTER"] = {
+			["ROGUE"] = {
 			},
 			["DRUID"] = {
 			},
 			["PALADIN"] = {
 			},
-			["ROGUE"] = {
+			["HUNTER"] = {
 			},
 		},
 		["isEnabledRacial"] = {
 			[59752] = true,
 		},
 		["iconOffsetY"] = 0,
-		["attach"] = 0,
+		["showIconBorders"] = true,
 		["isEnabledSpell"] = {
 			["DEATHKNIGHT"] = {
 				[51052] = false,
-				[46082] = true,
+				[7744] = true,
 				[47528] = false,
 				[49576] = true,
-				[46084] = true,
-				[48707] = true,
-				[49039] = false,
-				[46083] = true,
-				[46085] = true,
-				[37864] = true,
-				[48792] = false,
-				[37865] = true,
-				[46081] = true,
 				[59752] = true,
-				[7744] = true,
+				[46082] = true,
+				[46081] = true,
+				[46083] = true,
+				[37865] = true,
+				[49039] = false,
+				[48792] = false,
+				[46085] = true,
+				[46084] = true,
+				[37864] = true,
+				[48707] = true,
 			},
 			["WARRIOR"] = {
 				[59752] = true,
@@ -203,9 +182,9 @@ ATTDB = {
 				[46083] = true,
 				[37864] = true,
 				[46085] = true,
-				[37865] = true,
-				[46084] = true,
 				[46924] = true,
+				[46084] = true,
+				[37865] = true,
 			},
 			["SHAMAN"] = {
 				[59752] = true,
@@ -216,27 +195,27 @@ ATTDB = {
 				[46083] = true,
 				[16188] = true,
 				[51514] = false,
-				[46085] = true,
-				[37865] = true,
-				[46084] = true,
-				[16190] = true,
 				[37864] = true,
+				[46085] = true,
+				[16190] = true,
+				[46084] = true,
+				[37865] = true,
 			},
 			["MAGE"] = {
 				[2139] = true,
 				[7744] = true,
 				[46081] = true,
-				[59752] = true,
+				[44572] = false,
 				[46082] = true,
-				[37864] = true,
+				[12051] = true,
 				[46083] = true,
 				[11958] = true,
-				[46084] = true,
+				[37864] = true,
+				[45438] = true,
 				[46085] = true,
 				[37865] = true,
-				[45438] = true,
-				[12051] = true,
-				[44572] = false,
+				[46084] = true,
+				[59752] = true,
 			},
 			["PRIEST"] = {
 				[10890] = true,
@@ -251,8 +230,8 @@ ATTDB = {
 				[63229] = true,
 				[15487] = true,
 				[37865] = true,
-				[47585] = true,
 				[46085] = true,
+				[47585] = true,
 				[37864] = true,
 			},
 			["WARLOCK"] = {
@@ -262,41 +241,42 @@ ATTDB = {
 				[46082] = true,
 				[46083] = true,
 				[46084] = true,
-				[46085] = true,
-				[37865] = true,
-				[46081] = true,
-				[37864] = true,
 				[17925] = true,
-			},
-			["HUNTER"] = {
-				[49012] = true,
-				[7744] = true,
-				[46081] = true,
-				[46082] = true,
-				[37864] = true,
-				[46083] = true,
 				[46085] = true,
-				[46084] = true,
-				[19263] = true,
-				[34490] = true,
-				[19503] = true,
+				[37864] = true,
+				[46081] = true,
+				[37865] = true,
+			},
+			["ROGUE"] = {
+				[2094] = true,
+				[51713] = true,
+				[46081] = true,
+				[7744] = true,
+				[46082] = true,
+				[31224] = true,
+				[46083] = true,
+				[8643] = true,
+				[37864] = true,
+				[1766] = true,
 				[37865] = true,
 				[59752] = true,
+				[46085] = true,
+				[46084] = true,
 			},
 			["DRUID"] = {
 				[22812] = true,
 				[59752] = true,
-				[17116] = true,
+				[50334] = true,
 				[7744] = true,
 				[46081] = true,
-				[50334] = true,
+				[17116] = true,
 				[46082] = true,
 				[46084] = true,
 				[46083] = true,
 				[53201] = true,
 				[37864] = true,
-				[46085] = true,
 				[37865] = true,
+				[46085] = true,
 				[29166] = true,
 				[8983] = false,
 				[61336] = true,
@@ -311,36 +291,33 @@ ATTDB = {
 				[10308] = true,
 				[46084] = true,
 				[46085] = true,
-				[37865] = true,
 				[37864] = true,
+				[37865] = true,
 			},
-			["ROGUE"] = {
-				[2094] = true,
-				[51713] = true,
-				[46081] = true,
-				[37864] = true,
-				[46082] = true,
-				[31224] = true,
-				[46083] = true,
-				[8643] = true,
-				[46084] = true,
-				[1766] = true,
-				[37865] = true,
-				[46085] = true,
-				[59752] = true,
+			["HUNTER"] = {
+				[49012] = true,
 				[7744] = true,
+				[46081] = true,
+				[46082] = true,
+				[59752] = true,
+				[46083] = true,
+				[46085] = true,
+				[37864] = true,
+				[19503] = true,
+				[34490] = true,
+				[19263] = true,
+				[37865] = true,
+				[46084] = true,
 			},
 		},
 		["isEnabledVisibility"] = {
 			["scenarios"] = false,
-			["inbg"] = false,
 			["inraid"] = false,
+			["inbg"] = false,
 			["arena"] = true,
 			["outside"] = false,
 			["dungeons"] = false,
 		},
-		["reverseIcons"] = false,
-		["glow"] = true,
 		["positions"] = {
 			{
 				["y"] = -110.5443725585938,
@@ -503,12 +480,134 @@ ATTDB = {
 				["x"] = 675.1666870117188,
 			}, -- [40]
 		},
+		["glow"] = true,
+		["reverseIcons"] = false,
 		["hidden"] = true,
-		["IconRows"] = 2,
+		["alertCDtext"] = {
+			["DEATHKNIGHT"] = {
+			},
+			["WARRIOR"] = {
+			},
+			["SHAMAN"] = {
+			},
+			["MAGE"] = {
+			},
+			["PRIEST"] = {
+			},
+			["WARLOCK"] = {
+			},
+			["ROGUE"] = {
+			},
+			["DRUID"] = {
+			},
+			["PALADIN"] = {
+			},
+			["HUNTER"] = {
+			},
+		},
 		["iconOffsetX"] = 0,
-		["horizontal"] = false,
+		["offsetY"] = 0,
 		["lock"] = true,
-		["globalSelections"] = true,
+		["classSelected"] = "WARRIOR",
+	},
+	["HEALER"] = {
+		["iconOrder"] = {
+		},
+		["scale"] = 1,
+		["showSelf"] = true,
+		["raidGroupSize"] = 5,
+		["isEnabledTrinkets"] = {
+		},
+		["offsetX"] = 0,
+		["customSpells"] = {
+		},
+		["isEnabledRacial"] = {
+		},
+		["iconOffsetY"] = 2,
+		["attach"] = 0,
+		["isEnabledSpell"] = {
+		},
+		["alertCD"] = {
+		},
+		["positions"] = {
+		},
+		["glow"] = true,
+		["IconRows"] = 1,
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["alertCDtext"] = {
+		},
+		["isEnabledVisibility"] = {
+			["outside"] = true,
+			["arena"] = true,
+			["dungeons"] = true,
+		},
+	},
+	["Extra1"] = {
+		["iconOrder"] = {
+		},
+		["scale"] = 1,
+		["showSelf"] = true,
+		["raidGroupSize"] = 5,
+		["isEnabledTrinkets"] = {
+		},
+		["offsetX"] = 0,
+		["customSpells"] = {
+		},
+		["isEnabledRacial"] = {
+		},
+		["iconOffsetY"] = 2,
+		["attach"] = 0,
+		["isEnabledSpell"] = {
+		},
+		["alertCD"] = {
+		},
+		["positions"] = {
+		},
+		["glow"] = true,
+		["IconRows"] = 1,
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["alertCDtext"] = {
+		},
+		["isEnabledVisibility"] = {
+			["outside"] = true,
+			["arena"] = true,
+			["dungeons"] = true,
+		},
+	},
+	["Extra2"] = {
+		["iconOrder"] = {
+		},
+		["scale"] = 1,
+		["showSelf"] = true,
+		["raidGroupSize"] = 5,
+		["isEnabledTrinkets"] = {
+		},
+		["offsetX"] = 0,
+		["customSpells"] = {
+		},
+		["isEnabledRacial"] = {
+		},
+		["iconOffsetY"] = 2,
+		["attach"] = 0,
+		["isEnabledSpell"] = {
+		},
+		["alertCD"] = {
+		},
+		["positions"] = {
+		},
+		["glow"] = true,
+		["IconRows"] = 1,
+		["iconOffsetX"] = 5,
+		["offsetY"] = 0,
+		["alertCDtext"] = {
+		},
+		["isEnabledVisibility"] = {
+			["outside"] = true,
+			["arena"] = true,
+			["dungeons"] = true,
+		},
 	},
 	["BG"] = {
 		["iconOrder"] = {
@@ -531,118 +630,19 @@ ATTDB = {
 		},
 		["alertCD"] = {
 		},
-		["positions"] = {
-		},
+		["glow"] = true,
 		["isEnabledVisibility"] = {
 			["outside"] = true,
 			["arena"] = true,
 			["dungeons"] = true,
 		},
+		["IconRows"] = 1,
 		["alertCDtext"] = {
 		},
-		["IconRows"] = 1,
 		["iconOffsetX"] = 5,
 		["offsetY"] = 0,
 		["isEnabledGlyph"] = {
 		},
-		["glow"] = true,
-	},
-	["Extra1"] = {
-		["iconOrder"] = {
-		},
-		["scale"] = 1,
-		["showSelf"] = true,
-		["raidGroupSize"] = 5,
-		["isEnabledTrinkets"] = {
-		},
-		["offsetX"] = 0,
-		["customSpells"] = {
-		},
-		["isEnabledRacial"] = {
-		},
-		["iconOffsetY"] = 2,
-		["attach"] = 0,
-		["isEnabledSpell"] = {
-		},
-		["alertCD"] = {
-		},
-		["isEnabledVisibility"] = {
-			["outside"] = true,
-			["arena"] = true,
-			["dungeons"] = true,
-		},
-		["IconRows"] = 1,
-		["alertCDtext"] = {
-		},
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
-		["glow"] = true,
-		["positions"] = {
-		},
-	},
-	["HEALER"] = {
-		["iconOrder"] = {
-		},
-		["scale"] = 1,
-		["showSelf"] = true,
-		["raidGroupSize"] = 5,
-		["isEnabledTrinkets"] = {
-		},
-		["offsetX"] = 0,
-		["customSpells"] = {
-		},
-		["isEnabledRacial"] = {
-		},
-		["iconOffsetY"] = 2,
-		["attach"] = 0,
-		["isEnabledSpell"] = {
-		},
-		["alertCD"] = {
-		},
-		["isEnabledVisibility"] = {
-			["outside"] = true,
-			["arena"] = true,
-			["dungeons"] = true,
-		},
-		["IconRows"] = 1,
-		["alertCDtext"] = {
-		},
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
-		["glow"] = true,
-		["positions"] = {
-		},
-	},
-	["Extra2"] = {
-		["iconOrder"] = {
-		},
-		["scale"] = 1,
-		["showSelf"] = true,
-		["raidGroupSize"] = 5,
-		["isEnabledTrinkets"] = {
-		},
-		["offsetX"] = 0,
-		["customSpells"] = {
-		},
-		["isEnabledRacial"] = {
-		},
-		["iconOffsetY"] = 2,
-		["attach"] = 0,
-		["isEnabledSpell"] = {
-		},
-		["alertCD"] = {
-		},
-		["isEnabledVisibility"] = {
-			["outside"] = true,
-			["arena"] = true,
-			["dungeons"] = true,
-		},
-		["IconRows"] = 1,
-		["alertCDtext"] = {
-		},
-		["iconOffsetX"] = 5,
-		["offsetY"] = 0,
-		["glow"] = true,
 		["positions"] = {
 		},
 	},

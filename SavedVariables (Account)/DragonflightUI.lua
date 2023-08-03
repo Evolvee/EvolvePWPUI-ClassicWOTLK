@@ -13,8 +13,9 @@ DragonflightUIDB = {
 		},
 	},
 	["profileKeys"] = {
-		["Evolvepwp - Gehennas"] = "Default",
 		["Evolvepwp - Firemaw"] = "Default",
+		["Evolvepwp - Gehennas"] = "Default",
+		["Evolvebanned - Firemaw"] = "Default",
 	},
 	["profiles"] = {
 		["Default"] = {

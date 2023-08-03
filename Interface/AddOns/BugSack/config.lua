@@ -7,6 +7,8 @@ local frame = addon.frame
 frame.name = addonName
 frame:Hide()
 local ldbi = LibStub("LibDBIcon-1.0")
+local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+
 
 frame:SetScript("OnShow", function(frame)
 	local function newCheckbox(label, description, onClick)
@@ -82,7 +84,7 @@ frame:SetScript("OnShow", function(frame)
 	mute:SetPoint("TOPLEFT", minimap, "BOTTOMLEFT", 0, -8)
 
 	local info = {}
-	local fontSizeDropdown = CreateFrame("Frame", "BugSackFontSize", frame, "UIDropDownMenuTemplate")
+	local fontSizeDropdown = LibDD:Create_UIDropDownMenu("BugSackFontSize", frame)
 	fontSizeDropdown:SetPoint("TOPLEFT", mute, "BOTTOMLEFT", -15, -10)
 	fontSizeDropdown.initialize = function()
 		wipe(info)
@@ -99,12 +101,12 @@ frame:SetScript("OnShow", function(frame)
 				BugSackFontSizeText:SetText(self:GetText())
 			end
 			info.checked = font == addon.db.fontSize
-			UIDropDownMenu_AddButton(info)
+			LibDD:UIDropDownMenu_AddButton(info)
 		end
 	end
 	BugSackFontSizeText:SetText(L["Font size"])
 
-	local soundDropdown = CreateFrame("Frame", "BugSackSoundDropdown", frame, "UIDropDownMenuTemplate")
+	local soundDropdown = LibDD:Create_UIDropDownMenu("BugSackSoundDropdown", frame)
 	soundDropdown:SetPoint("LEFT", fontSizeDropdown, "RIGHT", 150, 0)
 	soundDropdown.initialize = function()
 		wipe(info)
@@ -116,7 +118,7 @@ frame:SetScript("OnShow", function(frame)
 				soundDropdown.Text:SetText(self:GetText())
 			end
 			info.checked = sound == addon.db.soundMedia
-			UIDropDownMenu_AddButton(info)
+			LibDD:UIDropDownMenu_AddButton(info)
 		end
 	end
 	soundDropdown.Text:SetText(L["Sound"])

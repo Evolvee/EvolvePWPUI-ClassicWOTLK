@@ -3,6 +3,7 @@ DeBuffFilterDB = {
 	["profileKeys"] = {
 		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvepwp - Gehennas"] = "Default",
+		["Evolvebanned - Firemaw"] = "Default",
 	},
 	["profiles"] = {
 		["Default"] = {
@@ -81,14 +82,16 @@ DeBuffFilterDB = {
 				"Totem of Wrath", -- [72]
 				"Trauma", -- [73]
 				"Trueshot Aura", -- [74]
-				"Unholy Presence", -- [75]
-				"Unholy Strength", -- [76]
-				"Unleashed Rage", -- [77]
-				"Vampiric Embrace", -- [78]
-				"Water Breathing", -- [79]
-				"Windfury Totem", -- [80]
-				"Wrath of Air Totem", -- [81]
-				"Wyrmrest Champion", -- [82]
+				"Unending Breath", -- [75]
+				"Unholy Presence", -- [76]
+				"Unholy Strength", -- [77]
+				"Unleashed Rage", -- [78]
+				"Vampiric Embrace", -- [79]
+				"Water Breathing", -- [80]
+				"Water Walking", -- [81]
+				"Windfury Totem", -- [82]
+				"Wrath of Air Totem", -- [83]
+				"Wyrmrest Champion", -- [84]
 			},
 		},
 	},
