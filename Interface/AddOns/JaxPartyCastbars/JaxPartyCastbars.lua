@@ -146,7 +146,7 @@ hooksecurefunc("CastingBarFrame_OnEvent", function(self, event, ...)
             self:Hide()
             return
         end
-    elseif ( event == "UNIT_SPELLCAST_FAILED" or event == "UNIT_SPELLCAST_INTERRUPTED" ) then
+    elseif event == "UNIT_SPELLCAST_INTERRUPTED" then
         self:Hide()
         return
     end
