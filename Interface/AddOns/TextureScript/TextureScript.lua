@@ -116,13 +116,15 @@ local cvars = {
     ShowClassColorInFriendlyNameplate = "1",
     ShowClassColorInNameplate = "1",
     nameplateMaxDistance = "41",
-    nameplateGlobalScale = "1.13",
+    nameplateGlobalScale = "1.12",
     enableFloatingCombatText = "1",
     threatWarning = "0",
     predictedHealth = "1",
     Sound_EnableDSPEffects = "0",
     countdownForCooldowns = "1",
-    nameplateShowFriendlyNPCs = "0"
+    nameplateShowFriendlyNPCs = "0",
+	nameplateShowFriendlyMinions = "0",
+	nameplateShowFriendlyPets = "0"
 }
 
 local function CustomCvar()
@@ -1786,17 +1788,16 @@ hooksecurefunc("CastingBarFrame_OnShow", SpellBarAdjust)
 
 
 -- Remove debuffs from Target of Target frame
-hooksecurefunc("TargetofTarget_UpdateDebuffs", function(self)
-    local parent = self:GetParent();
-    if GetCVarBool("showTargetOfTarget") and UnitExists(parent.unit) and UnitExists(self.unit) then
+for _, totFrame in ipairs({ TargetFrameToT, FocusFrameToT }) do
+    totFrame:HookScript("OnShow", function()
         for i = 1, 4 do
-            local dbf = _G["TargetFrameToTDebuff" .. i]
-            if dbf:GetAlpha() > 0 then
+            local dbf = _G[totFrame:GetName() .. "Debuff" .. i]
+            if dbf and dbf:GetAlpha() > 0 then
                 dbf:SetAlpha(0)
             end
         end
-    end
-end)
+    end)
+end
 
 -- Testing new method of displaying partners in arena (Raid Icon Markers)
 -- ^^ remove cvar "nameplateShowFriendlyNPCs" + friendly nameplates from UI options later (when deleted)
@@ -1834,19 +1835,15 @@ hooksecurefunc("CompactUnitFrame_OnUpdate", function(frame)
     if UnitExists(frame.unit) then
         local _, unitClass = UnitClass(frame.unit)
         local namePlateFrameBase = C_NamePlate.GetNamePlateForUnit(frame.unit);
-        local _, _, _, _, _, npcId = string_split("-", UnitGUID(frame.unit))
 
-        if (UnitIsPlayer(frame.unit) or npcId == "19668") and UnitIsFriend("player", frame.unit) and IsActiveBattlefieldArena() then
+        if UnitIsPlayer(frame.unit) and UnitIsFriend("player", frame.unit) and IsActiveBattlefieldArena() then
             if not frame.texture then
                 frame.texture = frame:CreateTexture(nil, "OVERLAY")
-                frame.texture:SetSize(41, 41)
+                frame.texture:SetSize(40, 40)
                 frame.texture:SetPoint("CENTER", frame, "CENTER", 0, 20)
                 frame.texture:Hide()
             end
-            if npcId == "19668" then
-                frame.texture:SetTexture("Interface\\AddOns\\TextureScript\\PartyIcons\\Fiend")
-                frame.texture:Show()
-            elseif unitClass then
+            if unitClass then
                 frame.texture:SetTexture(classmarkers[unitClass])
                 frame.texture:Show()
             end
@@ -1871,6 +1868,13 @@ hooksecurefunc("CompactUnitFrame_OnUpdate", function(frame)
                 frame.selectionHighlight:SetAlpha(0.25)
             end
         end
+    end
+end)
+
+-- Hide the friendly nameplate cast bars (a subproduct of the script above ^^)
+hooksecurefunc("Nameplate_CastBar_AdjustPosition", function(self)
+    if UnitIsFriend("player", self.unit) then
+        self:Hide()
     end
 end)
 

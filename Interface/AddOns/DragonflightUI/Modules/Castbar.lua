@@ -289,7 +289,7 @@ function Module.CreateNewCastbar()
     local ticks = {}
     for i = 1, 15 do
         local tick = f.Bar:CreateTexture('Tick' .. i, 'OVERLAY')
-        tick:SetTexture('Interface\\ChatFrame\\ChatFrameBackground')
+        tick:SetTexture('Interface\\AddOns\\DragonflightUI\\Modules\\ChatFrameBackground')
         tick:SetVertexColor(0, 0, 0)
         tick:SetAlpha(0.75)
         tick:SetSize(2.5, sizeY - 2)

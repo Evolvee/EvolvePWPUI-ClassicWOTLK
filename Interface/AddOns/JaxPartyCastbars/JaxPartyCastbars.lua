@@ -134,13 +134,13 @@ hooksecurefunc("CastingBarFrame_OnEvent", function(self, event, ...)
         return
     end
 
-    if ( event == "UNIT_SPELLCAST_START" ) and unit == "party1" then
+    if ( event == "UNIT_SPELLCAST_START" ) and (unit == "party1" or unit == "party2") then
         local name = UnitCastingInfo(unit);
         if name ~= "Polymorph" then
             self:Hide()
             return
         end
-    elseif ( event == "UNIT_SPELLCAST_CHANNEL_START" ) and unit == "party1" then
+    elseif ( event == "UNIT_SPELLCAST_CHANNEL_START" ) and (unit == "party1" or unit == "party2") then
         local name = UnitChannelInfo(unit);
         if name ~= "Polymorph" then
             self:Hide()
