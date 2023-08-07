@@ -41,8 +41,8 @@ function JaxPartyCastBars:SetupOptions()
                         name = "X Offset",
                         desc = "",
                         type = "range",
-                        min = -100,
-                        max = 300,
+                        min = -1000,
+                        max = 1000,
                         set = function(info, val)
                             self.db.profile.offsetX = val;
                             JPC:UpdateBars();
@@ -57,8 +57,8 @@ function JaxPartyCastBars:SetupOptions()
                         name = "Y Offset",
                         desc = "",
                         type = "range",
-                        min = -100,
-                        max = 300,
+                        min = -1000,
+                        max = 1000,
                         set = function(info, val)
                             self.db.profile.offsetY = val;
                             JPC:UpdateBars();

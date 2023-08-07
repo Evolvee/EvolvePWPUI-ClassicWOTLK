@@ -16,7 +16,8 @@ local function concat(arg1, arg2)
     end
 end
 
-local SaveBindings = SaveBindings or AttemptToSaveBindings
+local isRetail = WOW_PROJECT_ID == WOW_PROJECT_MAINLINE
+
 local NUM_MACRO_ICONS_SHOWN = 20;
 local NUM_ICONS_PER_ROW = 5;
 local NUM_ICON_ROWS = 4;
@@ -28,8 +29,13 @@ local MACRO_ICON_FILENAMES = {};
 UIPanelWindows["BindPadFrame"] = { area = "left", pushable = 8, whileDead = 1 };
 UIPanelWindows["BindPadMacroFrame"] = { area = "left", pushable = 9, whileDead = 1 };
 
-local BINDPAD_MAXSLOTS_DEFAULT = 42;
-local BINDPAD_MAXPROFILETAB = 1;
+local BINDPAD_MAXSLOTS_DEFAULT
+if isRetail then
+    BINDPAD_MAXSLOTS_DEFAULT = 49;
+else
+    BINDPAD_MAXSLOTS_DEFAULT = 42;
+end
+local BINDPAD_MAXPROFILETAB = 5;
 local BINDPAD_GENERAL_TAB = 1;
 local BINDPAD_SPECIFIC_1ST_TAB = 2;
 local BINDPAD_SAVEFILE_VERSION = 1.3;
@@ -69,6 +75,31 @@ BindPadCore = {
 
 local BindPadCore = BindPadCore;
 
+local GetSpecialization = isRetail and GetSpecialization or GetActiveTalentGroup;
+
+function BindPadCore.GetSpecializationInfo(specIndex)
+    if isRetail then
+        local id, name, description, icon, background, role, primaryStat = GetSpecializationInfo(specIndex);
+        return name, icon;
+    else
+        local activeName;
+        local activeIcon;
+        local activeSpent = 0;
+        for i = 1, GetNumTalentTabs() do
+            local name, icon, spent = GetTalentTabInfo(i, false, false, specIndex);
+            if spent > activeSpent then
+                activeName = name;
+                activeIcon = icon;
+                activeSpent = spent;
+            end
+        end
+        if activeName == nil then
+            return "No active spec";
+        end
+        return activeName, activeIcon;
+    end
+end
+
 function BindPadFrame_Toggle()
     if BindPadFrame:IsVisible() then
         HideUIPanel(BindPadFrame);
@@ -103,9 +134,13 @@ function BindPadFrame_OnLoad(self)
     self:RegisterEvent("UPDATE_BINDINGS");
     self:RegisterEvent("ACTIONBAR_SLOT_CHANGED");
     self:RegisterEvent("UPDATE_BONUS_ACTIONBAR");
+    self:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR");
+    self:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR");
     self:RegisterEvent("ACTIONBAR_PAGE_CHANGED");
     self:RegisterEvent("UPDATE_SHAPESHIFT_FORM");
+    self:RegisterEvent("UPDATE_POSSESS_BAR");
 
+    self:RegisterEvent("PLAYER_TALENT_UPDATE");
     self:RegisterEvent("CVAR_UPDATE");
 
     self:RegisterEvent("PLAYER_ENTERING_WORLD");
@@ -166,7 +201,11 @@ function BindPadFrame_OnShow()
         BindPadVars.tab = 1;
     end
 
-    BindPadFrameTitleText:SetText(BINDPAD_TITLE);
+    if BindPadVars.tab == 1 then
+        BindPadFrameTitleText:SetText(BINDPAD_TITLE);
+    else
+        BindPadFrameTitleText:SetText(_G["BINDPAD_TITLE_"..BindPadCore.GetCurrentProfileNum()]);
+    end
     PanelTemplates_SetTab(BindPadFrame, BindPadVars.tab);
 
     -- Update character button
@@ -178,6 +217,13 @@ function BindPadFrame_OnShow()
     BindPadVars.showHotkey = (BindPadVars.showHotkey or BindPadVars.showKeyInTooltipFlag);
     BindPadVars.showKeyInTooltipFlag = nil;
     BindPadFrameShowHotkeyButton:SetChecked(BindPadVars.showHotkey);
+
+    -- Update profile tab
+    for i = 1, BINDPAD_MAXPROFILETAB, 1 do
+        local profiletab = _G["BindPadProfileTab"..i];
+        profiletab:SetChecked((BindPadCore.GetCurrentProfileNum() == i));
+        BindPadProfileTab_OnShow(profiletab);
+    end
 
     local tabInfo = BindPadCore.GetTabInfo(BindPadVars.tab);
     BindPadCore.CreateBindPadSlot(tabInfo.numSlot);
@@ -524,7 +570,6 @@ end
 
 function BindPadSlot_UpdateState(self)
     local padSlot = BindPadCore.GetSlotInfo(self:GetID());
-
     if padSlot and padSlot.type and padSlot.action then
         self.icon:SetTexture(padSlot.texture);
         self.icon:Show();
@@ -804,6 +849,89 @@ function BindPadMacroFrame_OnHide(self)
     end
 end
 
+function BindPadProfileTab_OnShow(self)
+    local normalTexture = self:GetNormalTexture();
+    local spec1, spec2, spec3, spec4 = BindPadCore.GetSpecsForProfile(self:GetID());
+    local texture = BindPadCore.GetSpecTexture(spec1);
+    normalTexture:SetTexture(texture);
+
+    if spec2 then
+        texture = BindPadCore.GetSpecTexture(spec2);
+        self.subIcon:SetTexture(texture);
+        self.subIcon:Show();
+    else
+        self.subIcon:Hide();
+    end
+
+    if spec3 then
+        texture = BindPadCore.GetSpecTexture(spec3);
+        self.subIcon2:SetTexture(texture);
+        self.subIcon2:Show();
+    else
+        self.subIcon2:Hide();
+    end
+
+    if spec4 then
+        texture = BindPadCore.GetSpecTexture(spec4);
+        self.subIcon3:SetTexture(texture);
+        self.subIcon3:Show();
+    else
+        self.subIcon3:Hide();
+    end
+
+    if BindPadCore.GetCurrentProfileNum() == self:GetID() then
+        self:SetChecked(1);
+    end
+end
+
+function BindPadProfileTab_OnClick(self, button, down)
+    if BindPadVars.tab == 1 and
+        self:GetID() ~= BindPadCore.GetCurrentProfileNum() then
+
+        BindPadFrameTab_OnClick(BindPadFrameTab2);
+    end
+    BindPadCore.SwitchProfile(self:GetID());
+    BindPadFrame_OnShow();
+    BindPadProfileTab_OnEnter(self);
+end
+
+function BindPadProfileTab_OnEnter(self, motion)
+    local profileNum = self:GetID();
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+    GameTooltip:SetText(BINDPAD_TOOLTIP_EXTRA_PROFILE..profileNum);
+
+    local spec1, spec2, spec3, spec4 = BindPadCore.GetSpecsForProfile(self:GetID());
+    if spec4 ~= nil then
+        GameTooltip:AddLine(BINDPAD_TOOLTIP_PROFILE_CURRENTLY4,
+            0.8, 0.8, 1.0);
+    elseif spec3 ~= nil then
+        GameTooltip:AddLine(format(BINDPAD_TOOLTIP_PROFILE_CURRENTLY3,
+            BindPadCore.GetTalentSpec(spec1),
+            BindPadCore.GetTalentSpec(spec2),
+            BindPadCore.GetTalentSpec(spec3)),
+        0.8, 0.8, 1.0);
+    elseif spec2 ~= nil then
+        GameTooltip:AddLine(format(BINDPAD_TOOLTIP_PROFILE_CURRENTLY2,
+            BindPadCore.GetTalentSpec(spec1),
+            BindPadCore.GetTalentSpec(spec2)),
+        0.8, 0.8, 1.0);
+    elseif spec1 ~= nil then
+        GameTooltip:AddLine(format(BINDPAD_TOOLTIP_PROFILE_CURRENTLY1,
+            BindPadCore.GetTalentSpec(spec1)),
+        0.8, 0.8, 1.0);
+    end
+
+    local specIndex = GetSpecialization();
+    if profileNum ~= BindPadCore.GetProfileForSpec(specIndex) then
+        GameTooltip:AddLine(format(BINDPAD_TOOLTIP_PROFILE_CLICK_FOR,
+            profileNum,
+            BindPadCore.GetTalentSpec(specIndex)),
+        0.8, 1.0, 0.8);
+    end
+
+    GameTooltip:Show();
+end
+
 --
 -- BindPadCore:  A set of core functions
 --
@@ -893,7 +1021,7 @@ function BindPadCore.PlaceIntoSlot(id, type, detail, subdetail, spellid)
             -- This fails if Blizzard_PetBattleUI is not loaded in memory;
             --  padSlot.macrotext = SLASH_CLICK1.." MountJournalSummonRandomFavoriteButton";
 
-            -- This will accidently cancel Priest's Shadowform.
+            -- This will accidentally cancel Priest's Shadowform.
             -- padSlot.macrotext = "/cancelform\n"..SLASH_SCRIPT1.." C_MountJournal.Summon(0)";
 
             -- A very hacky workaround to all of the above.
@@ -1014,6 +1142,36 @@ function BindPadCore.GetProfileForSpec(specIndex)
     return BindPadVars[character].profileForTalentGroup[specIndex];
 end
 
+function BindPadCore.GetSpecsForProfile(profileNum)
+    local spec1, spec2, spec3, spec4;
+    local character = BindPadCore.character;
+
+    if not character then
+        return nil;
+    end
+
+    local specIndex = GetSpecialization();
+    if BindPadVars[character].profileForTalentGroup[specIndex] == profileNum then
+        spec1 = specIndex;
+    end
+
+    for k,v in pairs(BindPadVars[character].profileForTalentGroup) do
+        if v == profileNum and k ~= specIndex then
+            if spec1 == nil then
+                spec1 = k;
+            elseif spec2 == nil then
+                spec2 = k;
+            elseif spec3 == nil then
+                spec3 = k;
+            elseif spec4 == nil then
+                spec4 = k;
+            end
+        end
+    end
+
+    return spec1, spec2, spec3, spec4;
+end
+
 function BindPadCore.GetProfileData()
     local character = BindPadCore.character;
     if not character then
@@ -1045,15 +1203,14 @@ function BindPadCore.SwitchProfile(newProfileNum, force)
 
     BindPadCore.profileNum = newProfileNum;
 
-    --local specIndex = GetSpecialization();
-    --BindPadVars[character].profileForTalentGroup[specIndex] = newProfileNum;
-    BindPadVars[character].profileForTalentGroup[1] = newProfileNum;
+    local specIndex = GetSpecialization();
+    BindPadVars[character].profileForTalentGroup[specIndex] = newProfileNum;
 
     -- Create new profile if not available
     if not BindPadVars[character][newProfileNum] then
         BindPadVars[character][newProfileNum] = {};
 
-        -- This call to DoSaveAllKeys is nesessary
+        -- This call to DoSaveAllKeys is necessary
         -- Putting current keybindings data into a new profile tab table.
         BindPadCore.DoSaveAllKeys();
         BindPadFrame_OutputText(BINDPAD_TEXT_CREATE_PROFILETAB);
@@ -1136,7 +1293,9 @@ function BindPadCore.CarryOverKeybinding(key, action)
         local profile = BindPadVars[character][profileNum];
         if profile ~= nil then
             if (profile.version or 0) >= BINDPAD_PROFILE_VERSION252 then
-                profile.AllKeyBindings[key] = action;
+                if profile.AllKeyBindings then
+                    profile.AllKeyBindings[key] = action;
+                end
             end
         end
     end
@@ -1332,9 +1491,8 @@ function BindPadCore.InitProfile()
         BindPadVars[character].profileForTalentGroup = {}
     end
 
-    --local newActiveTalentGroup = GetSpecialization()
-    --local profileNum = BindPadCore.GetProfileForSpec(newActiveTalentGroup)
-    local profileNum = 1
+    local newActiveTalentGroup = GetSpecialization()
+    local profileNum = BindPadCore.GetProfileForSpec(newActiveTalentGroup)
 
     -- Make sure profileNum tab is set for current talent group.
     BindPadCore.SwitchProfile(profileNum, true)
@@ -1513,6 +1671,13 @@ function BindPadCore.CVAR_UPDATE(arg1, arg2)
 end
 
 function BindPadCore.GetSpecTexture(specIndex)
+    if specIndex == nil then
+        return nil;
+    end
+    local name, icon = BindPadCore.GetSpecializationInfo(specIndex)
+    if icon ~= nil then
+        return icon;
+    end
     return "Interface\\Icons\\Ability_Marksmanship";
 end
 
@@ -1521,6 +1686,15 @@ function BindPadCore.SetTriggerOnKeydown()
 	BindPadMacro:RegisterForClicks("AnyUp", "AnyDown");
     BindPadKey:RegisterForClicks("AnyUp", "AnyDown");
 
+end
+
+function BindPadCore.GetTalentSpec(specIndex)
+    if specIndex == nil then
+        return "";
+    end
+    local name, icon = BindPadCore.GetSpecializationInfo(specIndex);
+
+    return name;
 end
 
 function BindPadCore.DoList(arg)
@@ -1686,11 +1860,11 @@ function BindPadCore.DoRestoreAllKeys()
     if BindPadVars.saveAllKeysFlag then
         for i=1,GetNumBindings() do
             local command, category, key1, key2 = GetBinding(i);
-            -- Ensure to be unbinded if not binded.
+            -- Ensure to be unbound if not bound.
             if key1 and profile.AllKeyBindings[key1] == nil then
                 BindPadCore.InnerSetBinding(key1, nil);
             end
-            -- Ensure to be unbinded if not binded.
+            -- Ensure to be unbound if not bound.
             if key2 and profile.AllKeyBindings[key2] == nil then
                 BindPadCore.InnerSetBinding(key2, nil);
             end
@@ -1699,7 +1873,7 @@ function BindPadCore.DoRestoreAllKeys()
 
     --   for padSlot in BindPadCore.AllSlotInfoIter() do
     --      if padSlot.action then
-    --         -- Ensure to be unbinded if not binded.
+    --         -- Ensure to be unbound if not bound.
     --         local key = GetBindingKey(padSlot.action);
     --         if key then
     --	    if profile.AllKeyBindings[key] == nil then
@@ -1710,7 +1884,7 @@ function BindPadCore.DoRestoreAllKeys()
     --   end
     local to_be_removed = {};
     for k,v in pairs(BindPadCore.currentkeybindings) do
-        -- Ensure to be unbinded if not binded.
+        -- Ensure to be unbound if not bound.
         if profile.AllKeyBindings[k] == nil then
             if strfind(v, "^CLICK BindPad") then
                 table.insert(to_be_removed, k);
@@ -1785,7 +1959,12 @@ function BindPadCore.GameTooltipSetItemByID(self, itemID)
 end
 
 function BindPadCore.GameTooltipSetBagItem(self, bag, slot)
-    local itemID = C_Container.GetContainerItemID(bag, slot);
+    local itemID
+    if C_Container and C_Container.GetContainerItemID then
+        itemID = C_Container.GetContainerItemID(bag, slot)
+    else
+        itemID = GetContainerItemID(bag, slot)
+    end
     if itemID then
         BindPadCore.InsertBindingTooltip(concat("ITEM ", GetItemInfo(itemID)));
     end
@@ -1981,8 +2160,12 @@ hooksecurefunc("CreateFrame", BindPadCore.CreateFrameHook);
 
 BindPadCore.useBindPadSlot = 0;
 function BindPadCore.CreateBindPadSlot(usenum)
-    local NUM_SLOTS_PER_ROW = 6;
-
+    local NUM_SLOTS_PER_ROW
+    if isRetail then
+        NUM_SLOTS_PER_ROW = 7;
+    else
+        NUM_SLOTS_PER_ROW = 6;
+    end
     for i = min(usenum+1, BindPadCore.useBindPadSlot+1), max(usenum, BindPadCore.useBindPadSlot) do
         local button = _G["BindPadSlot"..i];
         if button == nil then
@@ -2089,7 +2272,6 @@ function BindPadCore.GetSlotInfoInTab(tab, id, newFlag)
             tabInfo[id] = nil;
         end
     end
-
     return tabInfo[id];
 end
 

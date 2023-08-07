@@ -2,9 +2,9 @@
 ..\FrameXML\UI.xsd">
 
 <Script file="LibStub.lua"/>
-<Script file="LibATTButtonGlow.lua"/>
 <Script file="LibATTSimpleOptions.lua"/>
-<Script file="LibSerialize.lua"/>
-
+<Script file="LibATTButtonGlow.lua"/>
+<Include file="LibDeflate\lib.xml"/>
+<Include file="LibOpenRaidATT\lib.xml"/>
 </Ui>
 

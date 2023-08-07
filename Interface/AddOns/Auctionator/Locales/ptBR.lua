@@ -502,6 +502,8 @@ L["SEARCH"] = "Procurar"
 L["SEARCH_ALL"] = [=[Pesquisar tudo
 ]=]
 --[[Translation missing --]]
+L["SEARCH_FOR_QUANTITY"] = "Search For Quantity"
+--[[Translation missing --]]
 L["SEARCH_OPTIONS"] = "Search Options"
 L["SEARCH_TERM"] = "Procurar Termo"
 --[[Translation missing --]]

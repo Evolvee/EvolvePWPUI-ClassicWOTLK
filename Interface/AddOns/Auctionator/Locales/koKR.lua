@@ -476,6 +476,8 @@ L["SCANNING_PAGE_X"] = "%s 페이지 검색중..."
 L["SEARCH"] = "검색"
 L["SEARCH_ALL"] = "전체 검색"
 --[[Translation missing --]]
+L["SEARCH_FOR_QUANTITY"] = "Search For Quantity"
+--[[Translation missing --]]
 L["SEARCH_OPTIONS"] = "Search Options"
 L["SEARCH_TERM"] = "이름 추가"
 --[[Translation missing --]]

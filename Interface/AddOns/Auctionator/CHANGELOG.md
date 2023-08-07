@@ -1,10 +1,8 @@
 # Auctionator
 
-## [1.1.13](https://github.com/Auctionator/Auctionator/tree/1.1.13) (2023-07-12)
-[Full Changelog](https://github.com/Auctionator/Auctionator/compare/10.1.12...1.1.13) 
+## [10.1.14](https://github.com/Auctionator/Auctionator/tree/10.1.14) (2023-07-22)
+[Full Changelog](https://github.com/Auctionator/Auctionator/compare/1.1.13...10.1.14) 
 
-- Update toc for 10.1.5 (#1411)  
-- Classic: Buy: Adjust refreshes when using load all results option  
-- Classic: Buying: Optional time left column  
-- Selling: Bag: Sort order for favourites is consistent regardless of quantity  
-- Classic: Attempt to fix search hang after internal auction error  
+- CraftingInfo: Mainline: Dialog on right-click search to set search quantity  
+- Selling: Hidden option to revert favourites sort algorithm change  
+- [Fixes #1414] Tooltip: Error in crafting orders placing UI for some reagents  

@@ -1,9 +1,6 @@
-local MAJOR_VERSION = "LibATTButtonGlow"
-local MINOR_VERSION = 8
-
-if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
-local lib, oldversion = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
-if not lib then return end
+local addon, ATTdbs = ...
+ATTdbs.LibATTButtonGlow = {}
+local lib = ATTdbs.LibATTButtonGlow
 
 local Masque = LibStub("Masque", true)
 

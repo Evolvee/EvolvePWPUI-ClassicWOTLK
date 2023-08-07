@@ -123,8 +123,8 @@ local cvars = {
     Sound_EnableDSPEffects = "0",
     countdownForCooldowns = "1",
     nameplateShowFriendlyNPCs = "0",
-	nameplateShowFriendlyMinions = "0",
-	nameplateShowFriendlyPets = "0"
+    nameplateShowFriendlyMinions = "0",
+    nameplateShowFriendlyPets = "0"
 }
 
 local function CustomCvar()
@@ -593,6 +593,7 @@ local function OnInit()
     RegisterStateDriver(StanceBarFrame, "visibility", "hide")
 
     --disable mouseover flashing on buttons
+    local texture
     texture = MultiBarBottomLeftButton1:GetHighlightTexture()
     texture:SetAlpha(0)
     texture = MultiBarBottomLeftButton2:GetHighlightTexture()
@@ -807,7 +808,9 @@ end)
 
 -- Remove color on name background
 hooksecurefunc("TargetFrame_CheckFaction", function(self)
-    self.nameBackground:SetVertexColor(0.0, 0.0, 0.0, 0.5);
+    if self and self.nameBackground then
+        self.nameBackground:SetVertexColor(0.0, 0.0, 0.0, 0.5);
+    end
 end)
 
 -- Hidden Player glow combat/rested flashes + Hidden Focus Flash on Focused Target + Trying to completely hide the red glowing status on target/focus frames when they have low HP(this is not completely fixed yet)
@@ -823,11 +826,10 @@ end)
 hooksecurefunc(PlayerFrameGroupIndicator, "Show", PlayerFrameGroupIndicator.Hide)
 
 --Action bar buttons are now bigger, better looking and also fixes spellbook/wep switch bugging of dark theme
-hooksecurefunc("ActionButton_ShowGrid", function(Button)
-    if not Button then
-        Button = this
+hooksecurefunc("ActionButton_ShowGrid", function(button)
+    if button.NormalTexture then
+        button.NormalTexture:SetVertexColor(1.0, 1.0, 1.0, 1.0)
     end
-    _G[Button:GetName() .. "NormalTexture"]:SetVertexColor(1, 1, 1, 1)
 end)
 for _, Bar in pairs({ "Action", "MultiBarBottomLeft", "MultiBarBottomRight", "MultiBarLeft", "MultiBarRight", "Stance", "PetAction" }) do
     for i = 1, 12 do
@@ -1135,10 +1137,9 @@ local function Update(frame)
     local selfName = frame:GetName()
     local isEnemy = UnitIsEnemy(PlayerFrame.unit, frame.unit)
     for i = 1, MAX_TARGET_BUFFS do
-        name, icon, _, debuffType, _, _, _, isStealable = UnitBuff(frame.unit, i) -- changed
+        local name, icon, _, debuffType, _, _, _, isStealable = UnitBuff(frame.unit, i) -- changed
         if (icon and (not frame.maxBuffs or i <= frame.maxBuffs)) then
             local frameName = selfName .. 'Buff' .. i
-            buffFrame = _G[frameName]
             frameStealable = _G[frameName .. 'Stealable']
             if (isEnemy and isStealable and debuffType == 'Magic') then
                 frameStealable:Show()
@@ -1294,14 +1295,23 @@ end
 
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN")
+f:RegisterUnitEvent("UNIT_PET", "player")
 f:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_LOGIN" then
         CustomCvar()
         OnInit()
         hooksecurefunc("CompactUnitFrame_UpdateName", PlateNames)
+        self:UnregisterEvent("PLAYER_LOGIN")
+	-- Mark Shadowfiend with a "pussy" Raid Icon (dont mind me, just re-adding a lost feature of ArenaMarker addon that we removed due to a script below)
+    elseif event == "UNIT_PET" then
+        local _, type = IsInInstance()
+        if type ~= "arena" then
+            return
+        end
+        if GetRaidTargetIndex("pet") ~= 3 then
+            SetRaidTarget("pet", 3)
+        end
     end
-    self:UnregisterEvent("PLAYER_LOGIN")
-    self:SetScript("OnEvent", nil)
 end)
 
 -- stop Gladdy from showing nameplates (necessary for the next script) !! IMPORTANT - You MUST use the "Lock Frame" function in General tab of Gladdy alongside with this!!
@@ -1748,10 +1758,6 @@ local function SetPosition(frame, ...)
         frame = _G[frame]
     end
 
-    if UIPARENT_MANAGED_FRAME_POSITIONS and UIPARENT_MANAGED_FRAME_POSITIONS[frame] then
-        UIPARENT_MANAGED_FRAME_POSITIONS[frame] = nil
-    end
-
     if type(frame) == "table" and type(frame.IsObjectType) == "function" and frame:IsObjectType("Frame") then
         if ... then
             frame:ClearAllPoints()
@@ -1770,23 +1776,6 @@ hooksecurefunc(widget, "SetPoint", function(self, _, parent)
     end
 end)
 
-local function SpellBarAdjust(self)
-    if not self or not self.unit or not strfind(self.unit, "nameplate") or self:IsForbidden() then
-        return
-    end
-    local parentFrame = self:GetParent()
-
-    if self.BorderShield:IsShown() then
-        self:ClearAllPoints()
-        self:SetPoint("TOP", parentFrame.healthBar, "BOTTOM", 9, -12)
-    else
-        self:ClearAllPoints()
-        self:SetPoint("TOP", parentFrame.healthBar, "BOTTOM", 9, -4)
-    end
-end
-hooksecurefunc("CastingBarFrame_OnShow", SpellBarAdjust)
-
-
 -- Remove debuffs from Target of Target frame
 for _, totFrame in ipairs({ TargetFrameToT, FocusFrameToT }) do
     totFrame:HookScript("OnShow", function()
@@ -1800,7 +1789,7 @@ for _, totFrame in ipairs({ TargetFrameToT, FocusFrameToT }) do
 end
 
 -- Testing new method of displaying partners in arena (Raid Icon Markers)
--- ^^ remove cvar "nameplateShowFriendlyNPCs" + friendly nameplates from UI options later (when deleted)
+-- ^^ remove cvar "nameplateShowFriendlyNPCs" + friendly nameplates from UI options later (if deleted)
 
 local classmarkers = {
     ["ROGUE"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Rogue",
@@ -1873,10 +1862,41 @@ end)
 
 -- Hide the friendly nameplate cast bars (a subproduct of the script above ^^)
 hooksecurefunc("Nameplate_CastBar_AdjustPosition", function(self)
+    if not self or self:IsForbidden() then return end
+
     if UnitIsFriend("player", self.unit) then
         self:Hide()
     end
+
+    local parentFrame = self:GetParent()
+    if self.BorderShield:IsShown() then
+        self:ClearAllPoints()
+        self:SetPoint("TOP", parentFrame.healthBar, "BOTTOM", 9, -12)
+    else
+        self:ClearAllPoints()
+        self:SetPoint("TOP", parentFrame.healthBar, "BOTTOM", 9, -4)
+    end
 end)
+
+
+-- Removing the flashing animation of coooldown finish at action bars
+
+for k,v in pairs(_G) do
+    if type(v)=="table" and type(v.SetDrawBling)=="function" then
+        v:SetDrawBling(false)
+    end
+end
+hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', function(self)
+    self:SetDrawBling(false)
+end)
+
+
+-- TODO: Hide Macro & Keybind text from Action Bar buttons
+
+
+
+
+
 
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
@@ -1896,6 +1916,6 @@ end)
 
 --Login message informing all scripts of this file were properly executed
 
-ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.2 Loaded successfully!", 0, 205, 255)
+ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.4 Loaded successfully!", 0, 205, 255)
 ChatFrame1:AddMessage("Check for updates at:", 0, 205, 255)
 ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK", 0, 205, 255)

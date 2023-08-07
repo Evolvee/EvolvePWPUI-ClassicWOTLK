@@ -100,7 +100,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 49206, ["cooldown"] = 180 },
             { ["ability"] = 91802, ["cooldown"] = 30 },
             { ["ability"] = 207289, ["cooldown"] = 90 },
-            { ["ability"] = 288853, ["cooldown"] = 90 }, --
+          --  { ["ability"] = 288853, ["cooldown"] = 90 }, --
             { ["ability"] = 108194, ["cooldown"] = 45 },
             { ["ability"] = 49576, ["cooldown"] = 25 },
             { ["ability"] = 288977, ["cooldown"] = 45 }, -- ?
@@ -109,9 +109,11 @@ ATTdbs.dbImport = {
             { ["ability"] = 47568, ["cooldown"] = 120 },
             { ["ability"] = 221562, ["cooldown"] = 45 },
             { ["ability"] = 207167, ["cooldown"] = 60 },
-            { ["ability"] = 46585, ["cooldown"] = 120 },
+           -- { ["ability"] = 46585, ["cooldown"] = 120 },
             { ["ability"] = 383269, ["cooldown"] = 120 },
             { ["ability"] = 50977, ["cooldown"] = 60 },
+            { ["ability"] = 210128, ["cooldown"] = 12, ["charges"] = 2 },
+
         },
     },
     --- Demon Hunter
@@ -215,7 +217,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 214621, ["cooldown"] = 24 }, --
             { ["ability"] = 314867, ["cooldown"] = 30 }, --
             { ["ability"] = 109964, ["cooldown"] = 90 }, --
-            { ["ability"] = 32379, ["cooldown"] = 20 },
+            { ["ability"] = 32379, ["cooldown"] = 10 },
             { ["ability"] = 373481, ["cooldown"] = 30 },
             { ["ability"] = 108920, ["cooldown"] = 60 },
             { ["ability"] = 108968, ["cooldown"] = 300 },
@@ -223,12 +225,14 @@ ATTdbs.dbImport = {
             { ["ability"] = 205364, ["cooldown"] = 30 },
             { ["ability"] = 15286, ["cooldown"] = 120 },
             { ["ability"] = 19236, ["cooldown"] = 90 },
+            { ["ability"] = 271466, ["cooldown"] = 180 },
+
         },
         ["257"] = {
             --- Holy 257
             { ["ability"] = 372760, ["cooldown"] = 60 },
             { ["ability"] = 372616, ["cooldown"] = 30 },
-            { ["ability"] = 372835, ["cooldown"] = 180 },
+            { ["ability"] = 372835, ["cooldown"] = 120 },
             { ["ability"] = 391054, ["cooldown"] = 600 },
             { ["ability"] = 586, ["cooldown"] = 30 },
             { ["ability"] = 8122, ["cooldown"] = 45 },
@@ -261,7 +265,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 108968, ["cooldown"] = 300 },
             { ["ability"] = 375901, ["cooldown"] = 45 },
             { ["ability"] = 73325, ["cooldown"] = 90 },
-            { ["ability"] = 32379, ["cooldown"] = 20 },
+            { ["ability"] = 32379, ["cooldown"] = 10 },
             { ["ability"] = 34433, ["cooldown"] = 180 },
             { ["ability"] = 205364, ["cooldown"] = 30 },
             { ["ability"] = 15286, ["cooldown"] = 120 },
@@ -279,15 +283,15 @@ ATTdbs.dbImport = {
             { ["ability"] = 213634, ["cooldown"] = 8 }, --
             { ["ability"] = 15286, ["cooldown"] = 120 },
             { ["ability"] = 15487, ["cooldown"] = 45 },
-            { ["ability"] = 32379, ["cooldown"] = 20 },
+            { ["ability"] = 32379, ["cooldown"] = 10 },
             { ["ability"] = 47585, ["cooldown"] = 120 },
             { ["ability"] = 64044, ["cooldown"] = 45 },
             { ["ability"] = 108968, ["cooldown"] = 300 },
             { ["ability"] = 205369, ["cooldown"] = 30 },
             { ["ability"] = 211522, ["cooldown"] = 45 },
-            { ["ability"] = 341374, ["cooldown"] = 60 }, --
-            { ["ability"] = 263165, ["cooldown"] = 60 }, --
-            { ["ability"] = 205385, ["cooldown"] = 30 }, --
+           -- { ["ability"] = 341374, ["cooldown"] = 60 }, --
+            { ["ability"] = 263165, ["cooldown"] = 45 }, --
+            { ["ability"] = 205385, ["cooldown"] = 20 }, --
             { ["ability"] = 200174, ["cooldown"] = 60 },
             { ["ability"] = 108920, ["cooldown"] = 60 },
             { ["ability"] = 120644, ["cooldown"] = 40 },
@@ -297,7 +301,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 121536, ["cooldown"] = 20, ["charges"] = 3 },
             { ["ability"] = 10060, ["cooldown"] = 120 },
             { ["ability"] = 205364, ["cooldown"] = 30 },
-            { ["ability"] = 263346, ["cooldown"] = 30 },
+          --  { ["ability"] = 263346, ["cooldown"] = 30 },
             { ["ability"] = 373481, ["cooldown"] = 30 },
             { ["ability"] = 19236, ["cooldown"] = 90 },
         },
@@ -317,16 +321,15 @@ ATTdbs.dbImport = {
             { ["ability"] = 10326, ["cooldown"] = 15 }, --
             { ["ability"] = 62124, ["cooldown"] = 8 }, --
             { ["ability"] = 6940, ["cooldown"] = 120 },
-            { ["ability"] = 152262, ["cooldown"] = 45 },
-            { ["ability"] = 105809, ["cooldown"] = 180 },
+          --  { ["ability"] = 152262, ["cooldown"] = 45 },
             { ["ability"] = 4987, ["cooldown"] = 8 },
             { ["ability"] = 498, ["cooldown"] = 60 },
             { ["ability"] = 31821, ["cooldown"] = 180 },
             { ["ability"] = 114158, ["cooldown"] = 60 },
-            { ["ability"] = 210294, ["cooldown"] = 45 },
-            { ["ability"] = 214202, ["cooldown"] = 30, ["charges"] = 2 },
+            { ["ability"] = 210294, ["cooldown"] = 30 },
+            --{ ["ability"] = 214202, ["cooldown"] = 30, ["charges"] = 2 },
             { ["ability"] = 199452, ["cooldown"] = 120 }, --
-            { ["ability"] = 216331, ["cooldown"] = 45 },
+            { ["ability"] = 216331, ["cooldown"] = 60 },
             { ["ability"] = 200025, ["cooldown"] = 15 }, --
             { ["ability"] = 223306, ["cooldown"] = 12 }, --
             { ["ability"] = 343527, ["cooldown"] = 60 }, --
@@ -337,6 +340,12 @@ ATTdbs.dbImport = {
             { ["ability"] = 190784, ["cooldown"] = 45 },
             { ["ability"] = 388007, ["cooldown"] = 45 },
             { ["ability"] = 148039, ["cooldown"] = 30 },
+            { ["ability"] = 410126, ["cooldown"] = 60 },
+
+            { ["ability"] = 414273, ["cooldown"] = 90 },
+            { ["ability"] = 414170, ["cooldown"] = 60 },
+
+
         },
         ["66"] = {
             --- Protection 66
@@ -356,7 +365,6 @@ ATTdbs.dbImport = {
             { ["ability"] = 62124, ["cooldown"] = 8 }, --
             { ["ability"] = 6940, ["cooldown"] = 120 },
             { ["ability"] = 152262, ["cooldown"] = 45 },
-            { ["ability"] = 105809, ["cooldown"] = 180 },
             { ["ability"] = 31850, ["cooldown"] = 120 },
             { ["ability"] = 31935, ["cooldown"] = 15 },
             { ["ability"] = 86659, ["cooldown"] = 300 },
@@ -366,7 +374,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 215652, ["cooldown"] = 45 },
             { ["ability"] = 207028, ["cooldown"] = 20 }, --
             { ["ability"] = 213644, ["cooldown"] = 8 },
-            { ["ability"] = 498, ["cooldown"] = 60 },
+            --{ ["ability"] = 498, ["cooldown"] = 60 },
             { ["ability"] = 204018, ["cooldown"] = 300 },
             { ["ability"] = 327193, ["cooldown"] = 90 }, --
         },
@@ -380,14 +388,13 @@ ATTdbs.dbImport = {
             { ["ability"] = 1022, ["cooldown"] = 300 },
             { ["ability"] = 1044, ["cooldown"] = 25 },
             { ["ability"] = 20066, ["cooldown"] = 15 },
-            { ["ability"] = 31884, ["cooldown"] = 120 },
+            { ["ability"] = 31884, ["cooldown"] = 60 },
             { ["ability"] = 115750, ["cooldown"] = 90 },
             { ["ability"] = 10326, ["cooldown"] = 15 }, --
             { ["ability"] = 62124, ["cooldown"] = 8 }, --
             { ["ability"] = 6940, ["cooldown"] = 120 },
-            { ["ability"] = 152262, ["cooldown"] = 45 },
-            { ["ability"] = 105809, ["cooldown"] = 180 },
-            { ["ability"] = 255937, ["cooldown"] = 45 },
+           -- { ["ability"] = 152262, ["cooldown"] = 45 },
+            { ["ability"] = 255937, ["cooldown"] = 30 },
             { ["ability"] = 183218, ["cooldown"] = 30 },
             { ["ability"] = 184662, ["cooldown"] = 90 },
             { ["ability"] = 205191, ["cooldown"] = 60 },
@@ -399,7 +406,12 @@ ATTdbs.dbImport = {
             { ["ability"] = 375576, ["cooldown"] = 60 },
             { ["ability"] = 190784, ["cooldown"] = 45, },
             { ["ability"] = 343527, ["cooldown"] = 60 },
-            { ["ability"] = 498, ["cooldown"] = 60 },
+          --  { ["ability"] = 498, ["cooldown"] = 60 },
+            { ["ability"] = 403876, ["cooldown"] = 60 }, --cd bug
+           -- { ["ability"] = 404357, ["cooldown"] = 60 }, --to do
+            { ["ability"] = 198034, ["cooldown"] = 20 }, --cd bug
+            { ["ability"] = 204018, ["cooldown"] = 300 },
+            
         },
     },
     --- Druid
@@ -429,7 +441,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 305497, ["cooldown"] = 45 }, --
             { ["ability"] = 2782, ["cooldown"] = 8 },
             { ["ability"] = 106898, ["cooldown"] = 120 },
-            { ["ability"] = 274283, ["cooldown"] = 20, ["charges"] = 3 },
+            { ["ability"] = 274281, ["cooldown"] = 20, ["charges"] = 3 },
             { ["ability"] = 132469, ["cooldown"] = 30 },
             { ["ability"] = 106839, ["cooldown"] = 15 },
             { ["ability"] = 22842, ["cooldown"] = 34 },
@@ -487,7 +499,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 6795, ["cooldown"] = 8 }, --
             { ["ability"] = 5215, ["cooldown"] = 6 }, --
             { ["ability"] = 2908, ["cooldown"] = 10 }, --
-            { ["ability"] = 22812, ["cooldown"] = 60 },
+            { ["ability"] = 22812, ["cooldown"] = 45 },
             { ["ability"] = 108238, ["cooldown"] = 90 },
             { ["ability"] = 50334, ["cooldown"] = 180 },
             { ["ability"] = 99, ["cooldown"] = 30 },
@@ -566,7 +578,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 23922, ["cooldown"] = 9 }, --
             { ["ability"] = 3411, ["cooldown"] = 30 }, --
             { ["ability"] = 64382, ["cooldown"] = 180 }, --
-            { ["ability"] = 355, ["cooldown"] = 8 }, --
+            { ["ability"] = 355, ["cooldown"] = 8, ["base"] = true, }, --
             { ["ability"] = 5246, ["cooldown"] = 90 },
             { ["ability"] = 97462, ["cooldown"] = 180 },
             { ["ability"] = 260708, ["cooldown"] = 30 },
@@ -607,7 +619,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 23922, ["cooldown"] = 9 }, --
             { ["ability"] = 3411, ["cooldown"] = 30 }, --
             { ["ability"] = 64382, ["cooldown"] = 180 }, --
-            { ["ability"] = 355, ["cooldown"] = 8 }, --
+            { ["ability"] = 355, ["cooldown"] = 8, ["base"] = true, }, --
             { ["ability"] = 5246, ["cooldown"] = 90 },
             { ["ability"] = 97462, ["cooldown"] = 180 },
             { ["ability"] = 184364, ["cooldown"] = 120 },
@@ -635,7 +647,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 6544, ["cooldown"] = 45 },
             { ["ability"] = 6552, ["cooldown"] = 15 },
             { ["ability"] = 18499, ["cooldown"] = 60 },
-            { ["ability"] = 23920, ["cooldown"] = 25 },
+            { ["ability"] = 23920, ["cooldown"] = 20 },
             { ["ability"] = 107570, ["cooldown"] = 30 },
             { ["ability"] = 236077, ["cooldown"] = 45 },
             { ["ability"] = 202168, ["cooldown"] = 25 }, --
@@ -655,7 +667,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 213871, ["cooldown"] = 15 },
             { ["ability"] = 228920, ["cooldown"] = 90 },
             { ["ability"] = 199086, ["cooldown"] = 45 }, --
-            { ["ability"] = 205800, ["cooldown"] = 20 }, --
+            { ["ability"] = 205800, ["cooldown"] = 20, ["base"] = true}, --
             { ["ability"] = 198912, ["cooldown"] = 10 }, --
             { ["ability"] = 46968, ["cooldown"] = 40 },
             { ["ability"] = 107574, ["cooldown"] = 90 },
@@ -678,28 +690,31 @@ ATTdbs.dbImport = {
             { ["ability"] = 30283, ["cooldown"] = 60 },
             { ["ability"] = 104773, ["cooldown"] = 180 },
             { ["ability"] = 108416, ["cooldown"] = 60 },
-            { ["ability"] = 199954, ["cooldown"] = 45 },
+         --   { ["ability"] = 199954, ["cooldown"] = 45 },
             { ["ability"] = 212295, ["cooldown"] = 45 },
-            { ["ability"] = 221703, ["cooldown"] = 60 },
+    --        { ["ability"] = 221703, ["cooldown"] = 60 },
             { ["ability"] = 119898, ["cooldown"] = 24 },
             { ["ability"] = 48020, ["cooldown"] = 30 },
             { ["ability"] = 113942, ["cooldown"] = 90 },
-            { ["ability"] = 328774, ["cooldown"] = 30 },
+            { ["ability"] = 328774, ["cooldown"] = 60 },
             { ["ability"] = 333889, ["cooldown"] = 180 },
             { ["ability"] = 29893, ["cooldown"] = 120 },
             { ["ability"] = 5484, ["cooldown"] = 40 },
             { ["ability"] = 48181, ["cooldown"] = 15 },
             { ["ability"] = 113860, ["cooldown"] = 120 },
             { ["ability"] = 205179, ["cooldown"] = 45 },
-            { ["ability"] = 234877, ["cooldown"] = 30 },
+     --       { ["ability"] = 234877, ["cooldown"] = 30 },
             { ["ability"] = 344566, ["cooldown"] = 30 },
             { ["ability"] = 278350, ["cooldown"] = 30 },
             { ["ability"] = 108503, ["cooldown"] = 30 },
-            { ["ability"] = 264106, ["cooldown"] = 45 },
+         --   { ["ability"] = 264106, ["cooldown"] = 45 },
             { ["ability"] = 205180, ["cooldown"] = 120 },
             { ["ability"] = 353294, ["cooldown"] = 60 }, --
-            { ["ability"] = 201996, ["cooldown"] = 90 },
+            { ["ability"] = 201996, ["cooldown"] = 60 },
             { ["ability"] = 386997, ["cooldown"] = 60 },
+            { ["ability"] = 410598, ["cooldown"] = 60 },
+            { ["ability"] = 417537, ["cooldown"] = 45 },
+
         },
         ["266"] = {
             --- Demonology 266
@@ -709,20 +724,20 @@ ATTdbs.dbImport = {
             { ["ability"] = 30283, ["cooldown"] = 60 },
             { ["ability"] = 104773, ["cooldown"] = 180 },
             { ["ability"] = 108416, ["cooldown"] = 60 },
-            { ["ability"] = 199954, ["cooldown"] = 45 },
+   --         { ["ability"] = 199954, ["cooldown"] = 45 },
             { ["ability"] = 212295, ["cooldown"] = 45 },
-            { ["ability"] = 221703, ["cooldown"] = 60 },
+   --         { ["ability"] = 221703, ["cooldown"] = 60 },
             { ["ability"] = 119898, ["cooldown"] = 24 },
             { ["ability"] = 48020, ["cooldown"] = 30 },
             { ["ability"] = 113942, ["cooldown"] = 90 },
-            { ["ability"] = 328774, ["cooldown"] = 30 },
+            { ["ability"] = 328774, ["cooldown"] = 60 },
             { ["ability"] = 333889, ["cooldown"] = 180 },
             { ["ability"] = 29893, ["cooldown"] = 120 },
             { ["ability"] = 104316, ["cooldown"] = 20 },
             { ["ability"] = 265187, ["cooldown"] = 90 },
-            { ["ability"] = 201996, ["cooldown"] = 90 },
+            { ["ability"] = 201996, ["cooldown"] = 60 },
             { ["ability"] = 212459, ["cooldown"] = 120 },
-            { ["ability"] = 212619, ["cooldown"] = 30 },
+     --       { ["ability"] = 212619, ["cooldown"] = 30 },
             { ["ability"] = 264119, ["cooldown"] = 45 },
             { ["ability"] = 264130, ["cooldown"] = 30 },
             { ["ability"] = 111898, ["cooldown"] = 120 },
@@ -733,6 +748,8 @@ ATTdbs.dbImport = {
             { ["ability"] = 353294, ["cooldown"] = 60 }, --
             { ["ability"] = 353601, ["cooldown"] = 45 }, --
             { ["ability"] = 5484, ["cooldown"] = 40 },
+            { ["ability"] = 410598, ["cooldown"] = 60 },
+
         },
         ["267"] = {
             --- Destruction 267
@@ -742,13 +759,13 @@ ATTdbs.dbImport = {
             { ["ability"] = 30283, ["cooldown"] = 60 },
             { ["ability"] = 104773, ["cooldown"] = 180 },
             { ["ability"] = 108416, ["cooldown"] = 60 },
-            { ["ability"] = 199954, ["cooldown"] = 45 },
+    --        { ["ability"] = 199954, ["cooldown"] = 45 },
             { ["ability"] = 212295, ["cooldown"] = 45 },
-            { ["ability"] = 221703, ["cooldown"] = 60 },
+    --        { ["ability"] = 221703, ["cooldown"] = 60 },
             { ["ability"] = 119898, ["cooldown"] = 24 },
             { ["ability"] = 48020, ["cooldown"] = 30 }, --
             { ["ability"] = 113942, ["cooldown"] = 90 }, --
-            { ["ability"] = 328774, ["cooldown"] = 30 }, --
+            { ["ability"] = 328774, ["cooldown"] = 60 }, --
             { ["ability"] = 333889, ["cooldown"] = 180 }, --
             { ["ability"] = 29893, ["cooldown"] = 120 }, --
             { ["ability"] = 80240, ["cooldown"] = 30 },
@@ -762,8 +779,9 @@ ATTdbs.dbImport = {
             { ["ability"] = 6353, ["cooldown"] = 45 }, --
             { ["ability"] = 353294, ["cooldown"] = 60 }, --
             { ["ability"] = 353753, ["cooldown"] = 30 }, --
-            { ["ability"] = 201996, ["cooldown"] = 90 },
+            { ["ability"] = 201996, ["cooldown"] = 60 },
             { ["ability"] = 5484, ["cooldown"] = 40 },
+            { ["ability"] = 410598, ["cooldown"] = 60 },
 
         },
     },
@@ -801,9 +819,9 @@ ATTdbs.dbImport = {
             { ["ability"] = 31616, ["cooldown"] = 45 },
             { ["ability"] = 356736, ["cooldown"] = 30 },
             { ["ability"] = 355580, ["cooldown"] = 30 },
-            { ["ability"] = 265046, ["cooldown"] = 60 },
+           -- { ["ability"] = 265046, ["cooldown"] = 60 },
             { ["ability"] = 375982, ["cooldown"] = 45 },
-            { ["ability"] = 51485, ["cooldown"] = 60 },
+            { ["ability"] = 51485, ["cooldown"] = 30 },
             { ["ability"] = 108285, ["cooldown"] = 180 },
             { ["ability"] = 378081, ["cooldown"] = 60 },
             { ["ability"] = 383019, ["cooldown"] = 60 },
@@ -812,6 +830,8 @@ ATTdbs.dbImport = {
             { ["ability"] = 192063, ["cooldown"] = 30 },
             { ["ability"] = 58875, ["cooldown"] = 60 },
             { ["ability"] = 79206, ["cooldown"] = 120 },
+            { ["ability"] = 409293, ["cooldown"] = 120 },
+
         },
         ["263"] = {
             --- Enhancement 263
@@ -841,8 +861,8 @@ ATTdbs.dbImport = {
             { ["ability"] = 58875, ["cooldown"] = 60 },
             { ["ability"] = 196884, ["cooldown"] = 30 },
             { ["ability"] = 197214, ["cooldown"] = 40 },
-            { ["ability"] = 204366, ["cooldown"] = 45 },
-            { ["ability"] = 210918, ["cooldown"] = 60 },
+          --  { ["ability"] = 204366, ["cooldown"] = 45 },
+          --  { ["ability"] = 210918, ["cooldown"] = 60 },
             { ["ability"] = 31616, ["cooldown"] = 45 },
             { ["ability"] = 198103, ["cooldown"] = 300 },
             { ["ability"] = 356736, ["cooldown"] = 30 },
@@ -851,7 +871,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 265046, ["cooldown"] = 60 },
             { ["ability"] = 375982, ["cooldown"] = 45 },
             { ["ability"] = 378081, ["cooldown"] = 60 },
-            { ["ability"] = 51485, ["cooldown"] = 60 },
+            { ["ability"] = 51485, ["cooldown"] = 30 },
             { ["ability"] = 108285, ["cooldown"] = 180 },
             { ["ability"] = 51490, ["cooldown"] = 30 },
             { ["ability"] = 383017, ["cooldown"] = 30 },
@@ -861,6 +881,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 383019, ["cooldown"] = 60 },
             { ["ability"] = 108281, ["cooldown"] = 120 },
             { ["ability"] = 79206, ["cooldown"] = 120 },
+            { ["ability"] = 409293, ["cooldown"] = 120 },
 
         },
         ["264"] = {
@@ -895,7 +916,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 204336, ["cooldown"] = 30 },
             { ["ability"] = 207399, ["cooldown"] = 300 },
             { ["ability"] = 207778, ["cooldown"] = 5 },
-            { ["ability"] = 51485, ["cooldown"] = 60 },
+            { ["ability"] = 51485, ["cooldown"] = 30 },
             { ["ability"] = 31616, ["cooldown"] = 45 },
             { ["ability"] = 198103, ["cooldown"] = 300 },
             { ["ability"] = 356736, ["cooldown"] = 30 },
@@ -912,6 +933,9 @@ ATTdbs.dbImport = {
             { ["ability"] = 192063, ["cooldown"] = 30 },
             { ["ability"] = 58875, ["cooldown"] = 60 },
             { ["ability"] = 108281, ["cooldown"] = 120 },
+            { ["ability"] = 355580, ["cooldown"] = 30 },
+            { ["ability"] = 409293, ["cooldown"] = 120 },
+
         },
     },
     --- Hunter
@@ -944,7 +968,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 193530, ["cooldown"] = 120 },
             { ["ability"] = 201430, ["cooldown"] = 120 },
             { ["ability"] = 208652, ["cooldown"] = 30 },
-            { ["ability"] = 248518, ["cooldown"] = 45 }, --
+          --  { ["ability"] = 248518, ["cooldown"] = 45 }, --
             { ["ability"] = 120360, ["cooldown"] = 20 }, --
             { ["ability"] = 321530, ["cooldown"] = 60 }, --
             { ["ability"] = 120679, ["cooldown"] = 20 }, --
@@ -993,7 +1017,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 212431, ["cooldown"] = 30 }, --
             { ["ability"] = 260243, ["cooldown"] = 45 }, --
             { ["ability"] = 356719, ["cooldown"] = 60 }, --
-            { ["ability"] = 248518, ["cooldown"] = 45 }, --
+          --  { ["ability"] = 248518, ["cooldown"] = 45 }, --
             { ["ability"] = 187698, ["cooldown"] = 30 },
             { ["ability"] = 162488, ["cooldown"] = 30 },
             { ["ability"] = 201430, ["cooldown"] = 120 },
@@ -1040,7 +1064,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 259391, ["cooldown"] = 20 }, --
             { ["ability"] = 269751, ["cooldown"] = 30 }, --
             { ["ability"] = 356719, ["cooldown"] = 60 }, --
-            { ["ability"] = 248518, ["cooldown"] = 45 }, --
+      --      { ["ability"] = 248518, ["cooldown"] = 45 }, --
             { ["ability"] = 34477, ["cooldown"] = 30 },
             { ["ability"] = 212431, ["cooldown"] = 30 },
             { ["ability"] = 201430, ["cooldown"] = 120 },
@@ -1051,6 +1075,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 120360, ["cooldown"] = 20 },
             { ["ability"] = 19577, ["cooldown"] = 60 },
             { ["ability"] = 355589, ["cooldown"] = 60 },
+            { ["ability"] = 407028, ["cooldown"] = 45 }, --sticky pvp
 
         },
     },
@@ -1068,16 +1093,16 @@ ATTdbs.dbImport = {
             { ["ability"] = 55342, ["cooldown"] = 120 },
             { ["ability"] = 80353, ["cooldown"] = 300 },
             { ["ability"] = 113724, ["cooldown"] = 45 },
-            { ["ability"] = 116011, ["cooldown"] = 45 },
+            --{ ["ability"] = 116011, ["cooldown"] = 45 },
             { ["ability"] = 30449, ["cooldown"] = 0 }, --Kleptomania / ss
+            { ["ability"] = 198100, ["cooldown"] = 30 }, --Kleptomania / ss
             { ["ability"] = 342245, ["cooldown"] = 60 }, -- arcane alter
             { ["ability"] = 235450, ["cooldown"] = 25 },
             { ["ability"] = 321507, ["cooldown"] = 45 },
-            { ["ability"] = 12042, ["cooldown"] = 120 },
+            --{ ["ability"] = 12042, ["cooldown"] = 120 },
             { ["ability"] = 12051, ["cooldown"] = 90 },
             { ["ability"] = 153626, ["cooldown"] = 20 },
             { ["ability"] = 157980, ["cooldown"] = 25 },
-            { ["ability"] = 198158, ["cooldown"] = 60 },
             { ["ability"] = 205025, ["cooldown"] = 45 },
             { ["ability"] = 198111, ["cooldown"] = 45 },
             { ["ability"] = 110959, ["cooldown"] = 120 },
@@ -1090,10 +1115,13 @@ ATTdbs.dbImport = {
             { ["ability"] = 31661, ["cooldown"] = 45 },
             { ["ability"] = 382440, ["cooldown"] = 60 },
             { ["ability"] = 389713, ["cooldown"] = 45 },
-            { ["ability"] = 153561, ["cooldown"] = 45 },
+         --   { ["ability"] = 153561, ["cooldown"] = 45 },
             { ["ability"] = 383121, ["cooldown"] = 60 },
             { ["ability"] = 122, ["cooldown"] = 30 },
             { ["ability"] = 120, ["cooldown"] = 12 },
+
+            { ["ability"] = 414660, ["cooldown"] = 120 },
+            { ["ability"] = 414664, ["cooldown"] = 300 },
 
         },
         ["63"] = {
@@ -1106,12 +1134,12 @@ ATTdbs.dbImport = {
             { ["ability"] = 55342, ["cooldown"] = 120 },
             { ["ability"] = 80353, ["cooldown"] = 300 },
             { ["ability"] = 113724, ["cooldown"] = 45 },
-            { ["ability"] = 116011, ["cooldown"] = 45 },
+           -- { ["ability"] = 116011, ["cooldown"] = 45 },
             { ["ability"] = 87024, ["cooldown"] = 300 },
             { ["ability"] = 257541, ["cooldown"] = 25, ["charges"] = 3 },
             { ["ability"] = 235313, ["cooldown"] = 25 },
             { ["ability"] = 203286, ["cooldown"] = 15 },
-            { ["ability"] = 31661, ["cooldown"] = 18 },
+            { ["ability"] = 31661, ["cooldown"] = 45 },
             --  {["ability"] = 108853, ["cooldown"] = 12, ["charges"] = 2},
             { ["ability"] = 153561, ["cooldown"] = 45 },
             { ["ability"] = 157981, ["cooldown"] = 30 },
@@ -1129,6 +1157,12 @@ ATTdbs.dbImport = {
             { ["ability"] = 122, ["cooldown"] = 30 },
             { ["ability"] = 120, ["cooldown"] = 12 },
 
+            { ["ability"] = 414660, ["cooldown"] = 120 },
+            { ["ability"] = 414664, ["cooldown"] = 300 },
+            { ["ability"] = 44457, ["cooldown"] = 30 },
+
+
+
         },
         ["64"] = {
             --- Frost 64
@@ -1144,22 +1178,22 @@ ATTdbs.dbImport = {
             { ["ability"] = 55342, ["cooldown"] = 120 },
             { ["ability"] = 80353, ["cooldown"] = 300 },
             { ["ability"] = 113724, ["cooldown"] = 45 },
-            { ["ability"] = 116011, ["cooldown"] = 45 },
+           -- { ["ability"] = 116011, ["cooldown"] = 45 },
             { ["ability"] = 33395, ["cooldown"] = 25 },
             { ["ability"] = 235219, ["cooldown"] = 300 },
             { ["ability"] = 190356, ["cooldown"] = 8 },
             { ["ability"] = 120, ["cooldown"] = 12 },
             { ["ability"] = 122, ["cooldown"] = 30 },
-            { ["ability"] = 12472, ["cooldown"] = 180 },
+            { ["ability"] = 12472, ["cooldown"] = 120 },
             { ["ability"] = 198144, ["cooldown"] = 60 }, --
             { ["ability"] = 31687, ["cooldown"] = 30 },
-            { ["ability"] = 198149, ["cooldown"] = 60 },
+            { ["ability"] = 84714, ["cooldown"] = 60 }, --f orb 198149
             { ["ability"] = 153595, ["cooldown"] = 30 },
             { ["ability"] = 157997, ["cooldown"] = 25 },
-            { ["ability"] = 205021, ["cooldown"] = 75 },
+            { ["ability"] = 205021, ["cooldown"] = 60 },
             { ["ability"] = 11426, ["cooldown"] = 25 },
             { ["ability"] = 108839, ["cooldown"] = 20, ["charges"] = 3 },
-            { ["ability"] = 257537, ["cooldown"] = 45 }, --
+           -- { ["ability"] = 257537, ["cooldown"] = 45 }, --
             { ["ability"] = 352278, ["cooldown"] = 90 }, --
             { ["ability"] = 353082, ["cooldown"] = 30 }, --
             { ["ability"] = 157981, ["cooldown"] = 30 },
@@ -1168,10 +1202,14 @@ ATTdbs.dbImport = {
             { ["ability"] = 382440, ["cooldown"] = 60 },
             { ["ability"] = 342245, ["cooldown"] = 60 },
             { ["ability"] = 389713, ["cooldown"] = 45 },
-            { ["ability"] = 153561, ["cooldown"] = 45 },
+         --   { ["ability"] = 153561, ["cooldown"] = 45 },
             { ["ability"] = 205030, ["cooldown"] = 30 },
             { ["ability"] = 383121, ["cooldown"] = 60 },
             { ["ability"] = 44614, ["cooldown"] = 30, ["charges"] = 2 },
+
+            { ["ability"] = 414660, ["cooldown"] = 120 },
+            { ["ability"] = 414664, ["cooldown"] = 300 },
+
 
         },
     },
@@ -1319,7 +1357,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 116705, ["cooldown"] = 15 },
             { ["ability"] = 132578, ["cooldown"] = 180 },
             { ["ability"] = 202162, ["cooldown"] = 45 },
-            { ["ability"] = 202272, ["cooldown"] = 45 },
+          --  { ["ability"] = 202272, ["cooldown"] = 45 },
             { ["ability"] = 202370, ["cooldown"] = 30 },
             { ["ability"] = 202335, ["cooldown"] = 45 }, --
             { ["ability"] = 207025, ["cooldown"] = 20 }, --
@@ -1399,7 +1437,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 116680, ["cooldown"] = 30 },
             { ["ability"] = 116849, ["cooldown"] = 120 },
             { ["ability"] = 197908, ["cooldown"] = 90 },
-            { ["ability"] = 198898, ["cooldown"] = 30 },
+           -- { ["ability"] = 198898, ["cooldown"] = 30 },
             { ["ability"] = 233759, ["cooldown"] = 45 }, --
             { ["ability"] = 205234, ["cooldown"] = 15, ["charges"] = 2 }, --
             { ["ability"] = 209584, ["cooldown"] = 30 }, --
@@ -1413,7 +1451,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 388686, ["cooldown"] = 120 },
             { ["ability"] = 196725, ["cooldown"] = 45 },
             { ["ability"] = 115203, ["cooldown"] = 360 },
-            { ["ability"] = 388193, ["cooldown"] = 30 },
+            { ["ability"] = 388193, ["cooldown"] = 20 },
             { ["ability"] = 126892, ["cooldown"] = 60 },
         },
     },
@@ -1429,13 +1467,13 @@ ATTdbs.dbImport = {
             { ["ability"] = 355913, ["cooldown"] = 30 }, --
 
             { ["ability"] = 378464, ["cooldown"] = 90 }, --
-            { ["ability"] = 383005, ["cooldown"] = 90 }, --
-            { ["ability"] = 378441, ["cooldown"] = 120 }, --
+            { ["ability"] = 383005, ["cooldown"] = 60 }, --
+            { ["ability"] = 378441, ["cooldown"] = 60 }, --
             { ["ability"] = 370388, ["cooldown"] = 90 }, --
 
             { ["ability"] = 360806, ["cooldown"] = 15 }, -- Sleep Walk
-            { ["ability"] = 370452, ["cooldown"] = 15 }, -- Shattering Star
-            { ["ability"] = 359073, ["cooldown"] = 30 }, -- Eternity Surge
+            { ["ability"] = 370452, ["cooldown"] = 20 }, -- Shattering Star
+            { ["ability"] = 359073, ["cooldown"] = 27 }, -- Eternity Surge -3
             { ["ability"] = 368847, ["cooldown"] = 20 }, -- Firestorm
             { ["ability"] = 375087, ["cooldown"] = 120 }, -- Dragonrage
             { ["ability"] = 374968, ["cooldown"] = 120 }, -- Time Spiral
@@ -1466,7 +1504,7 @@ ATTdbs.dbImport = {
             { ["ability"] = 378464, ["cooldown"] = 90 }, --
             { ["ability"] = 383005, ["cooldown"] = 90 }, --
             { ["ability"] = 377509, ["cooldown"] = 60 }, --
-            { ["ability"] = 378441, ["cooldown"] = 120 }, --
+            { ["ability"] = 378441, ["cooldown"] = 90 }, --
             { ["ability"] = 370388, ["cooldown"] = 90 }, --
 
 
@@ -1496,6 +1534,46 @@ ATTdbs.dbImport = {
             { ["ability"] = 365585, ["cooldown"] = 8 }, -- Expunge
 
         },
+        ["1473"] = {
+            --- 3 Aug
+            { ["ability"] = 357208, ["cooldown"] = 27 }, -- -3
+            { ["ability"] = 364342, ["cooldown"] = 15 }, --
+            { ["ability"] = 358267, ["cooldown"] = 35 }, --
+            { ["ability"] = 357210, ["cooldown"] = 120 }, --
+            { ["ability"] = 390386, ["cooldown"] = 300 }, --
+            { ["ability"] = 355913, ["cooldown"] = 30 }, --
+
+            { ["ability"] = 378464, ["cooldown"] = 90 }, --
+            { ["ability"] = 383005, ["cooldown"] = 60 }, --
+            { ["ability"] = 378441, ["cooldown"] = 60 }, --
+            { ["ability"] = 370388, ["cooldown"] = 90 }, --
+
+            { ["ability"] = 360806, ["cooldown"] = 15 }, -- Sleep Walk
+            { ["ability"] = 374968, ["cooldown"] = 120 }, -- Time Spiral
+            { ["ability"] = 374348, ["cooldown"] = 90 }, -- Renewing Blaze
+            { ["ability"] = 374227, ["cooldown"] = 120 }, -- Zephyr
+            { ["ability"] = 370665, ["cooldown"] = 60 }, -- Rescue
+            { ["ability"] = 368432, ["cooldown"] = 9 }, -- Unravel
+            { ["ability"] = 351338, ["cooldown"] = 40 }, -- Quell
+            { ["ability"] = 372048, ["cooldown"] = 120 }, -- Oppressing Roar
+            { ["ability"] = 374251, ["cooldown"] = 60 }, -- Cauterizing Flame
+            { ["ability"] = 363916, ["cooldown"] = 90 }, -- Obsidian Scales
+            { ["ability"] = 358385, ["cooldown"] = 90 }, -- Landslide
+            { ["ability"] = 370553, ["cooldown"] = 120 }, -- Tip the Scales
+            { ["ability"] = 360995, ["cooldown"] = 24 }, -- Verdant Embrace
+            { ["ability"] = 365585, ["cooldown"] = 8 }, -- Expunge
+
+            { ["ability"] = 360827, ["cooldown"] = 30 }, 
+            { ["ability"] = 403631, ["cooldown"] = 120 }, 
+            { ["ability"] = 406732, ["cooldown"] = 120 }, 
+            { ["ability"] = 395152, ["cooldown"] = 30 }, 
+            { ["ability"] = 408233, ["cooldown"] = 60 }, 
+            { ["ability"] = 396286, ["cooldown"] = 37 }, 
+            { ["ability"] = 404977, ["cooldown"] = 180 }, 
+            { ["ability"] = 404195, ["cooldown"] = 360 },  --proc 6 min to test
+
+            -- 409267 -- to do mod recover others
+        },        
     },
 }
 
@@ -1534,7 +1612,7 @@ ATTdbs.isPVPspell = {
     [210378] = true,
     [199456] = true,
     [199454] = true,
-    [216868] = true,
+   -- [216868] = true,
     [199542] = true,
     [216853] = true,
     [355858] = true,
@@ -1614,7 +1692,7 @@ ATTdbs.isPVPspell = {
     [210476] = true,
     [198158] = true,
     [199324] = true,
-    [305394] = true,
+   -- [305394] = true,
     [199330] = true,
     [203280] = true,
     [203283] = true,
@@ -1640,7 +1718,7 @@ ATTdbs.isPVPspell = {
     [202335] = true,
     [202370] = true,
     [247483] = true,
-    [202424] = true,
+    --[202424] = true,
     [353502] = true,
     [202577] = true,
     [353508] = true,
@@ -1704,7 +1782,7 @@ ATTdbs.isPVPspell = {
     [209752] = true,
     [316262] = true,
     [197899] = true,
-    [204934] = true,
+   -- [204934] = true,
     [216327] = true,
     [210341] = true,
     [215652] = true,
@@ -1778,6 +1856,7 @@ ATTdbs.isPVPspell = {
     [355917] = true,
     [356015] = true,
     [356332] = true,
+    [410320] = true, -- new Spellwarden
     [355995] = true,
     [356470] = true,
     [356512] = true,
@@ -1802,6 +1881,15 @@ ATTdbs.isPVPspell = {
     [390428] = true,
     [390612] = true,
     [389794] = true,
+    [204018] = true, --blessing of 
+    [410544] = true,
+    [407028] = true,
+    [406896] = true,
+    [410126] = true,
+    [409293] = true,
+
+    [415945] = true,
+    [417537] = true,
 }
 
 ATTdbs.dbTrinketsMerge = {
@@ -1815,6 +1903,8 @@ ATTdbs.dbTrinketsMerge = {
     [192412] = 181333,
     [201450] = 181333,
     [201810] = 181333,
+    [205711] = 181333, -- 
+    [205779] = 181333, -- 
 
     [181816] = 181816,
     [184054] = 181816,
@@ -1826,7 +1916,8 @@ ATTdbs.dbTrinketsMerge = {
     [192414] = 181816,
     [201453] = 181816,
     [201811] = 181816,
-
+    [205712] = 181816, --
+    [205782] = 181816, --
 
     [181335] = 181335,
     [184053] = 181335,
@@ -1848,6 +1939,8 @@ ATTdbs.dbTrinketsMerge = {
     [192352] = 175921,
     [201449] = 175921,
     [201807] = 175921,
+    [205708] = 175921, --
+    [205778] = 175921, --
 
 
     [178447] = 178447,
@@ -1860,6 +1953,8 @@ ATTdbs.dbTrinketsMerge = {
     [192392] = 178447,
     [201809] = 178447,
     [201452] = 178447,
+    [205710] = 178447, --
+    [205781] = 178447, --
 
     [186980] = 186980,
 
@@ -1878,7 +1973,7 @@ ATTdbs.dbTrinketsMerge = {
 
 ATTdbs.dbTrinkets = {
     --PvP
-    { ["ability"] = 336126, ["trinketId"] = 181333, ["cooldown"] = 120, ["isPvPtrinket"] = true }, --["sname"] = "pvptrinket" 42292
+    { ["ability"] = 336126, ["trinketId"] = 181333, ["cooldown"] = 120, ["isPvPtrinket"] = true }, --["sname"] = "pvptrinket" 
     { ["ability"] = 336139, ["trinketId"] = 181816, ["cooldown"] = 59, ["isPvPtrinket"] = true }, -- ["sname"] = "adapted"
     -- {["ability"] = 336128, ["trinketId"] = 181335, ["cooldown"] = 0, ["isPvPtrinket"] = true}, --["sname"] = "relentless"
     { ["ability"] = 345228, ["trinketId"] = 175921, ["cooldown"] = 60, ["isPvPtrinket"] = true }, --["sname"] = "badge"
@@ -1919,7 +2014,7 @@ ATTdbs.dbTrinkets = {
 ATTdbs.dbRacials = {
     { ["ability"] = 59752, ["cooldown"] = 180, ["race"] = 1, ["cdshare"] = true },
     { ["ability"] = 20572, ["cooldown"] = 120, ["race"] = 2 }, --here
-    { ["ability"] = 65116, ["cooldown"] = 120, ["race"] = 3, ["cdshare"] = true },
+    { ["ability"] = 20594, ["cooldown"] = 120, ["race"] = 3, ["cdshare"] = true }, --65116
     { ["ability"] = 58984, ["cooldown"] = 120, ["race"] = 4 },
     { ["ability"] = 7744, ["cooldown"] = 120, ["race"] = 5, ["cdshare"] = true },
     { ["ability"] = 20549, ["cooldown"] = 90, ["race"] = 6 },
@@ -1936,7 +2031,7 @@ ATTdbs.dbRacials = {
     { ["ability"] = 255647, ["cooldown"] = 150, ["race"] = 30 },
     { ["ability"] = 291944, ["cooldown"] = 150, ["race"] = 31 },
     { ["ability"] = 287712, ["cooldown"] = 150, ["race"] = 32 },
-    { ["ability"] = 273104, ["cooldown"] = 120, ["race"] = 34, ["cdshare"] = true },
+    { ["ability"] = 265221, ["cooldown"] = 120, ["race"] = 34, ["cdshare"] = true },
     { ["ability"] = 312411, ["cooldown"] = 90, ["race"] = 35 },
     { ["ability"] = 274738, ["cooldown"] = 120, ["race"] = 36 },
 
@@ -1947,7 +2042,60 @@ ATTdbs.dbRacials = {
 
 ATTdbs.dbRacialShare = {
     [59752] = true,
-    [65116] = true,
+    [65116] = true,--
+    [20594] = true,--
     [7744] = true,
-    [273104] = true
+    [273104] = true,
+    [265221] = true
+}
+
+ATTdbs.dbRacialFix = {
+    [20594] = true,--
+    [7744] = true, --will
+    [273104] = true, --will
+    [265221] = true, --will
+  -- [273104] = true, --fireblood
+}
+
+ATTdbs.dbItemBonus = {
+	--[200398] = 1536,
+}
+
+ATTdbs.dbSetBonus = {
+    --test rsham
+  --  [200396] = 1536,
+  --  [200398] = 1536,
+  --  [200399] = 1536,
+--hunter
+    [202482] = 1544,
+    [202480] = 1544,
+    [202479] = 1544,
+    [202478] = 1544,
+    [202477] = 1544,
+--pala
+    [202455] = 1547,
+    [202453] = 1547,
+    [202452] = 1547,
+    [202451] = 1547,
+    [202450] = 1547,
+--lock
+    [202534] = 1551,
+    [202533] = 1551,
+    [202532] = 1551,
+    [202536] = 1551,
+    [202531] = 1551,
+--warr
+[202446] = 1552,
+[202444] = 1552,
+[202443] = 1552,
+[202442] = 1552,
+[202441] = 1552,
+
+--dk
+[202464] = 1540,
+[202462] = 1540,
+[202461] = 1540,
+[202460] = 1540,
+[202459] = 1540,
+
 }

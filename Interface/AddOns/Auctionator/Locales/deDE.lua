@@ -427,6 +427,8 @@ L["SCANNING_PAGE_X"] = "Scannen der Seite %s..."
 L["SEARCH"] = "Suchen"
 L["SEARCH_ALL"] = "Suche alles"
 --[[Translation missing --]]
+L["SEARCH_FOR_QUANTITY"] = "Search For Quantity"
+--[[Translation missing --]]
 L["SEARCH_OPTIONS"] = "Search Options"
 L["SEARCH_TERM"] = "Suchbegriff"
 --[[Translation missing --]]

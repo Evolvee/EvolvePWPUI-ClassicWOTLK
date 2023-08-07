@@ -16,8 +16,9 @@ ATTdbs.validRaidUnits = {
     ["raidpet31"] = 31, ["raidpet32"] = 32, ["raidpet33"] = 33, ["raidpet34"] = 34, ["raidpet35"] = 35, ["raidpet36"] = 36, ["raidpet37"] = 37, ["raidpet38"] = 38, ["raidpet39"] = 39,["raidpet40"] = 40,
 }
 
+
 ATTdbs.customframes = {
-    [3] = { ctype = "ShadowUFRaidGR", cname = "ShadowedUnitFrames" , cframe = "SUFHeaderraid1RGUnitButton%d",},
+    [3] = { ctype = "ShadowUFRaidGR", cname = "ShadowedUnitFrames" , cframe = "SUFHeaderraid1RGUnitButton%d", },
     [4] = { ctype = "ShadowedUF", cname = "ShadowedUnitFrames" , cframe = "SUFHeaderpartyUnitButton%d", },
     [5] = { ctype = "ShadowUFRaid", cname = "ShadowedUnitFrames" , cframe = "SUFHeaderraidUnitButton%d",},
     [6] = { ctype = "Grid2", cname = "Grid2" , cframe = "Grid2LayoutHeader1UnitButton%d",},
@@ -25,11 +26,11 @@ ATTdbs.customframes = {
     [8] = { ctype = "HealBot", cname = "HealBot" , cframe = "HealBot_Action_HealUnit%d",},
     [9] = { ctype = "InvenRaidFrames3", cname = "InvenRaidFrames3" , cframe = "InvenRaidFrame3Group0UnitButton%d", },
     [10] = { ctype = "Plexus", cname = "Plexus" , cframe = "PlexusLayoutHeader1UnitButton%d", },
-    [11] = { ctype = "ZPerl", cname = "ZPerl" , cframe = "XPerl_party%d", },
-    [12] = { ctype = "ZPerl_RaidGR", cname = "ZPerl" , cframe = "XPerl_Raid_Grp1RGUnitButton%d",},
+    [11] = { ctype = "ZPerl", cname = "ZPerl" , cframe = "XPerl_party%d", cunitid = "partyid" },
+    [12] = { ctype = "ZPerl_RaidGR", cname = "ZPerl" , cframe = "XPerl_Raid_Grp1RGUnitButton%d", cunitid = "partyid",},
     [13] = { ctype = "ElvUI", cname = "ElvUI" , cframe = "ElvUF_PartyGroup1UnitButton%d", },
     [14] = { ctype = "ElvUIRaidGR", cname = "ElvUI" , cframe = "ElvUF_RaidGroup1RGUnitButton%d",},
-    [15] = { ctype = "VuhDo", cname = "VuhDo" , cframe = "Vd1H%d",},
+    [15] = { ctype = "VuhDo", cname = "VuhDo" , cframe = "Vd1H%d", cunitid = "raidid"},
     [16] = { ctype = "Tukui", cname = "Tukui" , cframe = "TukuiPartyUnitButton%d",},
     [17] = { ctype = "Duf", cname = "Duf" , cframe = "DUF_PartyFrame%d",},
     [18] = { ctype = "PitBull4", cname = "PitBull4" , cframe = "PitBull4_Groups_PartyUnitButton%d",},
@@ -41,8 +42,8 @@ ATTdbs.customframes = {
     [24] = { ctype = "GwRaid", cname = "Gw" , cframe = "GwRaidGridDisplay%d",},
     [25] = { ctype = "Gw", cname = "Gw" , cframe = "GwCompactparty%d", },
     [26] = { ctype = "Lime_Party", cname = "Lime" , cframe = "LimeGroup0UnitButton%d",},
-    [27] = { ctype = "Cell", cname = "Cell" , cframe = "CellPartyFrameMember%d",},
-    [28] = { ctype = "CellRaid", cname = "Cell" , cframe = "CellRaidFrameMember%d",},
+    [27] = { ctype = "Cell", cname = "Cell" , cframe = "CellPartyFrameMember%d", cunitid = "unitid",},
+    [28] = { ctype = "CellRaid", cname = "Cell" , cframe = "CellRaidFrameMember%d", cunitid = "unitid",},
     [29] = { ctype = "Grid2_Group", cname = "Cell" , cframe = "Grid2LayoutHeader1RGUnitButton%d",},
     [30] = { ctype = "AshToAsh", cname = "AshToAsh" , cframe = "AshToAshUnit1RGUnit%d",},
     [31] = { ctype = "NDui-RaidGR", cname = "NDui" , cframe = "oUF_Raid1GRUnitButton%d",},

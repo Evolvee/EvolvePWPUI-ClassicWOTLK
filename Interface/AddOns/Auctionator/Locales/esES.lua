@@ -408,6 +408,8 @@ L["SAVE_THIS_LIST_AS"] = "Guardar esta lista como..."
 L["SCANNING_PAGE_X"] = "Escaneando página %s..."
 L["SEARCH"] = "Buscar"
 L["SEARCH_ALL"] = "Buscar todo"
+--[[Translation missing --]]
+L["SEARCH_FOR_QUANTITY"] = "Search For Quantity"
 L["SEARCH_OPTIONS"] = "Opciones de búsqueda"
 L["SEARCH_TERM"] = "Buscar término"
 L["SEARCH_TERM_COLON"] = "Buscar término:"

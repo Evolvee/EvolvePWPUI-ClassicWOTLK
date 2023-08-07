@@ -1,13 +1,7 @@
-local MAJOR_VERSION = "LibATTSimpleOptions"
-local MINOR_VERSION = 10000
-
-if not LibStub then error(MAJOR_VERSION .. " requires LibStub") end
-
-local LibSimpleOptions, oldLib = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
-
-if not LibSimpleOptions then
-	return
-end
+local addon, ATTdbs = ...
+ATTdbs.LibSimpleOptions = {}
+local LibSimpleOptions = ATTdbs.LibSimpleOptions
+local lib = ATTdbs.LibSimpleOptions
 
 local _G = _G
 local tonumber, type, string, table = _G.tonumber, _G.type, _G.string, _G.table
@@ -26,7 +20,6 @@ local GameTooltip_SetTitle, GameTooltip_AddInstructionLine, GameTooltip_AddNorma
 	, _G.GameTooltip_AddInstructionLine, _G.GameTooltip_AddNormalLine, _G.GameTooltip_AddColoredLine
 
 -- ----------------------------------------------------------------------------
-local lib = LibSimpleOptions
 
 -- Determine WoW TOC Version
 local WoWClassicEra, WoWClassicTBC, WoWRetail
@@ -102,6 +95,7 @@ function lib:UIDropDownMenu_InitializeHelper(frame)
 		if (i >= LSOL_UIDROPDOWNMENU_MENU_LEVEL or frame ~= LSOL_UIDROPDOWNMENU_OPEN_MENU) then
 			dropDownList.numButtons = 0;
 			dropDownList.maxWidth = 0;
+			
 			for j = 1, LSOL_UIDROPDOWNMENU_MAXBUTTONS, 1 do
 				button = _G["LSOL_DropDownList" .. i .. "Button" .. j];
 				button:Hide();
@@ -1906,6 +1900,7 @@ function lib.DropDownMenuButtonMixin:OnMouseDown(button)
 	end
 end
 
+
 local getArgs, doneArgs
 do
 	local tmp = {}
@@ -1977,6 +1972,7 @@ do
 	end
 
 	local function panel_okay(self)
+		--GameMenuFrame:Hide()
 		for control in pairs(self.controls) do
 			control.oldValue = control.value
 			if control.okayFunc then
@@ -2008,10 +2004,12 @@ do
 		panel.parent = parentName
 
 		panel.okay = panel_okay
+		panel.close = panel_okay
 		panel.cancel = panel_cancel
 		panel.default = panel_default
 
 		InterfaceOptions_AddCategory(panel)
+
 
 		panel.controlCreationFunc = controlCreationFunc
 		panel:SetScript("OnShow", panel_OnShow)
@@ -2230,31 +2228,28 @@ do
 	end
 
 	local SetValue_wrapper
-	function SetValue_wrapper(self, ...)
-		return dropDown_SetValue(...)
-	end
-
-	local function dropDown_menu(self)
-		local info = lib:UIDropDownMenu_CreateInfo()
-		for value, text in get_iter(self.values) do
-			info.text = text
-			info.value = value
-			info.checked = self.value == value
-			info.func = SetValue_wrapper
-			info.arg1 = self
-			info.arg2 = value
-			info.minWidth = 125
-			lib:UIDropDownMenu_AddButton(info)
+		function SetValue_wrapper(self, ...)
+			return dropDown_SetValue(...)
 		end
-	end
 
-	local tmp = {}
+		local function dropDown_menu(self)
+		    local info = lib:UIDropDownMenu_CreateInfo()
+
+			for value, text in get_iter(self.values) do
+				info.text = text
+				info.value = value
+				info.checked = self.value == value
+				info.func = SetValue_wrapper
+				info.arg1 = self
+				info.arg2 = value
+				info.minWidth = 128
+			    lib:UIDropDownMenu_AddButton(info)
+			end
+		end
+
 	function panelMeta:MakeDropDown(...)
 		local args = getArgs(...)
-
-		for k in pairs(tmp) do
-			tmp[k] = nil
-		end
+		
 		local name
 		local i = 0
 		repeat
@@ -2263,8 +2258,7 @@ do
 		until not _G[name]
 
 		local dropDown = lib:Create_UIDropDownMenu(name, args.extra or self)
-		-- local dropDown = CreateFrame("Frame", name, args.extra or self, "UIDropDownMenuTemplate")
-		-- dropDown:SetFrameLevel(2)
+		--local dropDown = CreateFrame("Frame", name, args.extra or self, BackdropTemplateMixin and "UIDropDownMenuTemplate, BackdropTemplate"  or "UIDropDownMenuTemplate")
 		self.controls[dropDown] = true
 		if args.name ~= "" then
 			local label = dropDown:CreateFontString(nil, "BACKGROUND", "GameFontNormal")
@@ -2273,13 +2267,13 @@ do
 		end
 		dropDown.tooltipText = args.description
 		dropDown.values = args.values
-		dropDown.initialize = function()
+		lib:UIDropDownMenu_Initialize(dropDown, function()
 			dropDown_menu(dropDown)
-		end
-		dropDown.initialize()
+		end)
 
 		lib:UIDropDownMenu_JustifyText(dropDown, "CENTER")
 		lib:UIDropDownMenu_SetWidth(dropDown, 120)
+
 
 		local current
 		if args.getFunc then
@@ -2290,12 +2284,15 @@ do
 		end
 
 		dropDown.doRefresh = function()
-			dropDown_menu(dropDown)
-			lib:UIDropDownMenu_Refresh(dropDown)
+			lib:UIDropDownMenu_Initialize(dropDown, function()
+				dropDown_menu(dropDown)
+				lib:UIDropDownMenu_SetSelectedValue(dropDown, dropDown.getCurrent())
+			end)
 		end
 
 		dropDown.getCurrent = args.getCurrent
 		lib:UIDropDownMenu_SetSelectedValue(dropDown, current)
+
 		dropDown.default = args.default
 		dropDown.value = args.current
 		dropDown.oldValue = args.current
@@ -2308,7 +2305,9 @@ do
 		dropDown.cancelFunc = args.cancelFunc
 		dropDown.defaultFunc = args.defaultFunc
 		args = doneArgs(args)
+
 		return dropDown
+		
 	end
 
 end
@@ -2448,15 +2447,14 @@ do
 			local dropdownName = "ATT_DropDown" .. z
 			local dropdownFrame = _G[dropdownName]
 			if dropdownFrame and dropdownFrame:IsShown() and dropdownFrame.getCurrent then
-				dropdownFrame.value = dropdownFrame.getCurrent()
-				lib:UIDropDownMenu_SetSelectedValue(dropdownFrame, dropdownFrame.getCurrent())
-				dropdownFrame.doRefresh()
+				dropdownFrame.doRefresh(dropdownFrame)
 			end
 		until not _G[dropdownName]
 	end
 end
 
 function LibSimpleOptions.AddSlashCommand(name, ...)
+
 	local num = 0
 	local name_upper = name:upper()
 	for i = 1, select('#', ...) do
@@ -2473,6 +2471,7 @@ function LibSimpleOptions.AddSlashCommand(name, ...)
 	_G.SlashCmdList[name_upper] = function()
 		InterfaceOptionsFrame_OpenToCategory(name)
 		InterfaceOptionsFrame_OpenToCategory(name)
+		--if _G[name .. "_Panel"] then print(name .. "_Panel") end
 	end
 end
 

@@ -134,6 +134,8 @@ function Gladdy:UnregisterAllEvents()
     self.events:UnregisterAllEvents()
 end
 
+
+
 ---------------------------
 
 -- MODULE FUNCTIONS
