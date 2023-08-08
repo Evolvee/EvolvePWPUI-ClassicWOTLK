@@ -132,12 +132,10 @@ function BindPadFrame_OnLoad(self)
     SLASH_BINDPAD2 = "/bp";
 
     self:RegisterEvent("UPDATE_BINDINGS");
-    self:RegisterEvent("ACTIONBAR_SLOT_CHANGED");
     self:RegisterEvent("UPDATE_BONUS_ACTIONBAR");
     self:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR");
     self:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR");
     self:RegisterEvent("ACTIONBAR_PAGE_CHANGED");
-    self:RegisterEvent("UPDATE_SHAPESHIFT_FORM");
     self:RegisterEvent("UPDATE_POSSESS_BAR");
 
     self:RegisterEvent("PLAYER_TALENT_UPDATE");
@@ -2111,9 +2109,6 @@ function BindPadCore.OverwriteHotKey(info)
                 -- BindPad's ShowHotKey
                 info.bphotkey:SetText(BindPadCore.GetBindingText(key, "KEY_", 1));
                 info.bphotkey:SetAlpha(1);
-
-                -- Making original hotkey transparent.
-                info.hotkey:SetAlpha(0);
                 return;
             end
         end
@@ -2121,7 +2116,6 @@ function BindPadCore.OverwriteHotKey(info)
 
     -- Restoring original hotkey
     info.bphotkey:SetAlpha(0);
-    info.hotkey:SetAlpha(1);
 end
 
 function BindPadCore.GetActionCommand(actionSlot)

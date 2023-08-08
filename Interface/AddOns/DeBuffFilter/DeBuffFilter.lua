@@ -231,7 +231,7 @@ local function updateDebuffs(frame, auraName, numBuffs, numDebuffs, largeDebuffL
         local debuffName, _, _, _, _, _, caster = UnitDebuff(frame.unit, i, "HARMFUL")
         local dbf = _G[auraName .. i]
         if debuffName and dbf then
-            if not DeBuffFilter:IsBuffNameBlocked(dbf) then
+            if not DeBuffFilter:IsBuffNameBlocked(debuffName) then
                 if largeDebuffList[i] then
                     size = LARGE_AURA_SIZE
                     offsetY = AURA_OFFSET_Y + AURA_OFFSET_Y
