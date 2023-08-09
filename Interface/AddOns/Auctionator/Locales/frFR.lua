@@ -175,6 +175,12 @@ L["CONFIG_SELLING_MISSING_FAVOURITES_TOOLTIP_HEADER"] = "Favoris toujours visibl
 L["CONFIG_SELLING_MISSING_FAVOURITES_TOOLTIP_TEXT"] = "Affiche toujours les objets favoris dans l'aperçu de l'inventaire, même quand ils ne s'y trouvent pas."
 L["CONFIG_SELLING_NOT_LIFO_HEADER"] = "Vente : Équipement / Mascottes"
 L["CONFIG_SELLING_NOT_LIFO_TEXT"] = "Options permettant de fixer le pourcentage de sous-cotation ou les valeurs et la durée de l'équipement et des mascottes. Ces catégories d'objets sont répertoriées individuellement et l'acheteur peut choisir celle qu'il souhaite. La sous-cotation peut être utile."
+--[[Translation missing --]]
+L["CONFIG_SELLING_POSSESSED_FAVOURITES_FIRST"] = "In favourites item list place favourites you have in your bag first"
+--[[Translation missing --]]
+L["CONFIG_SELLING_POSSESSED_FAVOURITES_FIRST_TOOLTIP_HEADER"] = "Possessed favourites first"
+--[[Translation missing --]]
+L["CONFIG_SELLING_POSSESSED_FAVOURITES_FIRST_TOOLTIP_TEXT"] = "Set the favourites ordering to force any items in your bag to be at the start of the list."
 L["CONFIG_SELLING_POST_SHORTCUT"] = "Mettre en vente l'objet sélectionné avec :"
 L["CONFIG_SELLING_POST_SHORTCUT_TOOLTIP_TEXT"] = "Cliquez puis appuyez sur les boutons que vous souhaitez utiliser comme raccourci. Ce raccourci ne sera actif que dans l'onglet Vente et n'affectera pas les autres raccourcis liés aux boutons."
 --[[Translation missing --]]
@@ -405,6 +411,8 @@ L["RENAME"] = "Renommer"
 L["RENAME_LIST_CONFIRM"] = "Entrer le nouveau nom pour '%s' :"
 L["RENAME_LIST_DIALOG"] = "Entrer le nouveau nom pour la liste d'achats :"
 L["RESET_ALL"] = "Réinitialiser"
+--[[Translation missing --]]
+L["RESET_COLOR"] = "Reset color"
 L["RESTORE_ALL"] = "Restaurer"
 L["RESULTS_AVAILABLE_COLUMN"] = "Disponible"
 L["RESULTS_NAME_COLUMN"] = "Nom"
@@ -434,6 +442,8 @@ L["SELLERS_OVERFLOW_TEXT"] = "%s, et %s de plus"
 L["SELLING_TAB"] = "Vente"
 L["SELLING_TAB_HEADER"] = "Auctionator - Vente"
 L["SERVER_TOOK_TOO_LONG"] = "Le serveur a mis trop de temps à répondre. Vos actions peuvent ne pas avoir eu d'effet."
+--[[Translation missing --]]
+L["SET_BAG_ITEM_SELECTION_COLOR"] = "Set bag item selection color"
 L["SET_VALUE"] = "Définir un montant"
 L["SET_VALUE_SUFFIX"] = "en moins"
 L["SHIFT_LEFT_CLICK"] = "Maj+Clic gauche"

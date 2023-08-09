@@ -102,7 +102,7 @@ local function maxRows(self, width, mirror)
     end
 end
 
-local function updateBuffs(frame, auraName, numDebuffs, numBuffs, largeBuffList, offsetX, mirrorVertically)
+local function updateBuffs(frame, auraName, numDebuffs, numAuras, largeBuffList, offsetX, mirrorVertically)
     local isFriend = UnitIsFriend("player", frame.unit);
     local SMALL_AURA_SIZE = RougeUI and RougeUI.OtherBuffSize or 17
     local LARGE_AURA_SIZE = RougeUI and RougeUI.SelfSize or 21
@@ -132,7 +132,7 @@ local function updateBuffs(frame, auraName, numDebuffs, numBuffs, largeBuffList,
         AURA_START_Y = 32
     end
 
-    for i = 1, numBuffs do
+    for i = 1, numAuras do
         local name = UnitBuff(frame.unit, i, nil);
         local buffFrame = _G[auraName .. i]
         if name and buffFrame then
@@ -154,7 +154,7 @@ local function updateBuffs(frame, auraName, numDebuffs, numBuffs, largeBuffList,
                         buffFrame:ClearAllPoints()
                         buffFrame:SetPoint(point .. "LEFT", frame.debuffs, relativePoint .. "LEFT", 0, -offsetY);
                     end
-                    if frame.buffs then
+                    if (frame.buffs and buffFrame and point and relativePoint) then
                         frame.buffs:ClearAllPoints()
                         frame.buffs:SetPoint(point .. "LEFT", buffFrame, point .. "LEFT", 0, 0);
                         frame.buffs:SetPoint(relativePoint .. "LEFT", buffFrame, relativePoint .. "LEFT", 0, -auraOffsetY);
@@ -171,18 +171,17 @@ local function updateBuffs(frame, auraName, numDebuffs, numBuffs, largeBuffList,
                     end
                 end
 
-                if rowWidth > maxRows(frame, maxRowWidth, frame.buffsOnTop) then
+                if rowWidth > maxRows(frame, maxRowWidth, mirrorVertically) then
                     anchorFrame = _G[auraName .. lastBuffIndex];
                     buffFrame:ClearAllPoints()
                     buffFrame:SetPoint(point .. "LEFT", _G[auraName .. lastBuffIndex], relativePoint .. "LEFT", 0, -offsetY);
-                    if frame.buffs then
+                    if (frame.buffs and buffFrame and relativePoint) then
                         frame.buffs:ClearAllPoints()
                         frame.buffs:SetPoint(relativePoint .. "LEFT", buffFrame, relativePoint .. "LEFT", 0, -auraOffsetY);
                     end
                     rowWidth = size
                     frame.auraRows = frame.auraRows + 1;
                     lastBuffIndex = i;
-                    offsetY = AURA_OFFSET_Y
                     frame.spellbarAnchor = buffFrame
                 end
 
@@ -197,7 +196,7 @@ local function updateBuffs(frame, auraName, numDebuffs, numBuffs, largeBuffList,
     end
 end
 
-local function updateDebuffs(frame, auraName, numBuffs, numDebuffs, largeDebuffList, offsetX, mirrorVertically)
+local function updateDebuffs(frame, auraName, numBuffs, numAuras, largeDebuffList, offsetX, mirrorVertically)
     local isFriend = UnitIsFriend("player", frame.unit);
     local LARGE_AURA_SIZE = RougeUI and RougeUI.SelfSize or 21
     local SMALL_AURA_SIZE = RougeUI and RougeUI.OtherBuffSize or 17
@@ -227,7 +226,7 @@ local function updateDebuffs(frame, auraName, numBuffs, numDebuffs, largeDebuffL
         AURA_START_Y = 32
     end
 
-    for i = 1, numDebuffs do
+    for i = 1, numAuras do
         local debuffName, _, _, _, _, _, caster = UnitDebuff(frame.unit, i, "HARMFUL")
         local dbf = _G[auraName .. i]
         if debuffName and dbf then
@@ -250,7 +249,7 @@ local function updateDebuffs(frame, auraName, numBuffs, numDebuffs, largeDebuffL
                         dbf:SetPoint(point .. "LEFT", frame, relativePoint .. "LEFT", AURA_START_X, startY);
                     end
                     lastDebuffIndex = i
-                    if frame.debuffs then
+                    if (frame.debuffs and dbf and point and relativePoint) then
                         frame.debuffs:ClearAllPoints()
                         frame.debuffs:SetPoint(point .. "LEFT", dbf, point .. "LEFT", 0, 0);
                         frame.debuffs:SetPoint(relativePoint .. "LEFT", dbf, relativePoint .. "LEFT", 0, -auraOffsetY);
@@ -268,18 +267,17 @@ local function updateDebuffs(frame, auraName, numBuffs, numDebuffs, largeDebuffL
                     end
                 end
 
-                if rowWidth > maxRows(frame, maxRowWidth, frame.buffsOnTop) then
+                if rowWidth > maxRows(frame, maxRowWidth, mirrorVertically) then
                     rowWidth = size;
                     anchorFrame = _G[auraName .. lastDebuffIndex];
                     dbf:ClearAllPoints()
                     dbf:SetPoint(point .. "LEFT", _G[auraName .. lastDebuffIndex], relativePoint .. "LEFT", 0, -offsetY);
-                    if frame.debuffs then
+                    if (frame.debuffs and dbf and relativePoint) then
                         frame.debuffs:ClearAllPoints()
                         frame.debuffs:SetPoint(relativePoint .. "LEFT", dbf, relativePoint .. "LEFT", 0, -auraOffsetY);
                     end
                     frame.auraRows = frame.auraRows + 1;
                     lastDebuffIndex = i
-                    offsetY = AURA_OFFSET_Y
                     if ((isFriend) or (not isFriend and numBuffs == 0)) then
                         frame.spellbarAnchor = dbf;
                     end
@@ -305,12 +303,16 @@ local largeDebuffList = {};
 local function Filterino(self)
     local selfName = self:GetName()
     local numDebuffs, numBuffs = 0, 0
+    local numDebuffs2, numBuffs2 = 0, 0
 
     for i = 1, MAX_TARGET_BUFFS do
         local buffName, _, _, _, _, _, caster = UnitBuff(self.unit, i, "HELPFUL");
         if buffName then
-            numBuffs = numBuffs + 1;
-            largeBuffList[numDebuffs] = ShouldAuraBeLarge(caster);
+            if not DeBuffFilter:IsBuffNameBlocked(buffName) then
+                numBuffs = numBuffs + 1;
+                largeBuffList[numDebuffs] = ShouldAuraBeLarge(caster);
+            end
+            numBuffs2 = numBuffs2 + 1;
         end
     end
 
@@ -322,8 +324,11 @@ local function Filterino(self)
         local debuffName, _, _, _, _, _, caster, _, _, _, _, _, casterIsPlayer, nameplateShowAll = UnitDebuff(self.unit, index, "INCLUDE_NAME_PLATE_ONLY")
         if debuffName then
             if (TargetFrame_ShouldShowDebuffs(self.unit, caster, nameplateShowAll, casterIsPlayer)) then
-                numDebuffs = numDebuffs + 1;
-                largeDebuffList[numDebuffs] = ShouldAuraBeLarge(caster);
+                if not DeBuffFilter:IsBuffNameBlocked(debuffName) then
+                    numDebuffs = numDebuffs + 1;
+                    largeDebuffList[numDebuffs] = ShouldAuraBeLarge(caster);
+                end
+                numDebuffs2 = numDebuffs2 + 1
                 frameNum = frameNum + 1;
             end
         else
@@ -343,11 +348,11 @@ local function Filterino(self)
     self.spellbarAnchor = nil
 
     if (UnitIsFriend("player", self.unit)) then
-        updateBuffs(self, selfName .. "Buff", numDebuffs, numBuffs, largeBuffList, 3, mirrorAurasVertically)
-        updateDebuffs(self, selfName .. "Debuff", numBuffs, numDebuffs, largeDebuffList, 3, mirrorAurasVertically)
+        updateBuffs(self, selfName .. "Buff", numDebuffs, numBuffs2, largeBuffList, 3, mirrorAurasVertically)
+        updateDebuffs(self, selfName .. "Debuff", numBuffs, numDebuffs2, largeDebuffList, 3, mirrorAurasVertically)
     else
-        updateDebuffs(self, selfName .. "Debuff", numBuffs, numDebuffs, largeDebuffList, 3, mirrorAurasVertically)
-        updateBuffs(self, selfName .. "Buff", numDebuffs, numBuffs, largeBuffList, 3, mirrorAurasVertically)
+        updateDebuffs(self, selfName .. "Debuff", numBuffs, numDebuffs2, largeDebuffList, 3, mirrorAurasVertically)
+        updateBuffs(self, selfName .. "Buff", numDebuffs, numBuffs2, largeBuffList, 3, mirrorAurasVertically)
     end
 
     if (self.spellbar) then
@@ -356,4 +361,4 @@ local function Filterino(self)
 end
 
 hooksecurefunc("Target_Spellbar_AdjustPosition", New_Target_Spellbar_AdjustPosition)
-hooksecurefunc("TargetFrame_UpdateAuraPositions", Filterino)
+hooksecurefunc("TargetFrame_UpdateAuras", Filterino)

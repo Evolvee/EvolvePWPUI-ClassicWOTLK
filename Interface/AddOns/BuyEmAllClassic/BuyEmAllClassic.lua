@@ -3,10 +3,6 @@
 BuyEmAll = {}
 
 local L = BUYEMALL_LOCALS;
-local strfind, strmatch = string.find, string.match
-local floor, min = math.floor, math.min
-local ceil, abs = math.ceil, math.abs
-local select, tonumber = select, tonumber
 
 -- These are used for the text on the Max and Stack buttons. See BuyEmAll.xml.
 
@@ -48,11 +44,11 @@ function BuyEmAll:OnLoad()
     BuyEmAllCurrencyAmt3:SetText();
 
     hooksecurefunc("MerchantItemButton_OnModifiedClick", function(frame, button)
-        self:MerchantItemButton_OnModifiedClick(frame, button);
+        BuyEmAll:MerchantItemButton_OnModifiedClick(frame, button);
     end)
 
     MerchantFrame:HookScript("OnHide", function()
-        BuyEmAllFrame:Hide();
+        BuyEmAllFrame:Hide()
     end)
 
     SLASH_BUYEMALL1 = "/buyemall"
@@ -242,8 +238,6 @@ function BuyEmAll:MerchantItemButton_OnModifiedClick(frame, button)
 
         self:SetStackClick();
         self:Show(frame);
-    else
-        self.OrigMerchantItemButton_OnModifiedClick(frame, button);
     end
 end
 
