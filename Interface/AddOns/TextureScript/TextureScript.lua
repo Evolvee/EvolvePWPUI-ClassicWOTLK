@@ -774,6 +774,23 @@ local function OnInit()
     for _, fdid in pairs(sounds) do
         MuteSoundFile(fdid)
     end
+	
+	-- Hide certain Macro & Keybind texts from Action Bar buttons
+
+    for i = 1, 12 do
+        _G["ActionButton" .. i .. "HotKey"]:Hide()
+        _G["MultiBarBottomRightButton" .. i .. "HotKey"]:Hide()
+        _G["MultiBarBottomLeftButton" .. i .. "HotKey"]:Hide()
+        _G["MultiBarRightButton" .. i .. "HotKey"]:Hide()
+        _G["MultiBarLeftButton" .. i .. "HotKey"]:Hide()
+    end
+    for i = 1, 12 do
+        _G["ActionButton" .. i .. "Name"]:SetAlpha(0)
+        _G["MultiBarBottomRightButton" .. i .. "Name"]:SetAlpha(0)
+        _G["MultiBarBottomLeftButton" .. i .. "Name"]:SetAlpha(0)
+        _G["MultiBarRightButton" .. i .. "Name"]:SetAlpha(0)
+        _G["MultiBarLeftButton" .. i .. "Name"]:SetAlpha(0)
+    end
 end
 
 -- Attempt to Hide the modern shitclient multigroup icon at PlayerFrame
@@ -1892,22 +1909,7 @@ hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', funct
 end)
 
 
--- TODO: Hide Macro & Keybind text from Action Bar buttons
 
-    for i = 1, 12 do
-        _G["ActionButton" .. i .. "HotKey"]:Hide()
-        _G["MultiBarBottomRightButton" .. i .. "HotKey"]:Hide()
-        _G["MultiBarBottomLeftButton" .. i .. "HotKey"]:Hide()
-        _G["MultiBarRightButton" .. i .. "HotKey"]:Hide()
-        _G["MultiBarLeftButton" .. i .. "HotKey"]:Hide()
-    end
-    for i = 1, 12 do
-        _G["ActionButton" .. i .. "Name"]:SetAlpha(0)
-        _G["MultiBarBottomRightButton" .. i .. "Name"]:SetAlpha(0)
-        _G["MultiBarBottomLeftButton" .. i .. "Name"]:SetAlpha(0)
-        _G["MultiBarRightButton" .. i .. "Name"]:SetAlpha(0)
-        _G["MultiBarLeftButton" .. i .. "Name"]:SetAlpha(0)
-    end
 
 
 
