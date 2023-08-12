@@ -1,3 +1,0 @@
-## Interface: 30402
-## Title: WAHK
-core.lua

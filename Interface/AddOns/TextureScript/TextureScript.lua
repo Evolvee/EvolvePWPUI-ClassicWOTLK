@@ -512,72 +512,12 @@ local function OnInit()
     COMBAT_TEXT_MISS = "SHIT EXPANSION"
 
     -- SpeedyActions level: Garage clicker
-    MultiBarBottomLeftButton1:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton2:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton3:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton4:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton5:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton6:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton7:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton8:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton9:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton10:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton11:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomLeftButton12:RegisterForClicks("AnyDown", "AnyUp")
-
-    MultiBarBottomRightButton1:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton2:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton3:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton4:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton5:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton6:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton7:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton8:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton9:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton10:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton11:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarBottomRightButton12:RegisterForClicks("AnyDown", "AnyUp")
-
-    ActionButton1:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton2:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton3:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton4:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton5:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton6:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton7:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton8:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton9:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton10:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton11:RegisterForClicks("AnyDown", "AnyUp")
-    ActionButton12:RegisterForClicks("AnyDown", "AnyUp")
-
-    MultiBarLeftButton1:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton2:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton3:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton4:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton5:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton6:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton7:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton8:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton9:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton10:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton11:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarLeftButton12:RegisterForClicks("AnyDown", "AnyUp")
-
-    MultiBarRightButton1:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton2:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton3:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton4:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton5:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton6:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton7:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton8:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton9:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton10:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton11:RegisterForClicks("AnyDown", "AnyUp")
-    MultiBarRightButton12:RegisterForClicks("AnyDown", "AnyUp")
-
-    -- SpeedyActions level: Pro Gaymer = Handled in "WAHK" addon
+	hooksecurefunc("ActionButton_UpdateState", function(self)
+		if self and not self.registered then
+			self:RegisterForClicks("AnyUp", "AnyDown");
+			self.registered = true
+		end
+	end)
 
     -- move target of target to the right in order to allow clear vision of buffs/debuffs on a target, this will also be prolly mandatory when I try to resize the debuff scale to match 2.4.3
     TargetFrameToT:ClearAllPoints();
@@ -793,7 +733,38 @@ local function OnInit()
     end
 end
 
--- Attempt to Hide the modern shitclient multigroup icon at PlayerFrame
+    -- SpeedyActions level: Pro Gaymer
+	hooksecurefunc("ActionButton_UpdateState", function(self)
+    if self and not self.registered and not InCombatLockdown() then
+        local id
+        local actionButtonType = self.buttonType
+        if (not actionButtonType) then
+            actionButtonType = "ACTIONBUTTON";
+            id = self:GetID();
+        else
+            if (actionButtonType == "MULTICASTACTIONBUTTON") then
+                id = self.buttonIndex;
+            else
+                id = self:GetID();
+            end
+        end
+
+        local key = GetBindingKey(actionButtonType .. id) or
+                GetBindingKey("CLICK " .. self:GetName() .. ":LeftButton");
+
+        self:RegisterForClicks("AnyDown", "AnyUp")
+        if key then
+            local name = self:GetName()
+            if name:match("OverrideActionBarButton") then
+                return
+            end
+            SetOverrideBindingClick(self, true, key, name)
+        end
+        self.registered = true
+    end
+end)
+
+-- Hide the modern shitclient multigroup icon at PlayerFrame
 local mg = PlayerPlayTime:GetParent().MultiGroupFrame
 hooksecurefunc(mg, "Show", mg.Hide)
 
@@ -804,7 +775,7 @@ hooksecurefunc(PetHitIndicator, "Show", PetHitIndicator.Hide)
 -- Color Guild Tabs
 hooksecurefunc("GuildStatus_Update", ColorGuildTabs)
 
---Pet Frame (IT IS NECCESSARY TO COPY INTERFACE/TARGETINGFRAME FOLDER AS WELL)
+-- Pet Frame (IT IS NECCESSARY TO COPY INTERFACE/TARGETINGFRAME FOLDER AS WELL)
 hooksecurefunc("PetFrame_Update", function()
     PetFrameHealthBar:SetWidth(70)
     PetFrameHealthBar:SetHeight(18)
@@ -1908,11 +1879,55 @@ hooksecurefunc(getmetatable(ActionButton1Cooldown).__index, 'SetCooldown', funct
     self:SetDrawBling(false)
 end)
 
+-- Since we disabled macro & keybind text above, there is no way to tell when target is too far to cast on, so adding this mechanic instead... (colouring action bar buttons that are out of range & out of mana to be casted...)
 
+local IsActionInRange = IsActionInRange
+local IsUsableAction = IsUsableAction
 
+local function Usable(button)
+    local isUsable, notEnoughMana = IsUsableAction(button.action)
+    local icon = button.icon
 
+    if isUsable then
+        icon:SetVertexColor(1.0, 1.0, 1.0, 1.0)
+        icon:SetDesaturated(false)
+    elseif notEnoughMana then
+        icon:SetVertexColor(0.3, 0.3, 0.3, 1.0)
+        icon:SetDesaturated(true)
+    else
+        icon:SetVertexColor(0.4, 0.4, 0.4, 1.0)
+        icon:SetDesaturated(true)
+    end
+end
 
+hooksecurefunc("ActionButton_OnUpdate", function(self)
+    local _, oom = IsUsableAction(self.action)
+    local valid = IsActionInRange(self.action);
+    local checksRange = (valid ~= nil);
+    local inRange = checksRange and valid;
 
+    if self.HotKey and self.HotKey:GetAlpha() > 0 then
+        self.HotKey:SetAlpha(0)
+    end
+    if checksRange and not inRange then
+        if oom then
+            self.icon:SetVertexColor(0.3, 0.3, 0.3, 1.0)
+            self.icon:SetDesaturated(true)
+        else
+            self.icon:SetVertexColor(1.0, 0.35, 0.35, 0.75)
+            self.icon:SetDesaturated(true)
+        end
+    else
+        Usable(self)
+    end
+end)
+
+-- Preventing the black action bar borders to be hidden due to pressing theme
+hooksecurefunc("ActionButton_OnUpdate", function(self)
+	if self.NormalTexture and not self.NormalTexture:IsShown()
+		then self.NormalTexture:Show()
+	end
+end)
 
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
