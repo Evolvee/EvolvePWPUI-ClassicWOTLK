@@ -183,7 +183,7 @@ function Module.CreateNewCastbar()
     local sparkRef = 'Interface\\Addons\\DragonflightUI\\Textures\\Castbar\\CastingBarSpark'
 
     local sizeX = 192
-    local sizeY = 10
+    local sizeY = 11
 	
     local f = CreateFrame('Frame', 'DragonflightUICastBar', CastingBarFrame)
     f:SetSize(sizeX, sizeY)

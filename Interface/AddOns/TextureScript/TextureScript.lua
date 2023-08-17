@@ -511,14 +511,6 @@ local function OnInit()
     COMBAT_TEXT_RESIST = "SHIT EXPANSION"
     COMBAT_TEXT_MISS = "SHIT EXPANSION"
 
-    -- SpeedyActions level: Garage clicker
-	hooksecurefunc("ActionButton_UpdateState", function(self)
-		if self and not self.registered then
-			self:RegisterForClicks("AnyUp", "AnyDown");
-			self.registered = true
-		end
-	end)
-
     -- move target of target to the right in order to allow clear vision of buffs/debuffs on a target, this will also be prolly mandatory when I try to resize the debuff scale to match 2.4.3
     TargetFrameToT:ClearAllPoints();
     TargetFrameToT:SetPoint("RIGHT", "TargetFrame", "BOTTOMRIGHT", -20, 5);
@@ -733,35 +725,66 @@ local function OnInit()
     end
 end
 
-    -- SpeedyActions level: Pro Gaymer
-	hooksecurefunc("ActionButton_UpdateState", function(self)
-    if self and not self.registered and not InCombatLockdown() then
-        local id
-        local actionButtonType = self.buttonType
-        if (not actionButtonType) then
-            actionButtonType = "ACTIONBUTTON";
-            id = self:GetID();
-        else
-            if (actionButtonType == "MULTICASTACTIONBUTTON") then
-                id = self.buttonIndex;
-            else
-                id = self:GetID();
-            end
-        end
+-- SpeedyActions level: Garage clicker & Pro Gaymer
+local _G = getfenv(0)
+local GetBindingKey, SetOverrideBindingClick = _G.GetBindingKey, _G.SetOverrideBindingClick
+local InCombatLockdown = _G.InCombatLockdown
+local tonumber = _G.tonumber
+local frame = CreateFrame("Frame")
 
-        local key = GetBindingKey(actionButtonType .. id) or
-                GetBindingKey("CLICK " .. self:GetName() .. ":LeftButton");
-
-        self:RegisterForClicks("AnyDown", "AnyUp")
-        if key then
-            local name = self:GetName()
-            if name:match("OverrideActionBarButton") then
-                return
-            end
-            SetOverrideBindingClick(self, true, key, name)
-        end
-        self.registered = true
+local function WAHK(button)
+    if not button then
+        return
     end
+
+    local btn = _G[button]
+    local id = tonumber(button:match("(%d+)"))
+    local actionButtonType = btn.buttonType
+    local buttonType = actionButtonType and (actionButtonType .. id) or ("ACTIONBUTTON%d"):format(id)
+    local clickButton = buttonType or ("CLICK " .. button .. ":LeftButton")
+    local key = GetBindingKey(clickButton)
+
+    if btn then
+        btn:RegisterForClicks("AnyDown", "AnyUp")
+    end
+
+    if key then
+        SetOverrideBindingClick(btn, true, key, btn:GetName())
+    end
+end
+
+local function UpdateBinds()
+    if InCombatLockdown() then
+        frame:RegisterEvent("PLAYER_REGEN_ENABLED")
+        return
+    end
+
+    if OverrideActionBar and OverrideActionBar:IsShown() then
+        for i = 1, 6 do
+            local ob = _G["ActionButton" .. i];
+            ClearOverrideBindings(ob)
+        end
+        return
+    end
+
+    for i = 1, 12 do
+        WAHK("ActionButton" .. i)
+        WAHK("MultiBarBottomRightButton" .. i)
+        WAHK("MultiBarBottomLeftButton" .. i)
+        WAHK("MultiBarRightButton" .. i)
+        WAHK("MultiBarLeftButton" .. i)
+    end
+end
+
+frame:RegisterEvent("UPDATE_BINDINGS")
+frame:RegisterEvent("PLAYER_LOGIN")
+frame:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
+frame:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
+frame:SetScript("OnEvent", function(self, event, ...)
+    if event == "PLAYER_REGEN_ENABLED" then
+        self:UnregisterEvent("PLAYER_REGEN_ENABLED")
+    end
+    UpdateBinds()
 end)
 
 -- Hide the modern shitclient multigroup icon at PlayerFrame
@@ -1922,7 +1945,7 @@ hooksecurefunc("ActionButton_OnUpdate", function(self)
     end
 end)
 
--- Preventing the black action bar borders to be hidden due to pressing theme
+-- Preventing the black action bar borders to be hidden due to pressing an action button
 hooksecurefunc("ActionButton_OnUpdate", function(self)
 	if self.NormalTexture and not self.NormalTexture:IsShown()
 		then self.NormalTexture:Show()

@@ -133,29 +133,26 @@ local function updateBuffs(frame, auraName, numDebuffs, numAuras, largeBuffList,
     end
 
     for i = 1, numAuras do
-        local name = UnitBuff(frame.unit, i, nil);
+        local name, _, _, _, _, _, caster = UnitBuff(frame.unit, i, nil);
         local buffFrame = _G[auraName .. i]
         if name and buffFrame then
             if not DeBuffFilter:IsBuffNameBlocked(name) then
-                if largeBuffList[i] then
+                if ShouldAuraBeLarge(caster) then
                     size = LARGE_AURA_SIZE
                     offsetY = AURA_OFFSET_Y + AURA_OFFSET_Y
                 else
                     size = SMALL_AURA_SIZE
                 end
 
-                if ((i == 1) or (anchorFrame == nil)) then
+                if (i == 1) or anchorFrame == nil then
                     if isFriend or (numDebuffs == 0) then
-                        anchorFrame = frame;
                         buffFrame:ClearAllPoints()
                         buffFrame:SetPoint(point .. "LEFT", frame, relativePoint .. "LEFT", AURA_START_X, startY);
                     else
-                        anchorFrame = frame.debuffs;
                         buffFrame:ClearAllPoints()
                         buffFrame:SetPoint(point .. "LEFT", frame.debuffs, relativePoint .. "LEFT", 0, -offsetY);
                     end
-                    if (frame.buffs and buffFrame and point and relativePoint) then
-                        frame.buffs:ClearAllPoints()
+                    if (anchorFrame and frame.buffs and buffFrame and point and relativePoint) then
                         frame.buffs:SetPoint(point .. "LEFT", buffFrame, point .. "LEFT", 0, 0);
                         frame.buffs:SetPoint(relativePoint .. "LEFT", buffFrame, relativePoint .. "LEFT", 0, -auraOffsetY);
                     end
@@ -165,18 +162,16 @@ local function updateBuffs(frame, auraName, numDebuffs, numAuras, largeBuffList,
                     frame.auraRows = frame.auraRows + 1;
                 else
                     rowWidth = rowWidth + size + offsetX
-                    if anchorFrame ~= buffFrame then
+                    if anchorFrame and anchorFrame ~= buffFrame then
                         buffFrame:ClearAllPoints()
                         buffFrame:SetPoint(point .. "LEFT", anchorFrame, point .. "RIGHT", offsetX, 0);
                     end
                 end
 
                 if rowWidth > maxRows(frame, maxRowWidth, mirrorVertically) then
-                    anchorFrame = _G[auraName .. lastBuffIndex];
                     buffFrame:ClearAllPoints()
                     buffFrame:SetPoint(point .. "LEFT", _G[auraName .. lastBuffIndex], relativePoint .. "LEFT", 0, -offsetY);
                     if (frame.buffs and buffFrame and relativePoint) then
-                        frame.buffs:ClearAllPoints()
                         frame.buffs:SetPoint(relativePoint .. "LEFT", buffFrame, relativePoint .. "LEFT", 0, -auraOffsetY);
                     end
                     rowWidth = size
@@ -191,6 +186,17 @@ local function updateBuffs(frame, auraName, numDebuffs, numAuras, largeBuffList,
                 buffFrame:SetHeight(size)
             else
                 buffFrame:Hide()
+                if (i == 1) then
+                    if isFriend or (numDebuffs == 0) then
+                        buffFrame:ClearAllPoints()
+                        buffFrame:SetPoint(point .. "LEFT", frame, relativePoint .. "LEFT", AURA_START_X, startY);
+                    else
+                        buffFrame:ClearAllPoints()
+                        buffFrame:SetPoint(point .. "LEFT", frame.debuffs, relativePoint .. "LEFT", 0, -offsetY);
+                    end
+                        frame.buffs:SetPoint(point .. "LEFT", buffFrame, point .. "LEFT", 0, 0);
+                        frame.buffs:SetPoint(relativePoint .. "LEFT", buffFrame, relativePoint .. "LEFT", 0, -auraOffsetY);
+                end
             end
         end
     end
@@ -231,26 +237,23 @@ local function updateDebuffs(frame, auraName, numBuffs, numAuras, largeDebuffLis
         local dbf = _G[auraName .. i]
         if debuffName and dbf then
             if not DeBuffFilter:IsBuffNameBlocked(debuffName) then
-                if largeDebuffList[i] then
+                if ShouldAuraBeLarge(caster) then
                     size = LARGE_AURA_SIZE
                     offsetY = AURA_OFFSET_Y + AURA_OFFSET_Y
                 else
                     size = SMALL_AURA_SIZE
                 end
 
-                if ((i == 1) or (anchorFrame == nil)) then
+                if (i == 1) or anchorFrame == nil then
                     if (isFriend and numBuffs > 0) then
-                        anchorFrame = frame.buffs;
                         dbf:ClearAllPoints()
                         dbf:SetPoint(point .. "LEFT", frame.buffs, relativePoint .. "LEFT", 0, -offsetY);
                     else
-                        anchorFrame = frame;
                         dbf:ClearAllPoints()
                         dbf:SetPoint(point .. "LEFT", frame, relativePoint .. "LEFT", AURA_START_X, startY);
                     end
                     lastDebuffIndex = i
-                    if (frame.debuffs and dbf and point and relativePoint) then
-                        frame.debuffs:ClearAllPoints()
+                    if (anchorFrame and frame.debuffs and dbf and point and relativePoint) then
                         frame.debuffs:SetPoint(point .. "LEFT", dbf, point .. "LEFT", 0, 0);
                         frame.debuffs:SetPoint(relativePoint .. "LEFT", dbf, relativePoint .. "LEFT", 0, -auraOffsetY);
                     end
@@ -261,7 +264,7 @@ local function updateDebuffs(frame, auraName, numBuffs, numAuras, largeDebuffLis
                     frame.auraRows = frame.auraRows + 1;
                 else
                     rowWidth = rowWidth + size + offsetX
-                    if anchorFrame ~= dbf then
+                    if anchorFrame and anchorFrame ~= dbf then
                         dbf:ClearAllPoints()
                         dbf:SetPoint(point .. "LEFT", anchorFrame, point .. "RIGHT", offsetX, 0);
                     end
@@ -269,11 +272,9 @@ local function updateDebuffs(frame, auraName, numBuffs, numAuras, largeDebuffLis
 
                 if rowWidth > maxRows(frame, maxRowWidth, mirrorVertically) then
                     rowWidth = size;
-                    anchorFrame = _G[auraName .. lastDebuffIndex];
                     dbf:ClearAllPoints()
                     dbf:SetPoint(point .. "LEFT", _G[auraName .. lastDebuffIndex], relativePoint .. "LEFT", 0, -offsetY);
                     if (frame.debuffs and dbf and relativePoint) then
-                        frame.debuffs:ClearAllPoints()
                         frame.debuffs:SetPoint(relativePoint .. "LEFT", dbf, relativePoint .. "LEFT", 0, -auraOffsetY);
                     end
                     frame.auraRows = frame.auraRows + 1;
@@ -283,8 +284,8 @@ local function updateDebuffs(frame, auraName, numBuffs, numAuras, largeDebuffLis
                     end
                 end
 
-                dbf:Show()
                 anchorFrame = dbf;
+                dbf:Show()
                 dbf:SetWidth(size)
                 dbf:SetHeight(size)
                 local debuffFrame = _G[auraName .. i .. "Border"];
@@ -292,6 +293,17 @@ local function updateDebuffs(frame, auraName, numBuffs, numAuras, largeDebuffLis
                 debuffFrame:SetHeight(size + 2);
             else
                 dbf:Hide()
+                if (i == 1) then
+                    if (isFriend and numBuffs > 0) then
+                        dbf:ClearAllPoints()
+                        dbf:SetPoint(point .. "LEFT", frame.buffs, relativePoint .. "LEFT", 0, -offsetY);
+                    else
+                        dbf:ClearAllPoints()
+                        dbf:SetPoint(point .. "LEFT", frame, relativePoint .. "LEFT", AURA_START_X, startY);
+                    end
+                    frame.debuffs:SetPoint(point .. "LEFT", dbf, point .. "LEFT", 0, 0);
+                    frame.debuffs:SetPoint(relativePoint .. "LEFT", dbf, relativePoint .. "LEFT", 0, -auraOffsetY);
+                end
             end
         end
     end

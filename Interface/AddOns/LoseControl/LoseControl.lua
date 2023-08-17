@@ -569,6 +569,7 @@ local spellIds = {
 	[27827]  = "Immune",			-- Spirit of Redemption
 	[33206]  = "ImmunePhysical",	-- Pain Suppression (not immune, damage taken reduced by 40%)
 	[47585]  = "Immune",			-- Dispersion (talent) (not immune, damage taken reduced by 90%)
+	[58984]  = "Immune",			-- Shadowmeld (talent) (not immune, just making sure its displayed on my screen LULE)
 	[47788]  = "Other",				-- Guardian Spirit (talent) (prevent the target from dying)
 	[14751]  = "Other",				-- Inner Focus
 	[15407]  = "Snare",				-- Mind Flay (talent) (rank 1)
