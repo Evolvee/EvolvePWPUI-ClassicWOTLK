@@ -507,10 +507,6 @@ local function OnInit()
     -- removing the new "latency" bar unfortunately introduced in wotlk
     MainMenuBarPerformanceBar:SetAlpha(0)
 
-    -- COMBAT_TEXT_RESIST = "FUCK BLIZZARD"
-    COMBAT_TEXT_RESIST = "SHIT EXPANSION"
-    COMBAT_TEXT_MISS = "SHIT EXPANSION"
-
     -- move target of target to the right in order to allow clear vision of buffs/debuffs on a target, this will also be prolly mandatory when I try to resize the debuff scale to match 2.4.3
     TargetFrameToT:ClearAllPoints();
     TargetFrameToT:SetPoint("RIGHT", "TargetFrame", "BOTTOMRIGHT", -20, 5);
@@ -1954,22 +1950,29 @@ end)
 
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
+-- ^^ current value: 130 (100+ latency)
 
--- ^^ current value for testing:100, 400 was too cancerous - sometimes prevented the cast with /cqs+cast macro altogether
-
--- Ingame commmand for classcoloured names in chat: /console SET chatClassColorOverride "0" //DOESNT WORK AS OF 15/10/2022 ANYMORE, nice one nuBlizzard, yet again//
 -- trying to remove the cancer weather that is not part of the video settings as it used to be in 2.4.3: /console set weatherdensity 0 // /console WeatherDensity 0
+
+-- trying to reduce the view distance (maybe reduces fps drops?) because this dragonshit client doesnt even allow you to change it in interface options: /run SetCVar("farclip", 0)
 
 -- Disable the ability to scroll chat with mouse wheel (fucks binds with the mouse-wheel-up/down): /console chatMouseScroll 0
 
+
+
 -- FUCK BLIZZARD, garbage company:
---https://eu.forums.blizzard.com/en/wow/t/lf-a-blizzard-response-all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/320188
+-- https://eu.forums.blizzard.com/en/wow/t/lf-a-blizzard-response-all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/320188
 -- https://us.forums.blizzard.com/en/wow/t/all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/1114096/5
 
--- WE DID IT REDDIT - https://github.com/JamminL/wotlk-classic-bugs/issues/143#issuecomment-1209998266 - after a year of TBC being absolutely fucking unplayable, especially for a shadow priest, they "finally" fixed it... So adding more appropriate message instead for WOTLK (hi sacred cleansing)...
+-- WE DID IT REDDIT-> https://github.com/JamminL/wotlk-classic-bugs/issues/143#issuecomment-1209998266 - after a year of TBC being absolutely fucking unplayable, especially for a shadow priest, they "finally" fixed it... So adding more appropriate message instead for WOTLK (hi sacred cleansing)...
+
+COMBAT_TEXT_RESIST = "SHIT EXPANSION"
+COMBAT_TEXT_MISS = "SHIT EXPANSION"
+
+
+
 
 --Login message informing all scripts of this file were properly executed
-
-ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.4 Loaded successfully!", 0, 205, 255)
+ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.5 Loaded successfully!", 0, 205, 255)
 ChatFrame1:AddMessage("Check for updates at:", 0, 205, 255)
 ChatFrame1:AddMessage("https://github.com/Evolvee/EvolvePWPUI-ClassicWOTLK", 0, 205, 255)

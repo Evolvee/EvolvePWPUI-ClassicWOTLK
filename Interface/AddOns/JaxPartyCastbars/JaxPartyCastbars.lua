@@ -21,13 +21,13 @@ local GetNumPartyMembers = GetNumGroupMembers
 local spellBars = {}
 
 function JPC:UpdateBars()
+    local _, type = IsInInstance()
+
     for k, sp in ipairs(spellBars) do
         sp:SetScale(JaxPartyCastBars.db.profile.scale)
         if (GetNumPartyMembers() > k) then
             sp:ClearAllPoints()
-            if not IsActiveBattlefieldArena() then return end
-            -- if select(2,IsInInstance()) ~= "arena" then return end
-            if GetCVarBool("useCompactPartyFrames") or UnitInRaid("player") then
+            if GetCVarBool("useCompactPartyFrames") or UnitInRaid("player") and type == "arena" then
                 for g = 1, GetNumPartyMembers(), 1 do
                     local raidFrame = nil
                     if CompactRaidFrameManager_GetSetting("KeepGroupsTogether") then
@@ -55,7 +55,7 @@ function JPC:UpdateBars()
     end
 end
 
-hooksecurefunc("CompactRaidFrameContainer_SetFlowSortFunction", function(self, flowSortFunc)
+hooksecurefunc("CompactRaidFrameContainer_SetFlowSortFunction", function()
     JPC:UpdateBars()
 end)
 
@@ -68,7 +68,7 @@ function JPC:PLAYER_ENTERING_WORLD()
 end
 
 function JPC:CVAR_UPDATE(event)
-    if event == "USE_RAID_STYLE_PARTY_FRAMES" then
+    if event == "useCompactPartyFrames" then
         self:UpdateBars()
     end
 end
@@ -76,9 +76,6 @@ end
 local function JPC_OnLoad(self)
     local c = JaxPartyCastBars.db.profile.color
     JPC.locked = true
-    self:RegisterEvent("GROUP_ROSTER_UPDATE")
-    self:RegisterEvent("PLAYER_ENTERING_WORLD")
-    self:RegisterEvent("CVAR_UPDATE")
 
     self:SetScript("OnEvent", function(self, event, ...)
         if self[event] then
@@ -124,6 +121,9 @@ function JPC:UpdateBorderColor()
 end
 
 JPC:RegisterEvent("VARIABLES_LOADED")
+JPC:RegisterEvent("GROUP_ROSTER_UPDATE")
+JPC:RegisterEvent("PLAYER_ENTERING_WORLD")
+JPC:RegisterEvent("CVAR_UPDATE")
 JPC:SetScript("OnEvent", JPC_OnLoad)
 
 hooksecurefunc("CastingBarFrame_OnEvent", function(self, event, ...)
@@ -138,16 +138,13 @@ hooksecurefunc("CastingBarFrame_OnEvent", function(self, event, ...)
         local name = UnitCastingInfo(unit);
         if name ~= "Polymorph" then
             self:Hide()
-            return
         end
     elseif ( event == "UNIT_SPELLCAST_CHANNEL_START" ) and (unit == "party1" or unit == "party2") then
         local name = UnitChannelInfo(unit);
         if name ~= "Polymorph" then
             self:Hide()
-            return
         end
     elseif event == "UNIT_SPELLCAST_INTERRUPTED" then
         self:Hide()
-        return
     end
 end)

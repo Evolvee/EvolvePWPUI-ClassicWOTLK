@@ -1,6 +1,6 @@
 ## Interface: 30402
 ## Title: DeBuffFilter
-## Version: v2.0
+## Version: v2.1
 ## Notes: discord.gg/CtxPasSQnQ
 ## Author: Xyz, Asuri, Jax (GUI)
 ## SavedVariables: DeBuffFilterDB
