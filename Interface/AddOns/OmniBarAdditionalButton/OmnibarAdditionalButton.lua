@@ -5,11 +5,11 @@ OABframe:SetClampedToScreen(true)
 OABframe:EnableMouse(true)
 OABframe:SetAlpha(0.25)
 OABframe:SetSize(10, 10)
-OABframe:SetPoint("TOPRIGHT", 0, 0)
+OABframe:SetPoint("TOPRIGHT", 0, 0) -- position it wherever u want FeelsOkayMan
 OABframe:RegisterForClicks("RightButtonUp", "LeftButtonUp");
 OABframe:RegisterEvent("PLAYER_ENTERING_WORLD")
 OABframe:SetScript("OnEvent", function()
-    if OmniBar16 then OmniBar16:SetAlpha(0) end
+    if OmniBar16 then OmniBar16:SetAlpha(0) end -- change OmniBarX where X is the number of the omnibar frame (/fstack) that you want to switch between
 end)
 
 OABframe:SetScript("OnClick", function(self)
