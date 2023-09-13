@@ -1,18 +1,18 @@
-DeBuffFilter = LibStub("AceAddon-3.0"):NewAddon("DeBuffFilter", "AceEvent-3.0", "AceHook-3.0", "AceConsole-3.0")
-local _G = getfenv(0)
-local UnitIsUnit, UnitIsOwnerOrControllerOfUnit, pairs = _G.UnitIsUnit, _G.UnitIsOwnerOrControllerOfUnit, _G.pairs
-local MAX_TARGET_DEBUFFS = 16;
-local MAX_TARGET_BUFFS = 32;
-local AURA_START_Y = 32;
-local UnitBuff, UnitDebuff, UnitIsFriend = _G.UnitBuff, _G.UnitDebuff, _G.UnitIsFriend
-local mceil = math.ceil
+DeBuffFilter = LibStub("AceAddon-3.0"):NewAddon("DeBuffFilter", "AceConsole-3.0")
+local MAX_TARGET_DEBUFFS = 16
+local MAX_TARGET_BUFFS = 32
+local AURA_START_Y = 32
+local AURA_START_X = 5
+local mceil, pairs = math.ceil, pairs
 
 local defaults = {
     profile = {
         hiddenBuffs = {},
         selfSize = 21,
         otherSize = 17,
-        auraWidth = 122
+        auraWidth = 122,
+        verticalSpace = 1,
+        horizontalSpace = 3
     }
 }
 
@@ -21,14 +21,15 @@ function DeBuffFilter:OnInitialize()
     self:SetupOptions()
 end
 
-function DeBuffFilter:IsBuffNameBlocked(name)
-    local found = false;
-    table.foreach(self.db.profile.hiddenBuffs, function(index, blockedName)
-        if (blockedName == name) then
-            found = true;
+function DeBuffFilter:Blacklisted(name)
+    local val = false
+    for _, blockedName in pairs(self.db.profile.hiddenBuffs) do
+        if blockedName == name then
+            val = true
+            break
         end
-    end)
-    return found;
+    end
+    return val
 end
 
 local function New_Target_Spellbar_AdjustPosition(self)
@@ -55,9 +56,6 @@ local function New_Target_Spellbar_AdjustPosition(self)
         end
     end
 end
-
-local AURA_OFFSET_Y = 1;
-local AURA_START_X = 5;
 
 local PLAYER_UNITS = {
     player = true,
@@ -105,50 +103,50 @@ local function maxRows(self, width, mirror)
     end
 end
 
-local function UpdateBuffAnchor(self, buffName, index, numDebuffs, anchorIndex, size, offsetX, offsetY, mirrorVertically, previousBuff, newRow)
+local function UpdateBuffAnchor(self, buffName, index, numDebuffs, anchorIndex, size, offsetX, offsetY, mirrorVertically, firstShown, newRow)
     --For mirroring vertically
     local point, relativePoint;
     local startY, auraOffsetY;
-    if ( mirrorVertically ) then
+    if (mirrorVertically) then
         point = "BOTTOM";
         relativePoint = "TOP";
         startY = -15;
-        if ( self.threatNumericIndicator:IsShown() ) then
+        if (self.threatNumericIndicator:IsShown()) then
             startY = startY + self.threatNumericIndicator:GetHeight();
         end
-        offsetY = - offsetY;
-        auraOffsetY = -AURA_OFFSET_Y;
+        offsetY = -offsetY;
+        auraOffsetY = -DeBuffFilter.db.profile.verticalSpace;
     else
         point = "TOP";
-        relativePoint="BOTTOM";
+        relativePoint = "BOTTOM";
         startY = AURA_START_Y;
-        auraOffsetY = AURA_OFFSET_Y;
+        auraOffsetY = DeBuffFilter.db.profile.verticalSpace;
     end
 
     local buff = _G[buffName .. index];
-    if (index == 1) or (previousBuff == nil) then
-        buff:ClearAllPoints()
+    if (index == 1) or firstShown then
         if ( UnitIsFriend("player", self.unit) or numDebuffs == 0 ) then
             -- unit is friendly or there are no debuffs...buffs start on top
-            buff:SetPoint(point.."LEFT", self, relativePoint.."LEFT", AURA_START_X, startY);
+            buff:ClearAllPoints()
+            buff:SetPoint(point .. "LEFT", self, relativePoint .. "LEFT", AURA_START_X, startY);
         else
             -- unit is not friendly and we have debuffs...buffs start on bottom
-            buff:SetPoint(point.."LEFT", self.debuffs, relativePoint.."LEFT", 0, -offsetY);
+            buff:ClearAllPoints()
+            buff:SetPoint(point.."LEFT", self.debuffz, relativePoint.."LEFT", 0, -offsetY);
         end
-        self.buffs:SetPoint(point.."LEFT", buff, point.."LEFT", 0, 0);
-        self.buffs:SetPoint(relativePoint.."LEFT", buff, relativePoint.."LEFT", 0, -auraOffsetY);
+        self.buffz:ClearAllPoints()
+        self.buffz:SetPoint(point.."LEFT", buff, point.."LEFT", 0, 0);
+        self.buffz:SetPoint(relativePoint.."LEFT", buff, relativePoint.."LEFT", 0, -auraOffsetY);
         self.spellbarAnchor = buff;
     elseif newRow then
         buff:ClearAllPoints()
-        buff:SetPoint(point.."LEFT", _G[buffName..anchorIndex], relativePoint.."LEFT", 0, -offsetY);
-        self.buffs:SetPoint(relativePoint.."LEFT", buff, relativePoint.."LEFT", 0, -auraOffsetY);
+        buff:SetPoint(point .. "LEFT", _G[buffName .. anchorIndex], relativePoint .. "LEFT", 0, -offsetY);
+        self.buffz:ClearAllPoints()
+        self.buffz:SetPoint(relativePoint .. "LEFT", buff, relativePoint .. "LEFT", 0, -auraOffsetY);
         self.spellbarAnchor = buff;
     else
         buff:ClearAllPoints()
-        -- anchor index is the previous index
-        if previousBuff then
-            buff:SetPoint(point .. "LEFT", previousBuff, point .. "RIGHT", offsetX, 0);
-        end
+        buff:SetPoint(point .. "LEFT", _G[buffName..anchorIndex], point .. "RIGHT", offsetX, 0);
     end
 
     -- Resize
@@ -156,10 +154,9 @@ local function UpdateBuffAnchor(self, buffName, index, numDebuffs, anchorIndex, 
     buff:SetHeight(size);
 end
 
-local function UpdateDebuffAnchor(self, debuffName, index, numBuffs, anchorIndex, size, offsetX, offsetY, mirrorVertically, previousBuff, newRow)
-    local buff = _G[debuffName .. index];
+local function UpdateDebuffAnchor(self, debuffName, index, numBuffs, anchorIndex, size, offsetX, offsetY, mirrorVertically, firstShown, newRow)
+    local buff = _G[debuffName..index];
     local isFriend = UnitIsFriend("player", self.unit);
-
 
     --For mirroring vertically
     local point, relativePoint;
@@ -172,40 +169,41 @@ local function UpdateDebuffAnchor(self, debuffName, index, numBuffs, anchorIndex
             startY = startY + self.threatNumericIndicator:GetHeight();
         end
         offsetY = -offsetY;
-        auraOffsetY = -AURA_OFFSET_Y;
+        auraOffsetY = -DeBuffFilter.db.profile.verticalSpace;
     else
         point = "TOP";
         relativePoint = "BOTTOM";
         startY = AURA_START_Y;
-        auraOffsetY = AURA_OFFSET_Y;
+        auraOffsetY = DeBuffFilter.db.profile.verticalSpace;
     end
 
-    buff:ClearAllPoints()
-    if (index == 1) or (previousBuff == nil) then
+    if (index == 1) or firstShown then
         if (isFriend and numBuffs > 0) then
             -- unit is friendly and there are buffs...debuffs start on bottom
-            buff:SetPoint(point .. "LEFT", self.buffs, relativePoint .. "LEFT", 0, -offsetY);
+            buff:ClearAllPoints()
+            buff:SetPoint(point.."LEFT", self.buffz, relativePoint.."LEFT", 0, -offsetY);
         else
             -- unit is not friendly or there are no buffs...debuffs start on top
-            buff:SetPoint(point .. "LEFT", self, relativePoint .. "LEFT", AURA_START_X, startY);
+            buff:ClearAllPoints()
+            buff:SetPoint(point.."LEFT", self, relativePoint.."LEFT", AURA_START_X, startY);
         end
-        self.debuffs:SetPoint(point .. "LEFT", buff, point .. "LEFT", 0, 0);
-        self.debuffs:SetPoint(relativePoint .. "LEFT", buff, relativePoint .. "LEFT", 0, -auraOffsetY);
+        self.debuffz:ClearAllPoints()
+        self.debuffz:SetPoint(point.."LEFT", buff, point.."LEFT", 0, 0);
+        self.debuffz:SetPoint(relativePoint.."LEFT", buff, relativePoint.."LEFT", 0, -auraOffsetY);
         if ((isFriend) or (not isFriend and numBuffs == 0)) then
             self.spellbarAnchor = buff;
         end
     elseif newRow then
-        -- anchor index is not the previous index...must be a new row
+        buff:ClearAllPoints()
         buff:SetPoint(point .. "LEFT", _G[debuffName .. anchorIndex], relativePoint .. "LEFT", 0, -offsetY);
-        self.debuffs:SetPoint(relativePoint .. "LEFT", buff, relativePoint .. "LEFT", 0, -auraOffsetY);
+        self.debuffz:ClearAllPoints()
+        self.debuffz:SetPoint(relativePoint .. "LEFT", buff, relativePoint .. "LEFT", 0, -auraOffsetY);
         if ((isFriend) or (not isFriend and numBuffs == 0)) then
             self.spellbarAnchor = buff;
         end
     else
-        -- anchor index is the previous
-        if previousBuff then
-            buff:SetPoint(point .. "LEFT", previousBuff, point .. "RIGHT", offsetX, 0);
-        end
+        buff:ClearAllPoints()
+        buff:SetPoint(point .. "LEFT", _G[debuffName..anchorIndex], point .. "RIGHT", offsetX, 0);
     end
 
     -- Resize
@@ -222,67 +220,91 @@ local function updatePositions(frame, auraName, numAuras, numOppositeAuras, upda
     local LARGE_AURA_SIZE = DeBuffFilter.db.profile.selfSize
     local SMALL_AURA_SIZE = DeBuffFilter.db.profile.otherSize
     local maxRowWidth = DeBuffFilter.db.profile.auraWidth
-    local offsetY = AURA_OFFSET_Y
-    local size, previousBuff
+    local offsetY = DeBuffFilter.db.profile.verticalSpace
+    local size
     local rowWidth = 0
     local firstBuffOnRow = 1
+    local firstShown = true
+    local lastIndex = 1
 
-    for i = 1, numOppositeAuras do
-        local buffName = auraName:match("Debuff") and UnitBuff(frame.unit, i, "HELPFUL") or UnitDebuff(frame.unit, i, "HARMFUL")
-        if DeBuffFilter:IsBuffNameBlocked(buffName) then
-            numOppositeAuras = numOppositeAuras - 1
-        end
+    -- illegal frames
+    if not frame.buffz then
+        frame.buffz = CreateFrame("Frame", frame:GetName().."Buffz", frame)
+        frame.buffz:SetSize(10, 10)
+        frame.buffz:SetAllPoints(frame)
+    end
+    if not frame.debuffz then
+        frame.debuffz = CreateFrame("Frame", frame:GetName().."Debuffz", frame)
+        frame.debuffz:SetSize(10, 10)
+        frame.debuffz:SetAllPoints(frame)
     end
 
     for i = 1, numAuras do
-        local buffName, caster, _
+        local buffName, icon, caster, _
         if updateFunc == UpdateBuffAnchor then
-            buffName, _, _, _, _, _, caster = UnitBuff(frame.unit, i, "HELPFUL")
+            buffName, icon, _, _, _, _, caster = UnitBuff(frame.unit, i, "HELPFUL")
         else
-            buffName, _, _, _, _, _, caster = UnitDebuff(frame.unit, i, "HARMFUL")
+            buffName, icon, _, _, _, _, caster = UnitDebuff(frame.unit, i, "HARMFUL")
         end
-        local dbf = _G[auraName .. i]
-        if buffName and dbf then
-            if not DeBuffFilter:IsBuffNameBlocked(buffName) then
+        if buffName and icon then
+            local dbf = _G[auraName..i]
+            if not DeBuffFilter:Blacklisted(buffName) then
+                if dbf:GetAlpha() < 1 then
+                    dbf:SetAlpha(1)
+                end
                 if ShouldAuraBeLarge(caster) then
                     size = LARGE_AURA_SIZE
-                    offsetY = AURA_OFFSET_Y + AURA_OFFSET_Y
+                    offsetY = DeBuffFilter.db.profile.verticalSpace + DeBuffFilter.db.profile.verticalSpace
                 else
                     size = SMALL_AURA_SIZE
                 end
 
-                if (i == 1) or (previousBuff == nil) then
+                if (i == 1) or firstShown then
                     rowWidth = size;
                     frame.auraRows = frame.auraRows + 1;
+                    firstBuffOnRow = i
                 else
                     rowWidth = rowWidth + size + offsetX;
                 end
 
                 if rowWidth > maxRows(frame, maxRowWidth, mirrorAurasVertically) then
-                    updateFunc(frame, auraName, i, numOppositeAuras, firstBuffOnRow, size, 3, offsetY, mirrorAurasVertically, previousBuff, true)
+                    updateFunc(frame, auraName, i, numOppositeAuras, firstBuffOnRow, size, offsetX, offsetY, mirrorAurasVertically, firstShown, true)
                     rowWidth = size;
                     frame.auraRows = frame.auraRows + 1;
                     firstBuffOnRow = i
+                    offsetY = DeBuffFilter.db.profile.verticalSpace;
                 else
-                    updateFunc(frame, auraName, i, numOppositeAuras, firstBuffOnRow, size, 3, offsetY, mirrorAurasVertically, previousBuff, false)
+                    updateFunc(frame, auraName, i, numOppositeAuras, lastIndex, size, offsetX, offsetY, mirrorAurasVertically, firstShown, false)
                 end
-                dbf:Show()
-                previousBuff = dbf
+                lastIndex = i
+                if firstShown then
+                    firstShown = false
+                end
             else
-                dbf:Hide()
+                if dbf:GetAlpha() > 0 then
+                    dbf:SetAlpha(0)
+                end
             end
         end
     end
 end
 
 local function Filterino(self)
+    if not self then
+        return
+    end
+
     local selfName = self:GetName()
     local numDebuffs, numBuffs = 0, 0
+    local numDebuff, numBuff = 0, 0
 
     for i = 1, MAX_TARGET_BUFFS do
-        local buffName, _, _, _, _, _, caster = UnitBuff(self.unit, i, "HELPFUL");
+        local buffName = UnitBuff(self.unit, i, "HELPFUL");
         if buffName then
             numBuffs = numBuffs + 1;
+            if not DeBuffFilter:Blacklisted(buffName) then
+                numBuff = numBuff + 1
+            end
         end
     end
 
@@ -296,6 +318,9 @@ local function Filterino(self)
             if (TargetFrame_ShouldShowDebuffs(self.unit, caster, nameplateShowAll, casterIsPlayer)) then
                 numDebuffs = numDebuffs + 1;
                 frameNum = frameNum + 1;
+                if not DeBuffFilter:Blacklisted(debuffName) then
+                    numDebuff = numDebuff + 1
+                end
             end
         else
             break
@@ -313,12 +338,14 @@ local function Filterino(self)
     end
     self.spellbarAnchor = nil
 
+    local offsetX = DeBuffFilter.db.profile.horizontalSpace
+
     if (UnitIsFriend("player", self.unit)) then
-        updatePositions(self, selfName .. "Buff", numBuffs, numDebuffs, UpdateBuffAnchor, 3, mirrorAurasVertically)
-        updatePositions(self, selfName .. "Debuff", numDebuffs, numBuffs, UpdateDebuffAnchor, 3, mirrorAurasVertically)
+        updatePositions(self, selfName .. "Buff", numBuffs, numDebuff, UpdateBuffAnchor, offsetX, mirrorAurasVertically)
+        updatePositions(self, selfName .. "Debuff", numDebuffs, numBuff, UpdateDebuffAnchor, offsetX, mirrorAurasVertically)
     else
-        updatePositions(self, selfName .. "Debuff", numDebuffs, numBuffs, UpdateDebuffAnchor, 3, mirrorAurasVertically)
-        updatePositions(self, selfName .. "Buff", numBuffs, numDebuffs, UpdateBuffAnchor, 3, mirrorAurasVertically)
+        updatePositions(self, selfName .. "Debuff", numDebuffs, numBuff, UpdateDebuffAnchor, offsetX, mirrorAurasVertically)
+        updatePositions(self, selfName .. "Buff", numBuffs, numDebuff, UpdateBuffAnchor, offsetX, mirrorAurasVertically)
     end
 
     if (self.spellbar) then
@@ -328,4 +355,3 @@ end
 
 hooksecurefunc("Target_Spellbar_AdjustPosition", New_Target_Spellbar_AdjustPosition)
 hooksecurefunc("TargetFrame_UpdateAuras", Filterino)
-

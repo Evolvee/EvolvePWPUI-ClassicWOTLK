@@ -5,15 +5,16 @@ DragonflightUIDB = {
 		},
 		["Actionbar"] = {
 		},
-		["Minimap"] = {
+		["Chat"] = {
 		},
 		["Castbar"] = {
 		},
-		["Chat"] = {
+		["Minimap"] = {
 		},
 	},
 	["profileKeys"] = {
 		["Evolvepwp - Firemaw"] = "Default",
+		["Evolvebank - Gehennas"] = "Default",
 		["Evolvepwp - Gehennas"] = "Default",
 		["Evolvebanned - Firemaw"] = "Default",
 	},

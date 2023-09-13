@@ -1,10 +1,11 @@
 
 SimpleAuraFilterDB = {
 	["profileKeys"] = {
-		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvebanned - Gehennas"] = "Default",
-		["Evolvepwp - Gehennas"] = "Default",
 		["Evolvepwe - Firemaw"] = "Default",
+		["Evolvebank - Gehennas"] = "Default",
+		["Evolvepwp - Gehennas"] = "Default",
+		["Evolvepwp - Firemaw"] = "Default",
 	},
 	["profiles"] = {
 		["Evolvebanned - Gehennas"] = {
@@ -15,50 +16,56 @@ SimpleAuraFilterDB = {
 			["hiddenBuffs"] = {
 				"Abomination's Might", -- [1]
 				"Arcane Empowerment", -- [2]
-				"Battle Shout", -- [3]
-				"Blood Pact", -- [4]
-				"Concentration Aura", -- [5]
-				"Devotion Aura", -- [6]
-				"Elemental Oath", -- [7]
-				"Fel Intelligence", -- [8]
-				"Ferocious Inspiration", -- [9]
-				"Fire Resistance", -- [10]
-				"Fire Resistance Aura", -- [11]
-				"Flametongue Totem", -- [12]
-				"Frost Resistance", -- [13]
-				"Frost Resistance Aura", -- [14]
-				"Fury of the Frostwolf", -- [15]
-				"Grace", -- [16]
-				"Haunted", -- [17]
-				"Hemorrhage", -- [18]
-				"Heroic Presence", -- [19]
-				"Horn of Winter", -- [20]
-				"Improved Icy Talons", -- [21]
-				"Leader of the Pack", -- [22]
-				"Mana Spring", -- [23]
-				"Mangle (Bear)", -- [24]
-				"Mangle (Cat)", -- [25]
-				"Misery", -- [26]
-				"Moonkin Aura", -- [27]
-				"Path of Frost", -- [28]
-				"Rampage", -- [29]
-				"Renewed Hope", -- [30]
-				"Retribution Aura", -- [31]
-				"Shadow Resistance Aura", -- [32]
-				"Stoneskin", -- [33]
-				"Stormpike's Salvation", -- [34]
-				"Strength of Earth", -- [35]
-				"Totem of Wrath", -- [36]
-				"Trauma", -- [37]
-				"Tree of Life", -- [38]
-				"Trueshot Aura", -- [39]
-				"Unending Breath", -- [40]
-				"Unleashed Rage", -- [41]
-				"Vigilance", -- [42]
-				"Water Breathing", -- [43]
-				"Water Walking", -- [44]
-				"Windfury Totem", -- [45]
-				"Wrath of Air Totem", -- [46]
+				"Aspect of the Wild", -- [3]
+				"Battle Shout", -- [4]
+				"Blood Pact", -- [5]
+				"Concentration Aura", -- [6]
+				"Demoralizing Roar", -- [7]
+				"Demoralizing Shout", -- [8]
+				"Devotion Aura", -- [9]
+				"Elemental Oath", -- [10]
+				"Exhaustion", -- [11]
+				"Fel Intelligence", -- [12]
+				"Ferocious Inspiration", -- [13]
+				"Fire Resistance", -- [14]
+				"Fire Resistance Aura", -- [15]
+				"Flametongue Totem", -- [16]
+				"Frost Resistance", -- [17]
+				"Frost Resistance Aura", -- [18]
+				"Fury of the Frostwolf", -- [19]
+				"Grace", -- [20]
+				"Haunted", -- [21]
+				"Hemorrhage", -- [22]
+				"Heroic Presence", -- [23]
+				"Horn of Winter", -- [24]
+				"Improved Icy Talons", -- [25]
+				"Leader of the Pack", -- [26]
+				"Mana Spring", -- [27]
+				"Mangle (Bear)", -- [28]
+				"Mangle (Cat)", -- [29]
+				"Misery", -- [30]
+				"Moonkin Aura", -- [31]
+				"Nature Resistance", -- [32]
+				"Path of Frost", -- [33]
+				"Rampage", -- [34]
+				"Renewed Hope", -- [35]
+				"Retribution Aura", -- [36]
+				"Sated", -- [37]
+				"Shadow Resistance Aura", -- [38]
+				"Stoneskin", -- [39]
+				"Stormpike's Salvation", -- [40]
+				"Strength of Earth", -- [41]
+				"Totem of Wrath", -- [42]
+				"Trauma", -- [43]
+				"Tree of Life", -- [44]
+				"Trueshot Aura", -- [45]
+				"Unending Breath", -- [46]
+				"Unleashed Rage", -- [47]
+				"Vigilance", -- [48]
+				"Water Breathing", -- [49]
+				"Water Walking", -- [50]
+				"Windfury Totem", -- [51]
+				"Wrath of Air Totem", -- [52]
 			},
 			["filters"] = {
 				["Battle Shout"] = 1,
@@ -80,30 +87,30 @@ SimpleAuraFilterDB = {
 				["Ferocious Inspiration"] = 1,
 				["Abomination's Might"] = 1,
 				["Improved Icy Talons"] = 1,
-				["Wrath of Air Totem"] = 1,
-				["Mangle (Cat)"] = 1,
-				["Haunted"] = 1,
+				["Stormpike's Salvation"] = 1,
+				["Frost Resistance Aura"] = 1,
+				["Trueshot Aura"] = 1,
 				["Flametongue Totem"] = 1,
-				["Arcane Empowerment"] = 1,
-				["Elemental Oath"] = 1,
+				["Mana Spring"] = 1,
+				["Leader of the Pack"] = 1,
 				["Renewed Hope"] = 1,
 				["Heroic Presence"] = 1,
-				["Leader of the Pack"] = 1,
+				["Elemental Oath"] = 1,
 				["Devotion Aura"] = 1,
 				["Misery"] = 1,
 				["Tree of Life"] = 1,
-				["Concentration Aura"] = 1,
-				["Retribution Aura"] = 1,
+				["Horn of Winter"] = 1,
+				["Trauma"] = 1,
 				["Hemorrhage"] = 1,
 				["Fire Resistance"] = 1,
-				["Trauma"] = 1,
-				["Horn of Winter"] = 1,
+				["Retribution Aura"] = 1,
+				["Concentration Aura"] = 1,
 				["Totem of Wrath"] = 1,
 				["Path of Frost"] = 1,
-				["Mana Spring"] = 1,
-				["Trueshot Aura"] = 1,
-				["Frost Resistance Aura"] = 1,
-				["Stormpike's Salvation"] = 1,
+				["Arcane Empowerment"] = 1,
+				["Haunted"] = 1,
+				["Mangle (Cat)"] = 1,
+				["Wrath of Air Totem"] = 1,
 			},
 		},
 		["Evolvepwe - Firemaw"] = {

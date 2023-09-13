@@ -259,6 +259,8 @@ local sounds = {
     567246,
     567244,
     567261,
+	567453, -- target
+	567520, -- untarget
 }
 
 local tooltipOwnerBlacklist = {
@@ -467,9 +469,9 @@ local function OnInit()
 
     TargetFrameTextureFrameLevelText:SetAlpha(0)
     TargetFrameTextureFrameLeaderIcon:SetAlpha(0)
-
-    ChatFrameMenuButton:SetAlpha(0)
-    ChatFrameChannelButton:SetAlpha(0)
+	
+	ChatFrameMenuButton:Hide()
+	ChatFrameChannelButton:Hide()
 
     -- TargetFrame castbar slight up-scaling
     TargetFrameSpellBar:SetScale(1.1)
@@ -1947,6 +1949,9 @@ hooksecurefunc("ActionButton_OnUpdate", function(self)
 		then self.NormalTexture:Show()
 	end
 end)
+
+-- Changing DK default colour in order to bring more clarity
+
 
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0

@@ -23,11 +23,15 @@ local spellBars = {}
 function JPC:UpdateBars()
     local _, type = IsInInstance()
 
+    if type ~= "arena" then
+        return
+    end
+
     for k, sp in ipairs(spellBars) do
         sp:SetScale(JaxPartyCastBars.db.profile.scale)
         if (GetNumPartyMembers() > k) then
             sp:ClearAllPoints()
-            if GetCVarBool("useCompactPartyFrames") or UnitInRaid("player") and type == "arena" then
+            if GetCVarBool("useCompactPartyFrames") or (IsInRaid() and type ~= "arena") then
                 for g = 1, GetNumPartyMembers(), 1 do
                     local raidFrame = nil
                     if CompactRaidFrameManager_GetSetting("KeepGroupsTogether") then
@@ -73,15 +77,9 @@ function JPC:CVAR_UPDATE(event)
     end
 end
 
-local function JPC_OnLoad(self)
+function JPC:VARIABLES_LOADED()
     local c = JaxPartyCastBars.db.profile.color
     JPC.locked = true
-
-    self:SetScript("OnEvent", function(self, event, ...)
-        if self[event] then
-            self[event](self, ...)
-        end
-    end)
 
     for i = 1, 5 do
         local spellbar = CreateFrame("StatusBar", "raid" .. i .. "SpellBar", UIParent, "SmallCastingBarFrameTemplate");
@@ -124,7 +122,11 @@ JPC:RegisterEvent("VARIABLES_LOADED")
 JPC:RegisterEvent("GROUP_ROSTER_UPDATE")
 JPC:RegisterEvent("PLAYER_ENTERING_WORLD")
 JPC:RegisterEvent("CVAR_UPDATE")
-JPC:SetScript("OnEvent", JPC_OnLoad)
+JPC:SetScript("OnEvent", function(self, event, ...)
+    if self[event] then
+        self[event](self, ...)
+    end
+end)
 
 hooksecurefunc("CastingBarFrame_OnEvent", function(self, event, ...)
     local arg1 = ...

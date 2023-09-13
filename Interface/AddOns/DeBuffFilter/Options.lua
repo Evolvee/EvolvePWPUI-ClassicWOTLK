@@ -10,11 +10,11 @@ function DeBuffFilter:SetupOptions()
         plugins = {},
         args = {
             author = {
-                name = "|cff1fd700Author:|r Xyz - discord.gg/CtxPasSQnQ",
+                name = "|cff4693E6Author:|r Xyz - discord.gg/CtxPasSQnQ",
                 type = "description"
             },
             version = {
-                name = "|cff1fd700Version:|r " .. C_AddOns.GetAddOnMetadata("DeBuffFilter", "Version") .. "\n",
+                name = "|cff4693E6Version:|r " .. C_AddOns.GetAddOnMetadata("DeBuffFilter", "Version") .. "\n",
                 type = "description"
             },
             moreoptions = {
@@ -106,7 +106,7 @@ function DeBuffFilter:SetupOptions()
                         order = 3,
                         width = 2,
                         name = "Aura row width",
-                        desc = "How many aura's do you want to show per row?",
+                        desc = "How many auras do you want per row?",
                         type = "range",
                         min = 108,
                         max = 178,
@@ -120,18 +120,54 @@ function DeBuffFilter:SetupOptions()
                             TargetFrame_UpdateAuras(FocusFrame);
                         end
                     },
+                    verticalSpacing = {
+                        order = 4,
+                        width = 2,
+                        name = "Vertical spacing",
+                        desc = "The spacing between aura rows",
+                        type = "range",
+                        min = 1,
+                        max = 50,
+                        step = 1,
+                        get = function(info, val)
+                            return self.db.profile.verticalSpace
+                        end,
+                        set = function(info, val)
+                            self.db.profile.verticalSpace = val
+                            TargetFrame_UpdateAuras(TargetFrame);
+                            TargetFrame_UpdateAuras(FocusFrame);
+                        end
+                    },
+                    horizontalSpacing = {
+                        order = 5,
+                        width = 2,
+                        name = "Horizontal spacing",
+                        desc = "The spacing between auras",
+                        type = "range",
+                        min = 3,
+                        max = 35,
+                        step = 1,
+                        get = function(info, val)
+                            return self.db.profile.horizontalSpace
+                        end,
+                        set = function(info, val)
+                            self.db.profile.horizontalSpace = val
+                            TargetFrame_UpdateAuras(TargetFrame);
+                            TargetFrame_UpdateAuras(FocusFrame);
+                        end
+                    },
                 },
             },
         },
     }
-    LibStub("AceConfig-3.0"):RegisterOptionsTable("|cff1fd700DeBuffFilter|r", self.options)
-    LibStub("AceConfigDialog-3.0"):AddToBlizOptions("|cff1fd700DeBuffFilter|r", "|cff1fd700DeBuffFilter|r")
+    LibStub("AceConfig-3.0"):RegisterOptionsTable("|cff4693E6DeBuffFilter|r", self.options)
+    LibStub("AceConfigDialog-3.0"):AddToBlizOptions("|cff4693E6DeBuffFilter|r", "|cff4693E6DeBuffFilter|r")
     self:RegisterChatCommand("dbf", function()
-        InterfaceOptionsFrame_OpenToCategory("|cff1fd700DeBuffFilter|r")
-        InterfaceOptionsFrame_OpenToCategory("|cff1fd700DeBuffFilter|r")
+        InterfaceOptionsFrame_OpenToCategory("|cff4693E6DeBuffFilter|r")
+        InterfaceOptionsFrame_OpenToCategory("|cff4693E6DeBuffFilter|r")
     end)
     self:RegisterChatCommand("DeBuffFilter", function()
-        InterfaceOptionsFrame_OpenToCategory("|cff1fd700DeBuffFilter|r")
-        InterfaceOptionsFrame_OpenToCategory("|cff1fd700DeBuffFilter|r")
+        InterfaceOptionsFrame_OpenToCategory("|cff4693E60DeBuffFilter|r")
+        InterfaceOptionsFrame_OpenToCategory("|cff4693E6DeBuffFilter|r")
     end)
 end

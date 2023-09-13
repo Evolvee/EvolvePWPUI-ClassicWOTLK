@@ -2,14 +2,15 @@
 jpcbDB = {
 	["profileKeys"] = {
 		["Evolvepwp - Firemaw"] = "Default",
+		["Evolvebank - Gehennas"] = "Default",
 		["Evolvepwp - Gehennas"] = "Default",
 		["Evolvebanned - Firemaw"] = "Default",
 	},
 	["profiles"] = {
 		["Default"] = {
-			["offsetX"] = 49.74362182617188,
-			["scale"] = 0.65,
-			["offsetY"] = 38.56034851074219,
+			["offsetX"] = 480,
+			["scale"] = 1.00233268737793,
+			["offsetY"] = -270,
 		},
 	},
 }
