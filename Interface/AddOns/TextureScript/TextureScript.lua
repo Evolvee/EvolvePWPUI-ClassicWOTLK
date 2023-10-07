@@ -125,7 +125,8 @@ local cvars = {
     nameplateShowFriendlyNPCs = "0",
     nameplateShowFriendlyMinions = "0",
     nameplateShowFriendlyPets = "0",
-	nameplateShowFriendlyTotems = "0"
+	nameplateShowFriendlyTotems = "0",
+	showPartyPets = "0"
 }
 
 local function CustomCvar()
@@ -208,16 +209,6 @@ hooksecurefunc(PartyMemberFrame1Status, "Show", PartyMemberFrame1Status.Hide)
 hooksecurefunc(PartyMemberFrame2Status, "Show", PartyMemberFrame2Status.Hide)
 hooksecurefunc(PartyMemberFrame3Status, "Show", PartyMemberFrame3Status.Hide)
 hooksecurefunc(PartyMemberFrame4Status, "Show", PartyMemberFrame4Status.Hide)
-
--- Hide Pets
-hooksecurefunc("PartyMemberFrame_UpdatePet", function(self, id)
-    if (not id) then
-        id = self:GetID();
-    end
-
-    local petFrame = _G["PartyMemberFrame" .. id .. "PetFrame"];
-    petFrame:SetAlpha(0);
-end)
 
 local sounds = {
     569772, -- sound/spells/fizzle/fizzleholya.ogg
@@ -1080,8 +1071,12 @@ local function colour(statusbar, unit)
                 local _, class = UnitClass(unit)
                 local c = RAID_CLASS_COLORS[class]
                 if c then
-                    statusbar:SetStatusBarColor(c.r, c.g, c.b)
-                end
+					if class == "DEATHKNIGHT" then -- experimental DK recoulouring feature (part1)
+					statusbar:SetStatusBarColor(0,1,0.6)
+				else
+					statusbar:SetStatusBarColor (c.r, c.g, c.b)
+					end
+				end
             elseif unit == "player" then
                 local value = UnitHealth("player")
                 local _, max = PlayerFrameHealthBar:GetMinMaxValues()
@@ -1139,34 +1134,6 @@ end
 hooksecurefunc("TargetFrame_HealthUpdate", RemoveFlashFromPortrait)
 hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", RemoveFlashFromPortrait)
 
--- highlight dispellable shit from enemies target/focus
-
-local TrackSpells = { [GetSpellInfo(69369)] = true, } -- new
-local function Update(frame)
-    local buffFrame, frameStealable, icon, debuffType, isStealable, _
-    local selfName = frame:GetName()
-    local isEnemy = UnitIsEnemy(PlayerFrame.unit, frame.unit)
-    for i = 1, MAX_TARGET_BUFFS do
-        local name, icon, _, debuffType, _, _, _, isStealable = UnitBuff(frame.unit, i) -- changed
-        if (icon and (not frame.maxBuffs or i <= frame.maxBuffs)) then
-            local frameName = selfName .. 'Buff' .. i
-            frameStealable = _G[frameName .. 'Stealable']
-            if (isEnemy and isStealable and debuffType == 'Magic') then
-                frameStealable:Show()
-                if TrackSpells[name] then
-                    -- new
-                    frameStealable:SetVertexColor(255, 0, 0) -- new
-                else
-                    -- new
-                    frameStealable:SetVertexColor(1, 1, 1) -- new
-                end -- new
-            else
-                frameStealable:Hide()
-            end
-        end
-    end
-end
-hooksecurefunc("TargetFrame_UpdateAuras", Update);
 
 hooksecurefunc("TargetofTargetHealthCheck", function(self)
     local r, g, b = self.portrait:GetVertexColor()
@@ -1260,10 +1227,16 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
         -- Add class-coloured names on mouseover tooltips
         local _, class = UnitClass(unit)
         local color = class and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
-        if color then
+                if color then
             local text = GameTooltipTextLeft1:GetText()
-            GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
+			if text then
+			if class == "DEATHKNIGHT" then
+              GameTooltipTextLeft1:SetFormattedText("|cff00ff99%s|r", text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
+				else
+			GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
+			end
         end
+		end
     end
     self:Show()
 end)
@@ -1951,6 +1924,38 @@ hooksecurefunc("ActionButton_OnUpdate", function(self)
 end)
 
 -- Changing DK default colour in order to bring more clarity
+hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
+
+if not frame.unit or frame:IsForbidden() or not string.find(frame.unit,"nameplate") then return end
+
+if UnitIsConnected(frame.unit) and UnitIsPlayer(frame.unit) then local _, class = UnitClass(frame.unit)
+if class == "DEATHKNIGHT" then -- experimental DK recoulouring feature (part2)
+frame.healthBar:SetStatusBarColor(0, 1, 0.6)
+end
+end
+end) 
+
+-- Automatically mark stealthed enemies with Raid Icon Marks whenever eye is picked
+local frame = CreateFrame("Frame")
+frame:RegisterEvent("ARENA_OPPONENT_UPDATE")
+frame:SetScript("OnEvent", function(self, event, ...)
+        local unitToken, updateReason = ...
+        if GetRaidTargetIndex(unitToken) then
+            return
+        end
+        
+        if updateReason == "seen" and AuraUtil.FindAuraByName("Shadow Sight", "player", "HARMFUL") then
+            if unitToken == "arena1" then
+                SetRaidTarget("arena1", 4)
+            end
+            if unitToken == "arena2" then
+                SetRaidTarget("arena2", 8)
+            end
+        end
+end)
+
+-- leave arena on PVP icon doubleclick (useful when playing against DK retards)
+MiniMapBattlefieldFrame:HookScript("OnDoubleClick", function() LeaveBattlefield() end)
 
 
 

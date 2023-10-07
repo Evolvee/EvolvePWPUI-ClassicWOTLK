@@ -1,13 +1,4 @@
--- V: Copy-pasted then modified
 local name, o = ...
-
-local smbDefaults = {
-    debuffs = {
-        numLines = 18,
-        numPerLine = 4,
-        buffSize = 16,
-    },
-}
 
 local blacklist = {
     [GetSpellInfo(1543)] = true, -- Flare
@@ -24,10 +15,22 @@ local blacklist = {
 	[GetSpellInfo(26013)] = true, -- Deserter
 	[GetSpellInfo(29859)] = true, -- Blood Frenzy
 	[GetSpellInfo(8647)] = true, -- Expose Armor
+	[GetSpellInfo(47502)] = true, -- Thunder Clap
+	[GetSpellInfo(47437)] = true, -- Demoralizing Shout
+	[GetSpellInfo(29859)] = true, -- Blood Frenzy
+	[GetSpellInfo(49231)] = true, -- Earth Shock
 
 }
 
-local function ShowThisBuff(rules, name, spellId, duration, expirationTime, unitCaster, shouldConsolidate)
+local smbDefaults = {
+    debuffs = {
+        numLines = 18,
+        numPerLine = 4,
+        buffSize = 16,
+    },
+}
+
+local function ShowThisBuff(rules, name)
     if blacklist[name] then
         return
     end
@@ -37,14 +40,12 @@ end
 local function RefreshBuffsList(frame, friendly, unit, rules, checker)
     local numBuffs = rules.numLines * rules.numPerLine
     -- TODO detect suffix from isFriendly(unit)?
-    local framePrefix = frame:GetName() .. (friendly and "Buff" or "Debuff")
-    local buffFn = friendly and UnitBuff or UnitDebuff
+    local framePrefix = frame:GetName() .. "Debuffz"
 
     local name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId;
     local buffI = 1
-    local filter = friendly and "HELPFUL" or "HARMFUL"
     for i = 1, numBuffs do
-        name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = buffFn(unit, i, filter)
+        name, icon, count, debuffType, duration, expirationTime, unitCaster, isStealable, shouldConsolidate, spellId = UnitDebuff(unit, i, "HARMFUL")
 
         -- we ran out of buffs OR we have enough displayed
         if not name or buffI > numBuffs then
@@ -64,7 +65,7 @@ local function RefreshBuffsList(frame, friendly, unit, rules, checker)
                 local cooldown = _G[buffName .. "Cooldown"]
                 if cooldown then
                     cooldown:SetCooldown(expirationTime - duration, duration, 1)
-					cooldown:SetHideCountdownNumbers(true)
+					cooldown:SetHideCountdownNumbers(true) -- disabling the Blizzard cancer countdown thats stickied on everything and not just action bars (false advertisement Lizzard!!!)
                 end
 
                 local border = _G[buffName .. "Border"]
@@ -86,8 +87,6 @@ local function RefreshBuffsList(frame, friendly, unit, rules, checker)
         end
     end
 
-    -- hide all remaining buff frames
-    -- "buffI" here is already 1 past the last displayed buff
     for i = buffI, 40 do
         local buffName = framePrefix .. i
         _G[buffName]:Hide()
@@ -95,50 +94,48 @@ local function RefreshBuffsList(frame, friendly, unit, rules, checker)
 end
 
 -- DEBUFFS
-local function LoadUnitDebuffs(rules, pointX, pointY, frame)
-    local g = frame.smbDebuffFrame
+local function LoadUnitDebuffs(rules, pointX, pointY, f)
+    local g
     if not g then
-        frame:UnregisterEvent("UNIT_AURA")
         g = CreateFrame("Frame")
-        frame.smbDebuffFrame = g
+        f:UnregisterEvent("UNIT_AURA")
         g:RegisterEvent("UNIT_AURA")
-        g:SetScript("OnEvent", function(self, event, unitTarget)
-            if unitTarget == frame.unit then
-                RefreshBuffsList(frame, false, frame.unit, rules, ShowThisBuff)
+        g:SetScript("OnEvent", function(self, event, a1)
+            if a1 == f.unit then
+                RefreshBuffsList(f, false, f.unit, rules, ShowThisBuff)
             end
         end)
     end
-
     for j = 1, 40 do
-        local selfName = frame:GetName() .. "Debuff"
-        local debuff = selfName .. j
-        local debuffFrame = _G[debuff] or CreateFrame("Frame", debuff, frame, "PartyDebuffFrameTemplate")
-        debuffFrame:ClearAllPoints()
+        local l = f:GetName() .. "Debuffz"
+        local n = l .. j
+        local c = CreateFrame("Frame", n, f, "PartyDebuffFrameTemplate")
+        c:ClearAllPoints()
         if j == 1 then
             --c:SetPoint("BOTTOMLEFT", _G[l..(j-1)],"BOTTOMRIGHT", 3, 0)
             --c:SetPoint("TOPLEFT",pointX,pointY)
-        elseif ((j - 1) % rules.numPerLine) == 0 then -- new row
-            debuffFrame:SetPoint("TOPLEFT", _G[selfName .. (j - rules.numPerLine)], "BOTTOMLEFT", 0, -1)
-        else -- attach previous
-            debuffFrame:SetPoint("LEFT", _G[selfName .. (j - 1)], "RIGHT", 1, 0)
+        elseif ((j - 1) % rules.numPerLine) == 0 then
+            c:SetPoint("TOPLEFT", _G[l .. (j - rules.numPerLine)], "BOTTOMLEFT", 0, -1)
+        else
+            c:SetPoint("LEFT", _G[l .. (j - 1)], "RIGHT", 1, 0)
         end
-        debuffFrame:SetSize(rules.buffSize, rules.buffSize)
-        debuffFrame:Hide()
+        c:SetSize(rules.buffSize, rules.buffSize)
+        c:Hide()
 
-        -- V: we need to specifically create a cooldown frame inside of "c"
-        --    because PartyDebuffFrameTemplate has none
-        local cd = _G[debuff .. "Cooldown"]
+        local cd = _G[n .. "Cooldown"]
         if not cd then
-            cd = CreateFrame("Cooldown", debuff .. "Cooldown", debuffFrame, "CooldownFrameTemplate")
+            cd = CreateFrame("Cooldown", n .. "Cooldown", c, "CooldownFrameTemplate")
             cd:SetReverse(true)
-            cd:SetSize(20, 20)
+            --cd:SetDrawEdge(true)
+            cd:SetSize(20, 20) -- V: size needs to be AT LEAST 20
+            --    ...does that mean rules.buffSize should be >=20?
             cd:SetPoint("CENTER", 0, -1)
         end
     end
-    local b = _G[frame:GetName() .. "Debuff1"]
+    local b = _G[f:GetName() .. "Debuffz1"]
     b:ClearAllPoints()
     b:SetPoint("TOPLEFT", pointX, pointY)
-    RefreshBuffsList(frame, false, frame.unit, rules, ShowThisBuff)
+    RefreshBuffsList(f, false, f.unit, rules, ShowThisBuff)
 end
 
 local function LoadPartyDebuffs(rules, pointX, pointY)
@@ -156,11 +153,8 @@ local function SmbLoaded(self)
     end)
 
     for i = 1, 4 do
-        local f = _G["PartyMemberFrame"..i.."Debuff"..i]
-        if f then
-            f:Hide()
-            f:UnregisterAllEvents()
-        end
+        local frame = _G["PartyMemberFrame"..i.."Debuff"..i]
+        frame:SetAlpha(0)
     end
     LoadPartyDebuffs(smbDefaults.debuffs, 48, -32)
 end
@@ -168,3 +162,4 @@ end
 local smb = CreateFrame("Frame")
 smb:RegisterEvent("VARIABLES_LOADED")
 smb:SetScript("OnEvent", SmbLoaded)
+

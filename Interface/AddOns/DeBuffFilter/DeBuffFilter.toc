@@ -1,10 +1,9 @@
 ## Interface: 30403
 ## Title: DeBuffFilter
-## Version: v2.6
+## Version: v2.8
 ## Notes: discord.gg/CtxPasSQnQ
 ## Author: Xyz, Asuri (bugs, jk)
 ## SavedVariables: DeBuffFilterDB
 
 Embeds.xml
 DeBuffFilter.lua
-Options.lua

@@ -1,0 +1,6 @@
+## Interface: 30403
+## Author: Xyz
+## Notes: WeakAura was too scuffed so... handling this one via an addon + WA just for graphic visualisation for now FeelsWeirdMan
+## Version: 1
+## Title: DMGTresholdTarget
+DMGTresholdTarget.lua

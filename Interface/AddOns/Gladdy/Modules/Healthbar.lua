@@ -195,11 +195,16 @@ function Healthbar:SetHealthStatusBarColor(unit, health, healthMax)
         end
     end
     if button.class and Gladdy.db.healthBarClassColored then
+    if button.class == "DEATHKNIGHT" then
+        healthBar.hp:SetStatusBarColor(0, 1, 0.6)
+    else
+
         healthBar.hp:SetStatusBarColor(
                 RAID_CLASS_COLORS[button.class].r / healthBar.hp.oorFactor,
                 RAID_CLASS_COLORS[button.class].g / healthBar.hp.oorFactor,
                 RAID_CLASS_COLORS[button.class].b / healthBar.hp.oorFactor, 1)
     end
+end
 end
 
 function Healthbar:SetHealthText(healthBar, health, healthMax)
