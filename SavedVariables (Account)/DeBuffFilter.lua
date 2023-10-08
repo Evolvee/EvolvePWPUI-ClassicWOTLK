@@ -1,13 +1,18 @@
 
 DeBuffFilterDB = {
 	["profileKeys"] = {
+		["Evolvebanned - Firemaw"] = "Default",
+		["Evolvepwe - Gehennas"] = "Default",
 		["Evolvepwp - Firemaw"] = "Default",
 		["Evolvebank - Gehennas"] = "Default",
 		["Evolvepwp - Gehennas"] = "Default",
-		["Evolvebanned - Firemaw"] = "Default",
+		["Evolvepwe - Firemaw"] = "Default",
 	},
 	["profiles"] = {
 		["Default"] = {
+			["customHighlights"] = {
+				"Predatory Swiftness", -- [1]
+			},
 			["hiddenBuffs"] = {
 				"Abomination's Might", -- [1]
 				"Arcane Empowerment", -- [2]
@@ -99,6 +104,14 @@ DeBuffFilterDB = {
 				"Windfury Totem", -- [88]
 				"Wrath of Air Totem", -- [89]
 				"Wyrmrest Champion", -- [90]
+			},
+			["customHighlightColors"] = {
+				["Predatory Swiftness"] = {
+					["a"] = 1,
+					["b"] = 0.05098039656877518,
+					["g"] = 0,
+					["r"] = 1,
+				},
 			},
 		},
 	},
