@@ -68,7 +68,10 @@ Util.ButtonWidgetMap = {};
 Util.UpdateMacroEventCount = 0;
 Util.MacroCheckDelayComplete = false;
 Util.ForceOffCastOnKeyDown = false;
-Util.MountUselessIndexToIndex = {};
+Util.MountCompanionIndexToMountID = {};
+Util.MountActionSlotToMountSpellID = {};
+Util.MountNameToMountID = {};
+Util.BattlePetNameToBattlePetGUID = {};
 
 
 --One quick override function
@@ -241,7 +244,22 @@ function Util.UpdateSavedData()
 		ButtonForgeSave["VersionMinor"] = 44;
 		DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v0.9.44", .5, 1, 0, 1);
 	end
-		
+
+	-- v1.0.20
+	if ButtonForgeSave["Version"] < 1.0 or (ButtonForgeSave["Version"] == 1.0 and ButtonForgeSave["VersionMinor"] < 0.20) then
+		for i = 1, #ButtonForgeSave.Bars do
+			Util.UpdateCompanionsv1_20(ButtonForgeSave.Bars[i].Buttons);
+		end
+
+		if (ButtonForgeSave.UndoProfileBars ~= nil) then
+			for i = 1, #ButtonForgeSave.UndoProfileBars do
+				Util.UpdateCompanionsv1_20(ButtonForgeSave.UndoProfileBars[i].Buttons);
+			end
+		end
+		ButtonForgeSave["Version"] = 1.0;
+		ButtonForgeSave["VersionMinor"] = 0.20;
+		DEFAULT_CHAT_FRAME:AddMessage(Util.GetLocaleString("UpgradedChatMsg").."v1.0.20", .5, 1, 0, 1);
+	end
 	
 
 	--Bring v up to the latest version
@@ -335,6 +353,17 @@ function Util.UpdateSavedData()
 			end
 		end
 	end
+
+	-- v1.0.20
+	if ButtonForgeGlobalSettings["Version"] < 1.0 or (ButtonForgeGlobalSettings["Version"] == 1.0 and ButtonForgeGlobalSettings["VersionMinor"] < 0.20) then
+		for k, v in pairs(ButtonForgeGlobalProfiles) do
+			for i = 1, #v.Bars do
+				Util.UpdateCompanionsv1_20(v.Bars[i].Buttons);
+			end
+		end
+		ButtonForgeGlobalSettings["Version"] = 1.0;
+		ButtonForgeGlobalSettings["VersionMinor"] = 0.20;
+	end
 	
 	--Bring the global settings up to the latest version
 	--if (ButtonForgeGlobalSettings["Version"] < Const.Version) then
@@ -392,6 +421,43 @@ function Util.UpdateMounts700(Buttons)
 					Buttons[j]["MountID"] = MountID;
 				else
 					Buttons[j]["Mode"] = nil;
+				end
+			end
+		end
+	end
+end
+
+function Util.UpdateCompanionsv1_20(Buttons)
+	for j = 1, #Buttons do
+		if (Buttons[j]["Mode"] == "mount") then
+			local Name = Buttons[j]["MountName"];
+			-- Clear the button
+			Buttons[j]["Mode"] = nil;
+			Buttons[j]["MountID"] = nil;
+			Buttons[j]["MountName"] = nil;
+			Buttons[j]["MountSpellID"] = nil;
+
+			local MountID = Util.GetMountIDFromName(Name);
+			if type(MountID) == "number" then
+				local MountName, MountSpellID, Texture = C_MountJournal.GetMountInfoByID(MountID);
+				if type(MountName) == "string" then
+					-- Is mount and successfully converted to new mount system
+					Buttons[j]["Mode"] = "mount";
+					Buttons[j]["MountID"] = MountID;
+					Buttons[j]["MountName"] = MountName;
+					Buttons[j]["MountSpellID"] = MountSpellID;
+				end
+			else
+				local BattlePetGUID = Util.GetBattlePetGUIDFromName(Name);
+				if type(BattlePetGUID) == "string" then
+					local speciesID, customName, level, xp, maxXp, displayID, isFavorite, name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique = C_PetJournal.GetPetInfoByPetID(BattlePetGUID);
+					if type(speciesID) == "number" then
+						-- Is BattlePet and successfully converted
+						Buttons[j]["Mode"] = "battlepet";
+						Buttons[j]["BattlePetGUID"] = BattlePetGUID;
+						Buttons[j]["SpeciesID"] = speciesID;
+						Buttons[j]["BattlePetName"] = name;
+					end
 				end
 			end
 		end
@@ -485,7 +551,6 @@ function Util.LoadProfile(ProfileName)
 	for i = 1, #ButtonForgeSave.Bars do
 		Util.NewBar(0, 0, ButtonForgeSave.Bars[i]);
 	end
-	Util.RefreshCompanions();
 	Util.RefreshMacros();
 	Util.RefreshEquipmentSets();
 	Util.RefreshSpells();
@@ -586,7 +651,6 @@ function Util.UndoProfile()
 	for i = 1, #ButtonForgeSave.Bars do
 		Util.NewBar(0, 0, ButtonForgeSave.Bars[i]);
 	end
-	Util.RefreshCompanions();
 	Util.RefreshMacros();
 	Util.RefreshEquipmentSets();
 	Util.RefreshSpells();
@@ -1573,8 +1637,31 @@ function Util.SetCursor(Command, Data, Subvalue, Subsubvalue)
 		PickupItem(Data);
 	elseif (Command == "macro") then
 		PickupMacro(Data);
-	elseif (Command == "mount") then
-		PickupSpell(Data);  -- MountSpellID passed
+	elseif (Command == "companion" and Subvalue == "MOUNT") then
+		-- To pickup a mount, the mount must pass the current journal filter. so temporarily unset filtering that could impact
+		local collectedFilterSetting = C_MountJournal.GetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_COLLECTED)
+		if not collectedFilterSetting then
+			C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_COLLECTED, true)
+		end
+		C_MountJournal.SetSearch("");
+
+		-- attempt to pickup the mount
+		local Index = Util.LookupMountIndex(Subsubvalue)
+		if type(Index) == "number" then
+			C_MountJournal.Pickup(Index);
+		end	
+
+		-- Reapply mount filtering
+		if not collectedFilterSetting then
+			C_MountJournal.SetCollectedFilterSetting(LE_MOUNT_JOURNAL_FILTER_COLLECTED, collectedFilterSetting)
+		end
+		if type(MountJournalSearchBox) == "table" then
+			C_MountJournal.SetSearch(MountJournalSearchBox:GetText());
+		end
+	elseif (Command == "companion" and Subvalue == "CRITTER") then
+		if type(Subsubvalue) == "string" then
+			C_PetJournal.PickupPet(Subsubvalue)
+		end
 	elseif (Command == "equipmentset") then
 		local SetCount = C_EquipmentSet.GetNumEquipmentSets();
 		for i=0,SetCount-1 do
@@ -1633,10 +1720,6 @@ function Util.PostCombatStateUpdate()
 	if (Util.DelayedPromoteSpells) then
 		Util.PromoteSpells();
 		Util.DelayedPromoteSpells = nil;
-	end
-	if (Util.DelayedRefreshCompanions) then
-		Util.RefreshCompanions();
-		Util.DelayedRefreshCompanions = nil;
 	end
 	if (Util.DelayedRefreshEquipmentSets) then
 		Util.RefreshEquipmentSets();
@@ -1901,56 +1984,6 @@ function Util.RemoveSpell(Value)
 		table.remove(Util.ActiveSpells, Index);
 	end
 end
-
---[[---------------------------------------
-	Companion Functions
--------------------------------------------]]
-function Util.CacheCompanions()
-    Util.Critters = {};
-    Util.CrittersSPID = {};
-    for i = 1, GetNumCompanions("CRITTER") do
-      local creatureID, creatureName, creatureSpellID, icon, isSummoned = GetCompanionInfo("CRITTER", i)
-      local spellName, rank, icon, castTime, minRange, maxRange, spellID = GetSpellInfo(creatureSpellID)
-      if spellName ~= nil then
-        Util.Critters[spellName] = i;
-        Util.CrittersSPID[spellID] = spellName;
-      end
-	  end
-    Util.Mounts = {};
-    Util.MountsSPID = {};
-    for i = 1, GetNumCompanions("MOUNT") do
-      local creatureID, creatureName, creatureSpellID, icon, isSummoned = GetCompanionInfo("MOUNT", i)
-      local spellName, rank, icon, castTime, minRange, maxRange, spellID = GetSpellInfo(creatureSpellID)
-      if spellName ~= nil then
-        Util.Mounts[spellName] = i;
-        Util.MountsSPID[spellID] = spellName;
-      end
-    end
-	Util.CompanionsCached = true;
-end
-
-function Util.LookupCompanion(Name)
-  Util.CacheCompanions()
-  if (Util.Critters[Name]) then
-    return "CRITTER", Util.Critters[Name]; 
-  elseif (Util.Mounts[Name]) then
-    return "MOUNT", Util.Mounts[Name];
-  else
-    return nil, nil;
-  end
-end
-
-function Util.RefreshCompanions()
-	if (InCombatLockdown()) then
-		Util.DelayedRefreshCompanions = true;
-		return;
-	end
-	for k, v in pairs(Util.ActiveButtons) do
-		v:RefreshCompanion();
-	end
-end
-
-
 
 
 --[[---------------------------------------
@@ -2450,49 +2483,203 @@ end
 
 
 --[[------------------------------------------------
-	Get Correct Mount Index
-	The Hack:
+	Get Correct Mount ID
+	
+	The Issue:
+	The Index reported from GetCursorInfo is the old
+	"companion" index, not the newer journal index which can differ
+	More over we specifically need the MountID
+
+	The Solution:
+	At the time a mount is placed on the cursor capture information
+	to allow matching the "companion" index to the MountID
+
+
+	Implementation:
 		hooksecurefunc
 			C_MountJournal.Pickup
 			GameTooltip:SetAction
-	Both these functions offer a moment when both
-	the UselessIndex and the actual Index or SpellID
-	for a mount is available... Also in theory
-	one of these will have to fire before the player
-	can actually put a mount on the cursor - so we
-	simply patch work build a map of these
-	Useless Index to useful index mappings.
-	It does rely on the useless index not changing during
-	a session - i suspect it wont, but it might when a new
-	mount is learned, something that is hard to test on my
-	account these days
+			PickupAction
+
+	hooksecurefunc will call the ButtonForge func AFTER
+	calling the hooked function
+
+	C_MountJournal.Pickup
+	This function takes the journalIndex as a parameter
+	We can grab the companionIndex from GetCursorInfo, and
+	query the MountID using the journalIndex passed to the Pickup function
+
+	PickupAction
+	We can catch which slot an action was picked up from
+	and match that to the companionIndex on the cursor
+	Unfortunately the action has been removed from the slot already
+	so it is not possible to directly query if/what mount was in it.
+	So the hook below is used
+
+	GameTooltip:SetAction
+	To support the PickupAction hook, we catch what mount is sitting in an action slot when
+	it's tooltip is triggered... There are other ways this step could be achieved!
+	The GetActionInfo will report the MountSpellID (not the MountID)
+
+	This is a less than ideal work around. At such time that GetCursorInfo
+	reports either the journalIndex or the MountID this code should be removed
 --------------------------------------------------]]
---[[ should no longer be needed
+
+--[[------------------------------------------------
+	HookSecureFunc_C_MountJournal_Pickup
+	Map CompanionIndex to MountID
+--------------------------------------------------]]
 function Util.HookSecureFunc_C_MountJournal_Pickup(Index)
-	local UselessIndex = select(2, GetCursorInfo());
-	if (Index and UselessIndex) then
-		Util.MountUselessIndexToIndex[select(2, GetCursorInfo())] = Index;
+	local CompanionIndex = select(2, GetCursorInfo());
+	if (Index and CompanionIndex) then
+		Util.MountCompanionIndexToMountID[CompanionIndex] = C_MountJournal.GetDisplayedMountID(Index);
 	end
 end
 hooksecurefunc(C_MountJournal, "Pickup", Util.HookSecureFunc_C_MountJournal_Pickup);
 
+--[[------------------------------------------------
+	HookSecureFunc_GameTooltip_SetAction
+	Map Slot to MountSpellID
+--------------------------------------------------]]
 function Util.HookSecureFunc_GameTooltip_SetAction(_, Slot)
 	if (Slot == nil or Slot < 1 or Slot > 1000) then
 		return;
 	end
-	local Command, UselessIndex = GetActionInfo(Slot);
-	if (Command == "summonmount") then
-		if (Util.MountUselessIndexToIndex[UselessIndex] == nil) then
-			Util.MountUselessIndexToIndex[UselessIndex] = Util.GetMountIndexFromSpellID(select(3, GameTooltip:GetSpell()));
-		end
+	local Command, MountSpellID, Subdata = GetActionInfo(Slot);
+	if Command == "companion" and Subdata == "MOUNT" then
+		Util.MountActionSlotToMountSpellID[Slot] = MountSpellID
 	end
 end
 hooksecurefunc(GameTooltip, "SetAction", Util.HookSecureFunc_GameTooltip_SetAction);
 
-function Util.GetMountIndexFromUselessIndex(Index)
-	return Util.MountUselessIndexToIndex[Index];
+--[[------------------------------------------------
+	HookSecureFunc_PickupAction
+	Map CompanionIndex to MountID (utlising the Slot to MountSpellID map)
+--------------------------------------------------]]
+function Util.HookSecureFunc_PickupAction(Slot)
+	if (Slot == nil or Slot < 1 or Slot > 1000) then
+		return;
+	end
+
+	local Command, CompanionIndex, Subdata = GetCursorInfo();
+	if Command == "companion" and Subdata == "MOUNT" then
+		local MountSpellID = Util.MountActionSlotToMountSpellID[Slot]
+		if MountSpellID then
+			Util.MountCompanionIndexToMountID[CompanionIndex] = C_MountJournal.GetMountFromSpell(MountSpellID);
+		end
+	end
 end
-]]
+hooksecurefunc("PickupAction", Util.HookSecureFunc_PickupAction);
+
+--[[------------------------------------------------
+	GetMountIDFromCompanionIndex
+--------------------------------------------------]]
+function Util.GetMountIDFromCompanionIndex(CompanionIndex)
+	return Util.MountCompanionIndexToMountID[CompanionIndex];
+end
+
+
+--[[------------------------------------------------
+	CacheMounts
+	All mount names should be available from the journal
+	regardless of filter settings/collected status
+
+	This only needs to be run once at start of session
+--------------------------------------------------]]
+function Util.CacheMounts()
+	for _, MountID in pairs(C_MountJournal.GetMountIDs()) do
+		local name, spellID, icon, isActive, isUsable, sourceType, isFavorite, isFactionSpecific, faction, shouldHideOnChar, isCollected, mountID, isForDragonriding = C_MountJournal.GetMountInfoByID(MountID)
+		Util.MountNameToMountID[name] = mountID
+	end
+end
+
+function Util.GetMountIDFromName(Name)
+	if type(Name) == "string" then
+		return Util.MountNameToMountID[Name]
+	end
+end
+
+
+function Util.LookupMountIndex(MountID)
+
+	local Num = C_MountJournal.GetNumMounts();
+	if (MountID == SUMMON_RANDOM_FAVORITE_MOUNT_SPELL) then
+		return 0;
+	end
+	for i = 1, Num do
+		if (select(12, C_MountJournal.GetDisplayedMountInfo(i)) == MountID) then
+			return i;
+		end
+	end
+
+end
+
+
+--[[------------------------------------------------
+	CacheBattlePets
+	Cache known BattlePets
+
+	Done on demand
+--------------------------------------------------]]
+function Util.CacheBattlePets()
+	if Util.BattlePetsCached then
+		return;
+	end
+	local CollectedFilterValue = C_PetJournal.IsFilterChecked(LE_PET_JOURNAL_FILTER_COLLECTED)
+	local NotCollectedFilterValue = C_PetJournal.IsFilterChecked(LE_PET_JOURNAL_FILTER_NOT_COLLECTED)
+
+	-- Configure Pet journal filters to only cache known battlepets
+	C_PetJournal.SetFilterChecked(LE_PET_JOURNAL_FILTER_COLLECTED, true)
+	C_PetJournal.SetFilterChecked(LE_PET_JOURNAL_FILTER_NOT_COLLECTED, false)
+	C_PetJournal.SetSearchFilter("")
+
+	-- only cache pets that are known
+	for i = 1, C_PetJournal.GetNumPets() do
+		local battlePetGUID, speciesID, isOwned, customName, level, favorite, isRevoked, name, icon, petType, _, _, _, _, canBattle = C_PetJournal.GetPetInfoByIndex(i);
+		if type(name) == "string" then
+			Util.BattlePetNameToBattlePetGUID[name] = battlePetGUID
+		end
+	end
+	Util.BattlePetsCached = true;
+
+	-- Set the pet journal filters back to how they were
+	C_PetJournal.SetFilterChecked(LE_PET_JOURNAL_FILTER_COLLECTED, CollectedFilterValue)
+	C_PetJournal.SetFilterChecked(LE_PET_JOURNAL_FILTER_NOT_COLLECTED, NotCollectedFilterValue)
+	if type(PetJournalSearchBox) == "table" then
+		C_PetJournal.SetSearchFilter(PetJournalSearchBox:GetText())
+	end
+end
+
+function Util.AddBattlePetToCache(BattlePetGUID)
+	local speciesID, customName, level, xp, maxXp, displayID, isFavorite, name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique = C_PetJournal.GetPetInfoByPetID(BattlePetGUID);
+	if type(name) == "string" then
+		Util.BattlePetNameToBattlePetGUID[name] = BattlePetGUID
+	end
+end
+
+function Util.GetBattlePetGUIDFromCompanionIndex(CompanionIndex)
+	if not Util.BattlePetsCached then
+		Util.CacheBattlePets()
+	end
+
+	local _, name = GetCompanionInfo("CRITTER", CompanionIndex)
+	if type(name) == "string" then
+		return Util.BattlePetNameToBattlePetGUID[name];
+	end
+end
+
+function Util.GetBattlePetGUIDFromName(Name)
+	if not Util.BattlePetsCached then
+		Util.CacheBattlePets()
+	end
+
+	if type(Name) == "string" then
+		return Util.BattlePetNameToBattlePetGUID[Name];
+	end
+end
+
+
+
 
 --[[------------------------------------------------
 	GetCorrectMountIndex
@@ -2512,20 +2699,9 @@ function Util.GetMountIndexFromSpellID(SpellID)
 end
 ]]
 
---[[------------------------------------------------
-	
---------------------------------------------------]]
 
-function Util.GetMountIDFromName(Name)
-	local Num = C_MountJournal.GetNumMounts();
-	
-	for i = 1, Num do
-		if (C_MountJournal.GetDisplayedMountInfo(i) == Name) then
-			return select(12, C_MountJournal.GetDisplayedMountInfo(i));
-		end
-	end
-	return nil;
-end
+
+
 
 function Util.GetMountIndexFromMountID(MountID)
 	local Num = C_MountJournal.GetNumMounts();
@@ -2808,47 +2984,6 @@ function Util.GetSpellInfo(sName, spellId_or_Rank)
   print("Error in Util.GetSpellInfo, params match didn't happen")
   local name, _, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(sName);
 	return name, 0
-end
-
-function Util.GetCompanionInfo(CompanionType, MountID, spellID)
-
-  Util.CacheCompanions()
-
-  if spellID ~= nil then
-    if Util.CrittersSPID[spellID] ~= nil then
-      CritterName = Util.CrittersSPID[spellID]
-      CompanionType = "CRITTER"
-      MountID = Util.Critters[CritterName]
-    end
-
-    if Util.MountsSPID[spellID] ~= nil then
-      MountName = Util.MountsSPID[spellID]
-      CompanionType = "MOUNT"
-      MountID = Util.Mounts[MountName]
-    end
-  end
-  
-	creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo(CompanionType, MountID);
-
-  return creatureID,creatureName,creatureSpellID,icon,issummoned,mountTypeID
-end
-
--- added 12/16/2022
-function Util.GetMountCritter(spellID)
-  Util.CacheCompanions()
-  for i = 1, GetNumCompanions("MOUNT") do
-    local creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo("MOUNT", i); 
-    if creatureSpellID == spellID then
-      return creatureID,creatureName,creatureSpellID,icon,issummoned,i,"MOUNT"
-    end
-  end
-  for i = 1, GetNumCompanions("CRITTER") do
-    local creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID = GetCompanionInfo("CRITTER", i); 
-    if creatureSpellID == spellID then
-      return creatureID,creatureName,creatureSpellID,icon,issummoned,i,"CRITTER"
-    end
-  end
-  return nil,nil,nil,nil,nil,nil,""
 end
 
 function Util_GetCurspec()

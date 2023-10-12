@@ -176,16 +176,11 @@ function Button:Configure(Parent, ButtonSave, ButtonLocked, TooltipEnabled, Macr
 	elseif (Mode == "macro") then
 		self:SetCommandExplicitMacro(ButtonSave["MacroIndex"], ButtonSave["MacroName"], ButtonSave["MacroBody"]);
 		
-	-- elseif (Mode == "companion") then
-	--	self:SetCommandExplicitCompanion(ButtonSave["MountID"], "MOUNT");
-
 	elseif (Mode == "mount") then
-    creatureID, creatureName, creatureSpellID, icon, issummoned, MountID, CompanionType = Util.GetMountCritter(self.ButtonSave["MountSpellID"])
-    if MCType ~= "" then
-      self.ButtonSave["MountID"] = MountID -- update index as it may change
-      ButtonSave["MountID"] = MountID -- update index as it may change
-      self:SetCommandExplicitCompanion(MountID, CompanionType, ButtonSave["MountSpellID"]);
-    end
+		self:SetCommandExplicitCompanion(ButtonSave["MountID"]);
+	
+	elseif (Mode == "battlepet") then
+		self:SetCommandExplicitBattlePet(ButtonSave["BattlePetGUID"], ButtonSave["SpeciesID"], ButtonSave["BattlePetName"]);
 
 	elseif (Mode == "equipmentset") then
 		self:SetCommandExplicitEquipmentSet(ButtonSave["EquipmentSetId"], ButtonSave["EquipmentSetName"]);
@@ -546,8 +541,15 @@ function Button:SetCommandFromTriplet(Command, Data, Subvalue, Subsubvalue)
 		self:SetCommandItem(Data, Subvalue);   --Data = Id, Subvalue = Link
 	elseif (Command == "macro") then
 		self:SetCommandMacro(Data);            --Data = Index
-  elseif (Command == "mount" or Command == "companion") then
-    self:SetCommandCompanion(Data, Subvalue);	-- Data = MountID, Subvalue = type (MOUNT or ??)
+	elseif (Command == "companion" and Subvalue  == "MOUNT") then
+		local MountID = Subsubvalue or Util.GetMountIDFromCompanionIndex(Data)
+		self:SetCommandCompanion(MountID);		-- Data = CompanionIndex, Subvalue = type (MOUNT or ??), Subsubvalue if supplied is the MountID
+	elseif (Command == "companion" and Subvalue == "CRITTER") then
+		if Subsubvalue then
+			self:SetCommandBattlePet(Subsubvalue);
+		elseif type(Data) == "number" and Data ~= 0 then
+			self:SetCommandBattlePet(Util.GetBattlePetGUIDFromCompanionIndex(Data));
+		end
 	elseif (Command == "equipmentset") then
 		self:SetCommandEquipmentSet(Data);			--Data = Name
 	elseif (Command == "bonusaction") then
@@ -590,9 +592,12 @@ function Button:SetCommandMacro(Index)
 	local Name, Texture, Body = GetMacroInfo(Index);
 	self:SetCommandExplicitMacro(Index, Name, Body or '');
 end
-function Button:SetCommandCompanion(MountID, Type, MountSpellID)
-	--local SpellName = GetSpellInfo(SpellId);
-	self:SetCommandExplicitCompanion(MountID, Type, MountSpellID);
+function Button:SetCommandCompanion(MountID)
+	self:SetCommandExplicitCompanion(MountID);
+end
+function Button:SetCommandBattlePet(BattlePetGUID)
+	local speciesID, customName, level, xp, maxXp, displayID, isFavorite, name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique = C_PetJournal.GetPetInfoByPetID(BattlePetGUID);
+	self:SetCommandExplicitBattlePet(BattlePetGUID, speciesID, name);
 end
 function Button:SetCommandEquipmentSet(SetName)
 	local SetCount = C_EquipmentSet.GetNumEquipmentSets();
@@ -638,10 +643,13 @@ function Button:SetCommandExplicitMacro(Index, Name, Body)
 	self:SetAttributes("macro", Index);
 	self:SaveMacro(Index, Name, Body);
 end
-function Button:SetCommandExplicitCompanion(MountID, Type, MountSpellID)
-	self:SetEnvCompanion(MountID, Type, MountSpellID);
+function Button:SetCommandExplicitCompanion(MountID)
+	self:SetEnvCompanion(MountID);
 	--self:SetAttributes("companion", SpellName);	mopved to set env
 	--self:SaveCompanion(Index, SpellID);	moved to end of set env
+end
+function Button:SetCommandExplicitBattlePet(BattlePetGUID, SpeciesID, Name)
+	self:SetEnvBattlePet(BattlePetGUID, SpeciesID, Name);
 end
 function Button:SetCommandExplicitEquipmentSet(Id, Name)
 	self:SetEnvEquipmentSet(Id, Name);
@@ -762,8 +770,12 @@ function Button:SetEnvMacro(Index, Name, Body)
 
 	Util.AddMacro(self);
 end
-function Button:SetEnvCompanion(MountID, CompanionType, SpellID)
-	if (not MountID) then
+function Button:SetEnvCompanion(MountID)
+	if type(MountID) ~= "number" then
+		return self:ClearCommand();
+	end
+	local MountName, MountSpellID, Texture = C_MountJournal.GetMountInfoByID(MountID)
+	if type(MountName) ~= "string" then
 		return self:ClearCommand();
 	end
 
@@ -774,22 +786,15 @@ function Button:SetEnvCompanion(MountID, CompanionType, SpellID)
 	self.Widget:SetAttribute("macrotext", nil);
 	self.Widget:SetAttribute("action", nil);
 	self.Widget:SetAttribute("id", nil);
+
 	self.Mode			= "mount";
 	self.MountID		= MountID;
-  
-	creatureID, creatureName, creatureSpellID, icon, issummoned, mountTypeID =  Util.GetCompanionInfo(CompanionType, MountID, SpellID)
+ 	self.MountName		= MountName;
+	self.MountSpellID	= MountSpellID;
 
- 	if (not creatureSpellID) then
-		return self:ClearCommand();
-	end
-  
- 	self.MountName		= creatureName;
-  self.MountSpellID	= creatureSpellID;
-	self.MountSpellName	= GetSpellInfo(self.MountSpellID);
-	self.CompanionType 		= CompanionType;
 	self.Widget:SetAttribute("type", "macro");
-	self.Widget:SetAttribute("macrotext", "/cast "..self.MountSpellName);
-	self.Texture	= GetSpellTexture(self.MountSpellID);
+	self.Widget:SetAttribute("macrotext", format("/script C_MountJournal.SummonByID(%i)", self.MountID));
+	self.Texture	= Texture;
 
 	self.UpdateTexture 	= Button.Empty;
 	self.UpdateChecked 	= Button.UpdateCheckedCompanion;	
@@ -812,6 +817,58 @@ function Button:SetEnvCompanion(MountID, CompanionType, SpellID)
 	self:ResetAppearance();
 	self:DisplayActive();
 	self:SaveCompanion(MountID, self.MountSpellID, self.MountName);
+end
+function Button:SetEnvBattlePet(BattlePetGUID, SpeciesID, Name)
+	if type(BattlePetGUID) ~= "string" or type(SpeciesID) ~= "number" then
+		return self:ClearCommand();
+	end
+	--local speciesID, customName, level, xp, maxXp, displayID, isFavorite, name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique = C_PetJournal.GetPetInfoByPetID(BattlePetGUID);
+	local name, icon, petType, creatureID, sourceText, description, isWild, canBattle, tradable, unique, _, displayID = C_PetJournal.GetPetInfoBySpeciesID(SpeciesID);
+	--if type(name) ~= "string" then
+	--	return self:ClearCommand();
+	--end
+
+	self.Widget:SetAttribute("type", nil);
+	self.Widget:SetAttribute("spell", nil);
+	self.Widget:SetAttribute("item", nil);
+	self.Widget:SetAttribute("macro", nil);
+	self.Widget:SetAttribute("macrotext", nil);
+	self.Widget:SetAttribute("action", nil);
+	self.Widget:SetAttribute("id", nil);
+
+	self.Mode			= "battlepet";
+	self.BattlePetGUID	= BattlePetGUID;
+ 	self.SpeciesID		= SpeciesID;
+	self.BattlePetName	= Name;
+
+	self.Widget:SetAttribute("type", "macro");
+	--self.Widget:SetAttribute("macrotext", format("/script if C_PetJournal.IsCurrentlySummoned(%i) then C_PetJournal.DismissSummonedPet(%i) else C_PetJournal.SummonPetByGUID(\"%s\") end", self.SpeciesID, self.SpeciesID, self.BattlePetGUID));	-- This option causes taint in combat, but otherwise works
+	self.Widget:SetAttribute("macrotext", format("/cast %s", Name))							-- This option works in combat, and is probably fine
+	--self.Widget:SetAttribute("macrotext", format( "/summonpet %s" , BattlePetGUID ))		-- This is how it is done in Retail, but is not yet available in classic
+
+	self.Texture	= icon;
+
+	self.UpdateTexture 	= Button.Empty;
+	self.UpdateChecked 	= Button.UpdateCheckedBattlePet;	
+	self.UpdateEquipped = Button.Empty;
+	self.UpdateCooldown	= Button.UpdateCooldownBattlePet;
+	self.UpdateUsable 	= Button.UpdateUsableBattlePet;
+	self.UpdateTextCount = Button.Empty;
+	self.UpdateTooltipFunc 	= Button.UpdateTooltipBattlePet;
+	self.UpdateRangeTimer = Button.Empty;
+	self.CheckRangeTimer = Button.Empty;
+	self.UpdateFlash	= Button.Empty;
+	self.UpdateFlyout	= Button.Empty;
+	
+	self.GetCursor 		= Button.GetCursorBattlePet;
+
+	self.FullRefresh 	= Button.FullRefresh;
+
+	self.Target			= "target";
+	
+	self:ResetAppearance();
+	self:DisplayActive();
+	self:SaveBattlePet(BattlePetGUID, self.SpeciesID, self.BattlePetName);
 end
 function Button:SetEnvEquipmentSet(Id, Name)
 	local Index = Util.LookupEquipmentSetIndex(Id);
@@ -990,6 +1047,13 @@ function Button:SaveCompanion(MountID, MountSpellID, MountName)
 	self.ButtonSave["MountSpellID"]		= MountSpellID;
 	self.ButtonSave["MountName"]		= MountName;
 end
+function Button:SaveBattlePet(BattlePetGUID, SpeciesID, BattlePetName)
+	self:SaveClear();
+	self.ButtonSave["Mode"]				= "battlepet";
+	self.ButtonSave["BattlePetGUID"]	= BattlePetGUID;
+	self.ButtonSave["SpeciesID"]		= SpeciesID;
+	self.ButtonSave["BattlePetName"]	= BattlePetName;
+end
 function Button:SaveEquipmentSet(Id, Name)
 	self:SaveClear();
 	self.ButtonSave["Mode"]				= "equipmentset";
@@ -1030,6 +1094,9 @@ function Button:SaveClear()
 	self.ButtonSave["MountSpellID"]		= nil;
 	self.ButtonSave["MountName"]		= nil;
 	self.ButtonSave["MountID"]			= nil;
+	self.ButtonSave["BattlePetGUID"]	= nil;
+	self.ButtonSave["SpeciesID"]		= nil;
+	self.ButtonSave["BattlePetName"]	= nil;
 	self.ButtonSave["CompanionSpellName"] = nil;
 	self.ButtonSave["MountIndex"]		= nil;
 	self.ButtonSave["MountSpellID"]	= nil;
@@ -1166,9 +1233,10 @@ end
 	function will cache what the macro currently is
 --------------------------------------------------------------------------------]]
 function Button:TranslateMacro()
+
 	local Texture = select(2, GetMacroInfo(self.MacroIndex));
-	--self.Texture = select(2, GetMacroInfo(self.MacroIndex));
 	local Action, Target = SecureCmdOptionParse(self.MacroBody or '');
+
 	self.Target = Target or "target";			--check into if this is the best thing to do or leaving it nil would be better?
 	local TargetName = UnitName(self.Target);
 	local TargetDead = UnitIsDead(self.Target);
@@ -1177,19 +1245,10 @@ function Button:TranslateMacro()
 		self.MacroAction = Action;
 		self.MacroTargetName = TargetName;
 		self.MacroTargetDead = TargetDead;
-		local SpellName, SpellRank, SpellId = GetMacroSpell(self.MacroIndex);
-		if (SpellName) then
-			local CompanionType, CompanionID = Util.LookupCompanion(SpellName);
-			if (CompanionType) then
-				self.CompanionType = CompanionType;
-				self.CompanionIndex = CompanionID;
-			end
-			self.SpellName = SpellName;
-			-- self.SpellNameRank = GetSpellInfo(SpellName); --BFA fix: Cache is indexed by name and the old function returned the ID
-      local Rank = Util.GetSpellRank(SpellId) -- TBC Fix 06/17/2021
-      -- self.SpellNameRank = Util.GetFullSpellName(SpellName, Rank); -- TBC Fix 06/17/2021
-			self.SpellNameRank = SpellName -- rank does not seem to be working in wrath, set NameRank to SpellName 09/02/2022
-			self.SpellId = SpellId;
+		local SpellId = GetMacroSpell(self.MacroIndex);
+		if (SpellId) then
+			self.SpellName = GetSpellInfo(SpellId)
+			self.SpellId = SpellId
 			self.MacroMode = "spell";
 		else
 			local ItemName, ItemLink = GetMacroItem(self.MacroIndex);
@@ -1350,20 +1409,15 @@ function Button:UpdateCheckedMacro()
 		self:UpdateCheckedSpell();	
 	elseif (self.MacroMode == "item") then
 		self:UpdateCheckedItem();	
-	elseif (self.MacroMode == "companion") then
-		self:UpdateCheckedCompanion();	
 	else
 		self.Widget:SetChecked(false);
 	end
 end
 function Button:UpdateCheckedCompanion()
-	local Active = select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, self.MountSpellID));
-	local SpellName = UnitCastingInfo("player");
-	if (Active) then
-		self.Widget:SetChecked(true);
-	else
-		self.Widget:SetChecked(false);
-	end
+	self.Widget:SetChecked(IsCurrentSpell(self.MountSpellID));
+end
+function Button:UpdateCheckedBattlePet()
+    self.Widget:SetChecked(C_PetJournal.IsCurrentlySummoned(self.BattlePetGUID));
 end
 function Button:UpdateCheckedBonusAction()
 	local action = self.Widget:GetAttribute("action");
@@ -1449,8 +1503,6 @@ function Button:UpdateCooldownMacro()
 		self:UpdateCooldownSpell();	
 	elseif (self.MacroMode == "item") then
 		self:UpdateCooldownItem();	
-	elseif (self.MacroMode == "companion") then
-		self:UpdateCooldownCompanion();	
 	else
 		Util.CooldownFrame_SetTimer(self.WCooldown, 0, 0, 0);
 		self.WCooldown:Hide();
@@ -1459,6 +1511,9 @@ end
 function Button:UpdateCooldownCompanion()
 	--CooldownFrame_SetTimer(self.WCooldown, GetCompanionCooldown(self.CompanionType, self.CompanionIndex, self.MountSpellID));
 	--as of 5.0.4 doesn't appear to exist anymore?!
+end
+function Button:UpdateCooldownBattlePet()
+	Util.CooldownFrame_SetTimer(self.WCooldown, C_PetJournal.GetPetCooldownByGUID(self.BattlePetGUID));
 end
 function Button:UpdateCooldownBonusAction()
 	if (HasOverrideActionBar()) then
@@ -1509,16 +1564,23 @@ function Button:UpdateUsableMacro()
 		self:UpdateUsableSpell();
 	elseif (self.MacroMode == "item") then
 		self:UpdateUsableItem();	
-	elseif (self.MacroMode == "companion") then
-		self:UpdateUsableCompanion();
 	else
 		self.WIcon:SetVertexColor(1.0, 1.0, 1.0);
 		self.WNormalTexture:SetVertexColor(1.0, 1.0, 1.0);
 	end
 end
 function Button:UpdateUsableCompanion()
-	local IsUsable = IsUsableSpell(self.MountSpellID) and not (select(5,  Util.GetCompanionInfo(self.CompanionType, self.MountID, self.MountSpellID)));
-
+	local IsUsable = IsUsableSpell(self.MountSpellID) and select(5, C_MountJournal.GetMountInfoByID(self.MountID));
+	if (IsUsable) then
+		self.WIcon:SetVertexColor(1.0, 1.0, 1.0);
+		self.WNormalTexture:SetVertexColor(1.0, 1.0, 1.0);
+	else
+		self.WIcon:SetVertexColor(0.4, 0.4, 0.4);
+		self.WNormalTexture:SetVertexColor(1.0, 1.0, 1.0);
+	end
+end
+function Button:UpdateUsableBattlePet()
+	local IsUsable = C_PetJournal.PetIsSummonable(self.BattlePetGUID);
 	if (IsUsable) then
 		self.WIcon:SetVertexColor(1.0, 1.0, 1.0);
 		self.WNormalTexture:SetVertexColor(1.0, 1.0, 1.0);
@@ -1622,11 +1684,8 @@ end
 
 function Button:UpdateTooltipSpell()
 	self = self.ParentButton or self;	--This is a sneaky cheat incase the widget was used to get here...
-	--local Index, BookType = Util.LookupSpellIndex(self.SpellNameRank);
-	GameTooltip:SetSpellByID(self.SpellId);
-	--if (Index) then
-	--	GameTooltip:SetSpellBookItem(Index, BookType);
-	--end
+	-- GameTooltip:SetSpellByID(SpellID, isPet, showSubtext);
+	GameTooltip:SetSpellByID(self.SpellId, false, true);
 end
 function Button:UpdateTooltipItem()
 	self = self.ParentButton or self;	--This is a sneaky cheat incase the widget was used to get here...
@@ -1645,27 +1704,11 @@ function Button:UpdateTooltipItem()
 end
 function Button:UpdateTooltipMacro()
 	self = self.ParentButton or self;	--This is a sneaky cheat incase the widget was used to get here...
-
-  if string.find(self.MacroBody, "#showtooltip") ~= nil then
-    local _,s=string.find(self.MacroBody, "#showtooltip ")
-    if s ~= nil then
-      local e,_=string.find(self.MacroBody, "\n")
-      local sttext = (string.sub(self.MacroBody, s+1, e-1))
-      GameTooltip:SetText(sttext, 1, 1, 1, 1);
-    else
-      GameTooltip:SetText(self.MacroName, 1, 1, 1, 1);
-    end
-	elseif (not self.ShowTooltip) then
+	if (not self.ShowTooltip) then
 		--we just show the name in this case
 		GameTooltip:SetText(self.MacroName, 1, 1, 1, 1);
 	elseif (self.MacroMode == "spell") then
-		local Index, BookType = Util.LookupSpellIndex(self.SpellName);
-		if (Index) then
-			GameTooltip:SetSpellBookItem(Index, BookType);
-		elseif (self.CompanionType == "MOUNT") then
-			GameTooltip_SetDefaultAnchor(GameTooltip, self.Widget);		--It appears that the sethyperlink (specifically this one) requires that the anchor be constantly refreshed!?
-			GameTooltip:SetHyperlink("spell:"..self.SpellName);
-		end
+		GameTooltip:SetSpellByID(self.SpellId, false, true);
 	elseif (self.MacroMode == "item") then
 		local EquippedSlot = Util.LookupItemNameEquippedSlot(self.ItemId);
 		if (EquippedSlot ~= nil) then
@@ -1679,16 +1722,22 @@ function Button:UpdateTooltipMacro()
 				GameTooltip:SetHyperlink(self.ItemLink);
 			end
 		end
-	elseif (self.MacroMode == "companion") then
-		local Id, Name, SpellId =  Util.GetCompanionInfo(self.CompanionType, self.CompanionIndex, self.MountSpellID);
-		GameTooltip:SetHyperlink("spell:"..SpellId);
+	else
+		--we just show the name in this case
+		GameTooltip:SetText(self.MacroName, 1, 1, 1, 1);
 	end
 end
 function Button:UpdateTooltipCompanion()
 	self = self.ParentButton or self;	--This is a sneaky cheat incase the widget was used to get here...
 
 	GameTooltip_SetDefaultAnchor(GameTooltip, self.Widget);
-	GameTooltip:SetSpellByID(self.MountSpellID);
+	GameTooltip:SetMountBySpellID(self.MountSpellID);
+end
+function Button:UpdateTooltipBattlePet()
+	self = self.ParentButton or self;	--This is a sneaky cheat incase the widget was used to get here...
+
+	GameTooltip_SetDefaultAnchor(GameTooltip, self.Widget);
+    GameTooltip:SetCompanionPet(self.BattlePetGUID);
 end
 function Button:UpdateTooltipEquipmentSet()
 	self = self.ParentButton or self;	--This is a sneaky cheat incase the widget was used to get here...
@@ -1737,7 +1786,10 @@ function Button:GetCursorMacro()
 	return self.Mode, self.MacroIndex, nil;
 end
 function Button:GetCursorCompanion()
-	return self.Mode, self.MountSpellID
+	return "companion", nil, "MOUNT", self.MountID
+end
+function Button:GetCursorBattlePet()
+	return "companion", nil, "CRITTER", self.BattlePetGUID
 end
 function Button:GetCursorEquipmentSet()
 	return self.Mode, self.EquipmentSetName, nil;
@@ -2033,6 +2085,7 @@ function Button:RefreshSpell()
 	end
 end
 
+--[[ I believe with the move to the COLLECTION system this is no longer required
 function Button:RefreshCompanion()
 	if (InCombatLockdown()) then
 		return;
@@ -2050,6 +2103,7 @@ function Button:RefreshCompanion()
 		end
 	end
 end
+]]
 
 function Button:RefreshEquipmentSet()
 	if (InCombatLockdown()) then

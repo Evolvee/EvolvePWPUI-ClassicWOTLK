@@ -68,6 +68,7 @@ frame2:SetScript("OnEvent", function(self, _, addon)
         MainMenuMaxLevelBar1,
         MainMenuMaxLevelBar2,
         MainMenuMaxLevelBar3,
+		MainMenuBarTextureExtender, -- classic cancer
         MinimapBorder,
         CastingBarFrameBorder,
         MiniMapBattlefieldBorder,
@@ -126,7 +127,11 @@ local cvars = {
     nameplateShowFriendlyMinions = "0",
     nameplateShowFriendlyPets = "0",
 	nameplateShowFriendlyTotems = "0",
-	showPartyPets = "0"
+	showPartyPets = "0",
+	-- these are only due to the retarded changes they made in the ICC clAASic Patch
+	UnitNameFriendlySpecialNPCName = "0",
+	UnitNameHostleNPC = "0",
+	UnitNameInteractiveNPC = "0"
 }
 
 local function CustomCvar()
@@ -270,6 +275,7 @@ local tooltipOwnerBlacklist = {
     "PVPMicroButton",
     "LFGMicroButton",
     "HelpMicroButton",
+	"CollectionsMicroButton", -- classic cancer
     "^KeyRingButton$", -- key ring
     "^CharacterBag%dSlot$", -- bags
     "^MainMenuBarBackpackButton$", -- backpack
@@ -689,6 +695,9 @@ local function OnInit()
     texture:SetAlpha(0)
 
     texture = HelpMicroButton:GetHighlightTexture()
+    texture:SetAlpha(0)
+	
+	texture = CollectionsMicroButton:GetHighlightTexture() -- classic cancer
     texture:SetAlpha(0)
 
     -- Remove Fizzle sounds (this was previously done by replacing the actual sound in Data/Sounds)
@@ -1935,28 +1944,15 @@ end
 end
 end) 
 
--- Automatically mark stealthed enemies with Raid Icon Marks whenever eye is picked
-local frame = CreateFrame("Frame")
-frame:RegisterEvent("ARENA_OPPONENT_UPDATE")
-frame:SetScript("OnEvent", function(self, event, ...)
-        local unitToken, updateReason = ...
-        if GetRaidTargetIndex(unitToken) then
-            return
-        end
-        
-        if updateReason == "seen" and AuraUtil.FindAuraByName("Shadow Sight", "player", "HARMFUL") then
-            if unitToken == "arena1" then
-                SetRaidTarget("arena1", 4)
-            end
-            if unitToken == "arena2" then
-                SetRaidTarget("arena2", 8)
-            end
-        end
-end)
 
 -- leave arena on PVP icon doubleclick (useful when playing against DK retards)
 MiniMapBattlefieldFrame:HookScript("OnDoubleClick", function() LeaveBattlefield() end)
 
+-- trying to salvage the main action bar abomination they created in the clASSic ICC patch
+
+MainMenuMaxLevelBar0:SetPoint("CENTER", -394, 4)
+MainMenuMaxLevelBar3:SetSize(276, 7)
+MainMenuBar:SetSize(1024, 53)
 
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0

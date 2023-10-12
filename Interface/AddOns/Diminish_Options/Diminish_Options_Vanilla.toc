@@ -1,9 +1,9 @@
 
-## Interface: 11403
+## Interface: 11404
 ## IconTexture: Interface\Icons\Spell_nature_doublepolymorph1
 ## Title: Diminish Options
 ## Notes: Configuration for Diminish.
-## Version: v2.6.5
+## Version: v2.6.6
 ## Dependencies: Diminish
 
 libs\WardzConfigDropdown-1.0\WardzConfigDropdown-1.0.lua

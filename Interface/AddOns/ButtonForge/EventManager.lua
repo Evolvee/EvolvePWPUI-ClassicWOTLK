@@ -93,7 +93,7 @@ Misc:RegisterEvent("UNIT_INVENTORY_CHANGED");			--Refresh the inv (equipped) ite
 --Misc:RegisterEvent("SPELL_FLYOUT_UPDATE");			--Refresh the spell_flyouts (mainly due to default blizz code that forces my custom flyout border off)
 Misc:RegisterEvent("UI_SCALE_CHANGED");
 Misc:RegisterEvent("MODIFIER_STATE_CHANGED");
-Misc:RegisterEvent("ZONE_CHANGED_NEW_AREA");
+Misc:RegisterEvent("NEW_PET_ADDED");
 
 
 
@@ -112,6 +112,8 @@ Checked:RegisterEvent("STOP_AUTOREPEAT_SPELL");
 --Checked:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR");
 --Checked:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR");
 Checked:RegisterEvent("ACTIONBAR_PAGE_CHANGED");	
+Checked:RegisterEvent("COMPANION_UPDATE");
+Checked:RegisterEvent("PET_JOURNAL_LIST_UPDATE");
 
 --[[------------------------------------------------------------------------
 	Equipped Events
@@ -134,6 +136,7 @@ Usable:RegisterEvent("ACTIONBAR_UPDATE_USABLE");	--Use this as a backup...
 Usable:RegisterEvent("ACTIONBAR_PAGE_CHANGED");	
 --BFA fix: UPDATE_WORLD_STATES is deprecated
 -- Usable:RegisterEvent("UPDATE_WORLD_STATES");	
+Usable:RegisterEvent("PET_JOURNAL_LIST_UPDATE");
 
 
 --[[------------------------------------------------------------------------
@@ -224,7 +227,6 @@ Full:RegisterEvent("PLAYER_ENTERING_WORLD");		--Both Full Refresh, and also Spel
 Full:RegisterEvent("VARIABLES_LOADED");				--Macros are available
 Full:RegisterEvent("ADDON_LOADED");					--Saved info is available
 
-
 --[[Come back to these events to prepare for the flashing
 PLAYER_ENTER_COMBAT
 PLAYER_LEAVE_COMBAT
@@ -240,7 +242,7 @@ function Full:InitialOnEvent(Event, Arg1)
 	elseif (Event == "PLAYER_ENTERING_WORLD") then
 
 	  Util.CacheSpellBookRanks() -- TBC Fix 06/17/2021
-		Util.CacheCompanions();
+		Util.CacheMounts();
 		Util.CacheSpellIndexes();
 		Util.CachePetSpellIndexes();
 		Util.CacheBagItems();
@@ -251,6 +253,7 @@ function Full:InitialOnEvent(Event, Arg1)
 
 	elseif (Event == "VARIABLES_LOADED") then
 		self.MacrosLoaded = true;
+
 	end
 
 	if (self.AddonLoaded and self.MacrosLoaded and self.SpellsCached) then
@@ -265,8 +268,6 @@ function Full:InitialOnEvent(Event, Arg1)
 		
 		Util.UpdateSavedData();
 		Util.Load();
-		Util.CacheCompanions()  -- added 12/17/2022
-		Util.RefreshCompanions();
 		Util.RefreshMacros();
 		Util.RefreshEquipmentSets();
 		Util.RefreshSpells();
@@ -479,9 +480,8 @@ function Misc:OnEvent(Event, ...)
     Util.VDriverOverride(); -- refreshes bars after talent group change, so don't need to hit buttonforge config to refresh
 		self:SetScript("OnUpdate", self.OnUpdate);
 		
-	elseif (Event == "COMPANION_LEARNED") then
-		Util.CacheCompanions();
-		Util.RefreshCompanions();
+	elseif (Event == "NEW_PET_ADDED") then
+		Util.AddBattlePetToCache(...);
 		
 	elseif (Event == "EQUIPMENT_SETS_CHANGED") then
 		Util.RefreshEquipmentSets();
@@ -498,10 +498,6 @@ function Misc:OnEvent(Event, ...)
 	elseif (Event == "EDITBOX_MESSAGE") then
 		self.EditBoxMessage, self.EditBox = ...;
 		self:SetScript("OnUpdate", self.OnUpdate);
-
-	elseif (Event == "ZONE_CHANGED_NEW_AREA") then
-		Util.CacheCompanions(); 
-		Util.RefreshCompanions();
 
 	end
 
