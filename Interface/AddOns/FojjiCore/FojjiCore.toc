@@ -1,0 +1,12 @@
+## Interface: 30401 
+## Title: Fojji Core
+## RequiredDeps: WeakAuras
+## SavedVariables: FojjiTimersSavedVars
+
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+embeds.xml
+FojjiMedia.lua
+FojjiRange.lua
+FojjiSync.lua
+FojjiTimers.lua

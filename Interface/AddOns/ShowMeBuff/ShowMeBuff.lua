@@ -19,7 +19,7 @@ local blacklist = {
 	[GetSpellInfo(47437)] = true, -- Demoralizing Shout
 	[GetSpellInfo(29859)] = true, -- Blood Frenzy
 	[GetSpellInfo(49231)] = true, -- Earth Shock
-
+	
 }
 
 local smbDefaults = {

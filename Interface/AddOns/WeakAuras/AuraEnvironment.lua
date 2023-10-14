@@ -177,6 +177,9 @@ local blockedFunctions = {
   securecall = true,
   DeleteCursorItem = true,
   ChatEdit_SendText = true,
+  ChatEdit_ActivateChat = true,
+  ChatEdit_ParseText = true,
+  ChatEdit_OnEnterPressed = true,
   GetButtonMetatable = true,
   GetEditBoxMetatable = true,
   GetFontStringMetatable = true,
@@ -188,7 +191,6 @@ local blockedTables = {
   SendMailMailButton = true,
   SendMailMoneyGold = true,
   MailFrameTab2 = true,
-  ChatFrame1 = true,
   WeakAurasSaved = true,
   WeakAurasOptions = true,
   WeakAurasOptionsSaved = true
@@ -468,7 +470,6 @@ local FakeWeakAurasMixin = {
   },
   blockedTables = {
     ModelPaths = true,
-    regionPrototype = true,
     RealTimeProfilingWindow = true,
     -- Note these shouldn't exist in the WeakAuras namespace, but moving them takes a bit of effort,
     -- so for now just block them and clean them up later
@@ -496,7 +497,16 @@ local FakeWeakAurasMixin = {
     clones = MakeDeprecated(Private.clones, "clones",
                 L["Using WeakAuras.clones is deprecated. Use WeakAuras.GetRegion(id, cloneId) instead."]),
     regions = MakeDeprecated(Private.regions, "regions",
-                L["Using WeakAuras.regions is deprecated. Use WeakAuras.GetRegion(id) instead."])
+                L["Using WeakAuras.regions is deprecated. Use WeakAuras.GetRegion(id) instead."]),
+    GetAllDBMTimers = function() return Private.ExecEnv.BossMods.DBM:GetAllTimers() end,
+    GetDBMTimerById = function(...) return Private.ExecEnv.BossMods.DBM:GetTimerById(...) end,
+    GetDBMTimer = function(...) return Private.ExecEnv.BossMods.DBM:GetTimer(...) end,
+    GetBigWigsTimerById = function(...) return Private.ExecEnv.BossMods.BigWigs:GetTimerById(...) end,
+    GetAllBigWigsTimers = function() return Private.ExecEnv.BossMods.BigWigs:GetAllTimers() end,
+    GetBigWigsStage = function(...) return Private.ExecEnv.BossMods.BigWigs:GetStage(...) end,
+    RegisterBigWigsTimer = function() Private.ExecEnv.BossMods.BigWigs:RegisterTimer() end,
+    RegisterDBMCallback = function() Private.ExecEnv.BossMods.DBM:RegisterTimer() end,
+    GetBossStage = function() return Private.ExecEnv.BossMods.Generic:GetStage() end
   },
   blocked = blocked,
   setBlocked = function()

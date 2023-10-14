@@ -1126,9 +1126,11 @@ end)
 -- remove red tint when low on health
 local function RemoveRedFromPortrait(bar)
     local parent = bar:GetParent()
-    local r, g, b = parent.portrait:GetVertexColor()
-    if g == 0 and r > .99 and b == 0 then
-        parent.portrait:SetVertexColor(1.0, 1.0, 1.0, 1.0)
+    if parent and parent.portrait then -- neccessary for the ICC cancer patch with the new boss frames
+        local r, g, b = parent.portrait:GetVertexColor()
+        if g == 0 and r > 0.99 and b == 0 then
+            parent.portrait:SetVertexColor(1.0, 1.0, 1.0, 1.0)
+        end
     end
 end
 hooksecurefunc("TargetHealthCheck", RemoveRedFromPortrait)

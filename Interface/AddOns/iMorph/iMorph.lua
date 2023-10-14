@@ -37,7 +37,7 @@ function iMorphChatHandler(msg, ...)
 		print('  .morphpet |cFFCCCCCC<display id>|r')
 		print('  .race |cFFCCCCCC<1-77> <form 0-1>|r')
 		print('  .mount |cFFCCCCCC<display id> | <1 ground, 2 flying>|r')
-		print('  .item |cFFCCCCCC<1-19> <item id> <version>|r')
+		print('  .item |cFFCCCCCC<1-19> <item id> <version> <secondary appearance>|r')
 		print('  .itemset |cFFCCCCCC<itemset id> <version>|r')
 		print('  .enchant |cFFCCCCCC<1-2> <enchant id>|r')
 		print('  .title |cFFCCCCCC<0-128>|r')
@@ -115,6 +115,16 @@ function iMorphChatHandler(msg, ...)
 		return
 	end
 
+	if command == 'menu' then
+		SetMenu(arg)
+		return
+	end
+
+	if command == 'helmshow' then
+		HelmShow()
+		return
+	end
+
 	if command == 'scale' and tonumber(arg) ~= nil then
 		SetScale(arg)
 		return
@@ -171,7 +181,7 @@ function iMorphChatHandler(msg, ...)
 	end
 
 	if arg then
-		local arg1, arg2, arg3 = strsplit(' ', arg, 3)
+		local arg1, arg2, arg3, arg4 = strsplit(' ', arg, 4)
 
 		if command == 'customization' or command == 'cust' then
 			Customizations(arg1, arg2, arg3)
@@ -184,7 +194,7 @@ function iMorphChatHandler(msg, ...)
 		end
 
 		if command == 'item' and tonumber(arg1) ~= nil then
-			SetItem(arg1, arg2, arg3)
+			SetItem(arg1, arg2, arg3, arg4)
 			return
 		end
 
@@ -277,6 +287,11 @@ function iMorphChatHandler(msg, ...)
 			return
 		end
 
+		if command == 'playpetkit' and tonumber(arg1) ~= nil then
+			PlayPetEffectKit(arg1, arg2, nil)
+			return
+		end
+
 		if command == 'title' and tonumber(arg1) ~= nil then
 			SetTitle(arg1, arg2)
 			return
@@ -349,4 +364,7 @@ function SetLoadingScreen(...) iMorphMiddleware('loadingscreen', ...) end
 function SetLightParam(...) iMorphMiddleware('light', ...) end
 function PlayEffect(...) iMorphMiddleware('playeffect', ...) end
 function PlayEffectKit(...) iMorphMiddleware('playeffectkit', ...) end
+function PlayPetEffectKit(...) iMorphMiddleware('playpeteffectkit', ...) end
 function SetItemSwap(...) iMorphMiddleware('itemswap', ...) end
+function SetMenu(...) iMorphMiddleware('menu', ...) end
+function HelmShow() iMorphMiddleware('helmshow') end
