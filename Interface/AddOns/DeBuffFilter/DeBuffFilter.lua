@@ -569,7 +569,7 @@ local function updatePositions(frame, auraName, numAuras, numOppositeAuras, upda
 end
 
 local function Filterino(self)
-    if not self or self:IsForbidden() then
+    if not self or self:IsForbidden() or not UnitExists(self.unit) then
         return
     end
 

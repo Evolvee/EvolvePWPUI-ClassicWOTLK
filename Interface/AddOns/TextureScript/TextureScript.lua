@@ -68,7 +68,7 @@ frame2:SetScript("OnEvent", function(self, _, addon)
         MainMenuMaxLevelBar1,
         MainMenuMaxLevelBar2,
         MainMenuMaxLevelBar3,
-		MainMenuBarTextureExtender, -- classic cancer
+        MainMenuBarTextureExtender, -- classic cancer
         MinimapBorder,
         CastingBarFrameBorder,
         MiniMapBattlefieldBorder,
@@ -126,12 +126,12 @@ local cvars = {
     nameplateShowFriendlyNPCs = "0",
     nameplateShowFriendlyMinions = "0",
     nameplateShowFriendlyPets = "0",
-	nameplateShowFriendlyTotems = "0",
-	showPartyPets = "0",
-	-- these are only due to the retarded changes they made in the ICC clAASic Patch
-	UnitNameFriendlySpecialNPCName = "0",
-	UnitNameHostleNPC = "0",
-	UnitNameInteractiveNPC = "0"
+    nameplateShowFriendlyTotems = "0",
+    showPartyPets = "0",
+    -- these are only due to the retarded changes they made in the ICC clAASic Patch
+    UnitNameFriendlySpecialNPCName = "0",
+    UnitNameHostleNPC = "0",
+    UnitNameInteractiveNPC = "0"
 }
 
 local function CustomCvar()
@@ -202,6 +202,10 @@ hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
         manabar.lastTextValue = mana
         manabar.fontString:SetText(manabar.lastTextValue)
     end
+
+    if ( (self.unitHPPercent > 0) and (self.unitHPPercent <= 0.2) ) then
+        self.portrait:SetVertexColor(1, 1, 1, 1)
+    end
 end)
 
 hooksecurefunc("PartyMemberFrame_UpdateMember", function(self)
@@ -255,8 +259,8 @@ local sounds = {
     567246,
     567244,
     567261,
-	567453, -- target
-	567520, -- untarget
+    567453, -- target
+    567520, -- untarget
 }
 
 local tooltipOwnerBlacklist = {
@@ -275,7 +279,7 @@ local tooltipOwnerBlacklist = {
     "PVPMicroButton",
     "LFGMicroButton",
     "HelpMicroButton",
-	"CollectionsMicroButton", -- classic cancer
+    --"CollectionsMicroButton", -- classic cancer
     "^KeyRingButton$", -- key ring
     "^CharacterBag%dSlot$", -- bags
     "^MainMenuBarBackpackButton$", -- backpack
@@ -466,9 +470,9 @@ local function OnInit()
 
     TargetFrameTextureFrameLevelText:SetAlpha(0)
     TargetFrameTextureFrameLeaderIcon:SetAlpha(0)
-	
-	ChatFrameMenuButton:Hide()
-	ChatFrameChannelButton:Hide()
+
+    ChatFrameMenuButton:Hide()
+    ChatFrameChannelButton:Hide()
 
     -- TargetFrame castbar slight up-scaling
     TargetFrameSpellBar:SetScale(1.1)
@@ -696,16 +700,16 @@ local function OnInit()
 
     texture = HelpMicroButton:GetHighlightTexture()
     texture:SetAlpha(0)
-	
-	texture = CollectionsMicroButton:GetHighlightTexture() -- classic cancer
-    texture:SetAlpha(0)
+
+    --texture = CollectionsMicroButton:GetHighlightTexture() -- classic cancer
+    --texture:SetAlpha(0)
 
     -- Remove Fizzle sounds (this was previously done by replacing the actual sound in Data/Sounds)
     for _, fdid in pairs(sounds) do
         MuteSoundFile(fdid)
     end
-	
-	-- Hide certain Macro & Keybind texts from Action Bar buttons
+
+    -- Hide certain Macro & Keybind texts from Action Bar buttons
 
     for i = 1, 12 do
         _G["ActionButton" .. i .. "HotKey"]:Hide()
@@ -730,24 +734,43 @@ local InCombatLockdown = _G.InCombatLockdown
 local tonumber = _G.tonumber
 local frame = CreateFrame("Frame")
 
-local function WAHK(button)
+local function WAHK(button, ok)
     if not button then
         return
     end
 
     local btn = _G[button]
-    local id = tonumber(button:match("(%d+)"))
-    local actionButtonType = btn.buttonType
-    local buttonType = actionButtonType and (actionButtonType .. id) or ("ACTIONBUTTON%d"):format(id)
-    local clickButton = buttonType or ("CLICK " .. button .. ":LeftButton")
-    local key = GetBindingKey(clickButton)
-
-    if btn then
-        btn:RegisterForClicks("AnyDown", "AnyUp")
+    if not btn then
+        return
     end
 
-    if key then
-        SetOverrideBindingClick(btn, true, key, btn:GetName())
+    local clickButton, id
+    local clk = tostring(button)
+    id = tonumber(button:match("(%d+)"))
+    local actionButtonType = btn.buttonType
+    local buttonType = actionButtonType and (actionButtonType .. id) or ("ACTIONBUTTON%d"):format(id)
+    clickButton = buttonType or ("CLICK " .. button .. ":LeftButton")
+
+    local key = GetBindingKey(clickButton)
+
+    if key and btn then
+        if ok then
+            local wahk = CreateFrame("Button", "WAHK" .. button, nil, "SecureActionButtonTemplate")
+            wahk:RegisterForClicks("AnyDown", "AnyUp")
+            wahk:SetAttribute("type", "macro")
+            local onclick = string.format([[ local id = tonumber(self:GetName():match("(%d+)")) if down then if HasVehicleActionBar() then self:SetAttribute("macrotext", "/click OverrideActionBarButton" .. id) else self:SetAttribute("macrotext", "/click ActionButton" .. id) end else if HasVehicleActionBar() then self:SetAttribute("macrotext", "/click OverrideActionBarButton" .. id) else self:SetAttribute("macrotext", "/click ActionButton" .. id) end end]], id, id, id)
+            SecureHandlerWrapScript(wahk, "OnClick", wahk, onclick)
+            SetOverrideBindingClick(wahk, true, key, wahk:GetName())
+            wahk:SetScript("OnMouseDown", function() if HasVehicleActionBar() then _G["OverrideActionBarButton"..id]:SetButtonState("PUSHED") else btn:SetButtonState("PUSHED") end end)
+            wahk:SetScript("OnMouseUp", function() if HasVehicleActionBar() then _G["OverrideActionBarButton"..id]:SetButtonState("NORMAL") else btn:SetButtonState("NORMAL") end end)
+        else
+            btn:RegisterForClicks("AnyDown", "AnyUp")
+            local onclick = ([[ if down then
+        self:SetAttribute("macrotext", "/click clk") else self:SetAttribute("macrotext", "/click clk") end
+    ]]):gsub("clk", clk), nil
+            SecureHandlerWrapScript(btn, "OnClick", btn, onclick)
+            SetOverrideBindingClick(btn, true, key, btn:GetName())
+        end
     end
 end
 
@@ -757,16 +780,8 @@ local function UpdateBinds()
         return
     end
 
-    if OverrideActionBar and OverrideActionBar:IsShown() then
-        for i = 1, 6 do
-            local ob = _G["ActionButton" .. i];
-            ClearOverrideBindings(ob)
-        end
-        return
-    end
-
     for i = 1, 12 do
-        WAHK("ActionButton" .. i)
+        WAHK("ActionButton" .. i, true)
         WAHK("MultiBarBottomRightButton" .. i)
         WAHK("MultiBarBottomLeftButton" .. i)
         WAHK("MultiBarRightButton" .. i)
@@ -776,13 +791,11 @@ end
 
 frame:RegisterEvent("UPDATE_BINDINGS")
 frame:RegisterEvent("PLAYER_LOGIN")
-frame:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
-frame:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
 frame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_REGEN_ENABLED" then
         self:UnregisterEvent("PLAYER_REGEN_ENABLED")
     end
-    UpdateBinds()
+    C_Timer.After(1, UpdateBinds)
 end)
 
 -- Hide the modern shitclient multigroup icon at PlayerFrame
@@ -1080,12 +1093,13 @@ local function colour(statusbar, unit)
                 local _, class = UnitClass(unit)
                 local c = RAID_CLASS_COLORS[class]
                 if c then
-					if class == "DEATHKNIGHT" then -- experimental DK recoulouring feature (part1)
-					statusbar:SetStatusBarColor(0,1,0.6)
-				else
-					statusbar:SetStatusBarColor (c.r, c.g, c.b)
-					end
-				end
+                    if class == "DEATHKNIGHT" then
+                        -- experimental DK recoulouring feature (part1)
+                        statusbar:SetStatusBarColor(0, 1, 0.6)
+                    else
+                        statusbar:SetStatusBarColor(c.r, c.g, c.b)
+                    end
+                end
             elseif unit == "player" then
                 local value = UnitHealth("player")
                 local _, max = PlayerFrameHealthBar:GetMinMaxValues()
@@ -1123,35 +1137,12 @@ hooksecurefunc("HealthBar_OnValueChanged", function(self)
     colour(self, self.unit)
 end)
 
--- remove red tint when low on health
-local function RemoveRedFromPortrait(bar)
-    local parent = bar:GetParent()
-    if parent and parent.portrait then -- neccessary for the ICC cancer patch with the new boss frames
-        local r, g, b = parent.portrait:GetVertexColor()
-        if g == 0 and r > 0.99 and b == 0 then
-            parent.portrait:SetVertexColor(1.0, 1.0, 1.0, 1.0)
-        end
-    end
-end
-hooksecurefunc("TargetHealthCheck", RemoveRedFromPortrait)
-hooksecurefunc("PartyMemberHealthCheck", RemoveRedFromPortrait)
-
--- remove low health flashing from portraits
-local function RemoveFlashFromPortrait(self)
-    if self.portrait:GetAlpha() < 1 then
-        self.portrait:SetAlpha(1)
-    end
-end
-hooksecurefunc("TargetFrame_HealthUpdate", RemoveFlashFromPortrait)
-hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", RemoveFlashFromPortrait)
-
-
-hooksecurefunc("TargetofTargetHealthCheck", function(self)
-    local r, g, b = self.portrait:GetVertexColor()
-    if g == 0 and r > .99 and b == 0 then
-        self.portrait:SetVertexColor(1.0, 1.0, 1.0, 1.0)
-    end
-end)
+hooksecurefunc(TargetFramePortrait, "SetVertexColor", function(self, r, g, b) if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then self:SetVertexColor(1.0, 1.0, 1.0) end end)
+hooksecurefunc(FocusFramePortrait, "SetVertexColor", function(self, r, g, b) if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then self:SetVertexColor(1.0, 1.0, 1.0) end end)
+hooksecurefunc(TargetFramePortrait, "SetAlpha", function(self, a) if a ~= 1.0 then self:SetAlpha(1.0) end end)
+hooksecurefunc(FocusFramePortrait, "SetAlpha", function(self, a) if a ~= 1.0 then self:SetAlpha(1.0) end end)
+hooksecurefunc(FocusFrameToTPortrait, "SetVertexColor", function(self, r, g, b) if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then self:SetVertexColor(1.0, 1.0, 1.0) end end)
+hooksecurefunc(TargetFrameToTPortrait, "SetVertexColor", function(self, r, g, b) if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then self:SetVertexColor(1.0, 1.0, 1.0) end end)
 
 -- Blacklist of frames where tooltip mouseover is hidden
 GameTooltip:HookScript("OnShow", function(self, ...)
@@ -1238,16 +1229,16 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
         -- Add class-coloured names on mouseover tooltips
         local _, class = UnitClass(unit)
         local color = class and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
-                if color then
+        if color then
             local text = GameTooltipTextLeft1:GetText()
-			if text then
-			if class == "DEATHKNIGHT" then
-              GameTooltipTextLeft1:SetFormattedText("|cff00ff99%s|r", text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
-				else
-			GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
-			end
+            if text then
+                if class == "DEATHKNIGHT" then
+                    GameTooltipTextLeft1:SetFormattedText("|cff00ff99%s|r", text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
+                else
+                    GameTooltipTextLeft1:SetFormattedText("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, text:match("|cff\x\x\x\x\x\x(.+)|r") or text)
+                end
+            end
         end
-		end
     end
     self:Show()
 end)
@@ -1280,7 +1271,7 @@ local function PlateNames(frame)
                 local _, _, class = UnitClass(frame.unit)
                 if (class == 6) then
                     -- Only actual retards play this dogshit broken class that has nothing to do with World of Warcraft design
-                    frame.name:SetText("Retarded Dog")
+                    frame.name:SetText("I AM RETARDED")
                 end
             end
         end
@@ -1296,7 +1287,7 @@ f:SetScript("OnEvent", function(self, event)
         OnInit()
         hooksecurefunc("CompactUnitFrame_UpdateName", PlateNames)
         self:UnregisterEvent("PLAYER_LOGIN")
-	-- Mark Shadowfiend with a "pussy" Raid Icon (dont mind me, just re-adding a lost feature of ArenaMarker addon that we removed due to a script below)
+        -- Mark Shadowfiend with a "pussy" Raid Icon (dont mind me, just re-adding a lost feature of ArenaMarker addon that we removed due to a script below)
     elseif event == "UNIT_PET" then
         local _, type = IsInInstance()
         if type ~= "arena" then
@@ -1330,109 +1321,6 @@ end
 -- Highlight Tremor Totem (disable nameplates of everything else) + disable Snake Trap Cancer + prevent displaying already dead Tremor Totem (retarded Classic-like behavior)
 
 local HideNameplateUnits = {
-    ["Earth Elemental Totem"] = true,
-    ["Earthbind Totem"] = true,
-    ["Fire Elemental Totem"] = true,
-    ["Fire Resistance Totem"] = true,
-    ["Fire Resistance Totem II"] = true,
-    ["Fire Resistance Totem III"] = true,
-    ["Fire Resistance Totem IV"] = true,
-    ["Fire Resistance Totem V"] = true,
-    ["Fire Resistance Totem VI"] = true,
-    ["Flametongue Totem"] = true,
-    ["Flametongue Totem II"] = true,
-    ["Flametongue Totem III"] = true,
-    ["Flametongue Totem IV"] = true,
-    ["Flametongue Totem V"] = true,
-    ["Flametongue Totem VI"] = true,
-    ["Flametongue Totem VII"] = true,
-    ["Flametongue Totem VIII"] = true,
-    ["Frost Resistance Totem"] = true,
-    ["Frost Resistance Totem II"] = true,
-    ["Frost Resistance Totem III"] = true,
-    ["Frost Resistance Totem IV"] = true,
-    ["Frost Resistance Totem V"] = true,
-    ["Frost Resistance Totem VI"] = true,
-    ["Grounding Totem"] = true,
-    ["Healing Stream Totem"] = true,
-    ["Healing Stream Totem II"] = true,
-    ["Healing Stream Totem III"] = true,
-    ["Healing Stream Totem IV"] = true,
-    ["Healing Stream Totem V"] = true,
-    ["Healing Stream Totem VI"] = true,
-    ["Healing Stream Totem VII"] = true,
-    ["Healing Stream Totem VIII"] = true,
-    ["Healing Stream Totem IX"] = true,
-    ["Healing Stream Totem X"] = true,
-    ["Magma Totem"] = true,
-    ["Magma Totem II"] = true,
-    ["Magma Totem III"] = true,
-    ["Magma Totem IV"] = true,
-    ["Magma Totem V"] = true,
-    ["Magma Totem VI"] = true,
-    ["Magma Totem VII"] = true,
-    ["Mana Spring Totem"] = true,
-    ["Mana Spring Totem II"] = true,
-    ["Mana Spring Totem III"] = true,
-    ["Mana Spring Totem IV"] = true,
-    ["Mana Spring Totem V"] = true,
-    ["Mana Spring Totem VI"] = true,
-    ["Mana Spring Totem VII"] = true,
-    ["Mana Spring Totem VIII"] = true,
-    ["Mana Tide Totem"] = true,
-    ["Nature Resistance Totem"] = true,
-    ["Nature Resistance Totem II"] = true,
-    ["Nature Resistance Totem III"] = true,
-    ["Nature Resistance Totem IV"] = true,
-    ["Nature Resistance Totem V"] = true,
-    ["Nature Resistance Totem VI"] = true,
-    ["Searing Totem"] = true,
-    ["Searing Totem II"] = true,
-    ["Searing Totem III"] = true,
-    ["Searing Totem IV"] = true,
-    ["Searing Totem V"] = true,
-    ["Searing Totem VI"] = true,
-    ["Searing Totem VII"] = true,
-    ["Searing Totem VIII"] = true,
-    ["Searing Totem IX"] = true,
-    ["Searing Totem X"] = true,
-    ["Sentry Totem"] = true,
-    ["Stoneclaw Totem"] = true,
-    ["Stoneclaw Totem II"] = true,
-    ["Stoneclaw Totem III"] = true,
-    ["Stoneclaw Totem IV"] = true,
-    ["Stoneclaw Totem V"] = true,
-    ["Stoneclaw Totem VI"] = true,
-    ["Stoneclaw Totem VII"] = true,
-    ["Stoneclaw Totem VIII"] = true,
-    ["Stoneclaw Totem IX"] = true,
-    ["Stoneclaw Totem X"] = true,
-    ["Stoneskin Totem"] = true,
-    ["Stoneskin Totem II"] = true,
-    ["Stoneskin Totem III"] = true,
-    ["Stoneskin Totem IV"] = true,
-    ["Stoneskin Totem V"] = true,
-    ["Stoneskin Totem VI"] = true,
-    ["Stoneskin Totem VII"] = true,
-    ["Stoneskin Totem VIII"] = true,
-    ["Stoneskin Totem IX"] = true,
-    ["Stoneskin Totem X"] = true,
-    ["Strength of Earth Totem"] = true,
-    ["Strength of Earth Totem II"] = true,
-    ["Strength of Earth Totem III"] = true,
-    ["Strength of Earth Totem IV"] = true,
-    ["Strength of Earth Totem V"] = true,
-    ["Strength of Earth Totem VI"] = true,
-    ["Strength of Earth Totem VII"] = true,
-    ["Strength of Earth Totem VIII"] = true,
-    ["Totem of Wrath I"] = true,
-    ["Totem of Wrath II"] = true,
-    ["Totem of Wrath III"] = true,
-    ["Totem of Wrath IV"] = true,
-    ["Windfury Totem"] = true,
-    ["Wrath of Air Totem"] = true,
-    ["Cleansing Totem"] = true,
-
     ["Viper"] = true,
     ["Venomous Snake"] = true,
     ["Underbelly Croc"] = true,
@@ -1479,7 +1367,9 @@ local function HandleNewNameplate(nameplate, unit)
 
     local creatureType, _, _, _, _, npcId = string_split("-", UnitGUID(unit))
     -- the rest of nameplate stuff
-    if (HideNameplateUnits[name] or HideNameplateUnits[npcId])
+    if name:match("Totem") and not name:match("Tremor Totem") then
+        HideNameplate(nameplate)
+    elseif (HideNameplateUnits[name] or HideNameplateUnits[npcId])
             or (creatureType == "Pet" and not ShowNameplatePetIds[npcId]) then
         HideNameplate(nameplate)
     elseif name == "Tremor Totem" then
@@ -1514,19 +1404,16 @@ local function plateOnUpdateFrame()
     end
 end
 
--- Filter out the Vampiric Embrace spam healing combat text due to Blizzard being retarded as usual (thx Xyz)
 -- PlaySound whenever an enemy casts Tremor Totem in arena (previously handled in a standalone addon "EvolveAlert" - https://github.com/Evolvee/EvolvePWPUI-ClassicTBC/tree/main/Interface/AddOns/EvolveAlert)
 
 local COMBATLOG_FILTER_HOSTILE_PLAYERS = COMBATLOG_FILTER_HOSTILE_PLAYERS;
 local CombatLog_Object_IsA = CombatLog_Object_IsA
 local eventRegistered = {
-    ["SPELL_PERIODIC_HEAL"] = true,
     ["SPELL_CAST_SUCCESS"] = true,
     ["SPELL_SUMMON"] = true,
     ["SWING_DAMAGE"] = true,
     ["RANGE_DAMAGE"] = true,
     ["SPELL_DAMAGE"] = true,
-    ["SPELL_HEAL"] = true,
 }
 
 plateEventFrame:SetScript("OnEvent", function(_, event, unit)
@@ -1544,25 +1431,6 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
 
         if isSourceEnemy and instanceType == "arena" and ex1 == 8143 and action == "SPELL_CAST_SUCCESS" then
             PlaySound(12889)
-        end
-
-        if action == "SPELL_PERIODIC_HEAL" then
-            if ex1 == 15290 then
-                COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = nil
-                SetCVar("floatingCombatTextCombatHealing", 0)
-            else
-                COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = 1
-                SetCVar("floatingCombatTextCombatHealing", 1)
-            end
-            return
-        end
-        if action == "SPELL_HEAL" then
-            if ex1 == 48300 or ex1 == 75999 then
-                COMBAT_TEXT_TYPE_INFO.HEAL.show = nil
-            else
-                COMBAT_TEXT_TYPE_INFO.HEAL.show = 1
-            end
-            return
         end
 
         if destName == "Tremor Totem" then
@@ -1856,7 +1724,9 @@ end)
 
 -- Hide the friendly nameplate cast bars (a subproduct of the script above ^^)
 hooksecurefunc("Nameplate_CastBar_AdjustPosition", function(self)
-    if not self or self:IsForbidden() then return end
+    if not self or self:IsForbidden() then
+        return
+    end
 
     if UnitIsFriend("player", self.unit) then
         self:Hide()
@@ -1875,8 +1745,8 @@ end)
 
 -- Removing the flashing animation of coooldown finish at action bars
 
-for k,v in pairs(_G) do
-    if type(v)=="table" and type(v.SetDrawBling)=="function" then
+for k, v in pairs(_G) do
+    if type(v) == "table" and type(v.SetDrawBling) == "function" then
         v:SetDrawBling(false)
     end
 end
@@ -1929,32 +1799,320 @@ end)
 
 -- Preventing the black action bar borders to be hidden due to pressing an action button
 hooksecurefunc("ActionButton_OnUpdate", function(self)
-	if self.NormalTexture and not self.NormalTexture:IsShown()
-		then self.NormalTexture:Show()
-	end
+    if self.NormalTexture and not self.NormalTexture:IsShown()
+    then
+        self.NormalTexture:Show()
+    end
 end)
 
 -- Changing DK default colour in order to bring more clarity
 hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
 
-if not frame.unit or frame:IsForbidden() or not string.find(frame.unit,"nameplate") then return end
+    if not frame.unit or frame:IsForbidden() or not string.find(frame.unit, "nameplate") then
+        return
+    end
 
-if UnitIsConnected(frame.unit) and UnitIsPlayer(frame.unit) then local _, class = UnitClass(frame.unit)
-if class == "DEATHKNIGHT" then -- experimental DK recoulouring feature (part2)
-frame.healthBar:SetStatusBarColor(0, 1, 0.6)
-end
-end
-end) 
+    if UnitIsConnected(frame.unit) and UnitIsPlayer(frame.unit) then
+        local _, class = UnitClass(frame.unit)
+        if class == "DEATHKNIGHT" then
+            -- experimental DK recoulouring feature (part2)
+            frame.healthBar:SetStatusBarColor(0, 1, 0.6)
+        end
+    end
+end)
 
 
 -- leave arena on PVP icon doubleclick (useful when playing against DK retards)
-MiniMapBattlefieldFrame:HookScript("OnDoubleClick", function() LeaveBattlefield() end)
+MiniMapBattlefieldFrame:HookScript("OnDoubleClick", function()
+    LeaveBattlefield()
+end)
 
--- trying to salvage the main action bar abomination they created in the clASSic ICC patch
+-- trying to salvage the main action bar abomination they created in the clASSic ICC patch (bringing back the old looks of it)
 
-MainMenuMaxLevelBar0:SetPoint("CENTER", -394, 4)
-MainMenuMaxLevelBar3:SetSize(276, 7)
 MainMenuBar:SetSize(1024, 53)
+MainMenuExpBar:SetSize(1024, 13);
+MainMenuBarTexture0:SetPoint("BOTTOM", -384, 0);
+MainMenuBarTexture1:SetPoint("BOTTOM", -128, 0);
+MainMenuBarTexture2:SetPoint("BOTTOM", 128, 0);
+MainMenuBarTexture3:SetPoint("BOTTOM", 384, 0);
+MainMenuBarLeftEndCap:SetPoint("BOTTOM", -544, 0);
+MainMenuBarRightEndCap:SetPoint("BOTTOM", 544, 0);
+MainMenuBarPageNumber:SetPoint("CENTER", 30, -5);
+MainMenuXPBarTexture0:SetSize(256, 10);
+MainMenuXPBarTexture1:SetSize(256, 10);
+MainMenuXPBarTexture2:SetSize(256, 10);
+MainMenuXPBarTexture3:SetSize(256, 10);
+MainMenuXPBarTexture3:SetPoint("BOTTOM", 384, 3);
+CollectionsMicroButton:Hide()
+PVPMicroButton:SetPoint("BOTTOMLEFT", SocialsMicroButton, "BOTTOMRIGHT", -2, 0)
+UpdateMicroButtons()
+
+-- Heal spam hide
+local directHeal = 1000 -- DP
+local periodicHeal = 400 -- VE
+
+local function SCT(self, event, ...)
+    if (not self:IsVisible()) then
+        CombatText_ClearAnimationList();
+        return ;
+    end
+
+    local arg1, data, arg3, arg4 = ...;
+
+    -- Set up the messageType
+    local messageType, message;
+    -- Set the message data
+    local displayType;
+
+    if (event == "UNIT_ENTERED_VEHICLE") then
+        local unit, showVehicle = ...;
+        if (unit == "player") then
+            if (showVehicle) then
+                self.unit = "vehicle";
+            else
+                self.unit = "player";
+            end
+            CombatTextSetActiveUnit(self.unit);
+        end
+        return ;
+    elseif (event == "UNIT_EXITING_VEHICLE") then
+        if (arg1 == "player") then
+            self.unit = "player";
+            CombatTextSetActiveUnit(self.unit);
+        end
+        return ;
+    elseif (event == "UNIT_HEALTH") then
+        if (arg1 == self.unit) then
+            if (UnitHealth(self.unit) / UnitHealthMax(self.unit) <= COMBAT_TEXT_LOW_HEALTH_THRESHOLD) then
+                if (not CombatText.lowHealth) then
+                    messageType = "HEALTH_LOW";
+                    CombatText.lowHealth = 1;
+                end
+            else
+                CombatText.lowHealth = nil;
+            end
+        end
+
+        -- Didn't meet any of the criteria so just return
+        if (not messageType) then
+            return ;
+        end
+    elseif (event == "UNIT_POWER_UPDATE") then
+        if (arg1 == self.unit) then
+            local powerType, powerToken = UnitPowerType(self.unit);
+            local maxPower = UnitPowerMax(self.unit);
+            local currentPower = UnitPower(self.unit);
+            if (maxPower ~= 0 and powerToken == "MANA" and (currentPower / maxPower) <= COMBAT_TEXT_LOW_MANA_THRESHOLD) then
+                if (not CombatText.lowMana) then
+                    messageType = "MANA_LOW";
+                    CombatText.lowMana = 1;
+                end
+            else
+                CombatText.lowMana = nil;
+            end
+        end
+
+        -- Didn't meet any of the criteria so just return
+        if (not messageType) then
+            return ;
+        end
+    elseif (event == "PLAYER_REGEN_DISABLED") then
+        messageType = "ENTERING_COMBAT";
+    elseif (event == "PLAYER_REGEN_ENABLED") then
+        messageType = "LEAVING_COMBAT";
+    elseif (event == "COMBAT_TEXT_UPDATE") then
+        data, arg3, arg4 = GetCurrentCombatTextEventInfo();
+        messageType = arg1;
+    elseif (event == "RUNE_POWER_UPDATE") then
+        messageType = "RUNE";
+    else
+        messageType = event;
+    end
+
+    -- Process the messageType and format the message
+    --Check to see if there's a COMBAT_TEXT_TYPE_INFO associated with this combat message
+    local info = COMBAT_TEXT_TYPE_INFO[messageType];
+    if (not info) then
+        info = { r = 1, g = 1, b = 1 };
+    end
+    -- See if we should display the message or not
+    if (not info.show) then
+        -- When Resists aren't being shown, partial resists should display as Damage
+        if (info.cvar == "floatingCombatTextDamageReduction" and arg3) then
+            if (strsub(messageType, 1, 5) == "SPELL") then
+                messageType = arg4 and "SPELL_DAMAGE_CRIT" or "SPELL_DAMAGE";
+            else
+                messageType = arg4 and "DAMAGE_CRIT" or "DAMAGE";
+            end
+        else
+            return ;
+        end
+    end
+
+    local isStaggered = info.isStaggered;
+    if (messageType == "") then
+
+    elseif (messageType == "DAMAGE_CRIT" or messageType == "SPELL_DAMAGE_CRIT") then
+        displayType = "crit";
+        message = "-" .. BreakUpLargeNumbers(data);
+    elseif (messageType == "DAMAGE" or messageType == "SPELL_DAMAGE" or messageType == "DAMAGE_SHIELD") then
+        if (data == 0) then
+            return
+        end
+        message = "-" .. BreakUpLargeNumbers(data);
+        if (arg1 and arg1 == "BLOCK" and arg3 and arg3 > 0) then
+            message = COMBAT_TEXT_BLOCK_REDUCED:format(arg3);
+        end
+    elseif (messageType == "SPELL_CAST") then
+        message = "<" .. data .. ">";
+    elseif (messageType == "SPELL_AURA_START") then
+        message = "<" .. data .. ">";
+    elseif (messageType == "SPELL_AURA_START_HARMFUL") then
+        message = "<" .. data .. ">";
+    elseif (messageType == "SPELL_AURA_END" or messageType == "SPELL_AURA_END_HARMFUL") then
+        message = format(AURA_END, data);
+    elseif ((messageType == "HEAL" and arg3 >= directHeal) or (messageType == "PERIODIC_HEAL" and arg3 >= periodicHeal)) then
+        if (CVarCallbackRegistry:GetCVarValueBool("floatingCombatTextFriendlyHealers") and messageType == "HEAL" and UnitName(self.unit) ~= data) then
+            message = "+" .. BreakUpLargeNumbers(arg3) .. " [" .. data .. "]";
+        else
+            message = "+" .. BreakUpLargeNumbers(arg3);
+        end
+    elseif (messageType == "HEAL_ABSORB" or messageType == "PERIODIC_HEAL_ABSORB") then
+        if (CVarCallbackRegistry:GetCVarValueBool("floatingCombatTextFriendlyHealers") and messageType == "HEAL_ABSORB" and UnitName(self.unit) ~= data) then
+            message = "+" .. BreakUpLargeNumbers(arg3) .. " [" .. data .. "] " .. format(ABSORB_TRAILER, arg4);
+        else
+            message = "+" .. BreakUpLargeNumbers(arg3) .. " " .. format(ABSORB_TRAILER, arg4);
+        end
+    elseif (messageType == "HEAL_CRIT" or messageType == "PERIODIC_HEAL_CRIT") then
+        displayType = "crit";
+        if (CVarCallbackRegistry:GetCVarValueBool("floatingCombatTextFriendlyHealers") and UnitName(self.unit) ~= data) then
+            message = "+" .. BreakUpLargeNumbers(arg3) .. " [" .. data .. "]";
+        else
+            message = "+" .. BreakUpLargeNumbers(arg3);
+        end
+    elseif (messageType == "HEAL_CRIT_ABSORB") then
+        displayType = "crit";
+        if (CVarCallbackRegistry:GetCVarValueBool("floatingCombatTextFriendlyHealers") and UnitName(self.unit) ~= data) then
+            message = "+" .. BreakUpLargeNumbers(arg3) .. " [" .. data .. "] " .. format(ABSORB_TRAILER, arg4);
+        else
+            message = "+" .. BreakUpLargeNumbers(arg3) .. " " .. format(ABSORB_TRAILER, arg4);
+        end
+    elseif (messageType == "ENERGIZE" or messageType == "PERIODIC_ENERGIZE") then
+        local count = tonumber(data);
+        if (count > 0) then
+            data = "+" .. BreakUpLargeNumbers(data);
+        else
+            return ; --If we didnt actually gain anything, dont show it
+        end
+        if (arg3 == "MANA"
+                or arg3 == "RAGE"
+                or arg3 == "FOCUS"
+                or arg3 == "ENERGY"
+                or arg3 == "RUNIC_POWER"
+                or arg3 == "DEMONIC_FURY") then
+            message = data .. " " .. _G[arg3];
+            info = PowerBarColor[arg3];
+        elseif (arg3 == "HOLY_POWER"
+                or arg3 == "SOUL_SHARDS"
+                or arg3 == "CHI"
+                or arg3 == "COMBO_POINTS"
+                or arg3 == "ARCANE_CHARGES") then
+            local numPower = UnitPower("player", GetPowerEnumFromEnergizeString(arg3));
+            numPower = numPower + count;
+            message = "<" .. numPower .. " " .. _G[arg3] .. ">";
+            info = PowerBarColor[arg3];
+            --Display as crit if we're at max power
+            if (UnitPower("player", GetPowerEnumFromEnergizeString(arg3)) == UnitPowerMax(self.unit, GetPowerEnumFromEnergizeString(arg3))) then
+                displayType = "crit";
+            end
+        end
+    elseif (messageType == "FACTION") then
+        if (tonumber(arg3) > 0) then
+            arg3 = "+" .. arg3;
+        end
+        message = "(" .. data .. " " .. arg3 .. ")";
+    elseif (messageType == "SPELL_MISS") then
+        message = COMBAT_TEXT_MISS;
+    elseif (messageType == "SPELL_DODGE") then
+        message = COMBAT_TEXT_DODGE;
+    elseif (messageType == "SPELL_PARRY") then
+        message = COMBAT_TEXT_PARRY;
+    elseif (messageType == "SPELL_EVADE") then
+        message = COMBAT_TEXT_EVADE;
+    elseif (messageType == "SPELL_IMMUNE") then
+        message = COMBAT_TEXT_IMMUNE;
+    elseif (messageType == "SPELL_DEFLECT") then
+        message = COMBAT_TEXT_DEFLECT;
+    elseif (messageType == "SPELL_REFLECT") then
+        message = COMBAT_TEXT_REFLECT;
+    elseif (messageType == "BLOCK" or messageType == "SPELL_BLOCK") then
+        if (arg3) then
+            -- Partial block
+            message = "-" .. data .. " " .. format(BLOCK_TRAILER, arg3);
+        else
+            message = COMBAT_TEXT_BLOCK;
+        end
+    elseif (messageType == "ABSORB" or messageType == "SPELL_ABSORB") then
+        if (arg3 and data > 0) then
+            -- Partial absorb
+            message = "-" .. data .. " " .. format(ABSORB_TRAILER, arg3);
+        else
+            message = COMBAT_TEXT_ABSORB;
+        end
+    elseif (messageType == "RESIST" or messageType == "SPELL_RESIST") then
+        if (arg3) then
+            -- Partial resist
+            message = "-" .. data .. " " .. format(RESIST_TRAILER, arg3);
+        else
+            message = COMBAT_TEXT_RESIST;
+        end
+    elseif (messageType == "HONOR_GAINED") then
+        data = tonumber(data);
+        if (not data or abs(data) < 1) then
+            return ;
+        end
+        data = floor(data);
+        if (data > 0) then
+            data = "+" .. data;
+        end
+        message = format(COMBAT_TEXT_HONOR_GAINED, data);
+    elseif (messageType == "SPELL_ACTIVE") then
+        displayType = "crit";
+        message = "<" .. data .. ">";
+    elseif (messageType == "COMBO_POINTS") then
+        message = format(COMBAT_TEXT_COMBO_POINTS, data);
+    elseif (messageType == "RUNE") then
+        if (data == true) then
+            message = COMBAT_TEXT_RUNE_DEATH;
+        else
+            message = nil;
+        end
+    elseif (messageType == "ABSORB_ADDED") then
+        if (CVarCallbackRegistry:GetCVarValueBool("floatingCombatTextFriendlyHealers") and UnitName(self.unit) ~= data) then
+            message = "+" .. BreakUpLargeNumbers(arg3) .. "(" .. COMBAT_TEXT_ABSORB .. ")" .. " [" .. data .. "]";
+        else
+            message = "+" .. BreakUpLargeNumbers(arg3) .. "(" .. COMBAT_TEXT_ABSORB .. ")";
+        end
+    else
+        message = _G["COMBAT_TEXT_" .. messageType];
+        if (not message) then
+            message = _G[messageType];
+        end
+    end
+
+    -- Add the message
+    if (message) then
+        CombatText_AddMessage(message, COMBAT_TEXT_SCROLL_FUNCTION, info.r, info.g, info.b, displayType, isStaggered);
+    end
+end
+
+if not CombatText then
+    EventUtil.ContinueOnAddOnLoaded("Blizzard_CombatText", function()
+        CombatText:SetScript("OnEvent", SCT)
+    end)
+else
+    CombatText:SetScript("OnEvent", SCT)
+end
 
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0

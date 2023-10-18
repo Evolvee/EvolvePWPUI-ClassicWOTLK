@@ -1,5 +1,0 @@
-## Title: ShowMeBuff
-## Author: Xyz LULE
-## Interface: 30403
-
-ShowMeBuff.lua
