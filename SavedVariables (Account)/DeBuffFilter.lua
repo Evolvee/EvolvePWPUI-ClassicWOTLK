@@ -10,9 +10,6 @@ DeBuffFilterDB = {
 	},
 	["profiles"] = {
 		["Default"] = {
-			["customHighlights"] = {
-				"Predatory Swiftness", -- [1]
-			},
 			["hiddenBuffs"] = {
 				"Abomination's Might", -- [1]
 				"Arcane Empowerment", -- [2]
@@ -92,24 +89,35 @@ DeBuffFilterDB = {
 				"Strength of Earth", -- [76]
 				"Totem of Wrath", -- [77]
 				"Trauma", -- [78]
-				"Trueshot Aura", -- [79]
-				"Unending Breath", -- [80]
-				"Unholy Presence", -- [81]
-				"Unholy Strength", -- [82]
-				"Unleashed Rage", -- [83]
-				"Vampiric Embrace", -- [84]
-				"Vigilance", -- [85]
-				"Water Breathing", -- [86]
-				"Water Walking", -- [87]
-				"Windfury Totem", -- [88]
-				"Wrath of Air Totem", -- [89]
-				"Wyrmrest Champion", -- [90]
+				"Tricked or Treated", -- [79]
+				"Trueshot Aura", -- [80]
+				"Unending Breath", -- [81]
+				"Unholy Presence", -- [82]
+				"Unholy Strength", -- [83]
+				"Unleashed Rage", -- [84]
+				"Vampiric Embrace", -- [85]
+				"Vigilance", -- [86]
+				"Water Breathing", -- [87]
+				"Water Walking", -- [88]
+				"Windfury Totem", -- [89]
+				"Wrath of Air Totem", -- [90]
+				"Wyrmrest Champion", -- [91]
+			},
+			["customHighlights"] = {
+				"Hardened Skin", -- [1]
+				"Predator's Swiftness", -- [2]
 			},
 			["customHighlightColors"] = {
-				["Predatory Swiftness"] = {
+				["Hardened Skin"] = {
 					["a"] = 1,
-					["b"] = 0.05098039656877518,
+					["r"] = 1,
 					["g"] = 0,
+					["b"] = 0.8078432083129883,
+				},
+				["Predator's Swiftness"] = {
+					["a"] = 1,
+					["b"] = 0,
+					["g"] = 0.003921568859368563,
 					["r"] = 1,
 				},
 			},

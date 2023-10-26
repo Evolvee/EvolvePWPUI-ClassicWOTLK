@@ -19,7 +19,14 @@ ButtonForgeSave = {
 			["KeyBindText"] = true,
 			["HSpec3"] = false,
 			["GridAlwaysOn"] = true,
-			["TooltipsOn"] = false,
+			["Buttons"] = {
+				{
+					["MacroBody"] = ".gender\n.race 5\n.hairstyle 4\n.haircolor 9\n.item 3 35086\n.item 5 35087\n.item 19 35221\n.item 10 35053\n.item 6 35153\n.item 16 1728\n.item 1 19984\n.enchant 1 1\n.mount 25335\n.spell 48156 46562\n",
+					["Mode"] = "macro",
+					["MacroName"] = "     ",
+					["MacroIndex"] = 122,
+				}, -- [1]
+			},
 			["BonusBar"] = false,
 			["Alpha"] = 1,
 			["HSpec4"] = false,
@@ -27,19 +34,12 @@ ButtonForgeSave = {
 			["GUI"] = true,
 			["Enabled"] = true,
 			["MacroText"] = true,
-			["Order"] = 0,
 			["Top"] = 28.19999504089356,
+			["Order"] = 0,
 			["ButtonGap"] = 6,
-			["Buttons"] = {
-				{
-					["MacroBody"] = ".race 5\n.face 2\n.hairstyle 4\n.haircolor 9\n.skincolor 3\n.features 5\n.item 3 35086\n.item 5 35087\n.item 19 35221\n.item 10 35053\n.item 6 35153\n.item 16 1728\n.item 1 19984\n.enchant 1 1\n.mount 25335\n.spell 48156 46562\n.spell 58984 1856\n",
-					["Mode"] = "macro",
-					["MacroName"] = "    ",
-					["MacroIndex"] = 121,
-				}, -- [1]
-			},
+			["TooltipsOn"] = false,
 		}, -- [1]
 	},
 	["Version"] = 1,
-	["VersionMinor"] = 0.18,
+	["VersionMinor"] = 0.2,
 }

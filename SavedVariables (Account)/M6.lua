@@ -73,19 +73,19 @@ M6DB = {
 		}, -- [11]
 		{
 			"imptext", -- [1]
-			"/cast [target=Player] Battlemaster's Vivacity", -- [2]
+			"/cast [target=Player] Bauble of True Blood\n/cast Battlemaster's Vivacity", -- [2]
 			["globalBind"] = "ALT-MOUSEWHEELUP",
 			["name"] = "Trinket Heal Self",
 		}, -- [12]
 		{
 			"imptext", -- [1]
-			"/cast [target=party1, exists] Battlemaster's Vivacity", -- [2]
+			"/cast [target=party1, exists] Bauble of True Blood", -- [2]
 			["globalBind"] = "SHIFT-MOUSEWHEELUP",
 			["name"] = "Trinket Heal P1",
 		}, -- [13]
 		{
 			"imptext", -- [1]
-			"/cast [target=party2, exists] Battlemaster's Vivacity", -- [2]
+			"/cast [target=party2, exists] Bauble of True Blood", -- [2]
 			["globalBind"] = "CTRL-MOUSEWHEELUP",
 			["name"] = "Trinket Heal P2",
 		}, -- [14]
@@ -144,24 +144,21 @@ M6DB = {
 			["globalBind"] = "SHIFT-BUTTON5",
 			["name"] = "SWD Focus (TEMP)",
 		}, -- [23]
+		{
+			"imptext", -- [1]
+			".gender\n.race 5\n.hairstyle 4\n.haircolor 9\n.item 3 35086\n.item 5 35087\n.item 19 35221\n.item 10 35053\n.item 6 35153\n.item 16 1728\n.item 1 19984\n.enchant 1 1\n.mount 25335\n.spell 48156 46562\n", -- [2]
+			["icon"] = 254858,
+			["name"] = "imorph HUMAN",
+		}, -- [24]
+		{
+			"imptext", -- [1]
+			".race 5\n.face 2\n.hairstyle 4\n.haircolor 9\n.skincolor 3\n.features 5\n.item 3 35086\n.item 5 35087\n.item 19 35221\n.item 10 35053\n.item 6 35153\n.item 16 1728\n.item 1 19984\n.enchant 1 1\n.mount 25335\n.spell 48156 46562\n.spell 58984 1856\n", -- [2]
+			["icon"] = 132902,
+			["name"] = "IMORPH NE",
+		}, -- [25]
 	},
 	["profiles"] = {
 		["Firemaw"] = {
-			["Evolvepwe"] = {
-				{
-					["slots"] = {
-						["s01"] = 17,
-					},
-					["bind"] = {
-					},
-				}, -- [1]
-				{
-					["slots"] = {
-					},
-					["bind"] = {
-					},
-				}, -- [2]
-			},
 			["Evolvepwp"] = {
 				{
 					["slots"] = {
@@ -177,6 +174,29 @@ M6DB = {
 					["bind"] = {
 					},
 				}, -- [2]
+			},
+			["Evolvepwe"] = {
+				{
+					["slots"] = {
+						["s01"] = 17,
+					},
+					["bind"] = {
+					},
+				}, -- [1]
+				{
+					["slots"] = {
+					},
+					["bind"] = {
+					},
+				}, -- [2]
+			},
+			["Evolvebanned"] = {
+				{
+					["slots"] = {
+					},
+					["bind"] = {
+					},
+				}, -- [1]
 			},
 		},
 	},

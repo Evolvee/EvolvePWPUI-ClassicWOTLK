@@ -1825,17 +1825,17 @@ selfAttach:SetPoint("TOP", reverseIcons, "BOTTOM", 0, -5)
         end)
     hidden:SetPoint("TOP", showTooltip, "BOTTOM", 0, -5)
 
-    local cpanel = CreateFrame("Frame", "ATTFrame", panel,BackdropTemplateMixin and "BackdropTemplate, TooltipBorderedFrameTemplate")
-    cpanel:SetSize(615, 240)
+    local cpanel = CreateFrame("Frame", "ATTFrame", panel, BackdropTemplateMixin and "BackdropTemplate, TooltipBorderedFrameTemplate")
+    cpanel:SetSize(640, 280)
     cpanel:SetPoint("TOP", panel, "TOP", 0, -270)
     cpanel:SetBackdropColor(0,0,0, 0.4)
 
     local info = CreateFrame("Frame", "ATTFrame", panel, BackdropTemplateMixin and "BackdropTemplate")
-    info:SetPoint("TOPLEFT", panel, "TOPLEFT", 25, -520)
+    info:SetPoint("TOPLEFT", panel, "TOPLEFT", 25, -560)
     info:SetSize(50, 50)
 
     local version = info:CreateFontString(nil, "ARTWORK", "GameFontDisable")
-    version:SetText("|cffffff00ATT|r |cff33ff99v" .. ATTversion .. " Classic|r by |cffffff00izy|r")
+    version:SetText("|cffffff00ATT|r |cff33ff99v" .. ATTversion .. "|r Classic by |cffffff00izy|r")
     version:SetPoint("TOPLEFT", info, "TOPLEFT", 0, 0)
 
     local contact = info:CreateFontString(nil, "ARTWORK", "GameFontDisable")
@@ -1895,7 +1895,7 @@ function ATT:CreateOptionFrame()
                 panel.popUP = extraoptions
             end
         end)
-    showExtraOptions:SetPoint("TOPLEFT", panel, "TOPLEFT", 325, -520)
+    showExtraOptions:SetPoint("TOPLEFT", panel, "TOPLEFT", 360, -560)
 end
 
 function ATT:CreateVisibilityFrame()
@@ -1978,7 +1978,7 @@ function ATT:CreateVisibilityFrame()
             panel.popUP = visibility
         end
     end)
-    showVisibility:SetPoint("TOPLEFT", panel, "TOPLEFT", 425, -520)
+    showVisibility:SetPoint("TOPLEFT", panel, "TOPLEFT", 460, -560)
 end
 
 function ATT:CreateProfilesFrame()
@@ -2122,7 +2122,7 @@ function ATT:CreateProfilesFrame()
             panel.popUP = profiles
         end
     end)
-    showProfiles:SetPoint("TOPLEFT", panel, "TOPLEFT", 525, -520)
+    showProfiles:SetPoint("TOPLEFT", panel, "TOPLEFT", 560, -560)
 end
 
 function ATT:CreateOrderFrame()
@@ -2320,25 +2320,13 @@ function ATT:CreateAbilityEditor()
     local btns = {}
     self.btns = btns
 
-    local scrollframe = CreateFrame("ScrollFrame", "ATTScrollFrame", panel,(BackdropTemplateMixin and "UIPanelScrollFrameTemplate, BackdropTemplate") or "UIPanelScrollFrameTemplate")
-    local backdrop = {
-        bgFile = [=[Interface\Buttons\WHITE8X8]=],
-        insets = {
-            left = 0,
-            right = 0,
-            top = -5,
-            bottom = -5
-        }
-    }
-
-    scrollframe:SetBackdrop(backdrop)
-    scrollframe:SetBackdropColor(0, 0, 0, 0.50)
+    local scrollframe = CreateFrame("ScrollFrame", "ATTScrollFrame", panel, "ScrollFrameTemplate")
     local child = CreateFrame("Frame", "ATTScrollFrameChild", scrollframe)
     child:SetSize(1, 1)
     scrollframe:SetScrollChild(child)
     self.scrollframe = child
-    scrollframe:SetSize(430, 210)
-    scrollframe:SetPoint('LEFT', 10, -105)
+    scrollframe:SetSize(440, 255)
+    scrollframe:SetPoint('LEFT', 25, -112)
 
     for i = 1, 50 do
         local button = CreateListButton(child, tostring(i), panel)
@@ -2386,7 +2374,7 @@ function ATT:CreateAbilityEditor()
         child.dropdown2.initialize()
         child.dropdown2:SetValue(db.category)
     end)
-    dropdown:SetPoint("TOPLEFT", scrollframe, "TOPRIGHT", 10, -10)
+    dropdown:SetPoint("TOPLEFT", scrollframe, "TOPRIGHT", 20, -10)
     child.dropdown = dropdown
 
     local dropdown2 = panel:MakeDropDown('name', ' Category', 'description', 'Pick a category', 'values',

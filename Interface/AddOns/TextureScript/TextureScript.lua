@@ -1,32 +1,20 @@
 --EVOLVE PWP UI
 
-local string_split = string.split
-local CombatLogGetCurrentEventInfo = CombatLogGetCurrentEventInfo
-local UnitGUID, UnitIsPlayer, UnitIsConnected, UnitClass, UnitClassification = UnitGUID, UnitIsPlayer, UnitIsConnected, UnitClass, UnitClassification
-local UnitIsEnemy, UnitBuff, UnitName = UnitIsEnemy, UnitBuff, UnitName
-local IsActiveBattlefieldArena, GetBattlefieldTeamInfo = IsActiveBattlefieldArena, GetBattlefieldTeamInfo
-local SetCVar, GetCVar = SetCVar, GetCVar
-local pairs = pairs
-local ipairs = ipairs
-local tostring = tostring
-local select = select
-local tonumber = tonumber
-local string_format = string.format
-local _G = _G
-local hooksecurefunc = hooksecurefunc
-local FauxScrollFrame_GetOffset = FauxScrollFrame_GetOffset
-local GetGuildRosterInfo = GetGuildRosterInfo
-local GuildListScrollFrame = GuildListScrollFrame
-local GUILDMEMBERS_TO_DISPLAY = GUILDMEMBERS_TO_DISPLAY
-local RAID_CLASS_COLORS = RAID_CLASS_COLORS
-local mmin, mmax = math.min, math.max
-local mabs = math.abs
-local floor, mceil = math.floor, math.ceil
-local strfind = string.find
-local GetFramerate = GetFramerate
-local UnitExists, UnitIsFriend = UnitExists, UnitIsFriend
-local UnitPowerType = UnitPowerType
-local IsInInstance, PlaySound = IsInInstance, PlaySound
+local _G = getfenv(0)
+local CombatLogGetCurrentEventInfo = _G.CombatLogGetCurrentEventInfo
+local UnitGUID, UnitIsPlayer, UnitIsConnected, UnitClass, UnitClassification = _G.UnitGUID, _G.UnitIsPlayer, _G.UnitIsConnected, _G.UnitClass, _G.UnitClassification
+local UnitIsEnemy, UnitName = _G.UnitIsEnemy, _G.UnitName
+local select, string_format, string_split = _G.select, _G.string.format, _G.string.split
+local pairs, ipairs, tostring = _G.pairs, _G.ipairs, _G.tostring
+local GetGuildRosterInfo = _G.GetGuildRosterInfo
+local GuildListScrollFrame = _G.GuildListScrollFrame
+local RAID_CLASS_COLORS = _G.RAID_CLASS_COLORS
+local mmin, mmax, mabs = _G.math.min, _G.math.max, _G.math.abs
+local floor, mceil, strfind = _G.math.floor, _G.math.ceil, _G.string.find
+local GetFramerate = _G.GetFramerate
+local UnitExists, UnitIsFriend, UnitPowerType = _G.UnitExists, _G.UnitIsFriend, _G.UnitPowerType
+local PlaySound, C_NamePlate = _G.PlaySound, C_NamePlate
+local inArena = false
 
 --dark theme
 local frame2 = CreateFrame("Frame")
@@ -93,18 +81,24 @@ frame2:SetScript("OnEvent", function(self, _, addon)
         MiniMapBattlefieldBorder,
         MiniMapMailBorder,
         MinimapBorderTop }) do
-        v:SetVertexColor(0, 0, 0)
+        if v then
+            v:SetVertexColor(0, 0, 0)
+        end
     end
 
     if addon == "Blizzard_TimeManager" then
         for _, v in pairs({ select(2, TimeManagerClockButton:GetRegions()) }) do
-            v:SetVertexColor(1, 1, 1)
+            if v then
+                v:SetVertexColor(1, 1, 1)
+            end
         end
     end
 
     local a, b, c, d, e, f, _, _, _, _, _, l = WorldStateScoreFrame:GetRegions()
     for _, v in pairs({ a, b, c, d, e, f, l }) do
-        v:SetVertexColor(0.15, 0.15, 0.15)
+        if v then
+            v:SetVertexColor(0.15, 0.15, 0.15)
+        end
     end
 
     self:UnregisterEvent("ADDON_LOADED")
@@ -118,7 +112,6 @@ local cvars = {
     ShowClassColorInNameplate = "1",
     nameplateMaxDistance = "41",
     nameplateGlobalScale = "1.12",
-    enableFloatingCombatText = "1",
     threatWarning = "0",
     predictedHealth = "1",
     Sound_EnableDSPEffects = "0",
@@ -147,7 +140,7 @@ end
 local function ColorGuildTabs()
     local _, guildIndex, class, color
     local guildOffset = FauxScrollFrame_GetOffset(GuildListScrollFrame)
-    for i = 1, GUILDMEMBERS_TO_DISPLAY do
+    for i = 1, 13 do
         guildIndex = guildOffset + i
         _, _, _, _, _, _, _, _, _, _, class = GetGuildRosterInfo(guildIndex)
         if not class then
@@ -203,7 +196,7 @@ hooksecurefunc("PartyMemberFrame_UpdateMemberHealth", function(self)
         manabar.fontString:SetText(manabar.lastTextValue)
     end
 
-    if ( (self.unitHPPercent > 0) and (self.unitHPPercent <= 0.2) ) then
+    if ((self.unitHPPercent > 0) and (self.unitHPPercent <= 0.2)) then
         self.portrait:SetVertexColor(1, 1, 1, 1)
     end
 end)
@@ -725,14 +718,40 @@ local function OnInit()
         _G["MultiBarRightButton" .. i .. "Name"]:SetAlpha(0)
         _G["MultiBarLeftButton" .. i .. "Name"]:SetAlpha(0)
     end
+
+    -- trying to salvage the main action bar abomination they created in the clASSic ICC patch (bringing back the old looks of it)
+
+    MainMenuBar:SetSize(1024, 53)
+    MainMenuExpBar:SetSize(1024, 13);
+    MainMenuBarTexture0:SetPoint("BOTTOM", -384, 0);
+    MainMenuBarTexture1:SetPoint("BOTTOM", -128, 0);
+    MainMenuBarTexture2:SetPoint("BOTTOM", 128, 0);
+    MainMenuBarTexture3:SetPoint("BOTTOM", 384, 0);
+    MainMenuBarLeftEndCap:SetPoint("BOTTOM", -544, 0);
+    MainMenuBarRightEndCap:SetPoint("BOTTOM", 544, 0);
+    MainMenuBarPageNumber:SetPoint("CENTER", 30, -5);
+    MainMenuXPBarTexture0:SetSize(256, 10);
+    MainMenuXPBarTexture1:SetSize(256, 10);
+    MainMenuXPBarTexture2:SetSize(256, 10);
+    MainMenuXPBarTexture3:SetSize(256, 10);
+    MainMenuXPBarTexture3:SetPoint("BOTTOM", 384, 3);
+    CollectionsMicroButton:Hide()
+    PVPMicroButton:SetPoint("BOTTOMLEFT", SocialsMicroButton, "BOTTOMRIGHT", -2, 0)
+    UpdateMicroButtons()
 end
 
+-- Aparently the bar re-sizes itself on the fly due to multiple reasons like mounting a vehicle and shit (yea ikr, dogshit game), so hardcoding this here...
+hooksecurefunc(MainMenuBar, "SetSize", function(self, w, h)
+    if w ~= 1024 and h ~= 53 then
+        self:SetSize(1024, 53)
+    end
+end)
+
 -- SpeedyActions level: Garage clicker & Pro Gaymer
-local _G = getfenv(0)
 local GetBindingKey, SetOverrideBindingClick = _G.GetBindingKey, _G.SetOverrideBindingClick
 local InCombatLockdown = _G.InCombatLockdown
 local tonumber = _G.tonumber
-local frame = CreateFrame("Frame")
+local f = CreateFrame("Frame")
 
 local function WAHK(button, ok)
     if not button then
@@ -761,8 +780,20 @@ local function WAHK(button, ok)
             local onclick = string.format([[ local id = tonumber(self:GetName():match("(%d+)")) if down then if HasVehicleActionBar() then self:SetAttribute("macrotext", "/click OverrideActionBarButton" .. id) else self:SetAttribute("macrotext", "/click ActionButton" .. id) end else if HasVehicleActionBar() then self:SetAttribute("macrotext", "/click OverrideActionBarButton" .. id) else self:SetAttribute("macrotext", "/click ActionButton" .. id) end end]], id, id, id)
             SecureHandlerWrapScript(wahk, "OnClick", wahk, onclick)
             SetOverrideBindingClick(wahk, true, key, wahk:GetName())
-            wahk:SetScript("OnMouseDown", function() if HasVehicleActionBar() then _G["OverrideActionBarButton"..id]:SetButtonState("PUSHED") else btn:SetButtonState("PUSHED") end end)
-            wahk:SetScript("OnMouseUp", function() if HasVehicleActionBar() then _G["OverrideActionBarButton"..id]:SetButtonState("NORMAL") else btn:SetButtonState("NORMAL") end end)
+            wahk:SetScript("OnMouseDown", function()
+                if HasVehicleActionBar() then
+                    _G["OverrideActionBarButton" .. id]:SetButtonState("PUSHED")
+                else
+                    btn:SetButtonState("PUSHED")
+                end
+            end)
+            wahk:SetScript("OnMouseUp", function()
+                if HasVehicleActionBar() then
+                    _G["OverrideActionBarButton" .. id]:SetButtonState("NORMAL")
+                else
+                    btn:SetButtonState("NORMAL")
+                end
+            end)
         else
             btn:RegisterForClicks("AnyDown", "AnyUp")
             local onclick = ([[ if down then
@@ -776,7 +807,7 @@ end
 
 local function UpdateBinds()
     if InCombatLockdown() then
-        frame:RegisterEvent("PLAYER_REGEN_ENABLED")
+        f:RegisterEvent("PLAYER_REGEN_ENABLED")
         return
     end
 
@@ -788,15 +819,6 @@ local function UpdateBinds()
         WAHK("MultiBarLeftButton" .. i)
     end
 end
-
-frame:RegisterEvent("UPDATE_BINDINGS")
-frame:RegisterEvent("PLAYER_LOGIN")
-frame:SetScript("OnEvent", function(self, event, ...)
-    if event == "PLAYER_REGEN_ENABLED" then
-        self:UnregisterEvent("PLAYER_REGEN_ENABLED")
-    end
-    C_Timer.After(1, UpdateBinds)
-end)
 
 -- Hide the modern shitclient multigroup icon at PlayerFrame
 local mg = PlayerPlayTime:GetParent().MultiGroupFrame
@@ -1054,9 +1076,11 @@ local function SmoothBar(bar)
 end
 
 smoothframe:SetScript("OnUpdate", function()
-    for _, plate in pairs(C_NamePlate.GetNamePlates(true)) do
-        if not plate:IsForbidden() and plate:IsVisible() and plate.UnitFrame:IsShown() then
-            SmoothBar(plate.UnitFrame.healthBar)
+    if not inArena then
+        for _, plate in pairs(C_NamePlate.GetNamePlates(true)) do
+            if not plate:IsForbidden() and plate:IsVisible() and plate.UnitFrame:IsShown() then
+                SmoothBar(plate.UnitFrame.healthBar)
+            end
         end
     end
     AnimationTick()
@@ -1137,12 +1161,36 @@ hooksecurefunc("HealthBar_OnValueChanged", function(self)
     colour(self, self.unit)
 end)
 
-hooksecurefunc(TargetFramePortrait, "SetVertexColor", function(self, r, g, b) if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then self:SetVertexColor(1.0, 1.0, 1.0) end end)
-hooksecurefunc(FocusFramePortrait, "SetVertexColor", function(self, r, g, b) if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then self:SetVertexColor(1.0, 1.0, 1.0) end end)
-hooksecurefunc(TargetFramePortrait, "SetAlpha", function(self, a) if a ~= 1.0 then self:SetAlpha(1.0) end end)
-hooksecurefunc(FocusFramePortrait, "SetAlpha", function(self, a) if a ~= 1.0 then self:SetAlpha(1.0) end end)
-hooksecurefunc(FocusFrameToTPortrait, "SetVertexColor", function(self, r, g, b) if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then self:SetVertexColor(1.0, 1.0, 1.0) end end)
-hooksecurefunc(TargetFrameToTPortrait, "SetVertexColor", function(self, r, g, b) if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then self:SetVertexColor(1.0, 1.0, 1.0) end end)
+hooksecurefunc(TargetFramePortrait, "SetVertexColor", function(self, r, g, b)
+    if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then
+        self:SetVertexColor(1.0, 1.0, 1.0)
+    end
+end)
+hooksecurefunc(FocusFramePortrait, "SetVertexColor", function(self, r, g, b)
+    if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then
+        self:SetVertexColor(1.0, 1.0, 1.0)
+    end
+end)
+hooksecurefunc(TargetFramePortrait, "SetAlpha", function(self, a)
+    if a ~= 1.0 then
+        self:SetAlpha(1.0)
+    end
+end)
+hooksecurefunc(FocusFramePortrait, "SetAlpha", function(self, a)
+    if a ~= 1.0 then
+        self:SetAlpha(1.0)
+    end
+end)
+hooksecurefunc(FocusFrameToTPortrait, "SetVertexColor", function(self, r, g, b)
+    if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then
+        self:SetVertexColor(1.0, 1.0, 1.0)
+    end
+end)
+hooksecurefunc(TargetFrameToTPortrait, "SetVertexColor", function(self, r, g, b)
+    if r ~= 1.0 or g ~= 1.0 or b ~= 1.0 then
+        self:SetVertexColor(1.0, 1.0, 1.0)
+    end
+end)
 
 -- Blacklist of frames where tooltip mouseover is hidden
 GameTooltip:HookScript("OnShow", function(self, ...)
@@ -1278,17 +1326,16 @@ local function PlateNames(frame)
     end
 end
 
-local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN")
+f:RegisterEvent("UPDATE_BINDINGS")
 f:RegisterUnitEvent("UNIT_PET", "player")
 f:SetScript("OnEvent", function(self, event)
     if event == "PLAYER_LOGIN" then
         CustomCvar()
         OnInit()
         hooksecurefunc("CompactUnitFrame_UpdateName", PlateNames)
+        C_Timer.After(1, UpdateBinds)
         self:UnregisterEvent("PLAYER_LOGIN")
-	Settings.SetOnValueChangedCallback("floatingCombatTextCombatHealing", function() return end)
-        -- Mark Shadowfiend with a "pussy" Raid Icon (dont mind me, just re-adding a lost feature of ArenaMarker addon that we removed due to a script below)
     elseif event == "UNIT_PET" then
         local _, type = IsInInstance()
         if type ~= "arena" then
@@ -1297,6 +1344,8 @@ f:SetScript("OnEvent", function(self, event)
         if GetRaidTargetIndex("pet") ~= 3 then
             SetRaidTarget("pet", 3)
         end
+    elseif event == "UPDATE_BINDINGS" then
+        C_Timer.After(1, UpdateBinds)
     end
 end)
 
@@ -1321,16 +1370,18 @@ end
 
 -- Highlight Tremor Totem (disable nameplates of everything else) + disable Snake Trap Cancer + prevent displaying already dead Tremor Totem (retarded Classic-like behavior)
 
-local HideNameplateUnits = {
+local ShrinkPlates = {
     ["Viper"] = true,
     ["Venomous Snake"] = true,
+}
+
+local HideNameplateUnits = {
     ["Underbelly Croc"] = true,
     ["Vern"] = true,
     ["Army of the Dead Ghoul"] = true,
     ["Spirit Wolf"] = true,
     ["Treant"] = true,
     ["Risen Ghoul"] = true,
-
     ["31216"] = true, -- Mirror Image
 }
 
@@ -1373,6 +1424,8 @@ local function HandleNewNameplate(nameplate, unit)
     elseif (HideNameplateUnits[name] or HideNameplateUnits[npcId])
             or (creatureType == "Pet" and not ShowNameplatePetIds[npcId]) then
         HideNameplate(nameplate)
+    elseif ShrinkPlates[name] then
+        nameplate.UnitFrame:SetScale(0.6) -- smaller snake trap critter plates
     elseif name == "Tremor Totem" then
         local texture = (nameplate.UnitFrame.healthBar.border:GetRegions())
         local guid = UnitGUID(unit)
@@ -1404,6 +1457,19 @@ local function plateOnUpdateFrame()
         plateEventFrame:Hide()
     end
 end
+
+local classmarkers = {
+    ["ROGUE"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Rogue",
+    ["PRIEST"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Priest",
+    ["WARRIOR"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Warrior",
+    ["PALADIN"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Paladin",
+    ["DEATHKNIGHT"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\RetardedDog",
+    ["HUNTER"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Hunter",
+    ["DRUID"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Druid",
+    ["MAGE"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Mage",
+    ["SHAMAN"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Shaman",
+    ["WARLOCK"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Warlock",
+}
 
 -- PlaySound whenever an enemy casts Tremor Totem in arena (previously handled in a standalone addon "EvolveAlert" - https://github.com/Evolvee/EvolvePWPUI-ClassicTBC/tree/main/Interface/AddOns/EvolveAlert)
 
@@ -1437,22 +1503,29 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
             PlaySound(12889)
         end
 
-
         if action == "SPELL_PERIODIC_HEAL" then
             if ex1 == 15290 then
                 COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = nil
-                SetCVar("floatingCombatTextCombatHealing", 0)
+                if GetCVar("floatingCombatTextCombatHealing") ~= "0" then
+                    SetCVar("floatingCombatTextCombatHealing", 0)
+                end
             else
                 COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = 1
-                SetCVar("floatingCombatTextCombatHealing", 1)
+                if GetCVar("floatingCombatTextCombatHealing") ~= "1" then
+                    SetCVar("floatingCombatTextCombatHealing", 1)
+                end
             end
         elseif action == "SPELL_HEAL" then
             if ex1 == 48300 or ex1 == 75999 then
                 COMBAT_TEXT_TYPE_INFO.HEAL.show = nil
-                SetCVar("floatingCombatTextCombatHealing", 0)
+                if GetCVar("floatingCombatTextCombatHealing") ~= "0" then
+                    SetCVar("floatingCombatTextCombatHealing", 0)
+                end
             else
                 COMBAT_TEXT_TYPE_INFO.HEAL.show = 1
-                SetCVar("floatingCombatTextCombatHealing", 1)
+                if GetCVar("floatingCombatTextCombatHealing") ~= "1" then
+                    SetCVar("floatingCombatTextCombatHealing", 1)
+                end
             end
         end
 
@@ -1502,6 +1575,18 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
         else
             plateEventFrame:SetScript("OnUpdate", nil)
         end
+
+        if type == "arena" then
+            if GetCVar("nameplateShowFriends") == "0" then
+                SetCVar("nameplateShowFriends", 1)
+            end
+            inArena = true
+        else
+            if GetCVar("nameplateShowFriends") == "1" then
+                SetCVar("nameplateShowFriends", 0)
+            end
+            inArena = false
+        end
     end
     ----------------------------------------
     -- nameplates being added or removed
@@ -1522,13 +1607,61 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
         hb:SetPoint("BOTTOMLEFT", hb:GetParent(), "BOTTOMLEFT", 4, 4)
         hb:SetPoint("BOTTOMRIGHT", hb:GetParent(), "BOTTOMRIGHT", -4, 4)
 
+        local _, unitClass = UnitClass(unit)
+
+        if UnitIsPlayer(unit) and UnitIsFriend("player", unit) and inArena then
+            if not nameplate.UnitFrame.texture then
+                nameplate.UnitFrame.texture = nameplate.UnitFrame:CreateTexture(nil, "OVERLAY")
+                nameplate.UnitFrame.texture:SetSize(40, 40)
+                nameplate.UnitFrame.texture:SetPoint("CENTER", nameplate.UnitFrame, "CENTER", 0, 20)
+                nameplate.UnitFrame.texture:Hide()
+            end
+            if unitClass then
+                nameplate.UnitFrame.texture:SetTexture(classmarkers[unitClass])
+                if not nameplate.UnitFrame.texture:IsShown() then
+                    nameplate.UnitFrame.texture:Show()
+                end
+            end
+            if nameplate.UnitFrame.name:GetAlpha() > 0 then
+                nameplate.UnitFrame.name:SetAlpha(0)
+            end
+            if nameplate.UnitFrame.healthBar:GetAlpha() > 0 then
+                nameplate.UnitFrame.healthBar:SetAlpha(0)
+            end
+            if nameplate.UnitFrame.LevelFrame:GetAlpha() > 0 then
+                nameplate.UnitFrame.LevelFrame:SetAlpha(0)
+            end
+            if nameplate.UnitFrame.selectionHighlight:GetAlpha() > 0 then
+                nameplate.UnitFrame.selectionHighlight:SetAlpha(0)
+            end
+        else
+            if nameplate.UnitFrame.texture then
+                nameplate.UnitFrame.texture:Hide()
+            end
+            if nameplate.UnitFrame.name:GetAlpha() < 1 then
+                nameplate.UnitFrame.name:SetAlpha(1)
+            end
+            if nameplate.UnitFrame.healthBar:GetAlpha() < 1 then
+                nameplate.UnitFrame.healthBar:SetAlpha(1)
+            end
+            if nameplate.UnitFrame.LevelFrame:GetAlpha() < 1 then
+                nameplate.UnitFrame.LevelFrame:SetAlpha(1)
+            end
+            if nameplate.UnitFrame.selectionHighlight:GetAlpha() == 0 then
+                nameplate.UnitFrame.selectionHighlight:SetAlpha(0.25)
+            end
+        end
+
         -- make the selection highlight a tiny bit smaller
         local sh = nameplate.UnitFrame.selectionHighlight
         sh:ClearAllPoints()
         sh:SetPoint("TOPLEFT", sh:GetParent(), "TOPLEFT", 1, -1)
         sh:SetPoint("BOTTOMRIGHT", sh:GetParent(), "BOTTOMRIGHT", -1, 1)
+
+        if nameplate.UnitFrame:GetScale() < 1.0 then
+            nameplate.UnitFrame:SetScale(1.0)
+        end
         HandleNewNameplate(nameplate, unit)
-        return
     elseif event == "NAME_PLATE_UNIT_REMOVED" then
         local nameplate = C_NamePlate.GetNamePlateForUnit(unit)
         if not nameplate or nameplate:IsForbidden() then
@@ -1542,7 +1675,6 @@ plateEventFrame:SetScript("OnEvent", function(_, event, unit)
                 nameplate.UnitFrame:Show()
             end
         end
-        return
     end
 end)
 
@@ -1676,74 +1808,7 @@ end
 -- Testing new method of displaying partners in arena (Raid Icon Markers)
 -- ^^ remove cvar "nameplateShowFriendlyNPCs" + friendly nameplates from UI options later (if deleted)
 
-local classmarkers = {
-    ["ROGUE"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Rogue",
-    ["PRIEST"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Priest",
-    ["WARRIOR"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Warrior",
-    ["PALADIN"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Paladin",
-    ["DEATHKNIGHT"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\RetardedDog",
-    ["HUNTER"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Hunter",
-    ["DRUID"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Druid",
-    ["MAGE"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Mage",
-    ["SHAMAN"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Shaman",
-    ["WARLOCK"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Warlock",
-}
 
-hooksecurefunc("CompactUnitFrame_OnUpdate", function(frame)
-    if not frame or not frame.unit or not strfind(frame.unit, "nameplate") or frame:IsForbidden() then
-        return
-    end
-
-    if not InCombatLockdown() then
-        if not IsActiveBattlefieldArena() then
-            if GetCVar("nameplateShowFriends") == "1" then
-                SetCVar("nameplateShowFriends", 0)
-            end
-        else
-            if GetCVar("nameplateShowFriends") == "0" then
-                SetCVar("nameplateShowFriends", 1)
-            end
-        end
-    end
-
-    if UnitExists(frame.unit) then
-        local _, unitClass = UnitClass(frame.unit)
-        local namePlateFrameBase = C_NamePlate.GetNamePlateForUnit(frame.unit);
-
-        if UnitIsPlayer(frame.unit) and UnitIsFriend("player", frame.unit) and IsActiveBattlefieldArena() then
-            if not frame.texture then
-                frame.texture = frame:CreateTexture(nil, "OVERLAY")
-                frame.texture:SetSize(40, 40)
-                frame.texture:SetPoint("CENTER", frame, "CENTER", 0, 20)
-                frame.texture:Hide()
-            end
-            if unitClass then
-                frame.texture:SetTexture(classmarkers[unitClass])
-                frame.texture:Show()
-            end
-            frame.name:SetAlpha(0)
-            frame.healthBar:SetAlpha(0)
-            frame.LevelFrame:SetAlpha(0)
-            frame.selectionHighlight:SetAlpha(0)
-        else
-            if frame.texture then
-                frame.texture:Hide()
-            end
-            if frame.name:GetAlpha() < 1 then
-                frame.name:SetAlpha(1)
-            end
-            if frame.healthBar:GetAlpha() < 1 then
-                frame.healthBar:SetAlpha(1)
-            end
-            if frame.LevelFrame:GetAlpha() < 1 then
-                frame.LevelFrame:SetAlpha(1)
-            end
-            if frame.selectionHighlight:GetAlpha() == 0 then
-                frame.selectionHighlight:SetAlpha(0.25)
-            end
-        end
-    end
-end)
 
 -- Hide the friendly nameplate cast bars (a subproduct of the script above ^^)
 hooksecurefunc("Nameplate_CastBar_AdjustPosition", function(self)
@@ -1818,19 +1883,15 @@ hooksecurefunc("ActionButton_OnUpdate", function(self)
     else
         Usable(self)
     end
-end)
 
--- Preventing the black action bar borders to be hidden due to pressing an action button
-hooksecurefunc("ActionButton_OnUpdate", function(self)
-    if self.NormalTexture and not self.NormalTexture:IsShown()
-    then
+    -- Preventing the black action bar borders to be hidden due to pressing an action button
+    if self.NormalTexture and not self.NormalTexture:IsShown() then
         self.NormalTexture:Show()
     end
 end)
 
 -- Changing DK default colour in order to bring more clarity
 hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
-
     if not frame.unit or frame:IsForbidden() or not string.find(frame.unit, "nameplate") then
         return
     end
@@ -1844,51 +1905,36 @@ hooksecurefunc("CompactUnitFrame_UpdateHealthColor", function(frame)
     end
 end)
 
-
 -- leave arena on PVP icon doubleclick (useful when playing against DK retards)
 MiniMapBattlefieldFrame:HookScript("OnDoubleClick", function()
-    LeaveBattlefield()
+    if inArena then
+        LeaveBattlefield()
+    end
 end)
-
--- trying to salvage the main action bar abomination they created in the clASSic ICC patch (bringing back the old looks of it)
-
-MainMenuBar:SetSize(1024, 53)
-MainMenuExpBar:SetSize(1024, 13);
-MainMenuBarTexture0:SetPoint("BOTTOM", -384, 0);
-MainMenuBarTexture1:SetPoint("BOTTOM", -128, 0);
-MainMenuBarTexture2:SetPoint("BOTTOM", 128, 0);
-MainMenuBarTexture3:SetPoint("BOTTOM", 384, 0);
-MainMenuBarLeftEndCap:SetPoint("BOTTOM", -544, 0);
-MainMenuBarRightEndCap:SetPoint("BOTTOM", 544, 0);
-MainMenuBarPageNumber:SetPoint("CENTER", 30, -5);
-MainMenuXPBarTexture0:SetSize(256, 10);
-MainMenuXPBarTexture1:SetSize(256, 10);
-MainMenuXPBarTexture2:SetSize(256, 10);
-MainMenuXPBarTexture3:SetSize(256, 10);
-MainMenuXPBarTexture3:SetPoint("BOTTOM", 384, 3);
-CollectionsMicroButton:Hide()
-PVPMicroButton:SetPoint("BOTTOMLEFT", SocialsMicroButton, "BOTTOMRIGHT", -2, 0)
-UpdateMicroButtons()
 
 if not CombatText then
     EventUtil.ContinueOnAddOnLoaded("Blizzard_CombatText", function()
-CombatText_ClearAnimationList = function() return end 
-    end) 
+        CombatText_ClearAnimationList = function()
+            return
+        end
+    end)
 else
-CombatText_ClearAnimationList = function() return end
+    CombatText_ClearAnimationList = function()
+        return
+    end
 end
+
+
+
+
+
+-- TODO: fix fade macro + make UIWidgetTopCenterContainerFrame  clickable through + prevent focus frame from being right clickable (same for target tbh)
+
+
 
 
 -- classic cancer to fix the healing on VE party members: /console floatingCombatTextCombatHealing 0
 -- ^^ yea idk... dogshit gayme
-
-
-
-
-
-
-
-
 
 -- Temporary way to disable the dogshit cata spellqueue they brought to tbc instead of using the proper Retail TBC one that bypasses GCD: /console SpellQueueWindow 0
 -- ^^ current value: 130 (100+ latency)

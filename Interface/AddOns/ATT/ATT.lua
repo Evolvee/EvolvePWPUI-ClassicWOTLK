@@ -1603,15 +1603,6 @@ function ATT:ReduceCD(unit, SentID, event, timer, hit, crit, unitDest, destGUID)
             end
         end
     end
-    
-    if (class == "PRIEST") and (event == "desperateprayer") and dbInspect[guid][238100] and timer then  --desper
-        for k, icon in ipairs(anchor.icons) do
-            if icon.inUse and icon.active and icon.cooldown > 0 and icon.starttime > 0 and icon.abilityID == 19236 then
-                local starttime = icon.starttime - timer
-                icon.SetTimer(starttime, icon.cooldown, rate)
-            end
-        end
-    end
 
     if (class == "PALADIN") and spec == 70 and SentID == 633 and (event == "SPELL_HEAL") and dbInspect[guid][326734] and timer then
         for k, icon in ipairs(anchor.icons) do
@@ -2828,16 +2819,6 @@ function ATT:COMBAT_LOG_EVENT_UNFILTERED()
     end
         self:ReduceCD(unitDest, SentID, "voidform", GetTime())
     end
-
-    if not unit and unitDest and ((event == "SWING_DAMAGE") or (event == "SPELL_DAMAGE") or (event == "RANGE_DAMAGE") or (event == "SPELL_PERIODIC_DAMAGE")) then --priest
-        local unitHP = UnitHealthMax(unitDest)
-        if (event == "SWING_DAMAGE") then auraType = SentID; overheal = spellName end 
-        if unitHP > 0 and auraType then
-        local damageTaken = auraType - (overheal or 0)
-        local cdreduce = damageTaken / unitHP * 35
-        self:ReduceCD(unitDest, SentID, "desperateprayer", cdreduce)
-        end
-    end
     
     --[[
     --  if unit and (event == "SPELL_ENERGIZE") and powerType == 4 then  --rogue combos -- auraType
@@ -2845,9 +2826,9 @@ function ATT:COMBAT_LOG_EVENT_UNFILTERED()
     -- new
 
     if ((event == "SPELL_AURA_APPLIED") or (event == "SPELL_AURA_REMOVED")) and auraType == "DEBUFF" then
-        local dest = (unitDest and unitDest) or unit --no use
 
-        self:HasForbearance(unit, event, dest, SentID)
+        if unitDest then self:HasForbearance(unitDest, event, unitDest, SentID) end
+  
         if SentID == 368239 then self:RecoveryCD(unitDest, SentID, event) end -- Decrypted Urh Cypher
 
         if SentID == 118905 and (event == "SPELL_AURA_APPLIED") and not unit and not unitDest then
