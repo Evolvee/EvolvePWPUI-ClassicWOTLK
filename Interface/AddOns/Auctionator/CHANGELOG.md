@@ -1,6 +1,7 @@
 # Auctionator
 
-## [10.1.30](https://github.com/Auctionator/Auctionator/tree/10.1.30) (2023-10-15)
-[Full Changelog](https://github.com/Auctionator/Auctionator/compare/10.1.29...10.1.30) 
+## [10.1.33](https://github.com/Auctionator/Auctionator/tree/10.1.33) (2023-10-22)
+[Full Changelog](https://github.com/Auctionator/Auctionator/compare/10.1.32...10.1.33) 
 
-- [Fix #1443] Bag/Groups: Fix using wrong part of modifiers for bag key  
+- Selling: Bag/Groups: Cleanup calculations for row width and icon size  
+- [Fixes #1448] Selling: Favourites shown when not in bag even when option off  

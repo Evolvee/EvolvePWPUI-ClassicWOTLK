@@ -72,6 +72,7 @@ function JPC:PLAYER_ENTERING_WORLD()
 end
 
 function JPC:CVAR_UPDATE(event)
+if self and (not self.Hide or self:IsForbidden()) then return end
     if event == "useCompactPartyFrames" then
         self:UpdateBars()
     end

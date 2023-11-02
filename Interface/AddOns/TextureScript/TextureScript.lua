@@ -747,61 +747,36 @@ hooksecurefunc(MainMenuBar, "SetSize", function(self, w, h)
     end
 end)
 
+hooksecurefunc(PVPMicroButton, "SetPoint", function(self) if self.moving then return end self.moving = true
+self:ClearAllPoints() self:SetPoint("BOTTOMLEFT", SocialsMicroButton, "BOTTOMRIGHT", -2, 0)
+UpdateMicroButtons()
+self.moving = false
+end) 
+
 -- SpeedyActions level: Garage clicker & Pro Gaymer
 local GetBindingKey, SetOverrideBindingClick = _G.GetBindingKey, _G.SetOverrideBindingClick
 local InCombatLockdown = _G.InCombatLockdown
 local tonumber = _G.tonumber
 local f = CreateFrame("Frame")
 
-local function WAHK(button, ok)
+local function WAHK(button)
     if not button then
         return
     end
 
     local btn = _G[button]
-    if not btn then
-        return
-    end
-
-    local clickButton, id
-    local clk = tostring(button)
-    id = tonumber(button:match("(%d+)"))
+    local id = tonumber(button:match("(%d+)"))
     local actionButtonType = btn.buttonType
     local buttonType = actionButtonType and (actionButtonType .. id) or ("ACTIONBUTTON%d"):format(id)
-    clickButton = buttonType or ("CLICK " .. button .. ":LeftButton")
-
+    local clickButton = buttonType or ("CLICK " .. button .. ":LeftButton")
     local key = GetBindingKey(clickButton)
 
-    if key and btn then
-        if ok then
-            local wahk = CreateFrame("Button", "WAHK" .. button, nil, "SecureActionButtonTemplate")
-            wahk:RegisterForClicks("AnyDown", "AnyUp")
-            wahk:SetAttribute("type", "macro")
-            local onclick = string.format([[ local id = tonumber(self:GetName():match("(%d+)")) if down then if HasVehicleActionBar() then self:SetAttribute("macrotext", "/click OverrideActionBarButton" .. id) else self:SetAttribute("macrotext", "/click ActionButton" .. id) end else if HasVehicleActionBar() then self:SetAttribute("macrotext", "/click OverrideActionBarButton" .. id) else self:SetAttribute("macrotext", "/click ActionButton" .. id) end end]], id, id, id)
-            SecureHandlerWrapScript(wahk, "OnClick", wahk, onclick)
-            SetOverrideBindingClick(wahk, true, key, wahk:GetName())
-            wahk:SetScript("OnMouseDown", function()
-                if HasVehicleActionBar() then
-                    _G["OverrideActionBarButton" .. id]:SetButtonState("PUSHED")
-                else
-                    btn:SetButtonState("PUSHED")
-                end
-            end)
-            wahk:SetScript("OnMouseUp", function()
-                if HasVehicleActionBar() then
-                    _G["OverrideActionBarButton" .. id]:SetButtonState("NORMAL")
-                else
-                    btn:SetButtonState("NORMAL")
-                end
-            end)
-        else
-            btn:RegisterForClicks("AnyDown", "AnyUp")
-            local onclick = ([[ if down then
-        self:SetAttribute("macrotext", "/click clk") else self:SetAttribute("macrotext", "/click clk") end
-    ]]):gsub("clk", clk), nil
-            SecureHandlerWrapScript(btn, "OnClick", btn, onclick)
-            SetOverrideBindingClick(btn, true, key, btn:GetName())
-        end
+    if btn then
+        btn:RegisterForClicks("AnyDown", "AnyUp")
+    end
+
+    if key then
+        SetOverrideBindingClick(btn, true, key, btn:GetName())
     end
 end
 
