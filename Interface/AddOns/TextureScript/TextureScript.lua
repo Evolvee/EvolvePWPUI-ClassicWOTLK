@@ -319,7 +319,7 @@ local function OnInit()
     FocusFrame:ClearAllPoints()
     FocusFrame:SetPoint("CENTER", UIParent, "CENTER", -237, 115)
     FocusFrame:SetUserPlaced(true)
-    FocusFrame:SetAttribute("*type2", nil) -- disable right click focus
+    FocusFrame:SetAttribute("*type2", "target") -- right click target focus
     UIWidgetTopCenterContainerFrame:EnableMouse(false) -- disable click
 
     -- ToT texture closing the alpha gap (previously handled by ClassPortraits itself)
@@ -588,6 +588,23 @@ local function OnInit()
         MuteSoundFile(fdid)
     end
 
+    -- Hide certain Macro & Keybind texts from Action Bar buttons
+
+    for i = 1, 12 do
+        _G["ActionButton" .. i .. "HotKey"]:SetAlpha(0)
+        _G["MultiBarBottomRightButton" .. i .. "HotKey"]:SetAlpha(0)
+        _G["MultiBarBottomLeftButton" .. i .. "HotKey"]:SetAlpha(0)
+        _G["MultiBarRightButton" .. i .. "HotKey"]:SetAlpha(0)
+        _G["MultiBarLeftButton" .. i .. "HotKey"]:SetAlpha(0)
+    end
+    for i = 1, 12 do
+        _G["ActionButton" .. i .. "Name"]:SetAlpha(0)
+        _G["MultiBarBottomRightButton" .. i .. "Name"]:SetAlpha(0)
+        _G["MultiBarBottomLeftButton" .. i .. "Name"]:SetAlpha(0)
+        _G["MultiBarRightButton" .. i .. "Name"]:SetAlpha(0)
+        _G["MultiBarLeftButton" .. i .. "Name"]:SetAlpha(0)
+    end
+
     -- trying to salvage the main action bar abomination they created in the clASSic ICC patch (bringing back the old looks of it)
 
     MainMenuBar:SetSize(1024, 53)
@@ -607,36 +624,17 @@ local function OnInit()
     CollectionsMicroButton:Hide()
     PVPMicroButton:SetPoint("BOTTOMLEFT", SocialsMicroButton, "BOTTOMRIGHT", -2, 0)
     UpdateMicroButtons()
+    hooksecurefunc(PVPMicroButton, "SetPoint", function(self)
+        if self.moving then
+            return
+        end
+        self.moving = true
+        self:ClearAllPoints()
+        self:SetPoint("BOTTOMLEFT", SocialsMicroButton, "BOTTOMRIGHT", -2, 0)
+        UpdateMicroButtons()
+        self.moving = false
+    end)
 end
-
--- Aparently the bar re-sizes itself on the fly due to multiple reasons like mounting a vehicle and shit (yea ikr, dogshit game), so hardcoding this here...
-hooksecurefunc(MainMenuBar, "SetSize", function(self, w, h)
-    if w ~= 1024 and h ~= 53 then
-        self:SetSize(1024, 53)
-    end
-end)
-
-hooksecurefunc(PVPMicroButton, "SetPoint", function(self) if self.moving then return end self.moving = true
-self:ClearAllPoints() self:SetPoint("BOTTOMLEFT", SocialsMicroButton, "BOTTOMRIGHT", -2, 0)
-UpdateMicroButtons()
-self.moving = false
-end)
-
--- Hide certain Macro & Keybind texts from Action Bar buttons
-    for i = 1, 12 do
-        _G["ActionButton" .. i .. "HotKey"]:Hide()
-        _G["MultiBarBottomRightButton" .. i .. "HotKey"]:Hide()
-        _G["MultiBarBottomLeftButton" .. i .. "HotKey"]:Hide()
-        _G["MultiBarRightButton" .. i .. "HotKey"]:Hide()
-        _G["MultiBarLeftButton" .. i .. "HotKey"]:Hide()
-    end
-    for i = 1, 12 do
-        _G["ActionButton" .. i .. "Name"]:SetAlpha(0)
-        _G["MultiBarBottomRightButton" .. i .. "Name"]:SetAlpha(0)
-        _G["MultiBarBottomLeftButton" .. i .. "Name"]:SetAlpha(0)
-        _G["MultiBarRightButton" .. i .. "Name"]:SetAlpha(0)
-        _G["MultiBarLeftButton" .. i .. "Name"]:SetAlpha(0)
-    end
 
 -- SpeedyActions level: Garage clicker & Pro Gaymer
 local GetBindingKey, SetOverrideBindingClick = _G.GetBindingKey, _G.SetOverrideBindingClick
@@ -754,15 +752,14 @@ hooksecurefunc("TargetFrame_CheckFaction", function(self)
     end
 end)
 
+local playerTextures = { PlayerStatusTexture, PlayerRestGlow, PlayerRestIcon, PlayerAttackIcon, PlayerAttackGlow, PlayerStatusGlow, PlayerAttackBackground }
 -- Hidden Player glow combat/rested flashes + Hidden Focus Flash on Focused Target + Trying to completely hide the red glowing status on target/focus frames when they have low HP(this is not completely fixed yet)
 hooksecurefunc("PlayerFrame_UpdateStatus", function()
-    PlayerStatusTexture:Hide()
-    PlayerRestGlow:Hide()
-    PlayerRestIcon:Hide()
-    PlayerAttackIcon:Hide()
-    PlayerAttackGlow:Hide()
-    PlayerStatusGlow:Hide()
-    PlayerAttackBackground:Hide()
+    for _, i in pairs(playerTextures) do
+        if i and i:IsShown() then
+            i:Hide()
+        end
+    end
 end)
 hooksecurefunc(PlayerFrameGroupIndicator, "Show", PlayerFrameGroupIndicator.Hide)
 
@@ -986,16 +983,13 @@ for _, i in pairs({ TargetFramePortrait, FocusFramePortrait, FocusFrameToTPortra
     end
 end
 
-hooksecurefunc(TargetFramePortrait, "SetAlpha", function(self, a)
+local function ChangeAlpha(self, a)
     if a ~= 1.0 then
         self:SetAlpha(1.0)
     end
-end)
-hooksecurefunc(FocusFramePortrait, "SetAlpha", function(self, a)
-    if a ~= 1.0 then
-        self:SetAlpha(1.0)
-    end
-end)
+end
+hooksecurefunc(TargetFramePortrait, "SetAlpha", ChangeAlpha)
+hooksecurefunc(FocusFramePortrait, "SetAlpha", ChangeAlpha)
 
 -- Blacklist of frames where tooltip mouseover is hidden
 GameTooltip:HookScript("OnShow", function(self, ...)
@@ -1174,7 +1168,7 @@ local function HandleNewNameplate(nameplate, unit)
             or (creatureType == "Pet" and not ShowNameplatePetIds[npcId]) then
         HideNameplate(nameplate)
     elseif ShrinkPlates[name] then
-        nameplate.UnitFrame:SetScale(0.6) -- smaller snake trap critter plates
+        nameplate.UnitFrame:SetScale(0.6) -- smaller snake trap plates
     elseif name == "Tremor Totem" then
         local texture = (nameplate.UnitFrame.healthBar.border:GetRegions())
         local guid = UnitGUID(unit)
@@ -1421,16 +1415,16 @@ local gossipSkipIcon = {
 }
 
 local IsShiftKeyDown, IsAltKeyDown, IsControlKeyDown = IsShiftKeyDown, IsAltKeyDown, IsControlKeyDown
-local C_GossipInfo, SelectGossipOption, Dismount = C_GossipInfo, SelectGossipOption, Dismount
-local GetNumGossipActiveQuests, GetNumGossipAvailableQuests = GetNumGossipActiveQuests, GetNumGossipAvailableQuests
+local C_GossipInfo = C_GossipInfo
+local Dismount = Dismount
 
 local function skipEventFrame()
     local options = C_GossipInfo.GetOptions()
     local numOptions = #options
 
-    if not IsShiftKeyDown() and numOptions == 1 and GetNumGossipActiveQuests() == 0 and GetNumGossipAvailableQuests() == 0 then
+    if not IsShiftKeyDown() and numOptions == 1 and C_GossipInfo.GetNumActiveQuests() == 0 and C_GossipInfo.GetNumAvailableQuests() == 0 then
         if gossipSkipIcon[options[1].icon] then
-            SelectGossipOption(options[1].gossipOptionID)
+            C_GossipInfo.SelectOption(options[1].gossipOptionID)
             if options[1].icon == 132057 then
                 -- taxi
                 Dismount()
@@ -1442,7 +1436,7 @@ local function skipEventFrame()
         for _, v in ipairs(options) do
             if v.icon == 132060 then
                 -- vendor
-                SelectGossipOption(v.gossipOptionID)
+                C_GossipInfo.SelectOption(v.gossipOptionID)
                 return
             end
         end
@@ -1545,8 +1539,8 @@ hooksecurefunc("ActionButton_OnUpdate", function(self)
     local checksRange = (valid ~= nil);
     local inRange = checksRange and valid;
 
-    if self.HotKey and self.HotKey:GetAlpha() > 0 then
-        self.HotKey:SetAlpha(0)
+    if self.HotKey and self.HotKey:GetText() == RANGE_INDICATOR then
+        self.HotKey:Hide()
     end
     if checksRange and not inRange then
         if oom then
@@ -1675,7 +1669,7 @@ local function PlateNames(frame)
 end
 --@@ Wrath end
 
--- One Frame to rule them all
+--
 local evolvedFrame = CreateFrame("Frame")
 evolvedFrame:RegisterEvent("ADDON_LOADED")
 evolvedFrame:RegisterEvent("PLAYER_LOGIN")
@@ -1756,8 +1750,6 @@ end)
 
 -- Disable the ability to scroll chat with mouse wheel (fucks binds with the mouse-wheel-up/down): /console chatMouseScroll 0
 
-
-
 -- FUCK BLIZZARD, garbage company:
 -- https://eu.forums.blizzard.com/en/wow/t/lf-a-blizzard-response-all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/320188
 -- https://us.forums.blizzard.com/en/wow/t/all-talents-that-reduce-spell-resists-in-pvp-no-longer-works-since-phase-2/1114096/5
@@ -1766,9 +1758,6 @@ end)
 
 COMBAT_TEXT_RESIST = "SHIT EXPANSION"
 COMBAT_TEXT_MISS = "SHIT EXPANSION"
-
-
-
 
 --Login message informing all scripts of this file were properly executed
 ChatFrame1:AddMessage("EvolvePWPUI-ClassicWOTLK v0.6 Loaded successfully!", 0, 205, 255)
