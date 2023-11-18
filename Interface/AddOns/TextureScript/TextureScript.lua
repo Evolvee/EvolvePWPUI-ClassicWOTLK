@@ -320,7 +320,6 @@ local function OnInit()
     FocusFrame:SetPoint("CENTER", UIParent, "CENTER", -237, 115)
     FocusFrame:SetUserPlaced(true)
     FocusFrame:SetAttribute("*type2", "target") -- right click target focus
-    UIWidgetTopCenterContainerFrame:EnableMouse(false) -- disable click
 
     -- ToT texture closing the alpha gap (previously handled by ClassPortraits itself)
     TargetFrameToTTextureFrameTexture:SetVertexColor(0, 0, 0)
@@ -667,7 +666,7 @@ local function WAHK(button, ok)
             btn:RegisterForClicks("AnyDown", "AnyUp")
             wahk:SetAttribute("type", "macro")
             wahk:SetAllPoints(btn)
-            local onclick = string.format([[ local id = tonumber(self:GetName():match("(%d+)")) if down then if HasVehicleActionBar() then self:SetAttribute("macrotext", "/click OverrideActionBarButton" .. id) else self:SetAttribute("macrotext", "/click ActionButton" .. id) end else if HasVehicleActionBar() then self:SetAttribute("macrotext", "/click OverrideActionBarButton" .. id) else self:SetAttribute("macrotext", "/click ActionButton" .. id) end end]], id, id, id)
+            local onclick = string.format([[ local id = tonumber(self:GetName():match("(%d+)")) if down then self:SetAttribute("macrotext", "/click [vehicleui] OverrideActionBarButton" .. id .. "; ActionButton" .. id) else self:SetAttribute("macrotext", "/click [vehicleui] OverrideActionBarButton" .. id .. "; ActionButton" .. id) end]], id, id, id)
             SecureHandlerWrapScript(wahk, "OnClick", wahk, onclick)
             if key then
                 SetOverrideBindingClick(wahk, true, key, wahk:GetName())
@@ -691,7 +690,7 @@ local function WAHK(button, ok)
             local onclick = ([[ if down then
         self:SetAttribute("macrotext", "/click clk") else self:SetAttribute("macrotext", "/click clk") end
     ]]):gsub("clk", clk), nil
-            SecureHandlerWrapScript(btn, "OnClick", btn, onclick)
+            --SecureHandlerWrapScript(btn, "OnClick", btn, onclick)
             if key then
                 SetOverrideBindingClick(btn, true, key, btn:GetName())
             end
@@ -790,8 +789,10 @@ end)
 
 local function TextStatusBar_UpdateTextString(statusFrame)
     local value = statusFrame.finalValue or statusFrame:GetValue();
-    if statusFrame.TextString and statusFrame.currValue then
+    if statusFrame.TextString and statusFrame.currValue and statusFrame.currValue > 0 then
         statusFrame.TextString:SetText(value)
+    else
+        statusFrame.TextString:Hide()
     end
 end
 hooksecurefunc("TextStatusBar_UpdateTextStringWithValues", TextStatusBar_UpdateTextString)
@@ -1075,7 +1076,7 @@ GameTooltip:HookScript("OnTooltipSetUnit", function(self)
 
         -- Add class-coloured names on mouseover tooltips
         local _, class = UnitClass(unit)
-        local color = class and (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
+        local color = class and RAID_CLASS_COLORS[class]
         if color then
             local text = GameTooltipTextLeft1:GetText()
             if text then
@@ -1168,7 +1169,11 @@ local function HandleNewNameplate(nameplate, unit)
             or (creatureType == "Pet" and not ShowNameplatePetIds[npcId]) then
         HideNameplate(nameplate)
     elseif ShrinkPlates[name] then
-        nameplate.UnitFrame:SetScale(0.6) -- smaller snake trap plates
+        nameplate.UnitFrame:ClearAllPoints()
+        nameplate.UnitFrame:SetPoint("TOPLEFT", nameplate, "TOPLEFT", 60, 0)
+        nameplate.UnitFrame:SetPoint("BOTTOMRIGHT", nameplate, "BOTTOMRIGHT", -67, 0)
+        nameplate.UnitFrame:SetScale(0.5)
+        nameplate.UnitFrame.name:SetAlpha(0)
     elseif name == "Tremor Totem" then
         local texture = (nameplate.UnitFrame.healthBar.border:GetRegions())
         local guid = UnitGUID(unit)
@@ -1216,87 +1221,82 @@ local eventRegistered = {
 
 }
 
-plateEventFrame:SetScript("OnEvent", function(_, event)
-    ----------------------------------------
-    -- watch for recasts or damage to totems
-    ----------------------------------------
-    if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-        local _, action, _, sourceGuid, _, sourceFlags, _, destGuid, destName, _, _, ex1, _, _, ex4 = CombatLogGetCurrentEventInfo()
-        local isSourceEnemy = CombatLog_Object_IsA(sourceFlags, COMBATLOG_FILTER_HOSTILE_PLAYERS)
-        local _, instanceType = IsInInstance()
+local function PlateScript()
+    local _, action, _, sourceGuid, _, sourceFlags, _, destGuid, destName, _, _, ex1, _, _, ex4 = CombatLogGetCurrentEventInfo()
+    local isSourceEnemy = CombatLog_Object_IsA(sourceFlags, COMBATLOG_FILTER_HOSTILE_PLAYERS)
+    local _, instanceType = IsInInstance()
 
-        if not (eventRegistered[action]) then
-            return
-        end
+    if not (eventRegistered[action]) then
+        return
+    end
 
-        if isSourceEnemy and instanceType == "arena" and ex1 == 8143 and action == "SPELL_CAST_SUCCESS" then
-            PlaySound(12889)
-        end
+    if isSourceEnemy and instanceType == "arena" and ex1 == 8143 and action == "SPELL_CAST_SUCCESS" then
+        PlaySound(12889)
+    end
 
-        if action == "SPELL_PERIODIC_HEAL" then
-            if ex1 == 15290 then
-                COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = nil
-                if GetCVar("floatingCombatTextCombatHealing") ~= "0" then
-                    SetCVar("floatingCombatTextCombatHealing", 0)
-                end
-            else
-                COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = 1
-                if GetCVar("floatingCombatTextCombatHealing") ~= "1" then
-                    SetCVar("floatingCombatTextCombatHealing", 1)
-                end
+    if action == "SPELL_PERIODIC_HEAL" then
+        if ex1 == 15290 then
+            COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = nil
+            if GetCVar("floatingCombatTextCombatHealing") ~= "0" then
+                SetCVar("floatingCombatTextCombatHealing", 0)
             end
-        elseif action == "SPELL_HEAL" then
-            if ex1 == 48300 or ex1 == 75999 then
-                COMBAT_TEXT_TYPE_INFO.HEAL.show = nil
-                if GetCVar("floatingCombatTextCombatHealing") ~= "0" then
-                    SetCVar("floatingCombatTextCombatHealing", 0)
-                end
-            else
-                COMBAT_TEXT_TYPE_INFO.HEAL.show = 1
-                if GetCVar("floatingCombatTextCombatHealing") ~= "1" then
-                    SetCVar("floatingCombatTextCombatHealing", 1)
-                end
+        else
+            COMBAT_TEXT_TYPE_INFO.PERIODIC_HEAL.show = 1
+            if GetCVar("floatingCombatTextCombatHealing") ~= "1" then
+                SetCVar("floatingCombatTextCombatHealing", 1)
             end
         end
+    elseif action == "SPELL_HEAL" then
+        if ex1 == 48300 or ex1 == 75999 then
+            COMBAT_TEXT_TYPE_INFO.HEAL.show = nil
+            if GetCVar("floatingCombatTextCombatHealing") ~= "0" then
+                SetCVar("floatingCombatTextCombatHealing", 0)
+            end
+        else
+            COMBAT_TEXT_TYPE_INFO.HEAL.show = 1
+            if GetCVar("floatingCombatTextCombatHealing") ~= "1" then
+                SetCVar("floatingCombatTextCombatHealing", 1)
+            end
+        end
+    end
 
-        if destName == "Tremor Totem" then
-            if action == "SPELL_SUMMON" then
-                if destName == "Tremor Totem" then
-                    for totem, info in pairs(tremorTotems) do
-                        if info.shaman == sourceGuid then
-                            local nameplate = info.nameplate
-                            if nameplate and nameplate.tremorTotemGuid == totem and nameplate.UnitFrame then
-                                nameplate.wasHidden = true
-                                nameplate.UnitFrame:Hide()
-                            end
-                        end
-                    end
-                    tremorTotems[destGuid] = { ["shaman"] = sourceGuid }
-                end
-            else
-                local damage
-                if action == "SWING_DAMAGE" or action == "RANGE_DAMAGE" then
-                    damage = ex1
-                elseif action == "SPELL_DAMAGE" then
-                    damage = ex4
-                else
-                    damage = 0
-                end
-
-                if damage >= 5 then
-                    local totem = tremorTotems[destGuid]
-                    if totem then
-                        local nameplate = totem.nameplate
-                        if nameplate and nameplate.tremorTotemGuid == destGuid and nameplate.UnitFrame then
+    if destName == "Tremor Totem" then
+        if action == "SPELL_SUMMON" then
+            if destName == "Tremor Totem" then
+                for totem, info in pairs(tremorTotems) do
+                    if info.shaman == sourceGuid then
+                        local nameplate = info.nameplate
+                        if nameplate and nameplate.tremorTotemGuid == totem and nameplate.UnitFrame then
                             nameplate.wasHidden = true
                             nameplate.UnitFrame:Hide()
                         end
                     end
                 end
+                tremorTotems[destGuid] = { ["shaman"] = sourceGuid }
+            end
+        else
+            local damage
+            if action == "SWING_DAMAGE" or action == "RANGE_DAMAGE" then
+                damage = ex1
+            elseif action == "SPELL_DAMAGE" then
+                damage = ex4
+            else
+                damage = 0
+            end
+
+            if damage >= 5 then
+                local totem = tremorTotems[destGuid]
+                if totem then
+                    local nameplate = totem.nameplate
+                    if nameplate and nameplate.tremorTotemGuid == destGuid and nameplate.UnitFrame then
+                        nameplate.wasHidden = true
+                        nameplate.UnitFrame:Hide()
+                    end
+                end
             end
         end
     end
-end)
+end
 
 local classmarkers = {
     ["ROGUE"] = "Interface\\AddOns\\TextureScript\\PartyIcons\\Rogue",
@@ -1332,8 +1332,6 @@ local function AddPlates(unit)
     sh:ClearAllPoints()
     sh:SetPoint("TOPLEFT", sh:GetParent(), "TOPLEFT", 1, -1)
     sh:SetPoint("BOTTOMRIGHT", sh:GetParent(), "BOTTOMRIGHT", -1, 1)
-
-    HandleNewNameplate(nameplate, unit)
 
     -- Class icon on friendly plates in arena, WRATH??
     local _, unitClass = UnitClass(unit)
@@ -1384,7 +1382,9 @@ local function AddPlates(unit)
     -- This is needed to restore scale due to the ShrinkPlates
     if nameplate.UnitFrame:GetScale() < 1.0 then
         nameplate.UnitFrame:SetScale(1.0)
+        nameplate.UnitFrame.name:SetAlpha(1.0)
     end
+    HandleNewNameplate(nameplate, unit)
 end
 
 local function RemovePlate(unit)
@@ -1415,16 +1415,16 @@ local gossipSkipIcon = {
 }
 
 local IsShiftKeyDown, IsAltKeyDown, IsControlKeyDown = IsShiftKeyDown, IsAltKeyDown, IsControlKeyDown
-local C_GossipInfo = C_GossipInfo
-local Dismount = Dismount
+local GetNumGossipActiveQuests, GetNumGossipAvailableQuests = C_GossipInfo.GetNumActiveQuests, C_GossipInfo.GetNumAvailableQuests
+local SelectGossipOption, Dismount = C_GossipInfo.SelectOption, Dismount
 
 local function skipEventFrame()
     local options = C_GossipInfo.GetOptions()
     local numOptions = #options
 
-    if not IsShiftKeyDown() and numOptions == 1 and C_GossipInfo.GetNumActiveQuests() == 0 and C_GossipInfo.GetNumAvailableQuests() == 0 then
+    if not IsShiftKeyDown() and numOptions == 1 and GetNumGossipActiveQuests() == 0 and GetNumGossipAvailableQuests() == 0 then
         if gossipSkipIcon[options[1].icon] then
-            C_GossipInfo.SelectOption(options[1].gossipOptionID)
+            SelectGossipOption(options[1].gossipOptionID)
             if options[1].icon == 132057 then
                 -- taxi
                 Dismount()
@@ -1436,7 +1436,7 @@ local function skipEventFrame()
         for _, v in ipairs(options) do
             if v.icon == 132060 then
                 -- vendor
-                C_GossipInfo.SelectOption(v.gossipOptionID)
+                SelectGossipOption(v.gossipOptionID)
                 return
             end
         end
@@ -1581,6 +1581,8 @@ hooksecurefunc(widget, "SetPoint", function(self, _, parent)
     end
 end)
 
+-- Text formating because Blizzard is a bunch of retarded dogs
+
 
 --@@ Wrath stuff below
 
@@ -1723,6 +1725,13 @@ evolvedFrame:SetScript("OnEvent", function(self, event, ...)
             plateEventFrame:SetScript("OnUpdate", plateOnUpdateFrame)
         else
             plateEventFrame:SetScript("OnUpdate", nil)
+        end
+
+        if type == "raid" then
+            plateEventFrame:SetScript("OnEvent", nil)
+            SetCVar("floatingCombatTextCombatHealing", 0)
+        else
+            plateEventFrame:SetScript("OnEvent", PlateScript)
         end
     elseif event == "GOSSIP_SHOW" then
         skipEventFrame()

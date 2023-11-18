@@ -72,7 +72,6 @@ function JPC:PLAYER_ENTERING_WORLD()
 end
 
 function JPC:CVAR_UPDATE(event)
-if self and (not self.Hide or self:IsForbidden()) then return end
     if event == "useCompactPartyFrames" then
         self:UpdateBars()
     end
@@ -137,17 +136,24 @@ hooksecurefunc("CastingBarFrame_OnEvent", function(self, event, ...)
         return
     end
 
+	if self and (not self.Hide or self:IsForbidden()) then return end
     if ( event == "UNIT_SPELLCAST_START" ) and (unit == "party1" or unit == "party2") then
         local name = UnitCastingInfo(unit);
         if name ~= "Polymorph" then
-            self:Hide()
+            if self and self:IsShown() then
+				self:Hide()
+		end
         end
     elseif ( event == "UNIT_SPELLCAST_CHANNEL_START" ) and (unit == "party1" or unit == "party2") then
         local name = UnitChannelInfo(unit);
         if name ~= "Polymorph" then
-            self:Hide()
+            if self and self:IsShown() then
+				self:Hide()
+		end
         end
     elseif event == "UNIT_SPELLCAST_INTERRUPTED" then
-        self:Hide()
+        if self and self:IsShown() then
+			self:Hide()
+		end
     end
 end)
